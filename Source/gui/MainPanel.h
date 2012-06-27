@@ -41,6 +41,8 @@ public:
   MainPanel();
   ~MainPanel();
 
+  void paint (Graphics& g);
+
   StringArray getMenuBarNames();
   PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
   void menuItemSelected (int menuItemID, int topLevelMenuIndex);

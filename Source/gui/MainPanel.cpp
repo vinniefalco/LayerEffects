@@ -70,3 +70,23 @@ PopupMenu MainPanel::getMenuForIndex (int topLevelMenuIndex, const String& menuN
 void MainPanel::menuItemSelected (int menuItemID, int topLevelMenuIndex)
 {
 }
+
+//------------------------------------------------------------------------------
+
+void MainPanel::paint (Graphics& g)
+{
+  Rectangle <int> const b = g.getClipBounds ();
+
+  g.setColour (Colours::black);
+  g.fillRect (b);
+
+  {
+    Rectangle <int> const r = b.reduced (128, 128);
+
+    g.setColour (Colours::white);
+    Path p;
+    p.addEllipse (r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    g.fillPath (p);
+  }
+}
+
