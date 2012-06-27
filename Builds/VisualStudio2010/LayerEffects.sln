@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{7A6FC041-46E7-1832-DB42-D72A2B4327C6}") = "LayerEffects", "LayerEffects.vcxproj", "{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}.Debug|Win32.Build.0 = Debug|Win32
+		{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}.Release|Win32.ActiveCfg = Release|Win32
+		{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

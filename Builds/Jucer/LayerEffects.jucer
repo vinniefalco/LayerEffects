@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="jYvoRk" name="LayerEffects" projectType="guiapp" version="1.0.0"
+              jucerVersion="3.0.0">
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="../MacOSX" juceFolder="..\..\..\..\JUCE\modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LayerEffects"
+                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       headerPath="../../../../JUCE;../../../VFLib"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="LayerEffects"
+                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       headerPath="../../../../JUCE;../../../VFLib"/>
+      </CONFIGURATIONS>
+    </XCODE_MAC>
+    <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="..\..\..\..\JUCE\modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+      </CONFIGURATIONS>
+    </VS2010>
+    <LINUX_MAKE targetFolder="../Linux" juceFolder="..\..\..\..\JUCE\modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+      </CONFIGURATIONS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MAINGROUP id="DFaKOO" name="LayerEffects">
+    <GROUP id="{CE0D3277-E39C-C7F7-4365-4853321CF60C}" name="_VFLib">
+      <FILE id="UnlUdH" name="vf_gui.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_gui/vf_gui.cpp"/>
+      <FILE id="WEyHcd" name="vf_core.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_core/vf_core.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_audio" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
