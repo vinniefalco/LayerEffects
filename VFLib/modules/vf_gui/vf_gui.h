@@ -55,7 +55,9 @@ namespace vf
 #include "components/vf_ComponentNotifyParent.h"
 #include "components/vf_TransparentBorder.h"
 
+#include "graphics/vf_BackgroundContext.h"
 #include "graphics/vf_BlendImage.h"
+#include "graphics/vf_LayerContext.h"
 #include "graphics/vf_LabColour.h"
 #include "graphics/vf_XYZColour.h"
 #include "graphics/vf_RadialImageConvolutionKernel.h"

@@ -19,48 +19,23 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_gui module.
-
-    @file vf_gui.cpp
-    @ingroup vf_gui
-*/
-
-#include "AppConfig.h"
-
-#include "vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#pragma warning (disable: 4355) // 'this' used in base member
-
-#endif
-
-#if VF_USE_FREETYPE
-#include "../vf_freetype/vf_freetype.h"
-#endif
-
-namespace vf
+LayerContext::LayerContext (BackgroundContext& g)
+  : m_base (g)
+  , m_bounds (g.getBounds ())
+  , m_image (Image::ARGB, m_bounds.getWidth (), m_bounds.getHeight (), true)
+  , m_context (m_image)
 {
-#include "components/vf_TransparentBorder.cpp"
-
-#include "graphics/vf_BackgroundContext.cpp"
-#include "graphics/vf_LayerContext.cpp"
-#include "graphics/vf_LabColour.cpp"
-#include "graphics/vf_XYZColour.cpp"
-#include "graphics/vf_RadialImageConvolutionKernel.cpp"
-
-#if VF_USE_FREETYPE
-#include "graphics/vf_FreeTypeFaces.cpp"
-#endif
-
-#include "layout/vf_ResizableLayout.cpp"
-#include "layout/vf_StackedLayout.cpp"
-
-#include "mouse/vf_DragAndDropData.cpp"
-#include "mouse/vf_MouseEnterEditable.cpp"
+  m_context.setOrigin (-m_bounds.getX (), -m_bounds.getY ());
 }
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+LayerContext::~LayerContext ()
+{
+  // replace this with the fancy compositor
+  m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+}
+
+Graphics& LayerContext::getContext ()
+{
+  return m_context;
+}
+

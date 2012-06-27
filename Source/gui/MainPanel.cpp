@@ -80,7 +80,13 @@ void MainPanel::paint (Graphics& g)
   g.setColour (Colours::black);
   g.fillRect (b);
 
+  vf::BackgroundContext bc (g);
+
   {
+    vf::LayerContext lc (bc);
+
+    Graphics& g = lc.getContext ();
+
     Rectangle <int> const r = b.reduced (128, 128);
 
     g.setColour (Colours::white);

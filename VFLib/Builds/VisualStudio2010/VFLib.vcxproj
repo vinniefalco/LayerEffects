@@ -307,6 +307,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -315,7 +319,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LabColour.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LayerContext.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -607,9 +619,12 @@
     <ClInclude Include="..\..\modules\vf_gui\components\vf_ComponentBroadcast.h" />
     <ClInclude Include="..\..\modules\vf_gui\components\vf_ComponentNotifyParent.h" />
     <ClInclude Include="..\..\modules\vf_gui\components\vf_TransparentBorder.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LabColour.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LayerContext.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_RadialImageConvolutionKernel.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_VerticalGradient.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_XYZColour.h" />

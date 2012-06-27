@@ -19,48 +19,36 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_gui module.
+#ifndef VF_BACKGROUNDCONTEXT_VFHEADER
+#define VF_BACKGROUNDCONTEXT_VFHEADER
 
-    @file vf_gui.cpp
+/*============================================================================*/
+
+/** Graphics context for image compositing.
+
+    This wraps a Graphics context with an image to provide a background
+    for compositing layers.
+
     @ingroup vf_gui
 */
-
-#include "AppConfig.h"
-
-#include "vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#pragma warning (disable: 4355) // 'this' used in base member
-
-#endif
-
-#if VF_USE_FREETYPE
-#include "../vf_freetype/vf_freetype.h"
-#endif
-
-namespace vf
+class BackgroundContext
 {
-#include "components/vf_TransparentBorder.cpp"
+public:
+  explicit BackgroundContext (Graphics& g);
 
-#include "graphics/vf_BackgroundContext.cpp"
-#include "graphics/vf_LayerContext.cpp"
-#include "graphics/vf_LabColour.cpp"
-#include "graphics/vf_XYZColour.cpp"
-#include "graphics/vf_RadialImageConvolutionKernel.cpp"
+  ~BackgroundContext ();
 
-#if VF_USE_FREETYPE
-#include "graphics/vf_FreeTypeFaces.cpp"
-#endif
+  Graphics& getContext ();
 
-#include "layout/vf_ResizableLayout.cpp"
-#include "layout/vf_StackedLayout.cpp"
+  Rectangle <int> getBounds () const;
 
-#include "mouse/vf_DragAndDropData.cpp"
-#include "mouse/vf_MouseEnterEditable.cpp"
-}
+  Image getImage ();
 
-#if JUCE_MSVC
-#pragma warning (pop)
+private:
+  Graphics& m_base;
+  Rectangle <int> const m_bounds;
+  Image m_image;
+  Graphics m_context;
+};
+
 #endif
