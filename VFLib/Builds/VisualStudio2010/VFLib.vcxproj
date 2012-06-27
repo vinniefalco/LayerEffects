@@ -311,7 +311,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendPixels.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -620,7 +620,7 @@
     <ClInclude Include="..\..\modules\vf_gui\components\vf_ComponentNotifyParent.h" />
     <ClInclude Include="..\..\modules\vf_gui\components\vf_TransparentBorder.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.h" />
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendPixels.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LabColour.h" />

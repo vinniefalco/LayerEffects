@@ -31,7 +31,22 @@ LayerContext::LayerContext (BackgroundContext& g)
 LayerContext::~LayerContext ()
 {
   // replace this with the fancy compositor
-  m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+  //m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+
+  Image::BitmapData src (m_image, Image::BitmapData::readOnly);
+  Image::BitmapData dest (m_base.getImage (), Image::BitmapData::readWrite);
+
+  for (int i = 0; i < 3; ++i)
+  {
+    blendChannel <4> (
+      dest.height,
+      dest.width,
+      dest.getLinePointer (0) + i, dest.lineStride,
+      src.getLinePointer  (0) + i, src.lineStride,
+      dest.getLinePointer (0) + i, dest.lineStride,
+      src.getLinePointer  (0),     src.lineStride,
+      &BlendMode::hardlight);
+  }
 }
 
 Graphics& LayerContext::getContext ()
@@ -39,3 +54,4 @@ Graphics& LayerContext::getContext ()
   return m_context;
 }
 
+// dest front back mask

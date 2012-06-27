@@ -36,6 +36,11 @@ struct BlendMode
 {
   // f = front, b = back
 
+  static inline int normal (int f, int)
+  {
+    return f;
+  }
+
   static inline int lighten (int f, int b)
   {
     return (f > b) ? f : b;
@@ -160,5 +165,49 @@ struct BlendMode
     return std::min (f, b) - std::max (f, b) + 255;
   }
 };
+
+//------------------------------------------------------------------------------
+
+/** Blend a color plane.
+*/
+template <int ColBytes, class BlendOp>
+void blendChannel (int            rows,
+                   int            cols,
+                   uint8*         dest,
+                   int            destRowBytes,
+                   uint8 const*   front,
+                   int            frontRowBytes,
+                   uint8 const*   back,
+                   int            backRowBytes,
+                   uint8 const*   mask,
+                   int            maskRowBytes,
+                   BlendOp const& blendOp)
+{
+  frontRowBytes -= cols * ColBytes;
+  backRowBytes  -= cols * ColBytes;
+  maskRowBytes  -= cols * ColBytes;
+  destRowBytes  -= cols * ColBytes;
+
+  while (rows--)
+  {
+    for (int x = cols; x--;)
+    {
+      int const result = static_cast <uint8> (blendOp (*front, *back));
+
+      // v = v0 + (v1 - v0) * t
+      *dest = static_cast <uint8> (*dest + ((result - *dest) * *mask) / 255);
+
+      front += ColBytes;
+      back  += ColBytes;
+      mask  += ColBytes;
+      dest  += ColBytes;
+    }
+
+    front += frontRowBytes;
+    back  += backRowBytes;
+    mask  += maskRowBytes;
+    dest  += destRowBytes;
+  }
+}
 
 #endif
