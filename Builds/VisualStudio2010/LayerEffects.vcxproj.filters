@@ -8,6 +8,12 @@
     <Filter Include="LayerEffects\_VFLib">
       <UniqueIdentifier>{70157070-BE0F-B39D-B43B-239D4D1003DC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LayerEffects\Source">
+      <UniqueIdentifier>{9BE07CCB-E790-E720-A22B-4D316A7831A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LayerEffects\Source\gui">
+      <UniqueIdentifier>{6A528101-CB43-5817-99C8-E6A0447D1CBB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
@@ -189,6 +195,18 @@
     </ClCompile>
     <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\MainApp.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\MainPanel.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\source.cpp">
+      <Filter>LayerEffects\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharacterFunctions.cpp">
       <Filter>Juce Modules\juce_core\text</Filter>
@@ -972,6 +990,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\MainPanel.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\MainWindow.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\MainApp.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharacterFunctions.h">
       <Filter>Juce Modules\juce_core\text</Filter>
     </ClInclude>

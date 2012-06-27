@@ -7,26 +7,26 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LayerEffects"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       headerPath="../../../../JUCE;../../../VFLib"/>
+                       headerPath="../../JUCE;../../VFLib"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="LayerEffects"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       headerPath="../../../../JUCE;../../../VFLib"/>
+                       headerPath="../../JUCE;../../VFLib"/>
       </CONFIGURATIONS>
     </XCODE_MAC>
     <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="..\..\..\..\JUCE\modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
       </CONFIGURATIONS>
     </VS2010>
     <LINUX_MAKE targetFolder="../Linux" juceFolder="..\..\..\..\JUCE\modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+                       targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="LayerEffects" headerPath="../../../../JUCE;../../../VFLib"/>
+                       targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
       </CONFIGURATIONS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
@@ -34,6 +34,17 @@
     <GROUP id="{CE0D3277-E39C-C7F7-4365-4853321CF60C}" name="_VFLib">
       <FILE id="UnlUdH" name="vf_gui.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_gui/vf_gui.cpp"/>
       <FILE id="WEyHcd" name="vf_core.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_core/vf_core.cpp"/>
+    </GROUP>
+    <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
+      <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
+        <FILE id="m2W4Bh" name="MainPanel.h" compile="0" resource="0" file="../../Source/gui/MainPanel.h"/>
+        <FILE id="LeDTYD" name="MainWindow.cpp" compile="0" resource="0" file="../../Source/gui/MainWindow.cpp"/>
+        <FILE id="mBvX9G" name="MainWindow.h" compile="0" resource="0" file="../../Source/gui/MainWindow.h"/>
+        <FILE id="KnCdLZ" name="MainApp.cpp" compile="0" resource="0" file="../../Source/gui/MainApp.cpp"/>
+        <FILE id="Qs1b9K" name="MainApp.h" compile="0" resource="0" file="../../Source/gui/MainApp.h"/>
+        <FILE id="NO32bv" name="MainPanel.cpp" compile="0" resource="0" file="../../Source/gui/MainPanel.cpp"/>
+      </GROUP>
+      <FILE id="OwhNkh" name="source.cpp" compile="1" resource="0" file="../../Source/source.cpp"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
