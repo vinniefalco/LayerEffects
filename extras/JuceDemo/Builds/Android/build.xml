@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Juce Demo" default="debug">
+  <loadproperties srcFile="local.properties"/>
+  <loadproperties srcFile="project.properties"/>
+  <path id="android.antlibs">
+    <pathelement path="${sdk.dir}/tools/lib/anttasks.jar"/>
+    <pathelement path="${sdk.dir}/tools/lib/sdklib.jar"/>
+    <pathelement path="${sdk.dir}/tools/lib/androidprefs.jar"/>
+  </path>
+  <taskdef name="setup" classname="com.android.ant.SetupTask" classpathref="android.antlibs"/>
+  <target name="clean">
+    <exec executable="${ndk.dir}/ndk-build" dir="${basedir}" failonerror="true">
+      <arg value="clean"/>
+    </exec>
+  </target>
+  <target name="-pre-build">
+    <condition property="makefileConfig" value="Debug" else="Release">
+      <equals arg1="${ant.project.invoked-targets}" arg2="debug"/>
+    </condition>
+    <condition property="ndkDebugValue" value="NDK_DEBUG=1" else="NDK_DEBUG=0">
+      <equals arg1="${ant.project.invoked-targets}" arg2="debug"/>
+    </condition>
+    <condition property="app_abis" value="armeabi armeabi-v7a" else="armeabi armeabi-v7a">
+      <equals arg1="${ant.project.invoked-targets}" arg2="debug"/>
+    </condition>
+    <exec executable="${ndk.dir}/ndk-build" dir="${basedir}" failonerror="true">
+      <arg value="--jobs=2"/>
+      <arg value="CONFIG=${makefileConfig}"/>
+      <arg value="${ndkDebugValue}"/>
+      <arg value="APP_ABI=${app_abis}"/>
+    </exec>
+    <delete file="${out.final.file}"/>
+    <delete file="${out.packaged.file}"/>
+  </target>
+  <import file="${sdk.dir}/tools/ant/build.xml"/>
+</project>
