@@ -1,0 +1,69 @@
+._*
+*.mode1v3
+*.pbxuser
+*.perspectivev3
+*.user
+*.ncb
+*.suo
+*.obj
+*.ilk
+*.pch
+*.pdb
+*.dep
+*.idb
+*.manifest
+*.manifest.res
+*.o
+*.d
+xcuserdata
+contents.xcworkspacedata
+.DS_Store
+.svn
+profile
+extras/JuceDemo/Builds/MacOSX/build
+extras/JuceDemo/Builds/Linux/build
+extras/JuceDemo/Builds/VisualStudio2005/Debug
+extras/JuceDemo/Builds/VisualStudio2005/Release
+extras/JuceDemo/Builds/VisualStudio2008/Debug
+extras/JuceDemo/Builds/VisualStudio2008/Release
+extras/JuceDemo/Builds/VisualStudio2010/Debug
+extras/JuceDemo/Builds/VisualStudio2010/Release
+extras/JuceDemo/Builds/Android/bin
+extras/JuceDemo/Builds/iPhone/build
+extras/audio plugin demo/Builds/MacOSX/build
+extras/audio plugin demo/Builds/Linux/build
+extras/audio plugin demo/Builds/VisualStudio2005/Debug
+extras/audio plugin demo/Builds/VisualStudio2005/Release
+extras/audio plugin demo/Builds/VisualStudio2008/Debug
+extras/audio plugin demo/Builds/VisualStudio2008/Release
+extras/audio plugin host/Builds/MacOSX/build
+extras/audio plugin host/Builds/Linux/build
+extras/audio plugin host/Builds/VisualStudio2005/Debug
+extras/audio plugin host/Builds/VisualStudio2005/Release
+extras/audio plugin host/Builds/VisualStudio2008/Debug
+extras/audio plugin host/Builds/VisualStudio2008/Release
+extras/Introjucer/Builds/MacOSX/build
+extras/Introjucer/Builds/Linux/build
+extras/Introjucer/Builds/VisualStudio2005/Debug
+extras/Introjucer/Builds/VisualStudio2005/Release
+extras/Introjucer/Builds/VisualStudio2008/Debug
+extras/Introjucer/Builds/VisualStudio2008/Release
+extras/Introjucer/Builds/VisualStudio2010/Debug
+extras/Introjucer/Builds/VisualStudio2010/Release
+extras/the jucer/build/mac/build
+extras/audio plugin host/build/mac/build
+extras/binarybuilder/Builds/MacOSX/build
+extras/binarybuilder/Builds/Linux/build
+extras/binarybuilder/Builds/VisualStudio2005/Debug
+extras/binarybuilder/Builds/VisualStudio2005/Release
+extras/binarybuilder/Builds/VisualStudio2008/Debug
+extras/binarybuilder/Builds/VisualStudio2008/Release
+extras/binarybuilder/Builds/VisualStudio2010/Debug
+extras/binarybuilder/Builds/VisualStudio2010/Release
+extras/static library/Builds/MacOSX/build
+extras/static library/Builds/VisualStudio2008/Debug
+extras/static library/Builds/VisualStudio2008/Release
+extras/static library/Builds/VisualStudio2010/Debug
+extras/static library/Builds/VisualStudio2010/Release
+extras/windows dll/Builds/VisualStudio2008/Debug
+extras/windows dll/Builds/VisualStudio2008/Release
