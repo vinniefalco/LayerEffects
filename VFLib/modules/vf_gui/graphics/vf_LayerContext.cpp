@@ -45,7 +45,7 @@ LayerContext::~LayerContext ()
       src.getLinePointer  (0) + i, src.lineStride,
       dest.getLinePointer (0) + i, dest.lineStride,
       src.getLinePointer  (0),     src.lineStride,
-      &BlendMode::hardlight);
+      &BlendMode::normal);
   }
 }
 
