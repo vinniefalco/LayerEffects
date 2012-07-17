@@ -46,15 +46,17 @@ public:
     void itemSelectionChanged (bool isNowSelected);
     void itemDoubleClicked (const MouseEvent&);
 
+    void cancelDelayedSelectionTimer();
+
     //==============================================================================
     virtual Font getFont() const;
     virtual String getRenamingName() const = 0;
     virtual String getDisplayName() const = 0;
     virtual void setName (const String& newName) = 0;
     virtual bool isMissing() = 0;
-    virtual const Drawable* getIcon() const = 0;
-    virtual void createLeftEdgeComponents (OwnedArray<Component>&) {}
-    virtual Component* createRightEdgeComponent()      { return nullptr; }
+    virtual Icon getIcon() const = 0;
+    virtual float getIconSize() const;
+    virtual void paintContent (Graphics& g, const Rectangle<int>& area);
     virtual int getMillisecsAllowedForDragGesture()    { return 120; };
 
     void refreshSubItems();
@@ -89,8 +91,11 @@ public:
 
 protected:
     ProjectContentComponent* getProjectContentComponent() const;
-    void cancelDelayedSelectionTimer();
     virtual void addSubItems() {}
+
+    Colour getBackgroundColour() const;
+    Colour getContrastingColour (float contrast) const;
+    Colour getContrastingColour (const Colour& targetColour, float minContrast) const;
 
 private:
     class ItemSelectionTimer;
@@ -100,5 +105,106 @@ private:
     void invokeShowDocument();
 };
 
+//==============================================================================
+class TreePanelBase   : public Component
+{
+public:
+    TreePanelBase (const String& opennessStateKey_)
+        : opennessStateKey (opennessStateKey_)
+    {
+        addAndMakeVisible (&tree);
+        tree.setRootItemVisible (true);
+        tree.setDefaultOpenness (true);
+        tree.setColour (TreeView::backgroundColourId, Colours::transparentBlack);
+        tree.setIndentSize (14);
+        tree.getViewport()->setScrollBarThickness (14);
+    }
 
-#endif   // __JUCER_JUCERTREEVIEWBASE_JUCEHEADER__
+    ~TreePanelBase()
+    {
+        tree.setRootItem (nullptr);
+    }
+
+    void setRoot (JucerTreeViewBase* root)
+    {
+        rootItem = root;
+        tree.setRootItem (root);
+        tree.getRootItem()->setOpen (true);
+
+        const ScopedPointer<XmlElement> treeOpenness (getAppProperties().getXmlValue (opennessStateKey));
+        if (treeOpenness != nullptr)
+        {
+            tree.restoreOpennessState (*treeOpenness, true);
+
+            for (int i = tree.getNumSelectedItems(); --i >= 0;)
+            {
+                JucerTreeViewBase* item = dynamic_cast<JucerTreeViewBase*> (tree.getSelectedItem (i));
+
+                if (item != nullptr)
+                    item->cancelDelayedSelectionTimer();
+            }
+        }
+    }
+
+    void saveOpenness()
+    {
+        const ScopedPointer<XmlElement> opennessState (tree.getOpennessState (true));
+
+        if (opennessState != nullptr)
+            getAppProperties().setValue (opennessStateKey, opennessState);
+    }
+
+    void deleteSelectedItems()
+    {
+        if (rootItem != nullptr)
+            rootItem->deleteAllSelectedItems();
+    }
+
+    void resized()
+    {
+        tree.setBounds (getAvailableBounds());
+    }
+
+    Rectangle<int> getAvailableBounds() const
+    {
+        return Rectangle<int> (0, 2, getWidth() - 2, getHeight() - 2);
+    }
+
+    TreeView tree;
+    ScopedPointer<JucerTreeViewBase> rootItem;
+
+private:
+    String opennessStateKey;
+};
+
+//==============================================================================
+class TreeItemComponent   : public Component
+{
+public:
+    TreeItemComponent (JucerTreeViewBase& item_)  : item (item_)
+    {
+        setInterceptsMouseClicks (false, true);
+    }
+
+    void paint (Graphics& g)
+    {
+        g.setColour (Colours::black);
+        paintIcon (g);
+        item.paintContent (g, Rectangle<int> (item.textX, 0, getWidth() - item.textX, getHeight()));
+    }
+
+    void paintIcon (Graphics& g)
+    {
+        item.getIcon().draw (g, Rectangle<float> (4.0f, 2.0f, item.getIconSize(), getHeight() - 4.0f));
+    }
+
+    void resized()
+    {
+        item.textX = (int) item.getIconSize() + 8;
+    }
+
+    JucerTreeViewBase& item;
+};
+
+
+#endif

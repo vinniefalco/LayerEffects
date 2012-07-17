@@ -38,7 +38,6 @@ public:
     ProjectExporter (Project&, const ValueTree& settings);
     virtual ~ProjectExporter();
 
-    static int getNumExporters();
     static StringArray getExporterNames();
 
     static ProjectExporter* createNewExporter (Project&, const int index);
@@ -46,7 +45,7 @@ public:
     static ProjectExporter* createExporter (Project&, const ValueTree& settings);
     static ProjectExporter* createPlatformDefaultExporter (Project&);
 
-    static StringArray getDefaultExporters();
+    static String getCurrentPlatformExporterName();
 
     //=============================================================================
     // return 0 if this can't be opened in the current OS, or a higher value, where higher numbers are more preferable.
@@ -86,7 +85,7 @@ public:
     String getExtraCompilerFlagsString() const  { return getSettingString (Ids::extraCompilerFlags); }
 
     Value getExtraLinkerFlags()                 { return getSetting (Ids::extraLinkerFlags); }
-    String getExtraLinkerFlagsString() const    { return getSettingString (Ids::extraLinkerFlags); }
+    String getExtraLinkerFlagsString() const    { return getSettingString (Ids::extraLinkerFlags).replaceCharacters ("\r\n", "  "); }
 
     // This adds the quotes, and may return angle-brackets, eg: <foo/bar.h> or normal quotes.
     String getIncludePathForFileInJuceFolder (const String& pathFromJuceFolder, const File& targetIncludeFile) const;
@@ -130,8 +129,7 @@ public:
     //==============================================================================
     String xcodePackageType, xcodeBundleSignature, xcodeBundleExtension;
     String xcodeProductType, xcodeProductInstallPath, xcodeFileType;
-    String xcodeShellScript, xcodeShellScriptTitle, xcodeOtherRezFlags;
-    String xcodeExcludedFiles64Bit;
+    String xcodeOtherRezFlags, xcodeExcludedFiles64Bit;
     bool xcodeIsBundle, xcodeCreatePList, xcodeCanUseDwarf;
     StringArray xcodeFrameworks;
     Array<RelativePath> xcodeExtraLibrariesDebug, xcodeExtraLibrariesRelease;

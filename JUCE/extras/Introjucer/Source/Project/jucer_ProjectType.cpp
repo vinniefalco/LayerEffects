@@ -38,7 +38,7 @@ ProjectType::ProjectType (const String& type_, const String& desc_)
 
 ProjectType::~ProjectType()
 {
-    getAllTypes().removeValue (this);
+    getAllTypes().removeFirstMatchingValue (this);
 }
 
 Array<ProjectType*>& ProjectType::getAllTypes()
@@ -274,9 +274,6 @@ public:
         exporter.xcodeBundleExtension = ".component";
         exporter.xcodeProductType = "com.apple.product-type.bundle";
         exporter.xcodeProductInstallPath = "$(HOME)/Library/Audio/Plug-Ins/Components/";
-
-        exporter.xcodeShellScriptTitle = "Copy to the different plugin folders";
-        exporter.xcodeShellScript = String::fromUTF8 (BinaryData::AudioPluginXCodeScript_txt, BinaryData::AudioPluginXCodeScript_txtSize);
 
         exporter.xcodeOtherRezFlags = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64"
                                       " -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers"

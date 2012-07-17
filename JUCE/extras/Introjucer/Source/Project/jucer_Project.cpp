@@ -60,15 +60,13 @@ Project::Project (const File& file_)
 
     setChangedFlag (false);
 
-    mainProjectIcon.setImage (ImageCache::getFromMemory (BinaryData::juce_icon_png, BinaryData::juce_icon_pngSize));
-
     projectRoot.addListener (this);
 }
 
 Project::~Project()
 {
     projectRoot.removeListener (this);
-    OpenDocumentManager::getInstance()->closeAllDocumentsUsingProject (*this, false);
+    JucerApplication::getApp().openDocumentManager.closeAllDocumentsUsingProject (*this, false);
 }
 
 //==============================================================================
@@ -217,8 +215,8 @@ bool Project::isAudioPluginModuleMissing() const
 static void registerRecentFile (const File& file)
 {
     RecentlyOpenedFilesList::registerRecentFileNatively (file);
-    StoredSettings::getInstance()->recentFiles.addFile (file);
-    StoredSettings::getInstance()->flush();
+    getAppSettings().recentFiles.addFile (file);
+    getAppSettings().flush();
 }
 
 Result Project::loadDocument (const File& file)
@@ -373,8 +371,6 @@ void Project::createPropertyEditors (PropertyListBuilder& props)
 
     props.add (new TextPropertyComponent (getProjectPreprocessorDefs(), "Preprocessor definitions", 32768, false),
                "Extra preprocessor definitions. Use the form \"NAME1=value NAME2=value\", using whitespace or commas to separate the items - to include a space or comma in a definition, precede it with a backslash.");
-
-    props.setPreferredHeight (22);
 }
 
 String Project::getVersionAsHex() const
@@ -541,7 +537,7 @@ bool Project::Item::renameFile (const File& newFile)
          || (newFile.exists() && ! oldFile.exists()))
     {
         setFile (newFile);
-        OpenDocumentManager::getInstance()->fileHasBeenRenamed (oldFile, newFile);
+        JucerApplication::getApp().openDocumentManager.fileHasBeenRenamed (oldFile, newFile);
         return true;
     }
 
@@ -775,21 +771,23 @@ bool Project::Item::addRelativeFile (const RelativePath& file, int insertIndex, 
     return false;
 }
 
-const Drawable* Project::Item::getIcon() const
+Icon Project::Item::getIcon() const
 {
+    const Icons& icons = getIcons();
+
     if (isFile())
     {
         if (isImageFile())
-            return StoredSettings::getInstance()->getImageFileIcon();
+            return Icon (icons.imageDoc, Colours::blue);
 
-        return LookAndFeel::getDefaultLookAndFeel().getDefaultDocumentFileImage();
+        return Icon (icons.document, Colours::yellow);
     }
     else if (isMainGroup())
     {
-        return &(project.mainProjectIcon);
+        return Icon (icons.juceLogo, Colours::orange);
     }
 
-    return LookAndFeel::getDefaultLookAndFeel().getDefaultFolderImage();
+    return Icon (icons.folder, Colours::darkgrey);
 }
 
 //==============================================================================
@@ -928,15 +926,9 @@ void Project::addNewExporter (const String& exporterName)
     exporters.addChild (exp->settings, -1, getUndoManagerFor (exporters));
 }
 
-void Project::createDefaultExporters()
+void Project::createExporterForCurrentPlatform()
 {
-    ValueTree exporters (getExporters());
-    exporters.removeAllChildren (getUndoManagerFor (exporters));
-
-    const StringArray exporterNames (ProjectExporter::getDefaultExporters());
-
-    for (int i = 0; i < exporterNames.size(); ++i)
-        addNewExporter (exporterNames[i]);
+    addNewExporter (ProjectExporter::getCurrentPlatformExporterName());
 }
 
 //==============================================================================

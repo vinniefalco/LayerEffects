@@ -25,18 +25,19 @@
 
 #include "jucer_DocumentEditorComponent.h"
 #include "../Project/jucer_ProjectContentComponent.h"
+#include "../Application/jucer_Application.h"
 
 
 //==============================================================================
 DocumentEditorComponent::DocumentEditorComponent (OpenDocumentManager::Document* document_)
     : document (document_)
 {
-    OpenDocumentManager::getInstance()->addListener (this);
+    JucerApplication::getApp().openDocumentManager.addListener (this);
 }
 
 DocumentEditorComponent::~DocumentEditorComponent()
 {
-    OpenDocumentManager::getInstance()->removeListener (this);
+    JucerApplication::getApp().openDocumentManager.removeListener (this);
 }
 
 void DocumentEditorComponent::documentAboutToClose (OpenDocumentManager::Document* closingDoc)

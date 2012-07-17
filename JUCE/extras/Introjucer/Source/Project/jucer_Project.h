@@ -184,7 +184,7 @@ public:
 
         UndoManager* getUndoManager() const              { return project.getUndoManagerFor (state); }
 
-        const Drawable* getIcon() const;
+        Icon getIcon() const;
 
         Project& project;
         ValueTree state;
@@ -202,7 +202,7 @@ public:
     int getNumExporters();
     ProjectExporter* createExporter (int index);
     void addNewExporter (const String& exporterName);
-    void createDefaultExporters();
+    void createExporterForCurrentPlatform();
 
     struct ExporterIterator
     {
@@ -269,7 +269,6 @@ public:
 private:
     friend class Item;
     ValueTree projectRoot;
-    DrawableImage mainProjectIcon;
 
     void updateProjectSettings();
     void sanitiseConfigFlags();

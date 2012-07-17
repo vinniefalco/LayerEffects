@@ -49,7 +49,12 @@ Font JucerTreeViewBase::getFont() const
 void JucerTreeViewBase::paintItem (Graphics& g, int width, int height)
 {
     if (isSelected())
-        g.fillAll (Colour (0x401111ee));
+        g.fillAll (getOwnerView()->findColour (treeviewHighlightColourId));
+}
+
+float JucerTreeViewBase::getIconSize() const
+{
+    return jmin (getItemHeight() - 4.0f, 18.0f);
 }
 
 void JucerTreeViewBase::paintOpenCloseButton (Graphics& g, int width, int height, bool isMouseOver)
@@ -61,64 +66,38 @@ void JucerTreeViewBase::paintOpenCloseButton (Graphics& g, int width, int height
     else
         p.addTriangle (width * 0.25f, height * 0.25f, width * 0.8f, height * 0.5f,  width * 0.25f, height * 0.75f);
 
-    g.setColour (Colours::lightgrey);
+    g.setColour (getOwnerView()->findColour (mainBackgroundColourId).contrasting (0.3f));
     g.fillPath (p);
 }
 
-//==============================================================================
-class TreeItemComponent   : public Component
+Colour JucerTreeViewBase::getBackgroundColour() const
 {
-public:
-    TreeItemComponent (JucerTreeViewBase& item_)
-        : item (item_)
-    {
-        setInterceptsMouseClicks (false, true);
+    Colour background (getOwnerView()->findColour (mainBackgroundColourId));
 
-        item.createLeftEdgeComponents (leftComps);
+    if (isSelected())
+        background = background.overlaidWith (getOwnerView()->findColour (treeviewHighlightColourId));
 
-        for (int i = 0; i < leftComps.size(); ++i)
-            addAndMakeVisible (leftComps.getUnchecked(i));
+    return background;
+}
 
-        addAndMakeVisible (rightHandComponent = item.createRightEdgeComponent());
-    }
+Colour JucerTreeViewBase::getContrastingColour (float contrast) const
+{
+    return getBackgroundColour().contrasting (contrast);
+}
 
-    void paint (Graphics& g)
-    {
-        g.setColour (Colours::black);
+Colour JucerTreeViewBase::getContrastingColour (const Colour& target, float minContrast) const
+{
+    return getBackgroundColour().contrasting (target, minContrast);
+}
 
-        const int height = getHeight();
+void JucerTreeViewBase::paintContent (Graphics& g, const Rectangle<int>& area)
+{
+    g.setFont (getFont());
+    g.setColour (isMissing() ? getContrastingColour (Colours::red, 0.8f)
+                             : getContrastingColour (0.8f));
 
-        item.getIcon()->drawWithin (g, Rectangle<float> (0.0f, 2.0f, height + 6.0f, height - 4.0f),
-                                    RectanglePlacement::centred | RectanglePlacement::onlyReduceInSize, 1.0f);
-
-        g.setFont (item.getFont());
-        g.setColour (item.isMissing() ? Colours::red : Colours::black);
-
-        const int right = rightHandComponent != nullptr ? rightHandComponent->getX() - 2
-                                                        : getWidth();
-
-        g.drawFittedText (item.getDisplayName(),
-                          item.textX, 0, right - item.textX, height, Justification::centredLeft, 1, 0.8f);
-    }
-
-    void resized()
-    {
-        const int edge = 1;
-        const int itemSize = getHeight() - edge * 2;
-        item.textX = (leftComps.size() + 1) * getHeight() + 8;
-
-        for (int i = 0; i < leftComps.size(); ++i)
-            leftComps.getUnchecked(i)->setBounds (5 + (i + 1) * getHeight(), edge, itemSize, itemSize);
-
-        if (rightHandComponent != nullptr)
-            rightHandComponent->setBounds (getWidth() - itemSize - edge, edge, itemSize, itemSize);
-    }
-
-private:
-    JucerTreeViewBase& item;
-    OwnedArray<Component> leftComps;
-    ScopedPointer<Component> rightHandComponent;
-};
+    g.drawFittedText (getDisplayName(), area, Justification::centredLeft, 1, 0.8f);
+}
 
 Component* JucerTreeViewBase::createItemComponent()
 {

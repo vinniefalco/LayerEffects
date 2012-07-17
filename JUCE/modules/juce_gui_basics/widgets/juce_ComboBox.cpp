@@ -388,9 +388,7 @@ void ComboBox::paint (Graphics& g)
     {
         g.setColour (findColour (textColourId).withMultipliedAlpha (0.5f));
         g.setFont (label->getFont());
-        g.drawFittedText (textWhenNothingSelected,
-                          label->getX() + 2, label->getY() + 1,
-                          label->getWidth() - 4, label->getHeight() - 2,
+        g.drawFittedText (textWhenNothingSelected, label->getBounds().reduced (2, 1),
                           label->getJustificationType(),
                           jmax (1, (int) (label->getHeight() / label->getFont().getHeight())));
     }
@@ -451,7 +449,7 @@ void ComboBox::colourChanged()
 //==============================================================================
 bool ComboBox::keyPressed (const KeyPress& key)
 {
-    if (key.isKeyCode (KeyPress::upKey) || key.isKeyCode (KeyPress::leftKey))
+    if (key == KeyPress::upKey || key == KeyPress::leftKey)
     {
         int index = getSelectedItemIndex() - 1;
 
@@ -460,7 +458,7 @@ bool ComboBox::keyPressed (const KeyPress& key)
 
         return true;
     }
-    else if (key.isKeyCode (KeyPress::downKey) || key.isKeyCode (KeyPress::rightKey))
+    else if (key == KeyPress::downKey || key == KeyPress::rightKey)
     {
         int index = getSelectedItemIndex() + 1;
 
@@ -469,7 +467,7 @@ bool ComboBox::keyPressed (const KeyPress& key)
 
         return true;
     }
-    else if (key.isKeyCode (KeyPress::returnKey))
+    else if (key == KeyPress::returnKey)
     {
         showPopup();
         return true;
