@@ -720,18 +720,18 @@ public:
 
         {
             Graphics imG (image);
-            LowLevelGraphicsContext* const lg = imG.getInternalContext();
+            LowLevelGraphicsContext& lg = imG.getInternalContext();
 
             for (RectangleList::Iterator i (validArea); i.next();)
-                lg->excludeClipRectangle (*i.getRectangle());
+                lg.excludeClipRectangle (*i.getRectangle());
 
-            if (! lg->isClipEmpty())
+            if (! lg.isClipEmpty())
             {
                 if (! owner.isOpaque())
                 {
-                    lg->setFill (Colours::transparentBlack);
-                    lg->fillRect (bounds, true);
-                    lg->setFill (Colours::black);
+                    lg.setFill (Colours::transparentBlack);
+                    lg.fillRect (bounds, true);
+                    lg.setFill (Colours::black);
                 }
 
                 owner.paintEntireComponent (imG, true);
@@ -1379,9 +1379,6 @@ void Component::addChildComponent (Component* const child, int zOrder)
     // thread, you'll need to use a MessageManagerLock object to make sure it's thread-safe.
     CHECK_MESSAGE_MANAGER_IS_LOCKED_OR_OFFSCREEN
 
-    jassert (MessageManager::getInstance()->currentThreadHasLockedMessageManager() || ! isShowing());
-
-
     if (child != nullptr && child->parentComponent != this)
     {
         if (child->parentComponent != nullptr)
@@ -1949,14 +1946,20 @@ void Component::paintEntireComponent (Graphics& g, const bool ignoreAlphaLevel)
 
     if (effect != nullptr)
     {
+        const float scale = g.getInternalContext().getTargetDeviceScaleFactor();
+
         Image effectImage (flags.opaqueFlag ? Image::RGB : Image::ARGB,
-                           getWidth(), getHeight(), ! flags.opaqueFlag);
+                           (int) (scale * getWidth()), (int) (scale * getHeight()), ! flags.opaqueFlag);
         {
             Graphics g2 (effectImage);
+            g2.addTransform (AffineTransform::scale (scale, scale));
             paintComponentAndChildren (g2);
         }
 
-        effect->applyEffect (effectImage, g, ignoreAlphaLevel ? 1.0f : getAlpha());
+        g.saveState();
+        g.addTransform (AffineTransform::scale (1.0f / scale, 1.0f / scale));
+        effect->applyEffect (effectImage, g, scale, ignoreAlphaLevel ? 1.0f : getAlpha());
+        g.restoreState();
     }
     else if (componentTransparency > 0 && ! ignoreAlphaLevel)
     {
@@ -2910,7 +2913,7 @@ void Component::addKeyListener (KeyListener* const newListener)
 void Component::removeKeyListener (KeyListener* const listenerToRemove)
 {
     if (keyListeners != nullptr)
-        keyListeners->removeValue (listenerToRemove);
+        keyListeners->removeFirstMatchingValue (listenerToRemove);
 }
 
 bool Component::keyPressed (const KeyPress&)                { return false; }

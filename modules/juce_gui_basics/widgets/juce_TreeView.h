@@ -508,7 +508,6 @@ private:
     unsigned int openness   : 2;
 
     friend class TreeView;
-    friend class TreeViewContentComponent;
 
     void updatePositions (int newY);
     int getIndentX() const noexcept;
@@ -791,14 +790,16 @@ public:
     void itemDropped (const SourceDetails&);
 
 private:
-    friend class TreeViewItem;
-    friend class TreeViewContentComponent;
+    class ContentComponent;
     class TreeViewport;
     class InsertPointHighlight;
     class TargetGroupHighlight;
+    friend class TreeViewItem;
+    friend class ContentComponent;
     friend class ScopedPointer<TreeViewport>;
     friend class ScopedPointer<InsertPointHighlight>;
     friend class ScopedPointer<TargetGroupHighlight>;
+
     ScopedPointer<TreeViewport> viewport;
     CriticalSection nodeAlterationLock;
     TreeViewItem* rootItem;
@@ -815,12 +816,15 @@ private:
     void recalculateIfNeeded();
     void moveSelectedRow (int delta);
     void updateButtonUnderMouse (const MouseEvent&);
-    void showDragHighlight (TreeViewItem*, int insertIndex, int x, int y) noexcept;
+    struct InsertPoint;
+    void showDragHighlight (const InsertPoint&) noexcept;
     void hideDragHighlight() noexcept;
-    void handleDrag (const StringArray& files, const SourceDetails&);
-    void handleDrop (const StringArray& files, const SourceDetails&);
-    TreeViewItem* getInsertPosition (int& x, int& y, int& insertIndex,
-                                     const StringArray& files, const SourceDetails&) const noexcept;
+    void handleDrag (const StringArray&, const SourceDetails&);
+    void handleDrop (const StringArray&, const SourceDetails&);
+    void toggleOpenSelectedItem();
+    void moveOutOfSelectedItem();
+    void moveIntoSelectedItem();
+    void moveByPages (int numPages);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TreeView);
 };

@@ -229,13 +229,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Application\jucer_AppearanceSettings.cpp">
+      <Filter>The Introjucer\Application</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Application\jucer_CommandLine.cpp">
       <Filter>The Introjucer\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Application\jucer_DocumentEditorComponent.cpp">
-      <Filter>The Introjucer\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Application\jucer_FilePreviewComponent.cpp">
       <Filter>The Introjucer\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Application\jucer_JuceUpdater.cpp">
@@ -250,7 +250,7 @@
     <ClCompile Include="..\..\Source\Application\jucer_OpenDocumentManager.cpp">
       <Filter>The Introjucer\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Project\jucer_GroupInformationComponent.cpp">
+    <ClCompile Include="..\..\Source\Project\jucer_ConfigPage.cpp">
       <Filter>The Introjucer\Project</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Project\jucer_Module.cpp">
@@ -266,9 +266,6 @@
       <Filter>The Introjucer\Project</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Project\jucer_ProjectContentComponent.cpp">
-      <Filter>The Introjucer\Project</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Project\jucer_ProjectInformationComponent.cpp">
       <Filter>The Introjucer\Project</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Project\jucer_ProjectTreeViewBase.cpp">
@@ -1194,6 +1191,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Application\jucer_AppearanceSettings.h">
+      <Filter>The Introjucer\Application</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Application\jucer_Application.h">
       <Filter>The Introjucer\Application</Filter>
     </ClInclude>
@@ -1227,10 +1227,16 @@
     <ClInclude Include="..\..\Source\Project\jucer_AudioPluginModule.h">
       <Filter>The Introjucer\Project</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Project\jucer_ConfigPage.h">
+      <Filter>The Introjucer\Project</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Project\jucer_GroupInformationComponent.h">
       <Filter>The Introjucer\Project</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Project\jucer_Module.h">
+      <Filter>The Introjucer\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Project\jucer_ModulesPanel.h">
       <Filter>The Introjucer\Project</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Project\jucer_NewFileWizard.h">
@@ -1243,9 +1249,6 @@
       <Filter>The Introjucer\Project</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Project\jucer_ProjectContentComponent.h">
-      <Filter>The Introjucer\Project</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Project\jucer_ProjectInformationComponent.h">
       <Filter>The Introjucer\Project</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Project\jucer_ProjectTreeViewBase.h">
@@ -2288,7 +2291,7 @@
     <None Include="..\..\Source\BinaryData\brushed_aluminium.png">
       <Filter>The Introjucer\BinaryData</Filter>
     </None>
-    <None Include="..\..\Source\BinaryData\cog_icon.svg">
+    <None Include="..\..\Source\BinaryData\dark_scheme.xml">
       <Filter>The Introjucer\BinaryData</Filter>
     </None>
     <None Include="..\..\Source\BinaryData\juce_icon.png">

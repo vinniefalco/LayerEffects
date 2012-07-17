@@ -26,51 +26,135 @@
 #include "jucer_SourceCodeEditor.h"
 #include "../Application/jucer_OpenDocumentManager.h"
 
+//==============================================================================
+SourceCodeDocument::SourceCodeDocument (Project* project_, const File& file_)
+    : modDetector (file_), project (project_)
+{
+}
+
+CodeDocument& SourceCodeDocument::getCodeDocument()
+{
+    if (codeDoc == nullptr)
+    {
+        codeDoc = new CodeDocument();
+        reloadInternal();
+    }
+
+    return *codeDoc;
+}
+
+Component* SourceCodeDocument::createEditor()
+{
+    SourceCodeEditor* e = new SourceCodeEditor (this);
+    e->createEditor (getCodeDocument());
+    applyLastState (*(e->editor));
+    return e;
+}
+
+void SourceCodeDocument::reloadFromFile()
+{
+    getCodeDocument();
+    reloadInternal();
+}
+
+void SourceCodeDocument::reloadInternal()
+{
+    jassert (codeDoc != nullptr);
+    modDetector.updateHash();
+
+    ScopedPointer <InputStream> in (modDetector.getFile().createInputStream());
+
+    if (in != nullptr)
+        codeDoc->loadFromStream (*in);
+}
+
+bool SourceCodeDocument::save()
+{
+    TemporaryFile temp (modDetector.getFile());
+
+    {
+        FileOutputStream fo (temp.getFile());
+
+        if (! (fo.openedOk() && getCodeDocument().writeToStream (fo)))
+            return false;
+    }
+
+    if (! temp.overwriteTargetFileWithTemporary())
+        return false;
+
+    getCodeDocument().setSavePoint();
+    modDetector.updateHash();
+    return true;
+}
+
+void SourceCodeDocument::updateLastState (CodeEditorComponent& editor)
+{
+    lastState = new CodeEditorComponent::State (editor);
+}
+
+void SourceCodeDocument::applyLastState (CodeEditorComponent& editor) const
+{
+    if (lastState != nullptr)
+        lastState->restoreState (editor);
+}
 
 //==============================================================================
-SourceCodeEditor::SourceCodeEditor (OpenDocumentManager::Document* document_,
-                                    CodeDocument& codeDocument,
-                                    CodeTokeniser* const codeTokeniser)
-    : DocumentEditorComponent (document_),
-      editor (codeDocument, codeTokeniser)
+SourceCodeEditor::SourceCodeEditor (OpenDocumentManager::Document* document_)
+    : DocumentEditorComponent (document_)
 {
-    addAndMakeVisible (&editor);
-
-   #if JUCE_MAC
-    Font font (10.6f);
-    font.setTypefaceName ("Menlo");
-   #else
-    Font font (10.0f);
-    font.setTypefaceName (Font::getDefaultMonospacedFontName());
-   #endif
-    editor.setFont (font);
-
-    editor.setTabSize (4, true);
 }
 
 SourceCodeEditor::~SourceCodeEditor()
 {
+    getAppSettings().appearance.settings.removeListener (this);
+
+    SourceCodeDocument* doc = dynamic_cast <SourceCodeDocument*> (getDocument());
+
+    if (doc != nullptr)
+        doc->updateLastState (*editor);
+}
+
+void SourceCodeEditor::createEditor (CodeDocument& codeDocument)
+{
+    if (document->getFile().hasFileExtension (sourceOrHeaderFileExtensions))
+        setEditor (new CppCodeEditorComponent (codeDocument));
+    else
+        setEditor (new CodeEditorComponent (codeDocument, nullptr));
+}
+
+void SourceCodeEditor::setEditor (CodeEditorComponent* newEditor)
+{
+    addAndMakeVisible (editor = newEditor);
+
+    editor->setFont (AppearanceSettings::getDefaultCodeFont());
+    editor->setTabSize (4, true);
+
+    updateColourScheme();
+    getAppSettings().appearance.settings.addListener (this);
+}
+
+void SourceCodeEditor::highlightLine (int lineNum, int characterIndex)
+{
+    if (lineNum <= editor->getFirstLineOnScreen()
+         || lineNum >= editor->getFirstLineOnScreen() + editor->getNumLinesOnScreen() - 1)
+    {
+        editor->scrollToLine (jmax (0, jmin (lineNum - editor->getNumLinesOnScreen() / 3,
+                                             editor->getDocument().getNumLines() - editor->getNumLinesOnScreen())));
+    }
+
+    editor->moveCaretTo (CodeDocument::Position (&editor->getDocument(), lineNum - 1, characterIndex), false);
 }
 
 void SourceCodeEditor::resized()
 {
-    editor.setBounds (getLocalBounds());
+    editor->setBounds (getLocalBounds());
 }
 
-CodeTokeniser* SourceCodeEditor::getTokeniserFor (const File& file)
-{
-    if (file.hasFileExtension (sourceOrHeaderFileExtensions))
-    {
-        static CPlusPlusCodeTokeniser cppTokeniser;
-        return &cppTokeniser;
-    }
+void SourceCodeEditor::updateColourScheme()     { getAppSettings().appearance.applyToCodeEditor (*editor); }
 
-    return nullptr;
-}
-
-SourceCodeEditor* SourceCodeEditor::createFor (OpenDocumentManager::Document* document,
-                                               CodeDocument& codeDocument)
-{
-    return new SourceCodeEditor (document, codeDocument,
-                                 getTokeniserFor (document->getFile()));
-}
+void SourceCodeEditor::valueTreePropertyChanged (ValueTree&, const Identifier&)   { updateColourScheme(); }
+void SourceCodeEditor::valueTreeChildAdded (ValueTree&, ValueTree&)               { updateColourScheme(); }
+void SourceCodeEditor::valueTreeChildRemoved (ValueTree&, ValueTree&)             { updateColourScheme(); }
+void SourceCodeEditor::valueTreeChildOrderChanged (ValueTree&)                    { updateColourScheme(); }
+void SourceCodeEditor::valueTreeParentChanged (ValueTree&)                        { updateColourScheme(); }
+void SourceCodeEditor::valueTreeRedirected (ValueTree&)                           { updateColourScheme(); }

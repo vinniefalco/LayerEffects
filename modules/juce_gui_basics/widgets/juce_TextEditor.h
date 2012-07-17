@@ -287,12 +287,6 @@ public:
     */
     void setScrollBarThickness (int newThicknessPixels);
 
-    /** Shows or hides the buttons on any scrollbars that are used.
-
-        @see ScrollBar::setButtonVisibility
-    */
-    void setScrollBarButtonVisibility (bool buttonsVisible);
-
     //==============================================================================
     /**
         Receives callbacks from a TextEditor component when it changes.
@@ -566,9 +560,8 @@ public:
         When the menu has been shown, performPopupMenuAction() will be called to
         perform the item that the user has chosen.
 
-        The default menu items will be added using item IDs in the range
-        0x7fff0000 - 0x7fff1000, so you should avoid those values for your own
-        menu IDs.
+        The default menu items will be added using item IDs from the
+        StandardApplicationCommandIDs namespace.
 
         If this was triggered by a mouse-click, the mouseClickEvent parameter will be
         a pointer to the info about it, or may be null if the menu is being triggered
