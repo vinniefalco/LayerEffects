@@ -49,7 +49,7 @@ MainPanel::MainPanel ()
   }
 
   {
-    CImageSource* c = new CImageSource (1);
+    CImageSource* c = new CImageSource (2);
     c->setBounds (4 + 256 + 4, 4, 256, 280);
     addAndMakeVisible (c);
 

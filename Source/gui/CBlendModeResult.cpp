@@ -86,9 +86,11 @@ void CBlendModeResult::resized ()
 
 void CBlendModeResult::paint (Graphics& g)
 {
-  vf::BackgroundContext bc (g);
+  Rectangle <int> const bounds (0, 24, 256, 256);
 
-  
+  vf::BackgroundContext bc (g, bounds);
+
+  bc.drawImageAt (m_sourceImage [0], 0, 24);
 
   switch (m_mode)
   {
