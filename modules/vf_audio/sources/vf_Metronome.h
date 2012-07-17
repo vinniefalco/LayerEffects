@@ -19,37 +19,24 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_audio module.
+#ifndef VF_METRONOME_VFHEADER
+#define VF_METRONOME_VFHEADER
 
-    @file vf_audio.cpp
+/** A metronome.
+
     @ingroup vf_audio
 */
-
-#include "AppConfig.h"
-
-#include "vf_audio.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#endif
-
-namespace vf
+class Metronome : public AudioSource
 {
+public:
+  /** Create a new metronome.
+  */
+  static Metronome* New (void const* audioData, int dataBytes);
 
-#include "buffers/vf_AudioBufferPool.cpp"
+  /** Change the tempo parameters.
+  */
+  virtual void updateClock (double tempo, double phase, bool active) = 0;
+};
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
-#include "sources/vf_Metronome.cpp"
-#include "sources/vf_NoiseAudioSource.cpp"
-#include "sources/vf_SampleSource.cpp"
-#include "sources/vf_SeekingAudioSource.cpp"
-#include "sources/vf_SeekingSampleSource.cpp"
-
-}
-
-#if JUCE_MSVC
-#pragma warning (pop)
 #endif
+

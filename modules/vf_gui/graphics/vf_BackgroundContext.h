@@ -19,37 +19,36 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_audio module.
+#ifndef VF_BACKGROUNDCONTEXT_VFHEADER
+#define VF_BACKGROUNDCONTEXT_VFHEADER
 
-    @file vf_audio.cpp
-    @ingroup vf_audio
+/*============================================================================*/
+
+/** Graphics context for image compositing.
+
+    This wraps a Graphics context with an image to provide a background
+    for compositing layers.
+
+    @ingroup vf_gui
 */
-
-#include "AppConfig.h"
-
-#include "vf_audio.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#endif
-
-namespace vf
+class BackgroundContext
 {
+public:
+  explicit BackgroundContext (Graphics& g);
 
-#include "buffers/vf_AudioBufferPool.cpp"
+  ~BackgroundContext ();
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
+  Graphics& getContext ();
 
-#include "sources/vf_Metronome.cpp"
-#include "sources/vf_NoiseAudioSource.cpp"
-#include "sources/vf_SampleSource.cpp"
-#include "sources/vf_SeekingAudioSource.cpp"
-#include "sources/vf_SeekingSampleSource.cpp"
+  Rectangle <int> getBounds () const;
 
-}
+  Image getImage ();
 
-#if JUCE_MSVC
-#pragma warning (pop)
+private:
+  Graphics& m_base;
+  Rectangle <int> const m_bounds;
+  Image m_image;
+  Graphics m_context;
+};
+
 #endif

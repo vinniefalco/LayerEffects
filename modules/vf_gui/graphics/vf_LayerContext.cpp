@@ -19,37 +19,39 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_audio module.
-
-    @file vf_audio.cpp
-    @ingroup vf_audio
-*/
-
-#include "AppConfig.h"
-
-#include "vf_audio.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#endif
-
-namespace vf
+LayerContext::LayerContext (BackgroundContext& g)
+  : m_base (g)
+  , m_bounds (g.getBounds ())
+  , m_image (Image::ARGB, m_bounds.getWidth (), m_bounds.getHeight (), true)
+  , m_context (m_image)
 {
-
-#include "buffers/vf_AudioBufferPool.cpp"
-
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
-#include "sources/vf_Metronome.cpp"
-#include "sources/vf_NoiseAudioSource.cpp"
-#include "sources/vf_SampleSource.cpp"
-#include "sources/vf_SeekingAudioSource.cpp"
-#include "sources/vf_SeekingSampleSource.cpp"
-
+  m_context.setOrigin (-m_bounds.getX (), -m_bounds.getY ());
 }
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+LayerContext::~LayerContext ()
+{
+  // replace this with the fancy compositor
+  //m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+
+  Image::BitmapData src (m_image, Image::BitmapData::readOnly);
+  Image::BitmapData dest (m_base.getImage (), Image::BitmapData::readWrite);
+
+  for (int i = 0; i < 3; ++i)
+  {
+    blendChannel <4> (
+      dest.height,
+      dest.width,
+      dest.getLinePointer (0) + i, dest.lineStride,
+      src.getLinePointer  (0) + i, src.lineStride,
+      dest.getLinePointer (0) + i, dest.lineStride,
+      src.getLinePointer  (0),     src.lineStride,
+      &BlendMode::hardlight);
+  }
+}
+
+Graphics& LayerContext::getContext ()
+{
+  return m_context;
+}
+
+// dest front back mask

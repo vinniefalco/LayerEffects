@@ -19,37 +19,31 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_audio module.
-
-    @file vf_audio.cpp
-    @ingroup vf_audio
-*/
-
-#include "AppConfig.h"
-
-#include "vf_audio.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#endif
-
-namespace vf
+BackgroundContext::BackgroundContext (Graphics& g)
+  : m_base (g)
+  , m_bounds (g.getClipBounds ())
+  , m_image (Image::ARGB, m_bounds.getWidth (), m_bounds.getHeight (), true)
+  , m_context (m_image)
 {
-
-#include "buffers/vf_AudioBufferPool.cpp"
-
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
-#include "sources/vf_Metronome.cpp"
-#include "sources/vf_NoiseAudioSource.cpp"
-#include "sources/vf_SampleSource.cpp"
-#include "sources/vf_SeekingAudioSource.cpp"
-#include "sources/vf_SeekingSampleSource.cpp"
-
+  m_context.setOrigin (-m_bounds.getX (), -m_bounds.getY ());
 }
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+BackgroundContext::~BackgroundContext ()
+{
+  m_base.drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+}
+
+Graphics& BackgroundContext::getContext ()
+{
+  return m_context;
+}
+
+Rectangle <int> BackgroundContext::getBounds () const
+{
+  return m_bounds;
+}
+
+Image BackgroundContext::getImage ()
+{
+  return m_image;
+}
