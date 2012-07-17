@@ -19,15 +19,43 @@
 */
 /*============================================================================*/
 
-LayerContext::LayerContext (BackgroundContext& g)
-  : m_base (g)
-  , m_bounds (g.getBounds ())
-  , m_image (Image::ARGB, m_bounds.getWidth (), m_bounds.getHeight (), true)
-  , m_context (m_image)
+LayerContextBase::LayerContextBase (Rectangle <int> const& clipBounds,
+                                    Rectangle <int> const& drawBounds)
+  : m_bounds (clipBounds.getIntersection (drawBounds))
+  , m_image (Image::ARGB,
+             jmax (m_bounds.getWidth (), 1),
+             jmax (m_bounds.getHeight(), 1),
+             false)
 {
-  m_context.setOrigin (-m_bounds.getX (), -m_bounds.getY ());
 }
 
+//------------------------------------------------------------------------------
+
+LayerContext::LayerContext (BackgroundContext& destinationContext,
+                            Rectangle <int> const& drawBounds)
+  : LayerContextBase (destinationContext.getClipBounds (), drawBounds)
+  , Graphics (m_image)
+  , m_destinationContext (destinationContext)
+{
+  setOrigin (-m_bounds.getX (), -m_bounds.getY ());
+}
+
+LayerContext::~LayerContext ()
+{
+  m_destinationContext.drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+}
+
+Rectangle <int> LayerContext::getBounds () const
+{
+  return m_bounds;
+}
+
+Image LayerContext::getImage () const
+{
+  return m_image;
+}
+
+#if 0
 LayerContext::~LayerContext ()
 {
   // replace this with the fancy compositor
@@ -48,10 +76,4 @@ LayerContext::~LayerContext ()
       &BlendMode::normal);
   }
 }
-
-Graphics& LayerContext::getContext ()
-{
-  return m_context;
-}
-
-// dest front back mask
+#endif

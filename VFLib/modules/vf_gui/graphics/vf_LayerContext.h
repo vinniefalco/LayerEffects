@@ -24,26 +24,46 @@
 
 /*============================================================================*/
 
+/** Layer Image container base.
+
+    This holds the image and bounding rectangle used for a LayerContext
+    and resolves the order of construction issues.
+
+    @ingroup vf_gui
+
+    @internal
+*/
+class LayerContextBase : vf::Uncopyable
+{
+public:
+  LayerContextBase (Rectangle <int> const& clipBounds,
+                    Rectangle <int> const& drawBounds);
+
+protected:
+  Rectangle <int> m_bounds;
+  Image m_image;
+};
+
 /** Graphics context for a compositing layer.
 
     This allows an Image to be composited into a BackgroundContext.
 
     @ingroup vf_gui
 */
-class LayerContext
+class LayerContext : private LayerContextBase, public Graphics
 {
 public:
-  explicit LayerContext (BackgroundContext& g);
+  LayerContext (BackgroundContext& destinationContext,
+                Rectangle <int> const& drawBounds);
 
   ~LayerContext ();
 
-  Graphics& getContext ();
+  Rectangle <int> getBounds () const;
+
+  Image getImage () const;
 
 private:
-  BackgroundContext& m_base;
-  Rectangle <int> const m_bounds;
-  Image m_image;
-  Graphics m_context;
+  BackgroundContext& m_destinationContext;
 };
 
 #endif

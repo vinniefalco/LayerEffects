@@ -24,6 +24,26 @@
 
 /*============================================================================*/
 
+/** Background Image container base.
+
+    This holds the image and bounding rectangle used for a BackgroundContext
+    and resolves the order of construction issues.
+
+    @ingroup vf_gui
+
+    @internal
+*/
+class BackgroundContextBase : vf::Uncopyable
+{
+public:
+  BackgroundContextBase (Rectangle <int> const& clipBounds,
+                         Rectangle <int> const& drawBounds);
+
+protected:
+  Rectangle <int> m_bounds;
+  Image m_image;
+};
+
 /** Graphics context for image compositing.
 
     This wraps a Graphics context with an image to provide a background
@@ -31,24 +51,20 @@
 
     @ingroup vf_gui
 */
-class BackgroundContext
+class BackgroundContext : private BackgroundContextBase, public Graphics
 {
 public:
-  explicit BackgroundContext (Graphics& g);
+  BackgroundContext (Graphics& destinationContext,
+                     Rectangle <int> const& drawBounds);
 
   ~BackgroundContext ();
 
-  Graphics& getContext ();
-
   Rectangle <int> getBounds () const;
 
-  Image getImage ();
+  Image getImage () const;
 
 private:
-  Graphics& m_base;
-  Rectangle <int> const m_bounds;
-  Image m_image;
-  Graphics m_context;
+  Graphics& m_destinationContext;
 };
 
 #endif
