@@ -23,117 +23,116 @@
 #define VF_CALLQUEUE_VFHEADER
 
 /*============================================================================*/
-/**
-  @ingroup vf_concurrent
+/** @ingroup vf_concurrent
 
-  @brief A FIFO for calling functors asynchronously.
+    @brief A FIFO for calling functors asynchronously.
 
-  This object is an alternative to traditional locking techniques used to
-  implement concurrent systems. Instead of acquiring a mutex to change shared
-  data, a functor is queued for later execution (usually on another thread). The
-  execution of the functor applies the transformation to the shared state that
-  was formerly performed within a lock (i.e. CriticalSection).
+    This object is an alternative to traditional locking techniques used to
+    implement concurrent systems. Instead of acquiring a mutex to change shared
+    data, a functor is queued for later execution (usually on another thread). The
+    execution of the functor applies the transformation to the shared state that
+    was formerly performed within a lock (i.e. CriticalSection).
 
-  For read operations on shared data, instead of acquiring a mutex and
-  accessing the data directly, copies are made (one for each thread), and the
-  thread accesses its copy without acquiring a lock. One thread owns the master
-  copy of the shared state. Requests for changing shared state are made by other
-  threads by posting functors to the master thread's CallQueue. The master
-  thread notifies other threads of changes by posting functors to their
-  respective associated CallQueue, using the Listeners interface.
+    For read operations on shared data, instead of acquiring a mutex and
+    accessing the data directly, copies are made (one for each thread), and the
+    thread accesses its copy without acquiring a lock. One thread owns the master
+    copy of the shared state. Requests for changing shared state are made by other
+    threads by posting functors to the master thread's CallQueue. The master
+    thread notifies other threads of changes by posting functors to their
+    respective associated CallQueue, using the Listeners interface.
 
-  The purpose of the functor is to encapsulate one mutation of shared state to
-  guarantee progress towards a consensus of the concurrent data among
-  participating threads. Functors should execute quickly, ideally in constant
-  time. Dynamically allocated objects of class type passed as functor parameters
-  should, in general, be reference counted. The ConcurrentObject class is ideal
-  for meeting this requirement, and has the additional benefit that the workload
-  of deletion is performed on a separate, provided thread. This queue is not a
-  replacement for a thread pool or job queue type system.
+    The purpose of the functor is to encapsulate one mutation of shared state to
+    guarantee progress towards a consensus of the concurrent data among
+    participating threads. Functors should execute quickly, ideally in constant
+    time. Dynamically allocated objects of class type passed as functor parameters
+    should, in general, be reference counted. The ConcurrentObject class is ideal
+    for meeting this requirement, and has the additional benefit that the workload
+    of deletion is performed on a separate, provided thread. This queue is not a
+    replacement for a thread pool or job queue type system.
 
-  A CallQueue is considered signaled when one or more functors are present.
-  Functors are executed during a call to synchronize(). The operation of
-  executing functors via the call to synchronize() is called synchronizing
-  the queue. It can more generally be thought of as synchronizing multiple
-  copies of shared data between threads.
+    A CallQueue is considered signaled when one or more functors are present.
+    Functors are executed during a call to synchronize(). The operation of
+    executing functors via the call to synchronize() is called synchronizing
+    the queue. It can more generally be thought of as synchronizing multiple
+    copies of shared data between threads.
 
-  Although there is some extra work required to set up and maintain this
-  system, the benefits are significant. Since shared data is only synchronized
-  at well defined times, the programmer can reason and make strong statements
-  about the correctness of the concurrent system. For example, if an
-  AudioIODeviceCallback synchronizes the CallQueue only at the beginning of its
-  execution, it is guaranteed that shared data will remain the same throughout
-  the remainder of the function.
+    Although there is some extra work required to set up and maintain this
+    system, the benefits are significant. Since shared data is only synchronized
+    at well defined times, the programmer can reason and make strong statements
+    about the correctness of the concurrent system. For example, if an
+    AudioIODeviceCallback synchronizes the CallQueue only at the beginning of its
+    execution, it is guaranteed that shared data will remain the same throughout
+    the remainder of the function.
 
-  Because shared data is accessed for reading without a lock, upper bounds
-  on the run time performance can easily be calculated and assured. Compare
-  this with the use of a mutex - the run time performance experiences a
-  combinatorial explosion of possibilities depending on the complex interaction
-  of multiple threads.
+    Because shared data is accessed for reading without a lock, upper bounds
+    on the run time performance can easily be calculated and assured. Compare
+    this with the use of a mutex - the run time performance experiences a
+    combinatorial explosion of possibilities depending on the complex interaction
+    of multiple threads.
 
-  Since a CallQueue is almost always used to invoke parameterized member
-  functions of objects, the call() function comes in a variety of convenient
-  forms to make usage easy:
+    Since a CallQueue is almost always used to invoke parameterized member
+    functions of objects, the call() function comes in a variety of convenient
+    forms to make usage easy:
 
-  @code
+    @code
 
-  void func1 (int);
+    void func1 (int);
 
-  struct Object
-  {
-    void func2 (void);
-    void func3 (String name);
+    struct Object
+    {
+      void func2 (void);
+      void func3 (String name);
 
-    static void func4 ();
-  };
+      static void func4 ();
+    };
 
-  CallQueue fifo ("Example");
+    CallQueue fifo ("Example");
 
-  void example ()
-  {
-    fifo.call (func1, 42);               // same as: func1 (42)
+    void example ()
+    {
+      fifo.call (func1, 42);               // same as: func1 (42)
 
-    Object* object = new Object;
+      Object* object = new Object;
 
-    fifo.call (&Object::func2, object);  // same as: object->func2 ()
+      fifo.call (&Object::func2, object);  // same as: object->func2 ()
 
-    fifo.call (&Object::func3,           // same as: object->funcf ("Label")
-                object,
-                "Label");
+      fifo.call (&Object::func3,           // same as: object->funcf ("Label")
+                  object,
+                  "Label");
 
-    fifo.call (&Object::func4);          // even static members can be called.
+      fifo.call (&Object::func4);          // even static members can be called.
 
-    fifo.callf (bind (&Object::func2,    // same as: object->func2 ()
-                      object));
-  }
+      fifo.callf (bind (&Object::func2,    // same as: object->func2 ()
+                        object));
+    }
 
-  @endcode
+    @endcode
 
-  @invariant Functors can be added from any thread at any time, to any queue
-              which is not closed.
+    @invariant Functors can be added from any thread at any time, to any queue
+                which is not closed.
 
-  @invariant When synchronize() is called, functors are called and deleted.
+    @invariant When synchronize() is called, functors are called and deleted.
 
-  @invariant The thread from which synchronize() is called is considered the
-              thread associated with the CallQueue.
+    @invariant The thread from which synchronize() is called is considered the
+                thread associated with the CallQueue.
 
-  @invariant Functors queued by the same thread always execute in the same
-              order they were queued.
+    @invariant Functors queued by the same thread always execute in the same
+                order they were queued.
 
-  @invariant Functors are guaranteed to execute. It is an error if the
-              CallQueue is deleted while there are functors in it.
+    @invariant Functors are guaranteed to execute. It is an error if the
+                CallQueue is deleted while there are functors in it.
 
-  Normally, you will not use CallQueue directly, but one of its subclasses
-  instead. The CallQueue is one of a handful of objects that work together to
-  implement this system of concurrent data access.
+    Normally, you will not use CallQueue directly, but one of its subclasses
+    instead. The CallQueue is one of a handful of objects that work together to
+    implement this system of concurrent data access.
 
-  For performance considerations, this implementation is wait-free for
-  producers and mostly wait-free for consumers. It also uses a lock-free
-  and wait-free (in the fast path) custom memory allocator.
+    For performance considerations, this implementation is wait-free for
+    producers and mostly wait-free for consumers. It also uses a lock-free
+    and wait-free (in the fast path) custom memory allocator.
 
-  @see GuiCallQueue, ManualCallQueue, MessageThread
+    @see GuiCallQueue, ManualCallQueue, MessageThread
 
-  @todo Standardize terminology: "functor" to represent the stored item.
+    @todo Standardize terminology: "functor" to represent the stored item.
 */
 class CallQueue
 {
@@ -184,176 +183,187 @@ public:
     callp (new (m_allocator) CallType <Functor> (f));
   }
 
-/**
-  Add a function call and possibly synchronize.
+  /** Add a function call and possibly synchronize.
 
-  Parameters are evaluated immediately and added to the queue as a packaged
-  functor. If the current thread of execution is the same as the thread
-  associated with the CallQueue, synchronize() is called automatically. This
-  behavior can be avoided by using queue() instead.
+      Parameters are evaluated immediately and added to the queue as a packaged
+      functor. If the current thread of execution is the same as the thread
+      associated with the CallQueue, synchronize() is called automatically. This
+      behavior can be avoided by using queue() instead.
 
-  @param f The function to call followed by up to eight parameters, evaluated
-            immediately. The parameter list must match the function signature.
-            For class member functions, the first argument must be a pointer
-            to the class object.
+      @param f The function to call followed by up to eight parameters, evaluated
+                immediately. The parameter list must match the function signature.
+                For class member functions, the first argument must be a pointer
+                to the class object.
 
-  @see queue
+      @see queue
 
-  @todo Provide an example of when synchronize() is needed in call().
-*/
+      @todo Provide an example of when synchronize() is needed in call().
+  */
   template <class Fn>
   void call (Fn f)
-  { callf (vf::bind (f)); }
+  {
+    callf (vf::bind (f));
+  }
 
-  template <class Fn, typename  T1>
-  void call (Fn f,    const T1& t1)
-  { callf (vf::bind (f, t1)); }
+  template <class Fn, class T1>
+  void call (Fn f, T1 t1)
+  {
+    callf (vf::bind (f, t1));
+  }
 
-  template <class Fn, typename  T1, typename  T2>
-  void call (Fn f,    const T1& t1, const T2& t2)
-  { callf (vf::bind (f, t1, t2)); }
+  template <class Fn, class T1, class T2>
+  void call (Fn f, T1 t1, T2 t2)
+  {
+    callf (vf::bind (f, t1, t2));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3>
-  void call (Fn f,    const T1& t1, const T2& t2, const T3& t3)
-  { callf (vf::bind (f, t1, t2, t3)); }
+  template <class Fn, class T1, class T2, class T3>
+  void call (Fn f, T1 t1, T2 t2, T3 t3)
+  {
+    callf (vf::bind (f, t1, t2, t3));
+  }
 
-  template <class Fn, typename  T1, typename  T2,
-                      typename  T3, typename  T4>
-  void call (Fn f,    const T1& t1, const T2& t2,
-                      const T3& t3, const T4& t4)
-  { callf (vf::bind (f, t1, t2, t3, t4)); }
+  template <class Fn, class T1, class T2, class T3, class T4>
+  void call (Fn f, T1 t1, T2 t2, T3 t3, T4 t4)
+  {
+    callf (vf::bind (f, t1, t2, t3, t4));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3,
-                      typename  T4, typename  T5>
-  void call (Fn f,    const T1& t1, const T2& t2, const T3& t3,
-                      const T4& t4, const T5& t5)
-  { callf (vf::bind (f, t1, t2, t3, t4, t5)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5>
+  void call (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)
+  {
+    callf (vf::bind (f, t1, t2, t3, t4, t5));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3,
-                      typename  T4, typename  T5, typename  T6>
-  void call (Fn f,    const T1& t1, const T2& t2, const T3& t3,
-                      const T4& t4, const T5& t5, const T6& t6)
-  { callf (vf::bind (f, t1, t2, t3, t4, t5, t6)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6>
+  void call (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)
+  {
+    callf (vf::bind (f, t1, t2, t3, t4, t5, t6));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3, typename  T4,
-                      typename  T5, typename  T6, typename  T7>
-  void call (Fn f,    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                      const T5& t5, const T6& t6, const T7& t7)
-  { callf (vf::bind (f, t1, t2, t3, t4, t5, t6, t7)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+  void call (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7)
+  {
+    callf (vf::bind (f, t1, t2, t3, t4, t5, t6, t7));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3, typename  T4,
-                      typename  T5, typename  T6, typename  T7, typename  T8>
-  void call (Fn f,    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                      const T5& t5, const T6& t6, const T7& t7, const T8& t8)
-  { callf (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+  void call (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
+  {
+    callf (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8));
+  }
 
-/**
-  Add a functor without synchronizing.
+  /** Add a functor without synchronizing.
 
-  Use this when you want to perform the bind yourself.
+      Use this when you want to perform the bind yourself.
 
-  @param f The functor to add, typically the return value of a call
-            to bind().
+      @param f The functor to add, typically the return value of a call
+                to bind().
 
-  @see queue
-*/
+      @see queue
+  */
   template <class Functor>
-  void queuef (Functor const& f)
+  void queuef (Functor f)
   {
     queuep (new (m_allocator) CallType <Functor> (f));
   }
 
-/**
-  Add a function call without synchronizing.
+  /** Add a function call without synchronizing.
 
-  Parameters are evaluated immediately, then the resulting functor is added
-  to the queue. This is used to postpone the call to synchronize() when
-  there would be adverse side effects to executing the function immediately.
-  In this example, we use queue() instead of call() to avoid a deadlock:
+      Parameters are evaluated immediately, then the resulting functor is added
+      to the queue. This is used to postpone the call to synchronize() when
+      there would be adverse side effects to executing the function immediately.
+      In this example, we use queue() instead of call() to avoid a deadlock:
 
-  @code
+      @code
 
-  struct SharedState;           // contains data shared between threads
+      struct SharedState;           // contains data shared between threads
 
-  ConcurrentState <SharedState> sharedState;
+      ConcurrentState <SharedState> sharedState;
 
-  void stateChanged ()
-  {
-    ConcurrentState <SharedState>::ReadAccess state (sharedState);
+      void stateChanged ()
+      {
+        ConcurrentState <SharedState>::ReadAccess state (sharedState);
 
-    // (read state)
-  }
+        // (read state)
+      }
 
-  CallQueue fifo;
+      CallQueue fifo;
 
-  void changeState ()
-  {
-    ConcurrentState <State>::WriteAccess state (sharedState);
+      void changeState ()
+      {
+        ConcurrentState <State>::WriteAccess state (sharedState);
 
-    // (read and write state)
+        // (read and write state)
 
-    fifo.call (&stateChanged);  // BUG: DEADLOCK because of the implicit synchronize().
+        fifo.call (&stateChanged);  // BUG: DEADLOCK because of the implicit synchronize().
 
-    fifo.queue (&stateChanged); // Okay, synchronize() will be called later,
-                                // after the write lock is released.
-  }
+        fifo.queue (&stateChanged); // Okay, synchronize() will be called later,
+                                    // after the write lock is released.
+      }
 
-  @endcode
+      @endcode
 
-  @param f The function to call followed by up to eight parameters,
-            evaluated immediately. The parameter list must match the
-            function signature. For non-static class member functions,
-            the first argument must be a pointer an instance of the class.
+      @param f The function to call followed by up to eight parameters,
+                evaluated immediately. The parameter list must match the
+                function signature. For non-static class member functions,
+                the first argument must be a pointer an instance of the class.
 
-  @see call
-*/
+      @see call
+  */
   template <class Fn>
   void queue (Fn f)
   {
     queuef (vf::bind (f));
   }
 
-  template <class Fn, typename  T1>
-  void queue (Fn f,   const T1& t1)
-  { queuef (vf::bind (f, t1)); }
+  template <class Fn, class T1>
+  void queue (Fn f, T1 t1)
+  {
+    queuef (vf::bind (f, t1));
+  }
 
-  template <class Fn, typename  T1, typename  T2>
-  void queue (Fn f,   const T1& t1, const T2& t2)
-  { queuef (vf::bind (f, t1, t2)); }
+  template <class Fn, class T1, class T2>
+  void queue (Fn f, T1 t1, T2 t2)
+  {
+    queuef (vf::bind (f, t1, t2));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3>
-  void queue (Fn f,   const T1& t1, const T2& t2, const T3& t3)
-  { queuef (vf::bind (f, t1, t2, t3)); }
+  template <class Fn, class T1, class T2, class T3>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3)
+  {
+    queuef (vf::bind (f, t1, t2, t3));
+  }
 
-  template <class Fn, typename  T1, typename  T2,
-                      typename  T3, typename  T4>
-  void queue (Fn f,   const T1& t1, const T2& t2,
-                      const T3& t3, const T4& t4)
-  { queuef (vf::bind (f, t1, t2, t3, t4)); }
+  template <class Fn, class T1, class T2, class T3, class T4>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3, T4 t4)
+  {
+    queuef (vf::bind (f, t1, t2, t3, t4));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3,
-                      typename  T4, typename  T5>
-  void queue (Fn f,   const T1& t1, const T2& t2, const T3& t3,
-                      const T4& t4, const T5& t5)
-  { queuef (vf::bind (f, t1, t2, t3, t4, t5)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)
+  {
+    queuef (vf::bind (f, t1, t2, t3, t4, t5));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3,
-                      typename  T4, typename  T5, typename  T6>
-  void queue (Fn f,   const T1& t1, const T2& t2, const T3& t3,
-                      const T4& t4, const T5& t5, const T6& t6)
-  { queuef (vf::bind (f, t1, t2, t3, t4, t5, t6)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)
+  {
+    queuef (vf::bind (f, t1, t2, t3, t4, t5, t6));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3, typename  T4,
-                      typename  T5, typename  T6, typename  T7>
-  void queue (Fn f,   const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                      const T5& t5, const T6& t6, const T7& t7)
-  { queuef (vf::bind (f, t1, t2, t3, t4, t5, t6, t7)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7)
+  {
+    queuef (vf::bind (f, t1, t2, t3, t4, t5, t6, t7));
+  }
 
-  template <class Fn, typename  T1, typename  T2, typename  T3, typename  T4,
-                      typename  T5, typename  T6, typename  T7, typename  T8>
-  void queue (Fn f,   const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                      const T5& t5, const T6& t6, const T7& t7, const T8& t8)
-  { queuef (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+  void queue (Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
+  {
+    queuef (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8));
+  }
 
 protected:
   //============================================================================

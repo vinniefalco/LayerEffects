@@ -57,19 +57,6 @@ public:
       destroyConcurrentObject ();
   }
 
-  /** Determine if the object is still being referenced.
-
-      This is not thread safe, so the caller must synchronize.
-
-      @return true if the object has one or more references.
-
-      @internal
-  */
-  inline bool isBeingReferenced () const
-  {
-    return m_refs.isSignaled ();
-  }
-
 protected:
   ConcurrentObject();
 

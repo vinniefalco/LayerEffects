@@ -48,7 +48,7 @@ public:
 
   void remove (ListenerClass* const listener)
   {
-    m_array.removeValue (listener);
+    m_array.removeFirstMatchingValue (listener);
   }
 
   template <class C>

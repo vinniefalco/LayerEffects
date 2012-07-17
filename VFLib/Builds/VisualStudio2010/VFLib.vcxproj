@@ -23,7 +23,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_NoiseAudioSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_SampleSource.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -509,6 +517,7 @@
     <ClInclude Include="..\..\modules\vf_audio\buffers\vf_ScopedAudioSampleBuffer.h" />
     <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiDevices.h" />
     <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiInput.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_Metronome.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_NoiseAudioSource.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SampleSource.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.h" />

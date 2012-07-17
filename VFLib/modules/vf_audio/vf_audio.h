@@ -59,6 +59,7 @@ namespace vf
 #include "midi/vf_MidiInput.h"
 #include "midi/vf_MidiDevices.h"
 
+#include "sources/vf_Metronome.h"
 #include "sources/vf_NoiseAudioSource.h"
 #include "sources/vf_SampleSource.h"
 #include "sources/vf_SeekingSampleSource.h"

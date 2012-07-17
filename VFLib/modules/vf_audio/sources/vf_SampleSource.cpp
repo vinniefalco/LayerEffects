@@ -18,38 +18,3 @@
   Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 /*============================================================================*/
-
-/** Add this to get the @ref vf_audio module.
-
-    @file vf_audio.cpp
-    @ingroup vf_audio
-*/
-
-#include "AppConfig.h"
-
-#include "vf_audio.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parmaeter
-#endif
-
-namespace vf
-{
-
-#include "buffers/vf_AudioBufferPool.cpp"
-
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
-#include "sources/vf_Metronome.cpp"
-#include "sources/vf_NoiseAudioSource.cpp"
-#include "sources/vf_SampleSource.cpp"
-#include "sources/vf_SeekingAudioSource.cpp"
-#include "sources/vf_SeekingSampleSource.cpp"
-
-}
-
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
