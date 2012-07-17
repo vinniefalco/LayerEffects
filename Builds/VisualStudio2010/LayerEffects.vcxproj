@@ -24,7 +24,6 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
   <ImportGroup Label="ExtensionSettings"/>
@@ -93,7 +92,7 @@
       <HeaderFileName/>
     </Midl>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\Jucer\JuceLibraryCode;../../JUCE;../../VFLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2010_2B5CCFA2=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -128,13 +127,19 @@
   <ItemGroup>
     <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp"/>
     <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp"/>
-    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
+    <ClCompile Include="..\..\Source\gui\CBlendModeResult.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CImageSource.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainPanel.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\source.cpp"/>
@@ -862,9 +867,11 @@
     <ClCompile Include="..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\CBlendModeResult.h"/>
+    <ClInclude Include="..\..\Source\gui\CImageSource.h"/>
+    <ClInclude Include="..\..\Source\gui\MainApp.h"/>
     <ClInclude Include="..\..\Source\gui\MainPanel.h"/>
     <ClInclude Include="..\..\Source\gui\MainWindow.h"/>
-    <ClInclude Include="..\..\Source\gui\MainApp.h"/>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharacterFunctions.h"/>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharPointer_ASCII.h"/>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharPointer_UTF16.h"/>

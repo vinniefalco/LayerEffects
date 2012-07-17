@@ -18,7 +18,8 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
+                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"
+                       wholeProgramOptimisation="1"/>
       </CONFIGURATIONS>
     </VS2010>
     <LINUX_MAKE targetFolder="../Linux" juceFolder="..\..\..\..\JUCE\modules">
@@ -37,12 +38,19 @@
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
-        <FILE id="m2W4Bh" name="MainPanel.h" compile="0" resource="0" file="../../Source/gui/MainPanel.h"/>
-        <FILE id="LeDTYD" name="MainWindow.cpp" compile="0" resource="0" file="../../Source/gui/MainWindow.cpp"/>
-        <FILE id="mBvX9G" name="MainWindow.h" compile="0" resource="0" file="../../Source/gui/MainWindow.h"/>
+        <FILE id="JftAvR" name="CBlendModeResult.cpp" compile="0" resource="0"
+              file="../../Source/gui/CBlendModeResult.cpp"/>
+        <FILE id="y3jVJn" name="CBlendModeResult.h" compile="0" resource="0"
+              file="../../Source/gui/CBlendModeResult.h"/>
+        <FILE id="d9VTIN" name="CImageSource.cpp" compile="0" resource="0"
+              file="../../Source/gui/CImageSource.cpp"/>
+        <FILE id="hH6fiu" name="CImageSource.h" compile="0" resource="0" file="../../Source/gui/CImageSource.h"/>
         <FILE id="KnCdLZ" name="MainApp.cpp" compile="0" resource="0" file="../../Source/gui/MainApp.cpp"/>
         <FILE id="Qs1b9K" name="MainApp.h" compile="0" resource="0" file="../../Source/gui/MainApp.h"/>
         <FILE id="NO32bv" name="MainPanel.cpp" compile="0" resource="0" file="../../Source/gui/MainPanel.cpp"/>
+        <FILE id="m2W4Bh" name="MainPanel.h" compile="0" resource="0" file="../../Source/gui/MainPanel.h"/>
+        <FILE id="LeDTYD" name="MainWindow.cpp" compile="0" resource="0" file="../../Source/gui/MainWindow.cpp"/>
+        <FILE id="mBvX9G" name="MainWindow.h" compile="0" resource="0" file="../../Source/gui/MainWindow.h"/>
       </GROUP>
       <FILE id="OwhNkh" name="source.cpp" compile="1" resource="0" file="../../Source/source.cpp"/>
     </GROUP>

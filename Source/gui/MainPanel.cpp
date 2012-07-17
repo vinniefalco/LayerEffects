@@ -32,11 +32,43 @@
 
 MainPanel::MainPanel ()
 {
+  {
+    CBlendModeResult* c = new CBlendModeResult;
+    c->setBounds (4 + 256 + 4 + 256 + 4, 4, 256, 280);
+    addAndMakeVisible (c);
+
+    m_blendResult = c;
+  }
+
+  {
+    CImageSource* c = new CImageSource (1);
+    c->setBounds (4, 4, 256, 280);
+    addAndMakeVisible (c);
+
+    c->selectImage (1);
+  }
+
+  {
+    CImageSource* c = new CImageSource (1);
+    c->setBounds (4 + 256 + 4, 4, 256, 280);
+    addAndMakeVisible (c);
+
+    c->selectImage (2);
+  }
+
+  setSize (4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
 }
 
 MainPanel::~MainPanel()
 {
+  m_blendResult = 0;
+
   deleteAllChildren();
+}
+
+void MainPanel::onImageSourceSelect (int id, Image image)
+{
+  m_blendResult->setSourceImage (id - 1, image);
 }
 
 //------------------------------------------------------------------------------
@@ -75,11 +107,21 @@ void MainPanel::menuItemSelected (int menuItemID, int topLevelMenuIndex)
 
 void MainPanel::paint (Graphics& g)
 {
+#if 0
   Rectangle <int> const b = g.getClipBounds ();
 
   g.setColour (Colours::black);
   g.fillRect (b);
 
+  Rectangle <int> const r = b.reduced (128, 128);
+
+#if 0
+  g.setColour (Colours::white);
+  Path p;
+  p.addEllipse (r.getX(), r.getY(), r.getWidth(), r.getHeight());
+  g.fillPath (p);
+
+#else
   vf::BackgroundContext bc (g);
 
   {
@@ -87,12 +129,11 @@ void MainPanel::paint (Graphics& g)
 
     Graphics& g = lc.getContext ();
 
-    Rectangle <int> const r = b.reduced (128, 128);
-
     g.setColour (Colours::white);
     Path p;
     p.addEllipse (r.getX(), r.getY(), r.getWidth(), r.getHeight());
     g.fillPath (p);
   }
+#endif
+#endif
 }
-

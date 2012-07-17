@@ -40,12 +40,8 @@ MainWindow::MainWindow ()
 
   MainPanel* contentComponent = new MainPanel;
 
-  contentComponent->setSize (512, 384);
-
   setMenuBar (contentComponent);
   setContentOwned (contentComponent, true);
-
-//  setSize (512, 384);
 
   centreWithSize (getWidth(), getHeight());
   setVisible (true);

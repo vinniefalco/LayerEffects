@@ -32,6 +32,11 @@
 
 #include "AppConfig.h"
 
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable: 4100) // unreferenced formal parameter
+#endif
+
 #include "modules/juce_core/juce_core.h"
 #include "modules/juce_gui_basics/juce_gui_basics.h"
 
@@ -40,10 +45,18 @@
 
 using namespace juce;
 
+#include "gui/CBlendModeResult.h"
+#include "gui/CImageSource.h"
 #include "gui/MainPanel.h"
 #include "gui/MainWindow.h"
 #include "gui/MainApp.h"
 
+#include "gui/CBlendModeResult.cpp"
+#include "gui/CImageSource.cpp"
 #include "gui/MainApp.cpp"
 #include "gui/MainPanel.cpp"
 #include "gui/MainWindow.cpp"
+
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif

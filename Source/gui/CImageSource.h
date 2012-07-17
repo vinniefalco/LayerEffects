@@ -30,28 +30,40 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINPANEL_HEADER
-#define LAYEREFFECTS_MAINPANEL_HEADER
+#ifndef LAYEREFFECTS_CIMAGESOURCE_HEADER
+#define LAYEREFFECTS_CIMAGESOURCE_HEADER
 
-class MainPanel
+class CImageSource
   : public Component
-  , public MenuBarModel
-  , public CImageSource::Listener
+  , private ComboBox::Listener
 {
 public:
-  MainPanel ();
-  ~MainPanel ();
+  struct Listener
+  {
+    virtual void onImageSourceSelect (int id, Image image) { }
+  };
 
-  void onImageSourceSelect (int id, Image image);
+public:
+  explicit CImageSource (int id);
+
+  ~CImageSource ();
+
+  void selectImage (int imageIndex);
+
+  void resized ();
 
   void paint (Graphics& g);
 
-  StringArray getMenuBarNames();
-  PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
-  void menuItemSelected (int menuItemID, int topLevelMenuIndex);
+private:
+  void buildImage ();
+
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
 
 private:
-  ScopedPointer <CBlendModeResult> m_blendResult;
+  int const m_id;
+  int m_imageIndex;
+  Image m_image;
+  ScopedPointer <ComboBox> m_comboBox;
 };
 
 #endif

@@ -196,13 +196,19 @@
     <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
+    <ClCompile Include="..\..\Source\gui\CBlendModeResult.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CImageSource.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainPanel.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\source.cpp">
@@ -990,13 +996,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\CBlendModeResult.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CImageSource.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\MainApp.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\MainPanel.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\MainWindow.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\gui\MainApp.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_core\text\juce_CharacterFunctions.h">
