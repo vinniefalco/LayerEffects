@@ -63,7 +63,7 @@ struct BlendOperator
 
   static inline int subtract (int f, int b)
   {
-    return (f + b < 255) ? 0 : (f + b - 255);
+    return (f > b) ? 0 : (b - f);
   }
 
   static inline int difference (int f, int b)
@@ -104,7 +104,7 @@ struct BlendOperator
 
   static inline int colorDodge (int f, int b)
   {
-    return (b == 255) ? b : std::min (255, (f << 8) / (255 - b));
+    return (f == 255) ? f : std::min (255, (b << 8) / (255 - f));
   }
 
   static inline int colorBurn (int f, int b)
@@ -124,8 +124,8 @@ struct BlendOperator
 
   static inline int linearLight (int f, int b)
   {
-    return (b < 128) ? linearBurn (f, 2 * b)
-                     : linearDodge (f, 2 * (b - 128));
+    return (f < 128) ? linearBurn (256 - b, 2 * f)
+                     : linearDodge (b, 2 * (f - 128));
   }
 
   static inline int vividLight (int f, int b)
@@ -136,8 +136,8 @@ struct BlendOperator
 
   static inline int pinLight (int f, int b)
   {
-    return (b < 128) ? darken (f, 2 * b)
-                     : lighten (f, 2 * (b - 128));
+    return (f < 128) ? darken (b, 2 * f)
+                     : lighten (b, 2 * (f - 128));
   }
 
   static inline int hardMix (int f, int b)
