@@ -32,7 +32,7 @@
 
 CTextDemo::CTextDemo ()
 {
-  setSize (512, 384);
+  setSize (512, 512);
 }
 
 CTextDemo::~CTextDemo ()
@@ -44,12 +44,19 @@ void CTextDemo::paint (Graphics& g)
   Rectangle <int> const b (getLocalBounds ());
 
   vf::BackgroundContext bc (g, b);
-  bc.setColour (Colours::black);
-  bc.fillRect (b);
-  //bc.fillAll (Colours::black);
+  bc.fillAll (Colours::black);
 
   vf::LayerContext lc (bc, b);
   lc.setColour (Colours::white);
   lc.setFont (b.getHeight () / 3.f);
-  lc.drawText ("Layer\nEffects", b, Justification::centred, true);
+  lc.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
+
+  lc.getOptions ().dropShadow.active   = true;
+  lc.getOptions ().dropShadow.mode     = vf::normal;
+  lc.getOptions ().dropShadow.opacity  = 1;
+  lc.getOptions ().dropShadow.angle    = 2*3.14159 * 120 / 360;
+  lc.getOptions ().dropShadow.distance = 8;
+  lc.getOptions ().dropShadow.spread   = 0.5;
+  lc.getOptions ().dropShadow.size     = 8;
+  lc.getOptions ().dropShadow.knockout = true;
 }

@@ -94,8 +94,9 @@ void CBlendModeResult::paint (Graphics& g)
 
   vf::LayerContext lc (bc, r);
 
-  lc.setBlendOpacity (1);
-  lc.setBlendMode (m_blendMode);
+  lc.getOptions ().fill.opacity = 1;
+  lc.getOptions ().fill.mode = m_blendMode;
+
   lc.drawImageAt (m_sourceImage [1], r.getX (), r.getY ());
 }
 

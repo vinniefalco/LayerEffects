@@ -31,18 +31,87 @@
 class LayerContext : public ContextImageBase, public Graphics
 {
 public:
+  struct Options
+  {
+    //----
+
+    struct General
+    {
+      General ()
+        : opacity (1)
+        , red (true)
+        , green (true)
+        , blue (true)
+      {
+      }
+
+      double  opacity;                  // [0, 1] of fill
+      bool    red;                      // true to copy these channels
+      bool    green;
+      bool    blue;
+    };
+
+    //----
+
+    struct Fill
+    {
+      Fill ()
+        : mode (normal)
+        , opacity (1)
+      {
+      }
+
+      BlendMode mode;                   // blend mode overall
+      double opacity;                   // [0, 1] overall
+    };
+
+    //----
+
+    struct DropShadow
+    {
+      DropShadow ()
+        : active (false)
+        , mode (normal)
+        , opacity (1)
+        , angle (0)
+        , distance (1)
+        , spread (0)
+        , size (1)
+        , knockout (true)
+      {
+      }
+
+      bool      active;
+      BlendMode mode;
+      double    opacity;                // [0, 1]
+      double    angle;                  // radians
+      int       distance;               // [0, 30000]
+      double    spread;                 // [0, 1]
+      int       size;                   // in pixels
+      bool      knockout;               // layer mask knocks out drop shadow
+    };
+
+    General       general;
+    Fill          fill;
+    DropShadow    dropShadow;
+  };
+
+public:
   LayerContext (BackgroundContext& destinationContext,
                 Rectangle <int> const& drawBounds);
 
   ~LayerContext ();
 
-  void setBlendMode (BlendMode mode);
-  void setBlendOpacity (double opacity);
+  Options& getOptions ();
+
+private:
+  void applyDropShadow ();
+
+  void applyFill ();
 
 private:
   BackgroundContext& m_destinationContext;
-  BlendMode m_blendMode;
-  double m_blendOpacity;
+  Options m_options;
 };
 
 #endif

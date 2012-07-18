@@ -32,8 +32,11 @@
 
 MainPanel::MainPanel ()
 {
-  //CBlendModeDemo* c = new CBlendModeDemo;
+#if 0
+  CBlendModeDemo* c = new CBlendModeDemo;
+#else
   CTextDemo* c = new CTextDemo;
+#endif
   c->setBounds (0, 0, 4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
   addAndMakeVisible (c);
 

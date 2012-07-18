@@ -327,10 +327,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LabColour.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -631,7 +627,6 @@
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.h" />
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LabColour.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LayerContext.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_RadialImageConvolutionKernel.h" />
