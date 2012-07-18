@@ -28,6 +28,8 @@ LayerContext::LayerContext (BackgroundContext& destinationContext,
   , m_blendMode (normal)
   , m_blendOpacity (1)
 {
+  getImage ().clear (getImage ().getBounds (), Colour::fromRGBA (0, 0, 0, 0));
+  
   setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
 } 
 
