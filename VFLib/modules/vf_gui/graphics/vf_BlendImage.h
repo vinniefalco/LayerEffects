@@ -57,9 +57,9 @@ enum BlendMode
 */
 extern void BlendImage (
   Image destImage,
-  Point <int> const& destTopLeft,
+  Point <int> destTopLeft,
   Image srcImage,
-  Rectangle <int> const& srcBounds,
+  Rectangle <int> srcBounds,
   BlendMode blendMode,
   double opacity);
 

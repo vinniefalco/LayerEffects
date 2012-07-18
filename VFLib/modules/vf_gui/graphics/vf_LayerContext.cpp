@@ -33,25 +33,15 @@ LayerContext::LayerContext (BackgroundContext& destinationContext,
 
 LayerContext::~LayerContext ()
 {
-  Image destImage (
+  Image workImage (
     Image::ARGB,
     getImageBounds ().getWidth (),
     getImageBounds ().getHeight (),
-    true);
+    false);
 
-  applyDropShadow (destImage);
+  applyDropShadow (workImage);
 
-  applyFill (destImage);
-
-  applyInnerShadow (destImage);
-
-  BlendImage (
-    m_destinationContext.getImage (),
-    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
-    destImage,
-    getImage ().getBounds (),
-    m_options.general.mode,
-    m_options.general.opacity);
+  applyFill (workImage);
 }
 
 LayerContext::Options& LayerContext::getOptions ()
@@ -61,7 +51,7 @@ LayerContext::Options& LayerContext::getOptions ()
 
 //------------------------------------------------------------------------------
 
-void LayerContext::applyDropShadow (Image& destImage)
+void LayerContext::applyDropShadow (Image& workImage)
 {
   Options::DropShadow& dropShadow = m_options.dropShadow;
 
@@ -90,13 +80,23 @@ void LayerContext::applyDropShadow (Image& destImage)
       subtract,
       1);
 
-  Graphics g (destImage);
+  workImage.clear (workImage.getBounds ());
+
+  Graphics g (workImage);
   g.setColour (dropShadow.colour);
   g.drawImageAt (
     shadow,
     getImageBounds ().getX () + dx,
     getImageBounds ().getY () + dy,
     true);
+
+  BlendImage (
+    m_destinationContext.getImage (),
+    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+    workImage,
+    getImage ().getBounds (),
+    dropShadow.mode,
+    m_options.general.opacity);
 }
 
 //------------------------------------------------------------------------------
@@ -131,56 +131,82 @@ static void InvertImage (Image image)
   }
 }
 
-void LayerContext::applyInnerShadow (Image& destImage)
+void LayerContext::applyInnerShadow (Image& workImage)
 {
-  Options::InnerShadow& innerShadow = m_options.innerShadow;
-
-  if (!innerShadow.active)
-    return;
-
-  int const dx = static_cast <int> (
-    - innerShadow.distance * std::cos (innerShadow.angle) + 0.5) - innerShadow.size;
-  
-  int const dy = static_cast <int> (
-    innerShadow.distance * std::sin (innerShadow.angle) + 0.5) - innerShadow.size;
-
-  Image mask = ChannelImageType::fromImage (getImage (), 3);
-  
-  RadialImageConvolutionKernel k (innerShadow.size + 1);
-  k.createGaussianBlur ();
-
-  Image shadow = k.createConvolvedImageFull (mask);
-
-  InvertImage (shadow);
-
-  BlendImage (
-    shadow,
-    Point <int> (-dx, -dy),
-    mask,
-    mask.getBounds (),
-    darken,
-    1);
-
-  Graphics g (destImage);
-  g.setColour (innerShadow.colour);
-  g.drawImageAt (
-    shadow,
-    getImageBounds ().getX () + dx,
-    getImageBounds ().getY () + dy,
-    true);
 }
 
 //------------------------------------------------------------------------------
 
-void LayerContext::applyFill (Image& destImage)
+void LayerContext::applyFill (Image& workImage)
 {
-  BlendImage (
-    destImage,
-    Point <int> (0, 0),
-    getImage (),
-    getImage ().getBounds (),
-    normal,
-    m_options.fill.opacity);
+  Options::InnerShadow& innerShadow = m_options.innerShadow;
+
+  if (innerShadow.active)
+  {
+    int const dx = static_cast <int> (
+      - innerShadow.distance * std::cos (innerShadow.angle) + 0.5) - innerShadow.size;
+  
+    int const dy = static_cast <int> (
+      innerShadow.distance * std::sin (innerShadow.angle) + 0.5) - innerShadow.size;
+
+    Image mask = ChannelImageType::fromImage (getImage (), 3);
+  
+    RadialImageConvolutionKernel k (innerShadow.size + 1);
+    k.createGaussianBlur ();
+
+    Image shadow = k.createConvolvedImageFull (mask);
+
+    InvertImage (shadow);
+
+    // clip inverse shadow mask to interior of layer
+    BlendImage (
+      shadow,
+      Point <int> (0, 0),
+      mask,
+      mask.getBounds (),
+      darken,
+      1);
+    shadow = shadow.getClippedImage (mask.getBounds () + Point <int> (dx, dy));
+
+    // apply the fill at the offset
+#if 0
+    BlendImage (
+      workImage,
+      Point <int> (dx, dy),
+      getImage (),
+      getImage ().getBounds (),
+      normal,
+      m_options.fill.opacity);
+#endif
+
+    workImage.clear (workImage.getBounds ());
+
+    Graphics g (workImage);
+    g.setColour (innerShadow.colour);
+    g.drawImageAt (
+      shadow,
+      getImageBounds ().getX () + dx,
+      getImageBounds ().getY () + dy,
+      true);
+
+    BlendImage (
+      m_destinationContext.getImage (),
+      getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+      workImage,
+      getImage ().getBounds (),
+      innerShadow.mode,
+      m_options.general.opacity);
+  }
+  else
+  {
+    BlendImage (
+      workImage,
+      Point <int> (0, 0),
+      getImage (),
+      getImage ().getBounds (),
+      normal,
+      m_options.fill.opacity);
+  }
 }
 
 //------------------------------------------------------------------------------

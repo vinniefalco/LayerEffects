@@ -318,13 +318,25 @@ struct BlendOperands
 
 void BlendImage (
   Image destImage,
-  Point <int> const& destTopLeft,
+  Point <int> destTopLeft,
   Image srcImage,
-  Rectangle <int> const& srcBounds,
+  Rectangle <int> srcBounds,
   BlendMode blendMode,
   double opacity)
 {
   jassert (srcImage.getBounds ().contains (srcBounds));
+
+  if (destTopLeft.getX () < 0 )
+  {
+    srcBounds.setLeft (srcBounds.getX () - destTopLeft.getX ());
+    destTopLeft.setX (0);
+  }
+
+  if (destTopLeft.getY () < 0 )
+  {
+    srcBounds.setTop (srcBounds.getY () - destTopLeft.getY ());
+    destTopLeft.setY (0);
+  }
 
   Rectangle <int> bounds = srcBounds.getIntersection (Rectangle <int> (
     destTopLeft.getX (),
