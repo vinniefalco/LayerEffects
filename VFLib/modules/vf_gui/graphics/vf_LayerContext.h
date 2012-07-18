@@ -36,11 +36,13 @@ public:
 
   ~LayerContext ();
 
-  void setBlendMode (BlendMode blendMode);
+  void setBlendMode (BlendMode mode);
+  void setBlendOpacity (double opacity);
 
 private:
   BackgroundContext& m_destinationContext;
   BlendMode m_blendMode;
+  double m_blendOpacity;
 };
 
 #endif

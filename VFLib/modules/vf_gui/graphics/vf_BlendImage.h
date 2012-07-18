@@ -61,6 +61,6 @@ extern void BlendImage (
   Image srcImage,
   Rectangle <int> const& srcBounds,
   BlendMode blendMode,
-  float opacity);
+  double opacity);
 
 #endif

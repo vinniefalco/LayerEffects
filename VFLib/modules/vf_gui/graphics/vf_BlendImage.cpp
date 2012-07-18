@@ -177,6 +177,7 @@ void blendChannel (int            rows,
                    uint8 const*   mask,
                    int            maskRowBytes,
                    int            maskColBytes,
+                   uint8          alpha,
                    BlendOp const& blendOp)
 {
   srcRowBytes  -= cols * srcColBytes;
@@ -190,7 +191,7 @@ void blendChannel (int            rows,
       int const result = static_cast <uint8> (blendOp (*src, *dest));
 
       // v = v0 + (v1 - v0) * t
-      *dest = static_cast <uint8> (*dest + ((result - *dest) * *mask) / 255);
+      *dest = static_cast <uint8> (*dest + ((result - *dest) * (*mask * alpha)) / 65025);
 
       src  += srcColBytes;
       mask += maskColBytes;
@@ -211,7 +212,7 @@ void BlendImage (
   Image srcImage,
   Rectangle <int> const& srcBounds,
   BlendMode blendMode,
-  float opacity)
+  double opacity)
 {
   jassert (srcImage.getBounds ().contains (srcBounds));
 
@@ -223,6 +224,8 @@ void BlendImage (
 
   if (!bounds.isEmpty ())
   {
+    uint8 const alpha (static_cast <uint8> (jlimit (0, 255, static_cast <int> (255 * opacity + 0.5))));
+
     Image::BitmapData src (
       srcImage,
       srcBounds.getX (),
@@ -250,105 +253,106 @@ void BlendImage (
           switch (blendMode)
           {
             default:
-              jassertfalse
+              jassertfalse;
+
             case normal:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::normal); break;
             
             case lighten:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::lighten); break;
             
             case darken:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::darken); break;
             
             case multiply:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::multiply); break;
             
             case average:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::average); break;
             
             case add:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::add); break;
             
             case subtract:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::subtract); break;
             
             case difference:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::difference); break;
             
             case negation:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::negation); break;
             
             case screen:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::screen); break;
             
             case exclusion:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::exclusion); break;
             
             case overlay:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::overlay); break;
             
             case softLight:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::softLight); break;
             
             case hardLight:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::hardLight); break;
             
             case colorDodge:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::colorDodge); break;
             
             case colorBurn:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::colorBurn); break;
             
             case linearDodge:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::linearDodge); break;
             
             case linearBurn:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::linearBurn); break;
             
             case linearLight:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::linearLight); break;
             
             case vividLight:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::vividLight); break;
             
             case pinLight:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::pinLight); break;
             
             case hardMix:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::hardMix); break;
             
             case reflect:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::reflect); break;
             
             case glow:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::glow); break;
             
             case phoenix:
-              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4,
+              blendChannel (dest.height, dest.width, dest.getLinePointer (0) + i, dest.lineStride, 3, src.getLinePointer  (0) + i, src.lineStride,  4, src.getLinePointer  (0) + 3, src.lineStride,  4, alpha,
                 &BlendOperator::phoenix); break;
               break;
           }

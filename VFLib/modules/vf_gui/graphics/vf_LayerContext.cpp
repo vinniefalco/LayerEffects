@@ -26,6 +26,7 @@ LayerContext::LayerContext (BackgroundContext& destinationContext,
   , Graphics (getImage ())
   , m_destinationContext (destinationContext)
   , m_blendMode (normal)
+  , m_blendOpacity (1)
 {
   setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
 } 
@@ -38,11 +39,15 @@ LayerContext::~LayerContext ()
     getImage (),
     getImage ().getBounds (),
     m_blendMode,
-    1.f);
+    m_blendOpacity);
 }
 
-void LayerContext::setBlendMode (BlendMode blendMode)
+void LayerContext::setBlendMode (BlendMode mode)
 {
-  m_blendMode = blendMode;
+  m_blendMode = mode;
 }
 
+void LayerContext::setBlendOpacity (double opacity)
+{
+  m_blendOpacity = opacity;
+}
