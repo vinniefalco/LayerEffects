@@ -107,7 +107,7 @@ public:
   static const Point <int> anchorBottomRight;
 
 public:
-  ResizableLayout (Component* owner);
+  explicit ResizableLayout (Component* owner);
   ~ResizableLayout ();
 
   // Add a Component to the Layout.

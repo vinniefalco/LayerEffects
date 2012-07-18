@@ -19,39 +19,35 @@
 */
 /*============================================================================*/
 
-LayerContext::LayerContext (BackgroundContext& g)
-  : m_base (g)
-  , m_bounds (g.getBounds ())
-  , m_image (Image::ARGB, m_bounds.getWidth (), m_bounds.getHeight (), true)
-  , m_context (m_image)
+LayerContext::LayerContext (BackgroundContext& destinationContext,
+                            Rectangle <int> const& drawBounds)
+  : ContextImageBase (destinationContext.getClipBounds ().getIntersection (drawBounds),
+                      Image::ARGB)
+  , Graphics (getImage ())
+  , m_destinationContext (destinationContext)
+  , m_blendMode (normal)
+  , m_blendOpacity (1)
 {
-  m_context.setOrigin (-m_bounds.getX (), -m_bounds.getY ());
-}
+  setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
+} 
 
 LayerContext::~LayerContext ()
 {
-  // replace this with the fancy compositor
-  //m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
-
-  Image::BitmapData src (m_image, Image::BitmapData::readOnly);
-  Image::BitmapData dest (m_base.getImage (), Image::BitmapData::readWrite);
-
-  for (int i = 0; i < 3; ++i)
-  {
-    blendChannel <4> (
-      dest.height,
-      dest.width,
-      dest.getLinePointer (0) + i, dest.lineStride,
-      src.getLinePointer  (0) + i, src.lineStride,
-      dest.getLinePointer (0) + i, dest.lineStride,
-      src.getLinePointer  (0),     src.lineStride,
-      &BlendMode::hardlight);
-  }
+  BlendImage (
+    m_destinationContext.getImage (),
+    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+    getImage (),
+    getImage ().getBounds (),
+    m_blendMode,
+    m_blendOpacity);
 }
 
-Graphics& LayerContext::getContext ()
+void LayerContext::setBlendMode (BlendMode mode)
 {
-  return m_context;
+  m_blendMode = mode;
 }
 
-// dest front back mask
+void LayerContext::setBlendOpacity (double opacity)
+{
+  m_blendOpacity = opacity;
+}

@@ -22,28 +22,27 @@
 #ifndef VF_LAYERCONTEXT_VFHEADER
 #define VF_LAYERCONTEXT_VFHEADER
 
-/*============================================================================*/
-
 /** Graphics context for a compositing layer.
 
     This allows an Image to be composited into a BackgroundContext.
 
     @ingroup vf_gui
 */
-class LayerContext
+class LayerContext : public ContextImageBase, public Graphics
 {
 public:
-  explicit LayerContext (BackgroundContext& g);
+  LayerContext (BackgroundContext& destinationContext,
+                Rectangle <int> const& drawBounds);
 
   ~LayerContext ();
 
-  Graphics& getContext ();
+  void setBlendMode (BlendMode mode);
+  void setBlendOpacity (double opacity);
 
 private:
-  BackgroundContext& m_base;
-  Rectangle <int> const m_bounds;
-  Image m_image;
-  Graphics m_context;
+  BackgroundContext& m_destinationContext;
+  BlendMode m_blendMode;
+  double m_blendOpacity;
 };
 
 #endif

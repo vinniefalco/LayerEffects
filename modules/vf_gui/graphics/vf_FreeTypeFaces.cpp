@@ -630,7 +630,7 @@ private:
                   int glyph)
   {
     bool couldDraw = false;
-    LowLevelGraphicsContext& lg = *g.getInternalContext();
+    LowLevelGraphicsContext& lg = g.getInternalContext();
 
     FT_Error error=0;
     

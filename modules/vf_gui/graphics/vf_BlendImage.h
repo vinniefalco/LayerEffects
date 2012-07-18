@@ -22,143 +22,45 @@
 #ifndef VF_BLENDIMAGE_VFHEADER
 #define VF_BLENDIMAGE_VFHEADER
 
-/*============================================================================*/
-/**
-    Image composition functions.
+enum BlendMode
+{
+  normal = 1,
+  lighten,
+  darken,
+  multiply,
+  average,
+  add,
+  subtract,
+  difference,
+  negation,
+  screen,
+  exclusion,
+  overlay,
+  softLight,
+  hardLight,
+  colorDodge,
+  colorBurn,
+  linearDodge,
+  linearBurn,
+  linearLight,
+  vividLight,
+  pinLight,
+  hardMix,
+  reflect,
+  glow,
+  phoenix,
+};
 
-    These replicate the Photoshop layer blending modes.
-
-    See: http://inlandstudios.com/en/?p=851
+/** Create a blended Image.
 
     @ingroup vf_gui
 */
-struct BlendMode
-{
-  // f = front, b = back
-
-  static inline int lighten (int f, int b)
-  {
-    return (f > b) ? f : b;
-  }
-
-  static inline int darken (int f, int b)
-  {
-    return (f < b) ? f : b;
-  }
-
-  static inline int multiply (int f, int b)
-  {
-    return f * b / 255;
-  }
-
-  static inline int average (int f, int b)
-  {
-    return (f + b) / 2;
-  }
-
-  static inline int add (int f, int b)
-  {
-    return std::min (255, f + b);
-  }
-
-  static inline int subtract (int f, int b)
-  {
-    return (f + b < 255) ? 0 : (f + b - 255);
-  }
-
-  static inline int difference (int f, int b)
-  {
-    return std::abs (f - b);
-  }
-
-  static inline int negation (int f, int b)
-  {
-    return 255 - std::abs (255 - f - b);
-  }
-
-  static inline int screen (int f, int b)
-  {
-    return 255 - (((255 - f) * (255 - b)) >> 8);
-  }
-
-  static inline int exclusion (int f, int b)
-  {
-    return (f + b - 2 * f * b / 255);
-  }
-
-  static inline int overlay (int f, int b)
-  {
-    return (b < 128) ? (2 * f * b / 255) : (255 - 2 * (255 - f) * (255 - b) / 255);
-  }
-
-  static inline int softlight (int f, int b)
-  {
-    return int ((b < 128) ? (2 * ((f >> 1) + 64)) * ((float)b / 255)
-                          : (255 - (2 * (255 - ((f >> 1) + 64)) * (float)(255 - b) / 255)));
-  }
-
-  static inline int hardlight (int f, int b)
-  {
-    return overlay (b, f);
-  }
-
-  static inline int colordodge (int f, int b)
-  {
-    return (b == 255) ? b : std::min (255, (f << 8) / (255 - b));
-  }
-
-  static inline int colorburn (int f, int b)
-  {
-    return (b == 0) ? 0 : std::max (0, (255 - ((255 - f) << 8) / b));
-  }
-
-  static inline int lineardodge (int f, int b)
-  {
-    return add (f, b);
-  }
-
-  static inline int linearburn (int f, int b)
-  {
-    return subtract (f, b);
-  }
-
-  static inline int linearlight (int f, int b)
-  {
-    return (b < 128) ? linearburn (f, 2 * b)
-                     : lineardodge (f, 2 * (b - 128));
-  }
-
-  static inline int vividlight (int f, int b)
-  {
-    return (b < 128) ? colorburn (f, 2 * b)
-                     : colordodge (f, 2 * (b - 128));
-  }
-
-  static inline int pinlight (int f, int b)
-  {
-    return (b < 128) ? darken (f, 2 * b)
-                     : lighten (f, 2 * (b - 128));
-  }
-
-  static inline int hardmix (int f, int b)
-  {
-    return (vividlight (f, b) < 128) ? 0 : 255;
-  }
-
-  static inline int reflect (int f, int b)
-  {
-    return (b == 255) ? 255 : std::min (255, f * f / (255 - b));
-  }
-
-  static inline int glow (int f, int b)
-  {
-    return reflect (b, f);
-  }
-
-  static inline int phoenix (int f, int b)
-  {
-    return std::min (f, b) - std::max (f, b) + 255;
-  }
-};
+extern void BlendImage (
+  Image destImage,
+  Point <int> const& destTopLeft,
+  Image srcImage,
+  Rectangle <int> const& srcBounds,
+  BlendMode blendMode,
+  double opacity);
 
 #endif
