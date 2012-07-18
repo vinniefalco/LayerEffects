@@ -38,17 +38,19 @@ public:
     struct General
     {
       General ()
-        : opacity (1)
+        : mode (normal)
+        , opacity (1)
         , red (true)
         , green (true)
         , blue (true)
       {
       }
 
-      double  opacity;                  // [0, 1] of fill
-      bool    red;                      // true to copy these channels
-      bool    green;
-      bool    blue;
+      BlendMode mode;                   // blend mode overall
+      double    opacity;                // [0, 1] of fill
+      bool      red;                    // true to copy these channels
+      bool      green;
+      bool      blue;
     };
 
     //----
@@ -56,12 +58,10 @@ public:
     struct Fill
     {
       Fill ()
-        : mode (normal)
-        , opacity (1)
+        : opacity (1)
       {
       }
 
-      BlendMode mode;                   // blend mode overall
       double opacity;                   // [0, 1] overall
     };
 
@@ -91,9 +91,36 @@ public:
       bool      knockout;               // layer mask knocks out drop shadow
     };
 
+    //----
+
+    struct InnerShadow
+    {
+      InnerShadow ()
+        : active (false)
+        , mode (normal)
+        , colour (Colours::black)
+        , angle (0)
+        , distance (1)
+        , choke (0)
+        , size (1)
+      {
+      }
+
+      bool      active;
+      BlendMode mode;
+      Colour    colour;                 // can have alpha
+      double    angle;                  // radians
+      int       distance;               // [0, 30000]
+      double    choke;                  // [0, 1]
+      int       size;                   // in pixels
+    };
+
+    //----
+
     General       general;
     Fill          fill;
     DropShadow    dropShadow;
+    InnerShadow   innerShadow;
   };
 
 public:
@@ -105,9 +132,11 @@ public:
   Options& getOptions ();
 
 private:
-  void applyDropShadow ();
+  void applyDropShadow (Image& destImage);
 
-  void applyFill ();
+  void applyInnerShadow (Image& destImage);
+
+  void applyFill (Image& destImage);
 
 private:
   BackgroundContext& m_destinationContext;

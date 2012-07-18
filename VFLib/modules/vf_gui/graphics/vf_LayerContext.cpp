@@ -33,9 +33,25 @@ LayerContext::LayerContext (BackgroundContext& destinationContext,
 
 LayerContext::~LayerContext ()
 {
-  applyDropShadow ();
+  Image destImage (
+    Image::ARGB,
+    getImageBounds ().getWidth (),
+    getImageBounds ().getHeight (),
+    true);
 
-  applyFill ();
+  applyDropShadow (destImage);
+
+  applyFill (destImage);
+
+  applyInnerShadow (destImage);
+
+  BlendImage (
+    m_destinationContext.getImage (),
+    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+    destImage,
+    getImage ().getBounds (),
+    m_options.general.mode,
+    m_options.general.opacity);
 }
 
 LayerContext::Options& LayerContext::getOptions ()
@@ -45,41 +61,125 @@ LayerContext::Options& LayerContext::getOptions ()
 
 //------------------------------------------------------------------------------
 
-void LayerContext::applyDropShadow ()
+void LayerContext::applyDropShadow (Image& destImage)
 {
   Options::DropShadow& dropShadow = m_options.dropShadow;
 
   if (!dropShadow.active)
     return;
 
-  int const dx = static_cast <int> (dropShadow.distance * std::cos (dropShadow.angle) + 0.5);
-  int const dy = static_cast <int> (dropShadow.distance * std::sin (dropShadow.angle) + 0.5);
+  int const dx = static_cast <int> (
+    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
+  
+  int const dy = static_cast <int> (
+    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
 
-  Image mask = ChannelImageType::fromImage (getImage (), 0);
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
   
   RadialImageConvolutionKernel k (dropShadow.size + 1);
   k.createGaussianBlur ();
 
-  Image shadow = k.createConvolvedImageFull (getImage ());
+  Image shadow = k.createConvolvedImageFull (mask);
 
-  m_destinationContext.setColour (dropShadow.colour);
-  m_destinationContext.drawImageAt (
+  if (dropShadow.knockout)
+    BlendImage (
+      shadow,
+      Point <int> (-dx, -dy),
+      mask,
+      mask.getBounds (),
+      subtract,
+      1);
+
+  Graphics g (destImage);
+  g.setColour (dropShadow.colour);
+  g.drawImageAt (
     shadow,
-    getImageBounds ().getX () - dropShadow.size + dx,
-    getImageBounds ().getY () - dropShadow.size + dy,
+    getImageBounds ().getX () + dx,
+    getImageBounds ().getY () + dy,
     true);
 }
 
 //------------------------------------------------------------------------------
 
-void LayerContext::applyFill ()
+static void InvertImage (Image image)
+{
+  switch (image.getFormat ())
+  {
+  case Image::SingleChannel:
+    {
+      Image::BitmapData bits (image, Image::BitmapData::readWrite);
+
+      uint8* dest = bits.getLinePointer (0);
+      int const rowBytes = bits.lineStride - bits.width * bits.pixelStride;
+
+      for (int y = bits.height; y--;)
+      {
+        for (int x = bits.width; x--;)
+        {
+          *dest = 255 - *dest;
+          dest += bits.pixelStride;
+        }
+
+        dest += rowBytes;
+      }
+    }
+    break;
+
+  default:
+    jassertfalse;
+    break;
+  }
+}
+
+void LayerContext::applyInnerShadow (Image& destImage)
+{
+  Options::InnerShadow& innerShadow = m_options.innerShadow;
+
+  if (!innerShadow.active)
+    return;
+
+  int const dx = static_cast <int> (
+    - innerShadow.distance * std::cos (innerShadow.angle) + 0.5) - innerShadow.size;
+  
+  int const dy = static_cast <int> (
+    innerShadow.distance * std::sin (innerShadow.angle) + 0.5) - innerShadow.size;
+
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
+  
+  RadialImageConvolutionKernel k (innerShadow.size + 1);
+  k.createGaussianBlur ();
+
+  Image shadow = k.createConvolvedImageFull (mask);
+
+  InvertImage (shadow);
+
+  BlendImage (
+    shadow,
+    Point <int> (-dx, -dy),
+    mask,
+    mask.getBounds (),
+    darken,
+    1);
+
+  Graphics g (destImage);
+  g.setColour (innerShadow.colour);
+  g.drawImageAt (
+    shadow,
+    getImageBounds ().getX () + dx,
+    getImageBounds ().getY () + dy,
+    true);
+}
+
+//------------------------------------------------------------------------------
+
+void LayerContext::applyFill (Image& destImage)
 {
   BlendImage (
-    m_destinationContext.getImage (),
-    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+    destImage,
+    Point <int> (0, 0),
     getImage (),
     getImage ().getBounds (),
-    m_options.fill.mode,
+    normal,
     m_options.fill.opacity);
 }
 
