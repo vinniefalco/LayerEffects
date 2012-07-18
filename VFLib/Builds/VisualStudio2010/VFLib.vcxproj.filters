@@ -540,6 +540,9 @@
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.cpp">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\vf_db\api\backend.h">
@@ -1041,6 +1044,9 @@
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClInclude>
   </ItemGroup>

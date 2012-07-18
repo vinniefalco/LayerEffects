@@ -57,6 +57,7 @@ namespace vf
 
 #include "graphics/vf_BackgroundContext.h"
 #include "graphics/vf_BlendImage.h"
+#include "graphics/vf_ChannelImageType.h"
 #include "graphics/vf_LayerContext.h"
 #include "graphics/vf_LabColour.h"
 #include "graphics/vf_XYZColour.h"

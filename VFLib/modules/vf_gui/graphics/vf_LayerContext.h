@@ -72,7 +72,7 @@ public:
       DropShadow ()
         : active (false)
         , mode (normal)
-        , opacity (1)
+        , colour (Colours::black)
         , angle (0)
         , distance (1)
         , spread (0)
@@ -83,7 +83,7 @@ public:
 
       bool      active;
       BlendMode mode;
-      double    opacity;                // [0, 1]
+      Colour    colour;                 // can have alpha
       double    angle;                  // radians
       int       distance;               // [0, 30000]
       double    spread;                 // [0, 1]

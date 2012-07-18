@@ -47,15 +47,28 @@ LayerContext::Options& LayerContext::getOptions ()
 
 void LayerContext::applyDropShadow ()
 {
-  if (!m_options.dropShadow.active)
+  Options::DropShadow& dropShadow = m_options.dropShadow;
+
+  if (!dropShadow.active)
     return;
 
-#if 0
-  Image image (Image::SingleChannel,  
-               getImageBounds ().getWidth (),
-               getImageBounds ().getHeight ());
-#endif
-  }
+  int const dx = static_cast <int> (dropShadow.distance * std::cos (dropShadow.angle) + 0.5);
+  int const dy = static_cast <int> (dropShadow.distance * std::sin (dropShadow.angle) + 0.5);
+
+  Image mask = ChannelImageType::fromImage (getImage (), 0);
+  
+  RadialImageConvolutionKernel k (dropShadow.size + 1);
+  k.createGaussianBlur ();
+
+  Image shadow = k.createConvolvedImageFull (getImage ());
+
+  m_destinationContext.setColour (dropShadow.colour);
+  m_destinationContext.drawImageAt (
+    shadow,
+    getImageBounds ().getX () - dropShadow.size + dx,
+    getImageBounds ().getY () - dropShadow.size + dy,
+    true);
+}
 
 //------------------------------------------------------------------------------
 
