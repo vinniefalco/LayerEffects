@@ -36,7 +36,7 @@ MainWindow::MainWindow ()
                     DocumentWindow::allButtons,
                     true)
 {
-  setResizable (false, false);
+  setResizable (true, false);
 
   MainPanel* contentComponent = new MainPanel;
 

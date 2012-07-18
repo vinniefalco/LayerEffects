@@ -43,20 +43,40 @@ void CTextDemo::paint (Graphics& g)
 {
   Rectangle <int> const b (getLocalBounds ());
 
+  // Photoshop "Background" Layer
   vf::BackgroundContext bc (g, b);
   bc.fillAll (Colours::black);
 
+  // Photoshop Layer + Mask, with Layer Effects
   vf::LayerContext lc (bc, b);
-  lc.setColour (Colours::white);
-  lc.setFont (b.getHeight () / 3.f);
-  lc.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
 
-  lc.getOptions ().dropShadow.active   = true;
-  lc.getOptions ().dropShadow.mode     = vf::normal;
-  lc.getOptions ().dropShadow.opacity  = 1;
-  lc.getOptions ().dropShadow.angle    = 2*3.14159 * 120 / 360;
-  lc.getOptions ().dropShadow.distance = 8;
-  lc.getOptions ().dropShadow.spread   = 0.5;
-  lc.getOptions ().dropShadow.size     = 8;
-  lc.getOptions ().dropShadow.knockout = true;
+  lc.setGradientFill (ColourGradient (
+    Colours::red, b.getX (), b.getY (),
+    Colours::yellow, b.getRight (), b.getBottom (),
+    false));
+  lc.setFont (b.getHeight () / 3.f);
+  lc.drawFittedText ("Layer\nEffects",
+    b, Justification::centred, 2);
+
+  vf::LayerContext::Options::Fill&
+    fill (lc.getOptions ().fill);
+  fill.mode = vf::screen;
+  fill.opacity = .9;
+
+  vf::LayerContext::Options::DropShadow&
+    dropShadow (lc.getOptions ().dropShadow);
+  dropShadow.active   = true;
+  dropShadow.mode     = vf::softLight;
+  dropShadow.colour   = Colours::cyan;
+  dropShadow.angle    = 2*3.14159 * 45 / 360;
+  dropShadow.distance = 4;
+  dropShadow.spread   = 0.5;
+  dropShadow.size     = 8;
+  dropShadow.knockout = true;
 }
+
+void CTextDemo::mouseDown (MouseEvent const& e)
+{
+  repaint ();
+}
+

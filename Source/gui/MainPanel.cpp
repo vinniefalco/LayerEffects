@@ -48,6 +48,11 @@ MainPanel::~MainPanel()
   deleteAllChildren();
 }
 
+void MainPanel::resized ()
+{
+  getChildComponent (0)->setBounds (getLocalBounds ());
+}
+
 StringArray MainPanel::getMenuBarNames()
 {
   StringArray names;

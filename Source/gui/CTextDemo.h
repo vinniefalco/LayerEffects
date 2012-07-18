@@ -41,6 +41,8 @@ public:
   ~CTextDemo ();
 
   void paint (Graphics& g);
+
+  void mouseDown (MouseEvent const& e);
 };
 
 #endif
