@@ -31,40 +31,40 @@
 //------------------------------------------------------------------------------
 
 CBlendModeResult::CBlendModeResult ()
-  : m_mode (-1)
+  : m_blendMode (vf::BlendMode::normal)
 {
   m_comboBox = new ComboBox ("Mode");
-  m_comboBox->addItem ("Normal"       , 1);
-  m_comboBox->addItem ("Lighten"      , 2);
-  m_comboBox->addItem ("Darken"       , 3);
-  m_comboBox->addItem ("Multiply"     , 4);
-  m_comboBox->addItem ("Average"      , 5);
-  m_comboBox->addItem ("Add"          , 6);
-  m_comboBox->addItem ("Subtract"     , 7);
-  m_comboBox->addItem ("Difference"   , 8);
-  m_comboBox->addItem ("Negation"     , 9);
-  m_comboBox->addItem ("Screen"       , 10);
-  m_comboBox->addItem ("Exclusion"    , 11);
-  m_comboBox->addItem ("Overlay"      , 12);
-  m_comboBox->addItem ("Soft Light"   , 13);
-  m_comboBox->addItem ("Hard Light"   , 14);
-  m_comboBox->addItem ("Color Dodge"  , 15);
-  m_comboBox->addItem ("Color Burn"   , 16);
-  m_comboBox->addItem ("Linear Dodge" , 17);
-  m_comboBox->addItem ("Linear Burn"  , 18);
-  m_comboBox->addItem ("Linear Light" , 19);
-  m_comboBox->addItem ("Vivid Light"  , 20);
-  m_comboBox->addItem ("Pin Light"    , 21);
-  m_comboBox->addItem ("Hard Mix"     , 22);
-  m_comboBox->addItem ("Reflect"      , 23);
-  m_comboBox->addItem ("Glow"         , 24);
-  m_comboBox->addItem ("Phoenix"      , 25);
+  m_comboBox->addItem ("Normal"       , vf::BlendMode::normal );
+  m_comboBox->addItem ("Lighten"      , vf::BlendMode::lighten );
+  m_comboBox->addItem ("Darken"       , vf::BlendMode::darken );
+  m_comboBox->addItem ("Multiply"     , vf::BlendMode::multiply );
+  m_comboBox->addItem ("Average"      , vf::BlendMode::average );
+  m_comboBox->addItem ("Add"          , vf::BlendMode::add );
+  m_comboBox->addItem ("Subtract"     , vf::BlendMode::subtract );
+  m_comboBox->addItem ("Difference"   , vf::BlendMode::difference );
+  m_comboBox->addItem ("Negation"     , vf::BlendMode::negation );
+  m_comboBox->addItem ("Screen"       , vf::BlendMode::screen );
+  m_comboBox->addItem ("Exclusion"    , vf::BlendMode::exclusion );
+  m_comboBox->addItem ("Overlay"      , vf::BlendMode::overlay );
+  m_comboBox->addItem ("Soft Light"   , vf::BlendMode::softLight );
+  m_comboBox->addItem ("Hard Light"   , vf::BlendMode::hardLight );
+  m_comboBox->addItem ("Color Dodge"  , vf::BlendMode::colorDodge );
+  m_comboBox->addItem ("Color Burn"   , vf::BlendMode::colorBurn );
+  m_comboBox->addItem ("Linear Dodge" , vf::BlendMode::linearDodge );
+  m_comboBox->addItem ("Linear Burn"  , vf::BlendMode::linearBurn );
+  m_comboBox->addItem ("Linear Light" , vf::BlendMode::linearLight );
+  m_comboBox->addItem ("Vivid Light"  , vf::BlendMode::vividLight );
+  m_comboBox->addItem ("Pin Light"    , vf::BlendMode::pinLight );
+  m_comboBox->addItem ("Hard Mix"     , vf::BlendMode::hardMix );
+  m_comboBox->addItem ("Reflect"      , vf::BlendMode::reflect );
+  m_comboBox->addItem ("Glow"         , vf::BlendMode::glow );
+  m_comboBox->addItem ("Phoenix"      , vf::BlendMode::phoenix );
 
   addAndMakeVisible (m_comboBox);
 
   m_comboBox->addListener (this);
 
-  m_comboBox->setSelectedId (1);
+  m_comboBox->setSelectedId (vf::BlendMode::normal);
 }
 
 CBlendModeResult::~CBlendModeResult()
@@ -86,22 +86,21 @@ void CBlendModeResult::resized ()
 
 void CBlendModeResult::paint (Graphics& g)
 {
-  Rectangle <int> const bounds (0, 24, 256, 256);
+  Rectangle <int> const r (0, 24, 256, 256);
 
-  vf::BackgroundContext bc (g, bounds);
+  vf::BackgroundContext bc (g, r);
 
-  bc.drawImageAt (m_sourceImage [0], 0, 24);
+  bc.drawImageAt (m_sourceImage [0], r.getX (), r.getY ());
 
-  switch (m_mode)
-  {
-  default:
-    break;
-  }
+  vf::LayerContext lc (bc, r);
+
+  lc.setBlendMode (m_blendMode);
+  lc.drawImageAt (m_sourceImage [1], r.getX (), r.getY ());
 }
 
 void CBlendModeResult::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
-  m_mode = m_comboBox->getSelectedId ();
+  m_blendMode = static_cast <vf::BlendMode> (m_comboBox->getSelectedId ());
 
   repaint ();
 }

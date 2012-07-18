@@ -22,35 +22,13 @@
 #ifndef VF_LAYERCONTEXT_VFHEADER
 #define VF_LAYERCONTEXT_VFHEADER
 
-/*============================================================================*/
-
-/** Layer Image container base.
-
-    This holds the image and bounding rectangle used for a LayerContext
-    and resolves the order of construction issues.
-
-    @ingroup vf_gui
-
-    @internal
-*/
-class LayerContextBase : vf::Uncopyable
-{
-public:
-  LayerContextBase (Rectangle <int> const& clipBounds,
-                    Rectangle <int> const& drawBounds);
-
-protected:
-  Rectangle <int> m_bounds;
-  Image m_image;
-};
-
 /** Graphics context for a compositing layer.
 
     This allows an Image to be composited into a BackgroundContext.
 
     @ingroup vf_gui
 */
-class LayerContext : private LayerContextBase, public Graphics
+class LayerContext : public ContextImageBase, public Graphics
 {
 public:
   LayerContext (BackgroundContext& destinationContext,
@@ -58,12 +36,11 @@ public:
 
   ~LayerContext ();
 
-  Rectangle <int> getBounds () const;
-
-  Image getImage () const;
+  void setBlendMode (BlendMode blendMode);
 
 private:
   BackgroundContext& m_destinationContext;
+  BlendMode m_blendMode;
 };
 
 #endif

@@ -19,3 +19,48 @@
 */
 /*============================================================================*/
 
+#ifndef VF_BLENDIMAGE_VFHEADER
+#define VF_BLENDIMAGE_VFHEADER
+
+enum BlendMode
+{
+  normal = 1,
+  lighten,
+  darken,
+  multiply,
+  average,
+  add,
+  subtract,
+  difference,
+  negation,
+  screen,
+  exclusion,
+  overlay,
+  softLight,
+  hardLight,
+  colorDodge,
+  colorBurn,
+  linearDodge,
+  linearBurn,
+  linearLight,
+  vividLight,
+  pinLight,
+  hardMix,
+  reflect,
+  glow,
+  phoenix,
+};
+
+/** Create a blended Image.
+
+    @ingroup vf_gui
+*/
+extern void BlendImage (
+  Image destImage,
+  Point <int> const& destTopLeft,
+  Image srcImage,
+  Rectangle <int> const& srcBounds,
+  BlendMode blendMode,
+  float opacity);
+
+#endif

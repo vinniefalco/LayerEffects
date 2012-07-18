@@ -45,6 +45,7 @@ namespace vf
 #include "components/vf_TransparentBorder.cpp"
 
 #include "graphics/vf_BackgroundContext.cpp"
+#include "graphics/vf_BlendImage.cpp"
 #include "graphics/vf_LayerContext.cpp"
 #include "graphics/vf_LabColour.cpp"
 #include "graphics/vf_XYZColour.cpp"

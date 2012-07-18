@@ -22,27 +22,34 @@
 #ifndef VF_BACKGROUNDCONTEXT_VFHEADER
 #define VF_BACKGROUNDCONTEXT_VFHEADER
 
-/*============================================================================*/
+//------------------------------------------------------------------------------
 
-/** Background Image container base.
+/** Context Image container base.
 
-    This holds the image and bounding rectangle used for a BackgroundContext
-    and resolves the order of construction issues.
+    This holds the image and bounding rectangle used for our custom
+    contexts, to resolve the order of construction issues.
 
     @ingroup vf_gui
 
     @internal
 */
-class BackgroundContextBase : vf::Uncopyable
+class ContextImageBase : vf::Uncopyable
 {
-public:
-  BackgroundContextBase (Rectangle <int> const& clipBounds,
-                         Rectangle <int> const& drawBounds);
-
 protected:
-  Rectangle <int> m_bounds;
+  ContextImageBase (Rectangle <int> const& imageBounds,
+                    Image::PixelFormat pixelFormat);
+
+public:
+  Rectangle <int> getImageBounds () const;
+
+  Image getImage () const;
+
+private:
+  Rectangle <int> const m_imageBounds;
   Image m_image;
 };
+
+//------------------------------------------------------------------------------
 
 /** Graphics context for image compositing.
 
@@ -51,17 +58,13 @@ protected:
 
     @ingroup vf_gui
 */
-class BackgroundContext : private BackgroundContextBase, public Graphics
+class BackgroundContext : public ContextImageBase, public Graphics
 {
 public:
   BackgroundContext (Graphics& destinationContext,
                      Rectangle <int> const& drawBounds);
 
   ~BackgroundContext ();
-
-  Rectangle <int> getBounds () const;
-
-  Image getImage () const;
 
 private:
   Graphics& m_destinationContext;

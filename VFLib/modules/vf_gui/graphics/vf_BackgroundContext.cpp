@@ -19,38 +19,42 @@
 */
 /*============================================================================*/
 
-BackgroundContextBase::BackgroundContextBase (Rectangle <int> const& clipBounds,
-                                              Rectangle <int> const& drawBounds)
-  : m_bounds (clipBounds.getIntersection (drawBounds))
-  , m_image (Image::RGB,
-             jmax (m_bounds.getWidth (), 1),
-             jmax (m_bounds.getHeight(), 1),
+ContextImageBase::ContextImageBase (Rectangle <int> const& imageBounds,
+                                    Image::PixelFormat pixelFormat)
+  : m_imageBounds (imageBounds)
+  , m_image (pixelFormat,
+             jmax (m_imageBounds.getWidth (), 1),
+             jmax (m_imageBounds.getHeight(), 1),
              false)
 {
+}
+
+Rectangle <int> ContextImageBase::getImageBounds () const
+{
+  return m_imageBounds;
+}
+
+Image ContextImageBase::getImage () const
+{
+  return m_image;
 }
 
 //------------------------------------------------------------------------------
 
 BackgroundContext::BackgroundContext (Graphics& destinationContext,
                                       Rectangle <int> const& drawBounds)
-  : BackgroundContextBase (destinationContext.getClipBounds (), drawBounds)
-  , Graphics (m_image)
+  : ContextImageBase (destinationContext.getClipBounds ().getIntersection (drawBounds),
+                      Image::RGB)
+  , Graphics (getImage ())
   , m_destinationContext (destinationContext)
 {
-  setOrigin (-m_bounds.getX (), -m_bounds.getY ());
-}
+  setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
+} 
 
 BackgroundContext::~BackgroundContext ()
 {
-  m_destinationContext.drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
-}
-
-Rectangle <int> BackgroundContext::getBounds () const
-{
-  return m_bounds;
-}
-
-Image BackgroundContext::getImage () const
-{
-  return m_image;
+  m_destinationContext.drawImageAt (
+    getImage (),
+    getImageBounds ().getX (),
+    getImageBounds ().getY ());
 }

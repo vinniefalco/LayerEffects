@@ -54,7 +54,7 @@ private:
 private:
   Image m_sourceImage [2];
   ScopedPointer <ComboBox> m_comboBox;
-  int m_mode;
+  vf::BlendMode m_blendMode;
 };
 
 #endif

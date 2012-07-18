@@ -19,61 +19,30 @@
 */
 /*============================================================================*/
 
-LayerContextBase::LayerContextBase (Rectangle <int> const& clipBounds,
-                                    Rectangle <int> const& drawBounds)
-  : m_bounds (clipBounds.getIntersection (drawBounds))
-  , m_image (Image::ARGB,
-             jmax (m_bounds.getWidth (), 1),
-             jmax (m_bounds.getHeight(), 1),
-             false)
-{
-}
-
-//------------------------------------------------------------------------------
-
 LayerContext::LayerContext (BackgroundContext& destinationContext,
                             Rectangle <int> const& drawBounds)
-  : LayerContextBase (destinationContext.getClipBounds (), drawBounds)
-  , Graphics (m_image)
+  : ContextImageBase (destinationContext.getClipBounds ().getIntersection (drawBounds),
+                      Image::ARGB)
+  , Graphics (getImage ())
   , m_destinationContext (destinationContext)
+  , m_blendMode (normal)
 {
-  setOrigin (-m_bounds.getX (), -m_bounds.getY ());
-}
+  setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
+} 
 
 LayerContext::~LayerContext ()
 {
-  m_destinationContext.drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
+  BlendImage (
+    m_destinationContext.getImage (),
+    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
+    getImage (),
+    getImage ().getBounds (),
+    m_blendMode,
+    1.f);
 }
 
-Rectangle <int> LayerContext::getBounds () const
+void LayerContext::setBlendMode (BlendMode blendMode)
 {
-  return m_bounds;
+  m_blendMode = blendMode;
 }
 
-Image LayerContext::getImage () const
-{
-  return m_image;
-}
-
-#if 0
-LayerContext::~LayerContext ()
-{
-  // replace this with the fancy compositor
-  //m_base.getContext().drawImageAt (m_image, m_bounds.getX (), m_bounds.getY ());
-
-  Image::BitmapData src (m_image, Image::BitmapData::readOnly);
-  Image::BitmapData dest (m_base.getImage (), Image::BitmapData::readWrite);
-
-  for (int i = 0; i < 3; ++i)
-  {
-    blendChannel <4> (
-      dest.height,
-      dest.width,
-      dest.getLinePointer (0) + i, dest.lineStride,
-      src.getLinePointer  (0) + i, src.lineStride,
-      dest.getLinePointer (0) + i, dest.lineStride,
-      src.getLinePointer  (0),     src.lineStride,
-      &BlendMode::normal);
-  }
-}
-#endif
