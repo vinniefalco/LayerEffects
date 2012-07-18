@@ -38,6 +38,10 @@
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
+        <FILE id="MBrG3T" name="CBlendModeDemo.h" compile="0" resource="0"
+              file="../../Source/gui/CBlendModeDemo.h"/>
+        <FILE id="pqlI5H" name="CBlendModeDemo.cpp" compile="0" resource="0"
+              file="../../Source/gui/CBlendModeDemo.cpp"/>
         <FILE id="JftAvR" name="CBlendModeResult.cpp" compile="0" resource="0"
               file="../../Source/gui/CBlendModeResult.cpp"/>
         <FILE id="y3jVJn" name="CBlendModeResult.h" compile="0" resource="0"
@@ -45,6 +49,8 @@
         <FILE id="d9VTIN" name="CImageSource.cpp" compile="0" resource="0"
               file="../../Source/gui/CImageSource.cpp"/>
         <FILE id="hH6fiu" name="CImageSource.h" compile="0" resource="0" file="../../Source/gui/CImageSource.h"/>
+        <FILE id="NzRKgm" name="CTextDemo.cpp" compile="0" resource="0" file="../../Source/gui/CTextDemo.cpp"/>
+        <FILE id="ZCvCfz" name="CTextDemo.h" compile="0" resource="0" file="../../Source/gui/CTextDemo.h"/>
         <FILE id="KnCdLZ" name="MainApp.cpp" compile="0" resource="0" file="../../Source/gui/MainApp.cpp"/>
         <FILE id="Qs1b9K" name="MainApp.h" compile="0" resource="0" file="../../Source/gui/MainApp.h"/>
         <FILE id="NO32bv" name="MainPanel.cpp" compile="0" resource="0" file="../../Source/gui/MainPanel.cpp"/>

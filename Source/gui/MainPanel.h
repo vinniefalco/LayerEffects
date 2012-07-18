@@ -36,22 +36,14 @@
 class MainPanel
   : public Component
   , public MenuBarModel
-  , public CImageSource::Listener
 {
 public:
   MainPanel ();
   ~MainPanel ();
 
-  void onImageSourceSelect (int id, Image image);
-
-  void paint (Graphics& g);
-
   StringArray getMenuBarNames();
   PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
   void menuItemSelected (int menuItemID, int topLevelMenuIndex);
-
-private:
-  ScopedPointer <CBlendModeResult> m_blendResult;
 };
 
 #endif

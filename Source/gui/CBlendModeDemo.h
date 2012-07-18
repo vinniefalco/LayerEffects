@@ -30,28 +30,24 @@
 */
 //------------------------------------------------------------------------------
 
-MainWindow::MainWindow () 
-  : DocumentWindow (TRANS("Layer Effects"),
-                    Colours::lightgrey, 
-                    DocumentWindow::allButtons,
-                    true)
+#ifndef LAYEREFFECTS_CBLENDMODEDEMO_HEADER
+#define LAYEREFFECTS_CBLENDMODEDEMO_HEADER
+
+class CBlendModeDemo
+  : public Component
+  , public CImageSource::Listener
 {
-  setResizable (false, false);
+public:
+  CBlendModeDemo ();
+  ~CBlendModeDemo ();
 
-  MainPanel* contentComponent = new MainPanel;
+  void onImageSourceSelect (int id, Image image);
 
-  setMenuBar (contentComponent);
-  setContentOwned (contentComponent, true);
+  void paint (Graphics& g);
 
-  centreWithSize (getWidth(), getHeight());
-  setVisible (true);
-}
+private:
+  ScopedPointer <CBlendModeResult> m_blendResult;
+};
 
-MainWindow::~MainWindow()
-{
-}
+#endif
 
-void MainWindow::closeButtonPressed()
-{
-  JUCEApplication::quit();
-}

@@ -127,10 +127,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp"/>
     <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp"/>
+    <ClCompile Include="..\..\Source\gui\CBlendModeDemo.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CBlendModeResult.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CImageSource.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CTextDemo.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
@@ -867,8 +873,10 @@
     <ClCompile Include="..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\CBlendModeDemo.h"/>
     <ClInclude Include="..\..\Source\gui\CBlendModeResult.h"/>
     <ClInclude Include="..\..\Source\gui\CImageSource.h"/>
+    <ClInclude Include="..\..\Source\gui\CTextDemo.h"/>
     <ClInclude Include="..\..\Source\gui\MainApp.h"/>
     <ClInclude Include="..\..\Source\gui\MainPanel.h"/>
     <ClInclude Include="..\..\Source\gui\MainWindow.h"/>

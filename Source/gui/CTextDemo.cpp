@@ -30,28 +30,26 @@
 */
 //------------------------------------------------------------------------------
 
-MainWindow::MainWindow () 
-  : DocumentWindow (TRANS("Layer Effects"),
-                    Colours::lightgrey, 
-                    DocumentWindow::allButtons,
-                    true)
+CTextDemo::CTextDemo ()
 {
-  setResizable (false, false);
-
-  MainPanel* contentComponent = new MainPanel;
-
-  setMenuBar (contentComponent);
-  setContentOwned (contentComponent, true);
-
-  centreWithSize (getWidth(), getHeight());
-  setVisible (true);
+  setSize (512, 384);
 }
 
-MainWindow::~MainWindow()
+CTextDemo::~CTextDemo ()
 {
 }
 
-void MainWindow::closeButtonPressed()
+void CTextDemo::paint (Graphics& g)
 {
-  JUCEApplication::quit();
+  Rectangle <int> const b (getLocalBounds ());
+
+  vf::BackgroundContext bc (g, b);
+  bc.setColour (Colours::black);
+  bc.fillRect (b);
+  //bc.fillAll (Colours::black);
+
+  vf::LayerContext lc (bc, b);
+  lc.setColour (Colours::white);
+  lc.setFont (b.getHeight () / 3.f);
+  lc.drawText ("Layer\nEffects", b, Justification::centred, true);
 }

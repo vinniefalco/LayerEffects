@@ -30,28 +30,18 @@
 */
 //------------------------------------------------------------------------------
 
-MainWindow::MainWindow () 
-  : DocumentWindow (TRANS("Layer Effects"),
-                    Colours::lightgrey, 
-                    DocumentWindow::allButtons,
-                    true)
+#ifndef LAYEREFFECTS_CTEXTDEMO_HEADER
+#define LAYEREFFECTS_CTEXTDEMO_HEADER
+
+class CTextDemo
+  : public Component
 {
-  setResizable (false, false);
+public:
+  CTextDemo ();
+  ~CTextDemo ();
 
-  MainPanel* contentComponent = new MainPanel;
+  void paint (Graphics& g);
+};
 
-  setMenuBar (contentComponent);
-  setContentOwned (contentComponent, true);
+#endif
 
-  centreWithSize (getWidth(), getHeight());
-  setVisible (true);
-}
-
-MainWindow::~MainWindow()
-{
-}
-
-void MainWindow::closeButtonPressed()
-{
-  JUCEApplication::quit();
-}

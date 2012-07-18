@@ -30,28 +30,47 @@
 */
 //------------------------------------------------------------------------------
 
-MainWindow::MainWindow () 
-  : DocumentWindow (TRANS("Layer Effects"),
-                    Colours::lightgrey, 
-                    DocumentWindow::allButtons,
-                    true)
+CBlendModeDemo::CBlendModeDemo ()
 {
-  setResizable (false, false);
+  {
+    CBlendModeResult* c = new CBlendModeResult;
+    c->setBounds (4 + 256 + 4 + 256 + 4, 4, 256, 280);
+    addAndMakeVisible (c);
 
-  MainPanel* contentComponent = new MainPanel;
+    m_blendResult = c;
+  }
 
-  setMenuBar (contentComponent);
-  setContentOwned (contentComponent, true);
+  {
+    CImageSource* c = new CImageSource (1);
+    c->setBounds (4, 4, 256, 280);
+    addAndMakeVisible (c);
 
-  centreWithSize (getWidth(), getHeight());
-  setVisible (true);
+    c->selectImage (1);
+  }
+
+  {
+    CImageSource* c = new CImageSource (2);
+    c->setBounds (4 + 256 + 4, 4, 256, 280);
+    addAndMakeVisible (c);
+
+    c->selectImage (2);
+  }
+
+  setSize (4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
 }
 
-MainWindow::~MainWindow()
+CBlendModeDemo::~CBlendModeDemo()
 {
+  m_blendResult = 0;
+
+  deleteAllChildren();
 }
 
-void MainWindow::closeButtonPressed()
+void CBlendModeDemo::onImageSourceSelect (int id, Image image)
 {
-  JUCEApplication::quit();
+  m_blendResult->setSourceImage (id - 1, image);
+}
+
+void CBlendModeDemo::paint (Graphics& g)
+{
 }

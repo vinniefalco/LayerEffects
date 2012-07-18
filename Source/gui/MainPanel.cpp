@@ -32,46 +32,18 @@
 
 MainPanel::MainPanel ()
 {
-  {
-    CBlendModeResult* c = new CBlendModeResult;
-    c->setBounds (4 + 256 + 4 + 256 + 4, 4, 256, 280);
-    addAndMakeVisible (c);
+  //CBlendModeDemo* c = new CBlendModeDemo;
+  CTextDemo* c = new CTextDemo;
+  c->setBounds (0, 0, 4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
+  addAndMakeVisible (c);
 
-    m_blendResult = c;
-  }
-
-  {
-    CImageSource* c = new CImageSource (1);
-    c->setBounds (4, 4, 256, 280);
-    addAndMakeVisible (c);
-
-    c->selectImage (1);
-  }
-
-  {
-    CImageSource* c = new CImageSource (2);
-    c->setBounds (4 + 256 + 4, 4, 256, 280);
-    addAndMakeVisible (c);
-
-    c->selectImage (2);
-  }
-
-  setSize (4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
+  setSize (c->getBounds().getWidth (), c->getBounds().getHeight ());
 }
 
 MainPanel::~MainPanel()
 {
-  m_blendResult = 0;
-
   deleteAllChildren();
 }
-
-void MainPanel::onImageSourceSelect (int id, Image image)
-{
-  m_blendResult->setSourceImage (id - 1, image);
-}
-
-//------------------------------------------------------------------------------
 
 StringArray MainPanel::getMenuBarNames()
 {
@@ -101,39 +73,4 @@ PopupMenu MainPanel::getMenuForIndex (int topLevelMenuIndex, const String& menuN
 
 void MainPanel::menuItemSelected (int menuItemID, int topLevelMenuIndex)
 {
-}
-
-//------------------------------------------------------------------------------
-
-void MainPanel::paint (Graphics& g)
-{
-#if 0
-  Rectangle <int> const b = g.getClipBounds ();
-
-  g.setColour (Colours::black);
-  g.fillRect (b);
-
-  Rectangle <int> const r = b.reduced (128, 128);
-
-#if 0
-  g.setColour (Colours::white);
-  Path p;
-  p.addEllipse (r.getX(), r.getY(), r.getWidth(), r.getHeight());
-  g.fillPath (p);
-
-#else
-  vf::BackgroundContext bc (g);
-
-  {
-    vf::LayerContext lc (bc);
-
-    Graphics& g = lc.getContext ();
-
-    g.setColour (Colours::white);
-    Path p;
-    p.addEllipse (r.getX(), r.getY(), r.getWidth(), r.getHeight());
-    g.fillPath (p);
-  }
-#endif
-#endif
 }

@@ -47,12 +47,22 @@ using namespace juce;
 
 #include "gui/CBlendModeResult.h"
 #include "gui/CImageSource.h"
+
+#include "gui/CBlendModeDemo.h"
+#include "gui/CTextDemo.h"
+
 #include "gui/MainPanel.h"
 #include "gui/MainWindow.h"
 #include "gui/MainApp.h"
 
+//----------
+
 #include "gui/CBlendModeResult.cpp"
 #include "gui/CImageSource.cpp"
+
+#include "gui/CBlendModeDemo.cpp"
+#include "gui/CTextDemo.cpp"
+
 #include "gui/MainApp.cpp"
 #include "gui/MainPanel.cpp"
 #include "gui/MainWindow.cpp"
