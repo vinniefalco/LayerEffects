@@ -43,12 +43,26 @@ void CTextDemo::paint (Graphics& g)
 {
   Rectangle <int> const b (getLocalBounds ());
 
+#if 0
+  g.setGradientFill (ColourGradient (
+    Colours::red, b.getX (), b.getY (),
+    Colours::yellow, b.getRight (), b.getBottom (),
+    false));
+  g.setFont (b.getHeight () / 3.f);
+  g.drawFittedText ("Layer\nEffects",
+    b, Justification::centred, 2);
+
+#else
   // Photoshop "Background" Layer
   vf::BackgroundContext bc (g, b);
-  bc.fillAll (Colours::black);
+  bc.setGradientFill (ColourGradient (
+    Colours::black, b.getX (), b.getY (),
+    Colours::white, b.getX (), b.getBottom (), false));
+  bc.fillRect (b);
 
   // Photoshop Layer + Mask, with Layer Effects
   vf::LayerContext lc (bc, b);
+  vf::LayerContext::Options& opt (lc.getOptions ());
 
   lc.setGradientFill (ColourGradient (
     Colours::red, b.getX (), b.getY (),
@@ -58,21 +72,28 @@ void CTextDemo::paint (Graphics& g)
   lc.drawFittedText ("Layer\nEffects",
     b, Justification::centred, 2);
 
-  vf::LayerContext::Options::Fill&
-    fill (lc.getOptions ().fill);
-  fill.mode = vf::screen;
-  fill.opacity = .9;
+  opt.general.mode = vf::normal;
+  opt.general.opacity = 1;
+  opt.fill.opacity = 1;
 
-  vf::LayerContext::Options::DropShadow&
-    dropShadow (lc.getOptions ().dropShadow);
-  dropShadow.active   = true;
-  dropShadow.mode     = vf::softLight;
-  dropShadow.colour   = Colours::cyan;
-  dropShadow.angle    = 2*3.14159 * 45 / 360;
-  dropShadow.distance = 4;
-  dropShadow.spread   = 0.5;
-  dropShadow.size     = 8;
-  dropShadow.knockout = true;
+  opt.dropShadow.active   = true;
+  opt.dropShadow.mode     = vf::normal;
+  opt.dropShadow.colour   = Colours::black;
+  opt.dropShadow.angle    = 2*3.14159 * 135 / 360;
+  opt.dropShadow.distance = 4;
+  opt.dropShadow.spread   = 0.5;
+  opt.dropShadow.size     = 8;
+  opt.dropShadow.knockout = true;
+
+  opt.innerShadow.active   = true;
+  opt.innerShadow.mode     = vf::vividLight;
+  opt.innerShadow.colour   = Colours::yellow;
+  opt.innerShadow.angle    = 2*3.14159 * 135 / 360;
+  opt.innerShadow.distance = 4;
+  opt.innerShadow.choke    = 0.5;
+  opt.innerShadow.size     = 4;
+
+#endif
 }
 
 void CTextDemo::mouseDown (MouseEvent const& e)
