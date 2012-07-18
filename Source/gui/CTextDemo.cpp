@@ -56,8 +56,8 @@ void CTextDemo::paint (Graphics& g)
   // Photoshop "Background" Layer
   vf::BackgroundContext bc (g, b);
   bc.setGradientFill (ColourGradient (
-    Colours::black, b.getX (), b.getY (),
-    Colours::white, b.getX (), b.getBottom (), false));
+    Colours::black, float (b.getX ()), float (b.getY ()),
+    Colours::white, float (b.getX ()), float (b.getBottom ()), false));
   bc.fillRect (b);
 
   // Photoshop Layer + Mask, with Layer Effects
@@ -65,19 +65,18 @@ void CTextDemo::paint (Graphics& g)
   vf::LayerContext::Options& opt (lc.getOptions ());
 
   lc.setGradientFill (ColourGradient (
-    Colours::red, b.getX (), b.getY (),
-    Colours::yellow, b.getRight (), b.getBottom (),
+    Colours::red, float (b.getX ()), float (b.getY ()),
+    Colours::yellow, float (b.getRight ()), float (b.getBottom ()),
     false));
-  lc.setFont (b.getHeight () / 3.f);
-  lc.drawFittedText ("Layer\nEffects",
-    b, Justification::centred, 2);
+  lc.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
+  lc.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
 
   opt.general.mode = vf::normal;
   opt.general.opacity = 1;
   opt.fill.opacity = 1;
 
   opt.dropShadow.active   = true;
-  opt.dropShadow.mode     = vf::normal;
+  opt.dropShadow.mode     = vf::overlay;
   opt.dropShadow.colour   = Colours::black;
   opt.dropShadow.angle    = 2*3.14159 * 135 / 360;
   opt.dropShadow.distance = 4;
@@ -86,10 +85,10 @@ void CTextDemo::paint (Graphics& g)
   opt.dropShadow.knockout = true;
 
   opt.innerShadow.active   = true;
-  opt.innerShadow.mode     = vf::vividLight;
+  opt.innerShadow.mode     = vf::lighten;
   opt.innerShadow.colour   = Colours::yellow;
   opt.innerShadow.angle    = 2*3.14159 * 135 / 360;
-  opt.innerShadow.distance = 4;
+  opt.innerShadow.distance = 6;
   opt.innerShadow.choke    = 0.5;
   opt.innerShadow.size     = 4;
 
