@@ -634,6 +634,7 @@
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LabColour.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LayerContext.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_RadialImageConvolutionKernel.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_VerticalGradient.h" />
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_XYZColour.h" />

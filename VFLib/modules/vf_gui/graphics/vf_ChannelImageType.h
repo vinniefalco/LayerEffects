@@ -35,6 +35,8 @@ public:
   /** Create an Image that references a channel in the source image.
 
       The image type will be @ref Image::SingleChannel.
+
+      @param channelNumber 0 based channel number, -1 for all RGB channels.
   */
   static Image fromImage (Image sourceImage, int channelNumber);
 

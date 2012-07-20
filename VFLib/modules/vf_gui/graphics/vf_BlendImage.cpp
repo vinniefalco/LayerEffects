@@ -19,561 +19,203 @@
 */
 /*============================================================================*/
 
-/** Image composition functions.
-
-    These replicate the Photoshop layer blending modes.
-
-    See: http://inlandstudios.com/en/?p=851
-
-    @ingroup vf_gui
-*/
-struct BlendOperator
+void fillImage (Image dest,
+                Point <int> destTopLeft,
+                Image mask,
+                Rectangle <int> maskBounds,
+                BlendMode mode,
+                double opacity,
+                Colour colour)
 {
-  // f = front, b = back
+  jassert (mask.getFormat () == Image::SingleChannel);
+  jassert (mask.getBounds ().contains (maskBounds));
 
-  static inline int normal (int f, int)
-  {
-    return f;
-  }
+  Rectangle <int> const bounds = maskBounds.getIntersection (
+    dest.getBounds () + destTopLeft);
 
-  static inline int lighten (int f, int b)
-  {
-    return (f > b) ? f : b;
-  }
+  Pixels destPixels (dest, bounds);
+  Pixels maskPixels (mask, bounds);
 
-  static inline int darken (int f, int b)
+  switch (dest.getFormat ())
   {
-    return (f < b) ? f : b;
-  }
+  case Image::RGB:
+    switch (mode)
+    {
+    case normal:      destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::normal> (colour, opacity)); break;
+    case lighten:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::lighten> (colour, opacity)); break;
+    case darken:      destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::darken> (colour, opacity)); break;
+    case multiply:    destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::multiply> (colour, opacity)); break;
+    case average:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::average> (colour, opacity)); break;
+    case add:         destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::add> (colour, opacity)); break;
+    case subtract:    destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::subtract> (colour, opacity)); break;
+    case difference:  destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::difference> (colour, opacity)); break;
+    case negation:    destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::negation> (colour, opacity)); break;
+    case screen:      destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::screen> (colour, opacity)); break;
+    case exclusion:   destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::exclusion> (colour, opacity)); break;
+    case overlay:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::overlay> (colour, opacity)); break;
+    case softLight:   destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::softLight> (colour, opacity)); break;
+    case hardLight:   destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::hardLight> (colour, opacity)); break;
+    case colorDodge:  destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::colorDodge> (colour, opacity)); break;
+    case colorBurn:   destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::colorBurn> (colour, opacity)); break;
+    case linearDodge: destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::linearDodge> (colour, opacity)); break;
+    case linearBurn:  destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::linearBurn> (colour, opacity)); break;
+    case linearLight: destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::linearLight> (colour, opacity)); break;
+    case vividLight:  destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::vividLight> (colour, opacity)); break;
+    case pinLight:    destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::pinLight> (colour, opacity)); break;
+    case hardMix:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::hardMix> (colour, opacity)); break;
+    case reflect:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::reflect> (colour, opacity)); break;
+    case glow:        destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::glow> (colour, opacity)); break;
+    case phoenix:     destPixels.iterate (maskPixels, Pixels::FillMaskRGB <Pixels::Mode::phoenix> (colour, opacity)); break;
+    default:
+      jassertfalse;
+    };
+    break;
 
-  static inline int multiply (int f, int b)
-  {
-    return f * b / 255;
-  }
-
-  static inline int average (int f, int b)
-  {
-    return (f + b) / 2;
-  }
-
-  static inline int add (int f, int b)
-  {
-    return std::min (255, f + b);
-  }
-
-  static inline int subtract (int f, int b)
-  {
-    return (f > b) ? 0 : (b - f);
-  }
-
-  static inline int difference (int f, int b)
-  {
-    return std::abs (f - b);
-  }
-
-  static inline int negation (int f, int b)
-  {
-    return 255 - std::abs (255 - f - b);
-  }
-
-  static inline int screen (int f, int b)
-  {
-    return 255 - (((255 - f) * (255 - b)) / 255);
-  }
-
-  static inline int exclusion (int f, int b)
-  {
-    return (f + b - 2 * f * b / 255);
-  }
-
-  static inline int overlay (int f, int b)
-  {
-    return (b < 128) ? (2 * f * b / 255) : (255 - 2 * (255 - f) * (255 - b) / 255);
-  }
-
-  static inline int softLight (int f, int b)
-  {
-    return int ((b < 128) ? (2 * ((f >> 1) + 64)) * ((float)b / 255)
-                          : (255 - (2 * (255 - ((f >> 1) + 64)) * (float)(255 - b) / 255)));
-  }
-
-  static inline int hardLight (int f, int b)
-  {
-    return overlay (b, f);
-  }
-
-  static inline int colorDodge (int f, int b)
-  {
-    return (f == 255) ? f : std::min (255, (b << 8) / (255 - f));
-  }
-
-  static inline int colorBurn (int f, int b)
-  {
-    return (b == 0) ? 0 : std::max (0, (255 - ((255 - f) << 8) / b));
-  }
-
-  static inline int linearDodge (int f, int b)
-  {
-    return add (f, b);
-  }
-
-  static inline int linearBurn (int f, int b)
-  {
-    return subtract (f, b);
-  }
-
-  static inline int linearLight (int f, int b)
-  {
-    return (f < 128) ? linearBurn (256 - b, 2 * f)
-                     : linearDodge (b, 2 * (f - 128));
-  }
-
-  static inline int vividLight (int f, int b)
-  {
-    return (b < 128) ? colorBurn (f, 2 * b)
-                     : colorDodge (f, 2 * (b - 128));
-  }
-
-  static inline int pinLight (int f, int b)
-  {
-    return (f < 128) ? darken (b, 2 * f)
-                     : lighten (b, 2 * (f - 128));
-  }
-
-  static inline int hardMix (int f, int b)
-  {
-    return (vividLight (f, b) < 128) ? 0 : 255;
-  }
-
-  static inline int reflect (int f, int b)
-  {
-    return (b == 255) ? 255 : std::min (255, f * f / (255 - b));
-  }
-
-  static inline int glow (int f, int b)
-  {
-    return reflect (b, f);
-  }
-
-  static inline int phoenix (int f, int b)
-  {
-    return std::min (f, b) - std::max (f, b) + 255;
-  }
-};
+  case Image::SingleChannel:
+  case Image::ARGB:
+  default:
+    jassertfalse;
+    break;
+  };
+}
 
 //------------------------------------------------------------------------------
 
-struct BlendOperands
+void copyImage (Image dest,
+                Point <int> destTopLeft,
+                Image source,
+                Rectangle <int> sourceBounds,
+                BlendMode mode,
+                double opacity)
 {
-  int            rows;
-  int            cols;
+  jassert (source.getBounds ().contains (sourceBounds));
 
-  uint8*         dest;
-  int            destRowBytes;
-  int            destColBytes;
+  Rectangle <int> const bounds = sourceBounds.getIntersection (
+    dest.getBounds () + destTopLeft);
 
-  uint8*         destAlpha;
-  int            destAlphaRowBytes;
-  int            destAlphaColBytes;
+  Pixels destPixels (dest, bounds);
+  Pixels sourcePixels (source, bounds);
 
-  uint8 const*   src;
-  int            srcRowBytes;
-  int            srcColBytes;
-
-  uint8 const*   srcAlpha;
-  int            srcAlphaRowBytes;
-  int            srcAlphaColBytes;
-
-  double         opacity;
-
-  //----------------------------------------------------------------------------
-
-  template <class Operator>
-  void blend0 (Operator const& op)
+  switch (dest.getFormat ())
   {
-    uint8 const alpha = static_cast <uint8> (jlimit (0, 255,
-      static_cast <int> (255 * opacity + 0.5)));
-
-    destRowBytes     -= cols * destColBytes;
-    srcRowBytes      -= cols * srcColBytes;
-
-    while (rows--)
+  case Image::SingleChannel:
+    switch (source.getFormat ())
     {
-      for (int x = cols; x--;)
+    case Image::SingleChannel:
+      switch (mode)
       {
-        int const f = *src;
-        int const b = *dest;
-        int const v = op (f, b);
-
-        *dest = static_cast <uint8> (b + (alpha * (v - b)) / 255);
-
-        dest     += destColBytes;
-        src      += srcColBytes;
-      }
-
-      dest     += destRowBytes;
-      src      += srcRowBytes;
-    }
-  }
-
-  //----------------------------------------------------------------------------
-
-  template <class Operator>
-  void blend1 (Operator const& op)
-  {
-    uint8 const alpha = static_cast <uint8> (jlimit (0, 255,
-      static_cast <int> (255 * opacity + 0.5)));
-
-    destRowBytes     -= cols * destColBytes;
-    srcRowBytes      -= cols * srcColBytes;
-    srcAlphaRowBytes -= cols * srcAlphaColBytes;
-
-    while (rows--)
-    {
-      for (int x = cols; x--;)
-      {
-        int const fa = *srcAlpha;
-        int const f  = fa ? jmin (255, (*src * 255) / fa) : 0;
-        int const b  = *dest;
-        int const v  = (op (f, b) * fa * alpha) / 65025;
-
-        *dest = static_cast <uint8> (((v + b) * 65025 - fa * alpha * b) / 65025);
-
-        dest     += destColBytes;
-        src      += srcColBytes;
-        srcAlpha += srcAlphaColBytes;
-      }
-
-      dest     += destRowBytes;
-      src      += srcRowBytes;
-      srcAlpha += srcAlphaRowBytes;
-    }
-  }
-
-  //----------------------------------------------------------------------------
-
-  template <class Operator>
-  void blend2 (Operator const& op)
-  {
-    uint8 const alpha = static_cast <uint8> (jlimit (0, 255,
-      static_cast <int> (255 * opacity + 0.5)));
-
-    destRowBytes      -= cols * destColBytes;
-    destAlphaRowBytes -= cols * destAlphaColBytes;
-    srcRowBytes       -= cols * srcColBytes;
-    srcAlphaRowBytes  -= cols * srcAlphaColBytes;
-
-    while (rows--)
-    {
-      for (int x = cols; x--;)
-      {
-        int const fa = *srcAlpha;
-        int const f  = fa ? jmin (255, (*src * 255) / fa) : 0;
-        int const ba = *destAlpha;
-        int const b  = ba ? jmin (255, (*dest * 255) / ba) : 0;
-        int const v  = (op (f, b) * fa * alpha) / 65025;
-
-        *dest = static_cast <uint8> (((v + *dest) * 65025 - ba * alpha * *dest) / 65025);
-
-        dest      += destColBytes;
-        destAlpha += destAlphaColBytes;
-        src       += srcColBytes;
-        srcAlpha  += srcAlphaColBytes;
-      }
-
-      dest      += destRowBytes;
-      destAlpha += destAlphaRowBytes;
-      src       += srcRowBytes;
-      srcAlpha  += srcAlphaRowBytes;
-    }
-  }
-
-  //----------------------------------------------------------------------------
-
-  void blendmask ()
-  {
-    destRowBytes     -= cols * destColBytes;
-    srcRowBytes      -= cols * srcColBytes;
-
-    while (rows--)
-    {
-      for (int x = cols; x--;)
-      {
-        int f = *src;
-        int b = *dest;
-        
-        *dest = static_cast <uint8> (((f + b) * 255 - (f * b)) / 255);
-
-        dest     += destColBytes;
-        src      += srcColBytes;
-      }
-
-      dest     += destRowBytes;
-      src      += srcRowBytes;
-    }
-  }
-};
-
-//------------------------------------------------------------------------------
-
-void BlendImage (
-  Image destImage,
-  Point <int> destTopLeft,
-  Image srcImage,
-  Rectangle <int> srcBounds,
-  BlendMode blendMode,
-  double opacity)
-{
-  jassert (srcImage.getBounds ().contains (srcBounds));
-
-  if (destTopLeft.getX () < 0 )
-  {
-    srcBounds.setLeft (srcBounds.getX () - destTopLeft.getX ());
-    destTopLeft.setX (0);
-  }
-
-  if (destTopLeft.getY () < 0 )
-  {
-    srcBounds.setTop (srcBounds.getY () - destTopLeft.getY ());
-    destTopLeft.setY (0);
-  }
-
-  Rectangle <int> bounds = srcBounds.getIntersection (Rectangle <int> (
-    destTopLeft.getX (),
-    destTopLeft.getY (),
-    destImage.getWidth () - destTopLeft.getX (),
-    destImage.getHeight () - destTopLeft.getY ()));
-
-  if (!bounds.isEmpty ())
-  {
-    Image::BitmapData src (
-      srcImage,
-      srcBounds.getX (),
-      srcBounds.getY (),
-      srcBounds.getWidth (),
-      srcBounds.getHeight (),
-      Image::BitmapData::readOnly);
-
-    Image::BitmapData dest (
-      destImage,
-      destTopLeft.getX (),
-      destTopLeft.getY (),
-      bounds.getWidth (),
-      bounds.getHeight (),
-      Image::BitmapData::readWrite);
-
-    switch (srcImage.getFormat ())
-    {
-    case Image::ARGB:
-      switch (destImage.getFormat ())
-      {
-      case Image::RGB:
-        for (int i = 0; i < 3; ++i)
-        {
-          BlendOperands ops;
-          
-          ops.rows = dest.height;
-          ops.cols = dest.width;
-          
-          ops.dest = dest.getLinePointer (0) + i;
-          ops.destRowBytes = dest.lineStride;
-          ops.destColBytes = dest.pixelStride;
-          
-          ops.src = src.getLinePointer (0) + i;
-          ops.srcRowBytes = src.lineStride;
-          ops.srcColBytes = src.pixelStride;
-
-          ops.srcAlpha = src.getLinePointer (0) + 3;
-          ops.srcAlphaRowBytes = src.lineStride;
-          ops.srcAlphaColBytes = src.pixelStride;
-
-          ops.opacity = opacity;
-
-          switch (blendMode)
-          {
-            default:
-              jassertfalse;
-
-            case normal:      ops.blend1 (&BlendOperator::normal); break;
-            case lighten:     ops.blend1 (&BlendOperator::lighten); break;
-            case darken:      ops.blend1 (&BlendOperator::darken); break;
-            case multiply:    ops.blend1 (&BlendOperator::multiply); break;
-            case average:     ops.blend1 (&BlendOperator::average); break;
-            case add:         ops.blend1 (&BlendOperator::add); break;
-            case subtract:    ops.blend1 (&BlendOperator::subtract); break;
-            case difference:  ops.blend1 (&BlendOperator::difference); break;
-            case negation:    ops.blend1 (&BlendOperator::negation); break;
-            case screen:      ops.blend1 (&BlendOperator::screen); break;
-            case exclusion:   ops.blend1 (&BlendOperator::exclusion); break;
-            case overlay:     ops.blend1 (&BlendOperator::overlay); break;
-            case softLight:   ops.blend1 (&BlendOperator::softLight); break;
-            case hardLight:   ops.blend1 (&BlendOperator::hardLight); break;
-            case colorDodge:  ops.blend1 (&BlendOperator::colorDodge); break;
-            case colorBurn:   ops.blend1 (&BlendOperator::colorBurn); break;
-            case linearDodge: ops.blend1 (&BlendOperator::linearDodge); break;
-            case linearBurn:  ops.blend1 (&BlendOperator::linearBurn); break;
-            case linearLight: ops.blend1 (&BlendOperator::linearLight); break;
-            case vividLight:  ops.blend1 (&BlendOperator::vividLight); break;
-            case pinLight:    ops.blend1 (&BlendOperator::pinLight); break;
-            case hardMix:     ops.blend1 (&BlendOperator::hardMix); break;
-            case reflect:     ops.blend1 (&BlendOperator::reflect); break;
-            case glow:        ops.blend1 (&BlendOperator::glow); break;
-            case phoenix:     ops.blend1 (&BlendOperator::phoenix); break;
-          }
-        }
-        break;
-
-      case Image::ARGB:
-        for (int i = 0; i < 3; ++i)
-        {
-          BlendOperands ops;
-          
-          ops.rows = dest.height;
-          ops.cols = dest.width;
-          
-          ops.dest = dest.getLinePointer (0) + i;
-          ops.destRowBytes = dest.lineStride;
-          ops.destColBytes = dest.pixelStride;
-
-          ops.destAlpha = dest.getLinePointer (0) + 3;
-          ops.destAlphaRowBytes = dest.lineStride;
-          ops.destAlphaColBytes = dest.pixelStride;
-
-          ops.src = src.getLinePointer (0) + i;
-          ops.srcRowBytes = src.lineStride;
-          ops.srcColBytes = src.pixelStride;
-
-          ops.srcAlpha = src.getLinePointer (0) + 3;
-          ops.srcAlphaRowBytes = src.lineStride;
-          ops.srcAlphaColBytes = src.pixelStride;
-
-          ops.opacity = opacity;
-
-          switch (blendMode)
-          {
-            default:
-              jassertfalse;
-
-            case normal:      ops.blend2 (&BlendOperator::normal); break;
-            case lighten:     ops.blend2 (&BlendOperator::lighten); break;
-            case darken:      ops.blend2 (&BlendOperator::darken); break;
-            case multiply:    ops.blend2 (&BlendOperator::multiply); break;
-            case average:     ops.blend2 (&BlendOperator::average); break;
-            case add:         ops.blend2 (&BlendOperator::add); break;
-            case subtract:    ops.blend2 (&BlendOperator::subtract); break;
-            case difference:  ops.blend2 (&BlendOperator::difference); break;
-            case negation:    ops.blend2 (&BlendOperator::negation); break;
-            case screen:      ops.blend2 (&BlendOperator::screen); break;
-            case exclusion:   ops.blend2 (&BlendOperator::exclusion); break;
-            case overlay:     ops.blend2 (&BlendOperator::overlay); break;
-            case softLight:   ops.blend2 (&BlendOperator::softLight); break;
-            case hardLight:   ops.blend2 (&BlendOperator::hardLight); break;
-            case colorDodge:  ops.blend2 (&BlendOperator::colorDodge); break;
-            case colorBurn:   ops.blend2 (&BlendOperator::colorBurn); break;
-            case linearDodge: ops.blend2 (&BlendOperator::linearDodge); break;
-            case linearBurn:  ops.blend2 (&BlendOperator::linearBurn); break;
-            case linearLight: ops.blend2 (&BlendOperator::linearLight); break;
-            case vividLight:  ops.blend2 (&BlendOperator::vividLight); break;
-            case pinLight:    ops.blend2 (&BlendOperator::pinLight); break;
-            case hardMix:     ops.blend2 (&BlendOperator::hardMix); break;
-            case reflect:     ops.blend2 (&BlendOperator::reflect); break;
-            case glow:        ops.blend2 (&BlendOperator::glow); break;
-            case phoenix:     ops.blend2 (&BlendOperator::phoenix); break;
-          }
-        }
-
-        // combine alpha masks
-
-        BlendOperands ops;
-          
-        ops.rows = dest.height;
-        ops.cols = dest.width;
-          
-        ops.dest = dest.getLinePointer (0) + 3;
-        ops.destRowBytes = dest.lineStride;
-        ops.destColBytes = dest.pixelStride;
-
-        ops.src = src.getLinePointer (0) + 3;
-        ops.srcRowBytes = src.lineStride;
-        ops.srcColBytes = src.pixelStride;
-
-        ops.blendmask ();
-        break;
-
-      case Image::SingleChannel:
-      case Image::UnknownFormat:
+      case normal:      destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::normal> (opacity)); break;
+      case lighten:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::lighten> (opacity)); break;
+      case darken:      destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::darken> (opacity)); break;
+      case multiply:    destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::multiply> (opacity)); break;
+      case average:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::average> (opacity)); break;
+      case add:         destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::add> (opacity)); break;
+      case subtract:    destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::subtract> (opacity)); break;
+      case difference:  destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::difference> (opacity)); break;
+      case negation:    destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::negation> (opacity)); break;
+      case screen:      destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::screen> (opacity)); break;
+      case exclusion:   destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::exclusion> (opacity)); break;
+      case overlay:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::overlay> (opacity)); break;
+      case softLight:   destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::softLight> (opacity)); break;
+      case hardLight:   destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::hardLight> (opacity)); break;
+      case colorDodge:  destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::colorDodge> (opacity)); break;
+      case colorBurn:   destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::colorBurn> (opacity)); break;
+      case linearDodge: destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::linearDodge> (opacity)); break;
+      case linearBurn:  destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::linearBurn> (opacity)); break;
+      case linearLight: destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::linearLight> (opacity)); break;
+      case vividLight:  destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::vividLight> (opacity)); break;
+      case pinLight:    destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::pinLight> (opacity)); break;
+      case hardMix:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::hardMix> (opacity)); break;
+      case reflect:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::reflect> (opacity)); break;
+      case glow:        destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::glow> (opacity)); break;
+      case phoenix:     destPixels.iterate (sourcePixels, Pixels::BlendGray <Pixels::Mode::phoenix> (opacity)); break;
       default:
         jassertfalse;
-      }
+      };
       break;
 
-    case Image::SingleChannel:
-      switch (destImage.getFormat ())
-      {
-      case Image::SingleChannel:
-        {
-          BlendOperands ops;
-          
-          ops.rows = dest.height;
-          ops.cols = dest.width;
-          
-          ops.dest = dest.getLinePointer (0);
-          ops.destRowBytes = dest.lineStride;
-          ops.destColBytes = dest.pixelStride;
-          
-          ops.src = src.getLinePointer (0);
-          ops.srcRowBytes = src.lineStride;
-          ops.srcColBytes = src.pixelStride;
-
-          ops.opacity = opacity;
-
-          switch (blendMode)
-          {
-            default:
-              jassertfalse;
-
-            case normal:      ops.blend0 (&BlendOperator::normal); break;
-            case lighten:     ops.blend0 (&BlendOperator::lighten); break;
-            case darken:      ops.blend0 (&BlendOperator::darken); break;
-            case multiply:    ops.blend0 (&BlendOperator::multiply); break;
-            case average:     ops.blend0 (&BlendOperator::average); break;
-            case add:         ops.blend0 (&BlendOperator::add); break;
-            case subtract:    ops.blend0 (&BlendOperator::subtract); break;
-            case difference:  ops.blend0 (&BlendOperator::difference); break;
-            case negation:    ops.blend0 (&BlendOperator::negation); break;
-            case screen:      ops.blend0 (&BlendOperator::screen); break;
-            case exclusion:   ops.blend0 (&BlendOperator::exclusion); break;
-            case overlay:     ops.blend0 (&BlendOperator::overlay); break;
-            case softLight:   ops.blend0 (&BlendOperator::softLight); break;
-            case hardLight:   ops.blend0 (&BlendOperator::hardLight); break;
-            case colorDodge:  ops.blend0 (&BlendOperator::colorDodge); break;
-            case colorBurn:   ops.blend0 (&BlendOperator::colorBurn); break;
-            case linearDodge: ops.blend0 (&BlendOperator::linearDodge); break;
-            case linearBurn:  ops.blend0 (&BlendOperator::linearBurn); break;
-            case linearLight: ops.blend0 (&BlendOperator::linearLight); break;
-            case vividLight:  ops.blend0 (&BlendOperator::vividLight); break;
-            case pinLight:    ops.blend0 (&BlendOperator::pinLight); break;
-            case hardMix:     ops.blend0 (&BlendOperator::hardMix); break;
-            case reflect:     ops.blend0 (&BlendOperator::reflect); break;
-            case glow:        ops.blend0 (&BlendOperator::glow); break;
-            case phoenix:     ops.blend0 (&BlendOperator::phoenix); break;
-          }
-        }
-        break;
-
-      case Image::RGB:
-      case Image::ARGB:
-      case Image::UnknownFormat:
-        jassertfalse;
-        break;
-      }
-      break;
-
-    case Image::RGB:
-    case Image::UnknownFormat:
     default:
       jassertfalse;
       break;
-    }
-  }
+    };
+    break;
+
+  case Image::RGB:
+    switch (source.getFormat ())
+    {
+    case Image::RGB:
+      switch (mode)
+      {
+      case normal:      destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::normal> (opacity)); break;
+      case lighten:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::lighten> (opacity)); break;
+      case darken:      destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::darken> (opacity)); break;
+      case multiply:    destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::multiply> (opacity)); break;
+      case average:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::average> (opacity)); break;
+      case add:         destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::add> (opacity)); break;
+      case subtract:    destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::subtract> (opacity)); break;
+      case difference:  destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::difference> (opacity)); break;
+      case negation:    destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::negation> (opacity)); break;
+      case screen:      destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::screen> (opacity)); break;
+      case exclusion:   destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::exclusion> (opacity)); break;
+      case overlay:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::overlay> (opacity)); break;
+      case softLight:   destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::softLight> (opacity)); break;
+      case hardLight:   destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::hardLight> (opacity)); break;
+      case colorDodge:  destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::colorDodge> (opacity)); break;
+      case colorBurn:   destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::colorBurn> (opacity)); break;
+      case linearDodge: destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::linearDodge> (opacity)); break;
+      case linearBurn:  destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::linearBurn> (opacity)); break;
+      case linearLight: destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::linearLight> (opacity)); break;
+      case vividLight:  destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::vividLight> (opacity)); break;
+      case pinLight:    destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::pinLight> (opacity)); break;
+      case hardMix:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::hardMix> (opacity)); break;
+      case reflect:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::reflect> (opacity)); break;
+      case glow:        destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::glow> (opacity)); break;
+      case phoenix:     destPixels.iterate (sourcePixels, Pixels::BlendRGB <Pixels::Mode::phoenix> (opacity)); break;
+      default:
+        jassertfalse;
+      };
+      break;
+
+    case Image::ARGB:
+      switch (mode)
+      {
+      case normal:      destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::normal> (opacity)); break;
+      case lighten:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::lighten> (opacity)); break;
+      case darken:      destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::darken> (opacity)); break;
+      case multiply:    destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::multiply> (opacity)); break;
+      case average:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::average> (opacity)); break;
+      case add:         destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::add> (opacity)); break;
+      case subtract:    destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::subtract> (opacity)); break;
+      case difference:  destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::difference> (opacity)); break;
+      case negation:    destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::negation> (opacity)); break;
+      case screen:      destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::screen> (opacity)); break;
+      case exclusion:   destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::exclusion> (opacity)); break;
+      case overlay:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::overlay> (opacity)); break;
+      case softLight:   destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::softLight> (opacity)); break;
+      case hardLight:   destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::hardLight> (opacity)); break;
+      case colorDodge:  destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::colorDodge> (opacity)); break;
+      case colorBurn:   destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::colorBurn> (opacity)); break;
+      case linearDodge: destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::linearDodge> (opacity)); break;
+      case linearBurn:  destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::linearBurn> (opacity)); break;
+      case linearLight: destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::linearLight> (opacity)); break;
+      case vividLight:  destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::vividLight> (opacity)); break;
+      case pinLight:    destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::pinLight> (opacity)); break;
+      case hardMix:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::hardMix> (opacity)); break;
+      case reflect:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::reflect> (opacity)); break;
+      case glow:        destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::glow> (opacity)); break;
+      case phoenix:     destPixels.iterate (sourcePixels, Pixels::BlendARGB <Pixels::Mode::phoenix> (opacity)); break;
+      default:
+        jassertfalse;
+      };
+      break;
+
+    default:
+      jassertfalse;
+    };
+    break;
+
+  default:
+    jassertfalse;
+    break;
+  };
 }

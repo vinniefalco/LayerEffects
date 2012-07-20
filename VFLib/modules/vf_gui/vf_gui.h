@@ -60,6 +60,7 @@ namespace vf
 #include "graphics/vf_ChannelImageType.h"
 #include "graphics/vf_LayerContext.h"
 #include "graphics/vf_LabColour.h"
+#include "graphics/vf_Pixels.h"
 #include "graphics/vf_XYZColour.h"
 #include "graphics/vf_RadialImageConvolutionKernel.h"
 #include "graphics/vf_VerticalGradient.h"

@@ -38,15 +38,13 @@ public:
     struct General
     {
       General ()
-        : mode (normal)
-        , opacity (1)
+        : opacity (1)
         , red (true)
         , green (true)
         , blue (true)
       {
       }
 
-      BlendMode mode;                   // blend mode overall
       double    opacity;                // [0, 1] of fill
       bool      red;                    // true to copy these channels
       bool      green;
@@ -58,10 +56,12 @@ public:
     struct Fill
     {
       Fill ()
-        : opacity (1)
+        : mode (normal)
+        , opacity (1)
       {
       }
 
+      BlendMode mode;
       double opacity;                   // [0, 1] overall
     };
 
@@ -72,6 +72,7 @@ public:
       DropShadow ()
         : active (false)
         , mode (normal)
+        , opacity (1)
         , colour (Colours::black)
         , angle (0)
         , distance (1)
@@ -83,6 +84,7 @@ public:
 
       bool      active;
       BlendMode mode;
+      double    opacity;
       Colour    colour;                 // can have alpha
       double    angle;                  // radians
       int       distance;               // [0, 30000]
@@ -108,6 +110,7 @@ public:
 
       bool      active;
       BlendMode mode;
+      double    opacity;
       Colour    colour;                 // can have alpha
       double    angle;                  // radians
       int       distance;               // [0, 30000]

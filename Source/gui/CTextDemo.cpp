@@ -43,16 +43,6 @@ void CTextDemo::paint (Graphics& g)
 {
   Rectangle <int> const b (getLocalBounds ());
 
-#if 0
-  g.setGradientFill (ColourGradient (
-    Colours::red, b.getX (), b.getY (),
-    Colours::yellow, b.getRight (), b.getBottom (),
-    false));
-  g.setFont (b.getHeight () / 3.f);
-  g.drawFittedText ("Layer\nEffects",
-    b, Justification::centred, 2);
-
-#else
   // Photoshop "Background" Layer
   vf::BackgroundContext bc (g, b);
   bc.setGradientFill (ColourGradient (
@@ -71,28 +61,29 @@ void CTextDemo::paint (Graphics& g)
   lc.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
   lc.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
 
-  opt.general.mode = vf::normal;
   opt.general.opacity = 1;
+
+  opt.fill.mode = vf::normal;
   opt.fill.opacity = 1;
 
-  opt.dropShadow.active   = true;
-  opt.dropShadow.mode     = vf::overlay;
+  opt.dropShadow.active   = false;
+  opt.dropShadow.mode     = vf::normal;
+  opt.dropShadow.opacity  = 1;
   opt.dropShadow.colour   = Colours::black;
   opt.dropShadow.angle    = 2*3.14159 * 135 / 360;
-  opt.dropShadow.distance = 4;
+  opt.dropShadow.distance = 10;
   opt.dropShadow.spread   = 0.5;
-  opt.dropShadow.size     = 8;
-  opt.dropShadow.knockout = true;
+  opt.dropShadow.size     = 10;
+  opt.dropShadow.knockout = false;
 
   opt.innerShadow.active   = true;
-  opt.innerShadow.mode     = vf::lighten;
-  opt.innerShadow.colour   = Colours::yellow;
+  opt.innerShadow.mode     = vf::normal;
+  opt.innerShadow.opacity  = .5;
+  opt.innerShadow.colour   = Colours::black;
   opt.innerShadow.angle    = 2*3.14159 * 135 / 360;
-  opt.innerShadow.distance = 6;
+  opt.innerShadow.distance = 4;
   opt.innerShadow.choke    = 0.5;
-  opt.innerShadow.size     = 4;
-
-#endif
+  opt.innerShadow.size     = 3;
 }
 
 void CTextDemo::mouseDown (MouseEvent const& e)

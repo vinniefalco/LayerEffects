@@ -20,7 +20,7 @@
 /*============================================================================*/
 
 ChannelImageType::ChannelPixelData::ChannelPixelData (Image sourceImage, int channelNumber)
-  : ImagePixelData (Image::SingleChannel,
+  : ImagePixelData ((channelNumber < 0) ? Image::RGB : Image::SingleChannel,
                     sourceImage.getWidth (),
                     sourceImage.getHeight ())
   , m_bits (sourceImage,
@@ -56,10 +56,20 @@ ImageType* ChannelImageType::ChannelPixelData::createType() const
 void ChannelImageType::ChannelPixelData::initialiseBitmapData (
   Image::BitmapData& bd, int x, int y, Image::BitmapData::ReadWriteMode)
 {
-  bd.data = m_bits.data + x * m_bits.pixelStride + y * m_bits.lineStride + m_channelNumber;
-  bd.pixelFormat = Image::SingleChannel;
-  bd.lineStride  = m_bits.lineStride;
-  bd.pixelStride = m_bits.pixelStride;
+  if (m_channelNumber >= 0)
+  {
+    bd.data = m_bits.getPixelPointer (x, y) + m_channelNumber;
+    bd.pixelFormat = Image::SingleChannel;
+    bd.lineStride  = m_bits.lineStride;
+    bd.pixelStride = m_bits.pixelStride;
+  }
+  else
+  {
+    bd.data = m_bits.getPixelPointer (x, y) + 0;
+    bd.pixelFormat = Image::RGB;
+    bd.lineStride  = m_bits.lineStride;
+    bd.pixelStride = m_bits.pixelStride;
+  }
 }
 
 //------------------------------------------------------------------------------

@@ -51,16 +51,20 @@ enum BlendMode
   phoenix,
 };
 
-/** Create a blended Image.
-
-    @ingroup vf_gui
+/** Fill an image with colour.
 */
-extern void BlendImage (
-  Image destImage,
-  Point <int> destTopLeft,
-  Image srcImage,
-  Rectangle <int> srcBounds,
-  BlendMode blendMode,
-  double opacity);
+extern void fillImage (Image dest,
+                       Point <int> destTopLeft,
+                       Image mask,
+                       Rectangle <int> maskBounds,
+                       BlendMode mode,
+                       double opacity,
+                       Colour colour);
 
+extern void copyImage (Image dest,
+                       Point <int> destTopLeft,
+                       Image source,
+                       Rectangle <int> sourceBounds,
+                       BlendMode mode,
+                       double opacity);
 #endif

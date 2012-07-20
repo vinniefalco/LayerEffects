@@ -1049,6 +1049,9 @@
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_Pixels.h">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />
