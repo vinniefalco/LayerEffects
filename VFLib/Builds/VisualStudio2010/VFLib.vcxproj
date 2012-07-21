@@ -31,10 +31,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\sources\vf_SampleSource.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -682,8 +678,8 @@
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\COPYRIGHT" />
     <None Include="..\..\docs\Doxyfile" />
-    <None Include="..\..\GNU_GPL_v2.txt" />
     <None Include="..\..\README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
