@@ -1,21 +1,32 @@
 /*============================================================================*/
 /*
-  Copyright (C) 2008 by Vinnie Falco, this file is part of VFLib.
-  See the file GNU_GPL_v2.txt for full licensing terms.
+  VFLib: https://github.com/vinniefalco/VFLib
 
-  This program is free software; you can redistribute it and/or modify it
-  under the terms of the GNU General Public License as published by the Free
-  Software Foundation; either version 2 of the License, or (at your option)
-  any later version.
+  Copyright (C) 2008 by Vinnie Falco <vinnie.falco@gmail.com>
 
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  details.
+  This library contains portions of other open source products covered by
+  separate licenses. Please see the corresponding source files for specific
+  terms.
+  
+  VFLib is provided under the terms of The MIT License (MIT):
 
-  You should have received a copy of the GNU General Public License along with
-  this program; if not, write to the Free Software Foundation, Inc., 51
-  Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
 */
 /*============================================================================*/
 
@@ -32,9 +43,11 @@
 /**
   @mainpage VFLib: A multipurpose library built on JUCE.
 
-  @details
+  ### Version 1.1
 
-  VFLib is a source code collection of individual @ref modules containing
+  Copyright (C) 2008 by Vinnie Falco \<vinnie.falco@gmail.com\> ([e-mail][0])
+
+  VFLib is a source code collection of individual modules containing
   functionality for a variety of applications, with an emphasis on building
   concurrent systems. VFLib requires [JUCE][3] (Jules' Utility Class
   Extensions), available from [Raw Material Software][4]. JUCE is available
@@ -119,15 +132,29 @@
 
   ## License
 
-  Copyright (C) 2008 by Vinnie Falco ([e-mail][0])
+  This library contains portions of other open source products covered by
+  separate licenses. Please see the corresponding source files for specific
+  terms.
+  
+  VFLib is provided under the terms of The MIT License (MIT):
 
-  Unless otherwise marked, files in VFLib are published under the [GNU General
-  Public License][5].  This program is distributed in the hope that it will be
-  useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
 
-  Commercial, closed source licenses for VFLib are available, [contact the
-  author][0] for details.
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
 
   Some files contain portions of these external projects, licensed separately:
 
@@ -142,8 +169,9 @@
   - Portions of this software are Copyright (C) 1994-2012 [Lua.org][10], PUC-Rio.
     Lua is distributed under the terms of the [MIT License][11].
 
-  - [Luabridge][12] is Copyrighted (C) 2007 by Nathan Reed. [Luabridge][12] is
-    distributed under the terms of the [MIT License][11].
+  - [Luabridge][12] is Copyright (C) 2012 by Vinnie Falco and Copyrighted (C)
+    2007 by Nathan Reed. [Luabridge][12] is distributed under the terms of the
+    [MIT License][11].
 
   - [Soci][13] is Copyright (C) 2004-2008 Maciej Sobczak, Stephen Hutton, and
     various others noted in the corresponding source files. Soci is distributed
@@ -174,11 +202,8 @@
   [17]: http://www.gnu.org/licenses/lgpl-2.1.html "Gnu Lesser General Public License, version 2.1"
   [18]: http://www.mozilla.org/MPL/1.1/ "Mozilla Public License"
 
-  @author Vinnie Falco (<a href="mailto:vinnie.falco@gmail.com">email</a>)
-  @version 1.0
-  @date 2008
-  @copyright Copyright (C) 2008 by Vinnie Falco.
-  @copyright Provided under the [GNU General Public License][5]
+  @copyright Copyright (C) 2008 by Vinnie Falco \<vinnie.falco@gmail.com\> ([e-mail][0])
+  @copyright Provided under the [MIT License][11]
 */
 
 /*============================================================================*/

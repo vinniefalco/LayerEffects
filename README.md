@@ -1,6 +1,10 @@
 # VFLib: A multipurpose library built on JUCE.
 
-VFLib is a source code collection of individual **modules** containing
+### Version 1.1
+
+Copyright (C) 2008 by Vinnie Falco \<vinnie.falco@gmail.com\> ([e-mail][0])
+
+VFLib is a source code collection of individual modules containing
 functionality for a variety of applications, with an emphasis on building
 concurrent systems. VFLib requires [JUCE][3] (Jules' Utility Class
 Extensions), available from [Raw Material Software][4]. JUCE is available
@@ -17,13 +21,13 @@ All platforms supported by JUCE are also supported by VFLib. Currently these
 platforms include:
 
 - **Windows**: Applications and VST/RTAS/NPAPI/ActiveX plugins can be built 
-using MS Visual Studio. The results are all fully compatible with Windows
-XP, Vista or Windows 7.
+  using MS Visual Studio. The results are all fully compatible with Windows
+  XP, Vista or Windows 7.
 
 - **Mac OS X**: Applications and VST/AudioUnit/RTAS/NPAPI plugins with Xcode.
 
 - **GNU/Linux**: Applications and plugins can be built for any kernel 2.6 or
-later.
+  later.
 
 - **iOS**: Native iPhone and iPad apps.
 
@@ -40,7 +44,7 @@ additional prerequisites are marked in the documentation.
 ## External Modules
 
 Some modules bring in functionality provided by external libraries. For
-example, the **[vf_bzip2][vf_bzip2]** module provides the compression and decompression
+example, the [vf_bzip2][vf_bzip2] module provides the compression and decompression
 algorithms in [bZip2][7]. Usage of these external library modules is optional.
 They come with complete source code, as well as options for using either
 system or user provided variants of the external libraries: it is not
@@ -61,18 +65,15 @@ This library uses the same modularized organizational structure as JUCE. To
 use a module, first add a path to the list of includes searched by your
 development environment or project, which points to the VFLib directory. Then,
 add the single corresponding .c or .cpp file to your existing project which
-already uses JUCE. For example, to use the **[vf_core][vf_core]** module, add the file
-**[vf_core.cpp][vf_core.cpp]** to your project. Some modules depend on other
-modules.
+already uses JUCE. For example, to use the [vf_core][vf_core] module, add the file
+[vf_core.cpp][vf_core.cpp] to your project. Some modules depend on other modules.
 
 To use a module, include the appropriate header from within your source code.
-For example, to access classes in the **[vf_concurrent][vf_concurrent]** module,
-use this:
+For example, to access classes in the [vf_concurrent][vf_concurrent] module, use this:
 
     #include "modules/vf_concurrent/vf_concurrent.h"
 
-Then add the corresponding file **[vf_concurrent.cpp][vf_concurrent.cpp]** to
-your build.
+Then add the corresponding file [vf_concurrent.cpp][vf_concurrent.cpp] to your build.
 
 ## AppConfig
 
@@ -84,35 +85,50 @@ convention).
 
 ## License
 
-Copyright (C) 2008 by Vinnie Falco ([e-mail][0])
+This library contains portions of other open source products covered by
+separate licenses. Please see the corresponding source files for specific
+terms.
+  
+VFLib is provided under the terms of The MIT License (MIT):
 
-Unless otherwise marked, files in VFLib are published under the [GNU General
-Public License][5].  This program is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Commercial, closed source licenses for VFLib are available, [contact the
-author][0] for details.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
 
 Some files contain portions of these external projects, licensed separately:
 
 - [bZip2][7] is Copyright (C) 1996-2010 Julian R Seward. All rights
-reserved. See the corresponding file LICENSE for licensing terms.
+  reserved. See the corresponding file LICENSE for licensing terms.
 
 - Portions of the software are Copyright (C) 1996-2001, 2006 by [The FreeType
-Project][8]. All rights reserved. [FreeType][8] is distributed
-under both the [GNU General Public License][5], or the
-[FreeType License][9].
+  Project][8]. All rights reserved. [FreeType][8] is distributed
+  under both the [GNU General Public License][5], or the
+  [FreeType License][9].
 
 - Portions of this software are Copyright (C) 1994-2012 [Lua.org][10], PUC-Rio.
-Lua is distributed under the terms of the [MIT License][11].
+  Lua is distributed under the terms of the [MIT License][11].
 
-- [Luabridge][12] is Copyrighted (C) 2007 by Nathan Reed. [Luabridge][12] is
-distributed under the terms of the [MIT License][11].
+- [Luabridge][12] is Copyright (C) 2012 by Vinnie Falco and Copyrighted (C)
+  2007 by Nathan Reed. [Luabridge][12] is distributed under the terms of the
+  [MIT License][11].
 
 - [Soci][13] is Copyright (C) 2004-2008 Maciej Sobczak, Stephen Hutton, and
-various others noted in the corresponding source files. Soci is distributed
-under the [Boost Software License, Version 1.0][14].
+  various others noted in the corresponding source files. Soci is distributed
+  under the [Boost Software License, Version 1.0][14].
 
 - [SQLite][15], placed in the public domain.
 

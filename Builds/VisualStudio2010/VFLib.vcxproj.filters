@@ -534,9 +534,6 @@
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\sources\vf_SampleSource.cpp">
-      <Filter>VF Modules\vf_audio\sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClCompile>
@@ -1056,6 +1053,6 @@
   <ItemGroup>
     <None Include="..\..\README.md" />
     <None Include="..\..\docs\Doxyfile" />
-    <None Include="..\..\GNU_GPL_v2.txt" />
+    <None Include="..\..\COPYRIGHT" />
   </ItemGroup>
 </Project>
