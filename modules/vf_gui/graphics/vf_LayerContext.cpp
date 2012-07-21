@@ -21,33 +21,197 @@
 
 LayerContext::LayerContext (BackgroundContext& destinationContext,
                             Rectangle <int> const& drawBounds)
-  : ContextImageBase (destinationContext.getClipBounds ().getIntersection (drawBounds),
-                      Image::ARGB)
+  : ContextImageBase (
+      destinationContext.getImageBounds ().getIntersection (drawBounds),
+      Image::ARGB)
   , Graphics (getImage ())
   , m_destinationContext (destinationContext)
-  , m_blendMode (normal)
-  , m_blendOpacity (1)
 {
+  getImage ().clear (getImage ().getBounds (), Colour::fromRGBA (0, 0, 0, 0));
+  
   setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
 } 
 
+//------------------------------------------------------------------------------
+
 LayerContext::~LayerContext ()
 {
-  BlendImage (
-    m_destinationContext.getImage (),
-    getImageBounds ().getTopLeft () - m_destinationContext.getImageBounds ().getTopLeft (),
-    getImage (),
-    getImage ().getBounds (),
-    m_blendMode,
-    m_blendOpacity);
+  Image workImage (
+    Image::RGB,
+    getImageBounds ().getWidth (),
+    getImageBounds ().getHeight (),
+    false);
+
+  // Copy the background layer into the work image.
+  copyImage (workImage,
+             Point <int> (0, 0),
+             m_destinationContext.getImage (),
+             getImageBounds (),
+             normal,
+             1);
+
+  // Draw effects from the bottom up.
+
+  applyDropShadow (workImage);
+
+  applyFill (workImage);
+
+  applyInnerShadow (workImage);
+
+  // Copy the work image onto the background layer
+  // using normal mode and the general opacity.
+  copyImage (m_destinationContext.getImage (),
+             getImageBounds ().getTopLeft (),
+             workImage,
+             workImage.getBounds (),
+             normal,
+             m_options.general.opacity);
 }
 
-void LayerContext::setBlendMode (BlendMode mode)
+//------------------------------------------------------------------------------
+
+LayerContext::Options& LayerContext::getOptions ()
 {
-  m_blendMode = mode;
+  return m_options;
 }
 
-void LayerContext::setBlendOpacity (double opacity)
+//------------------------------------------------------------------------------
+
+void LayerContext::applyDropShadow (Image& workImage)
 {
-  m_blendOpacity = opacity;
+  Options::DropShadow& dropShadow = m_options.dropShadow;
+
+  if (!dropShadow.active)
+    return;
+
+  int const dx = static_cast <int> (
+    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
+  
+  int const dy = static_cast <int> (
+    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
+
+  // Get the layer mask as an individual channel.
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
+  
+  RadialImageConvolutionKernel k (dropShadow.size + 1);
+  k.createGaussianBlur ();
+
+  // Compute the shadow mask.
+  Image shadow = k.createConvolvedImageFull (mask);
+
+  // Optionally subtract layer mask from shadow mask.
+  if (dropShadow.knockout)
+    copyImage (
+      shadow,
+      Point <int> (-dx, -dy),
+      mask,
+      mask.getBounds (),
+      subtract,
+      1);
+
+  // Fill the shadow mask.
+  fillImage (workImage,
+             getImageBounds ().getTopLeft (),
+             shadow,
+             shadow.getBounds (),
+             dropShadow.mode,
+             dropShadow.opacity,
+             dropShadow.colour);
 }
+
+//------------------------------------------------------------------------------
+
+static void InvertImage (Image image)
+{
+  switch (image.getFormat ())
+  {
+  case Image::SingleChannel:
+    {
+      Image::BitmapData bits (image, Image::BitmapData::readWrite);
+
+      uint8* dest = bits.getLinePointer (0);
+      int const rowBytes = bits.lineStride - bits.width * bits.pixelStride;
+
+      for (int y = bits.height; y--;)
+      {
+        for (int x = bits.width; x--;)
+        {
+          *dest = 255 - *dest;
+          dest += bits.pixelStride;
+        }
+
+        dest += rowBytes;
+      }
+    }
+    break;
+
+  default:
+    jassertfalse;
+    break;
+  }
+}
+
+void LayerContext::applyInnerShadow (Image& workImage)
+{
+  Options::InnerShadow& innerShadow = m_options.innerShadow;
+
+  if (!innerShadow.active)
+    return;
+
+  int const dx = static_cast <int> (
+    - innerShadow.distance * std::cos (innerShadow.angle) + 0.5) - innerShadow.size;
+  
+  int const dy = static_cast <int> (
+    innerShadow.distance * std::sin (innerShadow.angle) + 0.5) - innerShadow.size;
+
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
+  
+  RadialImageConvolutionKernel k (innerShadow.size + 1);
+  k.createGaussianBlur ();
+
+  Image shadow = k.createConvolvedImage (mask);
+
+  InvertImage (shadow);
+
+  // clip inverse shadow mask to interior of layer
+  copyImage (shadow,
+             Point <int> (0, 0),
+             mask,
+             mask.getBounds (),
+             darken,
+             1);
+  // DO THIS CLIP FIRST so we have fewer pixels to process?
+  //shadow = shadow.getClippedImage (mask.getBounds () + Point <int> (dx, dy));
+
+  // Fill the shadow mask.
+  fillImage (workImage,
+             getImageBounds ().getTopLeft (),
+             shadow,
+             shadow.getBounds (),
+             innerShadow.mode,
+             innerShadow.opacity,
+             innerShadow.colour);
+}
+
+//------------------------------------------------------------------------------
+
+void LayerContext::applyFill (Image& workImage)
+{
+  copyImage (workImage,
+             getImageBounds ().getTopLeft (),
+             getImage (),
+             getImageBounds (),
+             m_options.fill.mode,
+             m_options.fill.opacity);
+}
+
+//------------------------------------------------------------------------------
+/*
+
+Experimental Evidence:
+
+- Inner Shadow draws on top of Drop Shadow
+- Fill draws on top of Drop Shadow
+
+
+*/

@@ -531,9 +531,6 @@
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LayerContext.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.cpp">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClCompile>
@@ -541,6 +538,9 @@
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1040,13 +1040,16 @@
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LayerContext.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ImageGraphics.h">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_Metronome.h">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.h">
+      <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_Pixels.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,8 +43,7 @@ Image ContextImageBase::getImage () const
 
 BackgroundContext::BackgroundContext (Graphics& destinationContext,
                                       Rectangle <int> const& drawBounds)
-  : ContextImageBase (destinationContext.getClipBounds ().getIntersection (drawBounds),
-                      Image::RGB)
+  : ContextImageBase (drawBounds, Image::RGB)
   , Graphics (getImage ())
   , m_destinationContext (destinationContext)
 {
