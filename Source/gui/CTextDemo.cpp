@@ -66,7 +66,7 @@ void CTextDemo::paint (Graphics& g)
   opt.fill.mode = vf::normal;
   opt.fill.opacity = 1;
 
-  opt.dropShadow.active   = false;
+  opt.dropShadow.active   = true;
   opt.dropShadow.mode     = vf::normal;
   opt.dropShadow.opacity  = 1;
   opt.dropShadow.colour   = Colours::black;
@@ -78,12 +78,12 @@ void CTextDemo::paint (Graphics& g)
 
   opt.innerShadow.active   = true;
   opt.innerShadow.mode     = vf::normal;
-  opt.innerShadow.opacity  = .5;
-  opt.innerShadow.colour   = Colours::black;
+  opt.innerShadow.opacity  = 1;
+  opt.innerShadow.colour   = Colours::yellow;
   opt.innerShadow.angle    = 2*3.14159 * 135 / 360;
-  opt.innerShadow.distance = 4;
+  opt.innerShadow.distance = 8;
   opt.innerShadow.choke    = 0.5;
-  opt.innerShadow.size     = 3;
+  opt.innerShadow.size     = 5;
 }
 
 void CTextDemo::mouseDown (MouseEvent const& e)
