@@ -48,9 +48,12 @@
   @defgroup vf_unfinished vf_unfinished
 */
 
+#include "modules/juce_audio_basics/juce_audio_basics.h"
+#include "modules/juce_audio_devices/juce_audio_devices.h"
 #include "modules/juce_gui_basics/juce_gui_basics.h"
 
 #include "../vf_core/vf_core.h"
+#include "../vf_concurrent/vf_concurrent.h"
 #include "../vf_gui/vf_gui.h"
 
 #if JUCE_MSVC
@@ -66,6 +69,9 @@ namespace vf
 #include "graphics/vf_BlendImage.h"
 #include "graphics/vf_LayerContext.h"
 #include "graphics/vf_Pixels.h"
+
+#include "midi/vf_MidiInput.h"
+#include "midi/vf_MidiDevices.h"
 
 }
 

@@ -3,7 +3,7 @@
 <JUCERPROJECT id="jYvoRk" name="LayerEffects" projectType="guiapp" version="1.0.0"
               jucerVersion="3.0.0">
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="../MacOSX" juceFolder="..\..\..\..\JUCE\modules">
+    <XCODE_MAC targetFolder="../MacOSX" juceFolder="../../JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LayerEffects"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"
@@ -13,7 +13,7 @@
                        headerPath="../../JUCE;../../VFLib"/>
       </CONFIGURATIONS>
     </XCODE_MAC>
-    <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="..\..\..\..\JUCE\modules">
+    <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="../../JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
@@ -22,7 +22,7 @@
                        wholeProgramOptimisation="1"/>
       </CONFIGURATIONS>
     </VS2010>
-    <LINUX_MAKE targetFolder="../Linux" juceFolder="..\..\..\..\JUCE\modules">
+    <LINUX_MAKE targetFolder="../Linux" juceFolder="../../JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
@@ -33,8 +33,12 @@
   </EXPORTFORMATS>
   <MAINGROUP id="DFaKOO" name="LayerEffects">
     <GROUP id="{CE0D3277-E39C-C7F7-4365-4853321CF60C}" name="_VFLib">
-      <FILE id="UnlUdH" name="vf_gui.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_gui/vf_gui.cpp"/>
+      <FILE id="lyLvaO" name="vf_concurrent.cpp" compile="1" resource="0"
+            file="../../VFLib/modules/vf_concurrent/vf_concurrent.cpp"/>
       <FILE id="WEyHcd" name="vf_core.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_core/vf_core.cpp"/>
+      <FILE id="UnlUdH" name="vf_gui.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_gui/vf_gui.cpp"/>
+      <FILE id="w0Wxuc" name="vf_unfinished.cpp" compile="1" resource="0"
+            file="../../VFLib/modules/vf_unfinished/vf_unfinished.cpp"/>
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
@@ -62,12 +66,15 @@
     </GROUP>
   </MAINGROUP>
   <MODULES>
-    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_audio" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_core" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_audio_basics" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="0" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS/>
 </JUCERPROJECT>

@@ -15,14 +15,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\midi\vf_MidiDevices.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\midi\vf_MidiInput.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -517,6 +509,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\vf_unfinished.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -524,8 +524,6 @@
     <ClInclude Include="..\..\modules\vf_audio\buffers\vf_AudioBufferPool.h" />
     <ClInclude Include="..\..\modules\vf_audio\buffers\vf_AudioSampleBufferArray.h" />
     <ClInclude Include="..\..\modules\vf_audio\buffers\vf_ScopedAudioSampleBuffer.h" />
-    <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiDevices.h" />
-    <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiInput.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_Metronome.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_NoiseAudioSource.h" />
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SampleSource.h" />
@@ -693,6 +691,8 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />
   </ItemGroup>
   <ItemGroup>

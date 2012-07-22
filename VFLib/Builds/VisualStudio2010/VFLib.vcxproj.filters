@@ -136,14 +136,14 @@
     <Filter Include="VF Modules\vf_luabridge\LuaBridge">
       <UniqueIdentifier>{b749b783-719d-41c3-b726-4de765d75a8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VF Modules\vf_audio\midi">
-      <UniqueIdentifier>{03c092f1-b44e-44b5-a93e-6669fbbf219a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="VF Modules\vf_unfinished">
       <UniqueIdentifier>{fc13727b-31bd-45ad-85c4-4a5b1dad20af}</UniqueIdentifier>
     </Filter>
     <Filter Include="VF Modules\vf_unfinished\graphics">
       <UniqueIdentifier>{3cd53d60-e6d7-46a8-9ab5-3216bc2ad15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VF Modules\vf_unfinished\midi">
+      <UniqueIdentifier>{7cf3b93e-684c-4f9a-bcf4-2035269c935b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -519,14 +519,8 @@
     <ClCompile Include="..\..\modules\vf_lua\vf_lua.cpp">
       <Filter>VF Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\midi\vf_MidiInput.cpp">
-      <Filter>VF Modules\vf_audio\midi</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\modules\vf_audio\midi\vf_MidiDevices.cpp">
-      <Filter>VF Modules\vf_audio\midi</Filter>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
@@ -557,6 +551,12 @@
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.cpp">
+      <Filter>VF Modules\vf_unfinished\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.cpp">
+      <Filter>VF Modules\vf_unfinished\midi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1034,9 +1034,6 @@
     <ClInclude Include="..\..\modules\vf_luabridge\LuaBridge\LuaBridgeExtras.h">
       <Filter>VF Modules\vf_luabridge\LuaBridge</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiInput.h">
-      <Filter>VF Modules\vf_audio\midi</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.h">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClInclude>
@@ -1045,9 +1042,6 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.h">
       <Filter>VF Modules\vf_audio\sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_audio\midi\vf_MidiDevices.h">
-      <Filter>VF Modules\vf_audio\midi</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
@@ -1081,6 +1075,12 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h">
+      <Filter>VF Modules\vf_unfinished\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h">
+      <Filter>VF Modules\vf_unfinished\midi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
