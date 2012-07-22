@@ -505,6 +505,19 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_taglib\vf_taglib.cpp" />
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\vf_unfinished.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AppConfigTemplate\AppConfig.h" />
@@ -676,6 +689,11 @@
     <ClInclude Include="..\..\modules\vf_sqlite\vf_sqlite.h" />
     <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\COPYRIGHT" />

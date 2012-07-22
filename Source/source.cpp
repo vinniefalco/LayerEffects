@@ -42,6 +42,7 @@
 
 #include "modules/vf_core/vf_core.h"
 #include "modules/vf_gui/vf_gui.h"
+#include "modules/vf_unfinished/vf_unfinished.h"
 
 using namespace juce;
 

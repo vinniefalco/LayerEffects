@@ -30,65 +30,31 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_gui module.
+/** Add this to get the @ref vf_unfinished module.
 
-    @file vf_gui.h
-    @ingroup vf_gui
+    @file vf_unfinished.cpp
+    @ingroup vf_unfinished
 */
 
-#ifndef VF_GUI_VFHEADER
-#define VF_GUI_VFHEADER
+#include "AppConfig.h"
 
-/*============================================================================*/
-/**
-    Classes for appearance and graphical display.
-
-    This module offers classes that assist with the development and presentation
-    of user interface components.
-
-    @defgroup vf_gui vf_gui
-*/
-
-#include "../vf_core/vf_core.h"
-
-#include "modules/juce_gui_basics/juce_gui_basics.h"
+#include "vf_unfinished.h"
 
 #if JUCE_MSVC
 #pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-#pragma warning (disable: 4355) // 'this' : used in base member initializer list
+//#pragma warning (disable: 4100) // unreferenced formal parmaeter
+//#pragma warning (disable: 4355) // 'this' used in base member
 #endif
 
 namespace vf
 {
 
-#include "components/vf_ComponentBroadcast.h"
-#include "components/vf_ComponentNotifyParent.h"
-#include "components/vf_TransparentBorder.h"
-
-#include "graphics/vf_ChannelImageType.h"
-#include "graphics/vf_LabColour.h"
-#include "graphics/vf_XYZColour.h"
-#include "graphics/vf_RadialImageConvolutionKernel.h"
-#include "graphics/vf_VerticalGradient.h"
-
-#if VF_USE_FREETYPE
-#include "graphics/vf_FreeTypeFaces.h"
-#endif
-
-#include "layout/vf_ContentComponentConstrainer.h"
-#include "layout/vf_ResizableLayout.h"
-#include "layout/vf_StackedLayout.h"
-
-#include "mouse/vf_DragAndDropData.h"
-#include "mouse/vf_MouseEnterEditable.h"
-#include "mouse/vf_MouseEnterGroup.h"
+#include "graphics/vf_BackgroundContext.cpp"
+#include "graphics/vf_BlendImage.cpp"
+#include "graphics/vf_LayerContext.cpp"
 
 }
 
 #if JUCE_MSVC
 #pragma warning (pop)
 #endif
-
-#endif
-

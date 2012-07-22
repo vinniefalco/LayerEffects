@@ -30,59 +30,42 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_gui module.
+/** Include this to get the @ref vf_unfinished module.
 
-    @file vf_gui.h
-    @ingroup vf_gui
+    @file vf_unfinished.h
+    @ingroup vf_unfinished
 */
 
-#ifndef VF_GUI_VFHEADER
-#define VF_GUI_VFHEADER
+#ifndef VF_UNFINISHED_VFHEADER
+#define VF_UNFINISHED_VFHEADER
 
 /*============================================================================*/
 /**
-    Classes for appearance and graphical display.
+  Work in progress.
 
-    This module offers classes that assist with the development and presentation
-    of user interface components.
+  This module contains unfinished code.
 
-    @defgroup vf_gui vf_gui
+  @defgroup vf_unfinished vf_unfinished
 */
-
-#include "../vf_core/vf_core.h"
 
 #include "modules/juce_gui_basics/juce_gui_basics.h"
 
+#include "../vf_core/vf_core.h"
+#include "../vf_gui/vf_gui.h"
+
 #if JUCE_MSVC
 #pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-#pragma warning (disable: 4355) // 'this' : used in base member initializer list
+//#pragma warning (disable: 4100) // unreferenced formal parameter
+//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
 #endif
 
 namespace vf
 {
 
-#include "components/vf_ComponentBroadcast.h"
-#include "components/vf_ComponentNotifyParent.h"
-#include "components/vf_TransparentBorder.h"
-
-#include "graphics/vf_ChannelImageType.h"
-#include "graphics/vf_LabColour.h"
-#include "graphics/vf_XYZColour.h"
-#include "graphics/vf_RadialImageConvolutionKernel.h"
-#include "graphics/vf_VerticalGradient.h"
-
-#if VF_USE_FREETYPE
-#include "graphics/vf_FreeTypeFaces.h"
-#endif
-
-#include "layout/vf_ContentComponentConstrainer.h"
-#include "layout/vf_ResizableLayout.h"
-#include "layout/vf_StackedLayout.h"
-
-#include "mouse/vf_DragAndDropData.h"
-#include "mouse/vf_MouseEnterEditable.h"
-#include "mouse/vf_MouseEnterGroup.h"
+#include "graphics/vf_BackgroundContext.h"
+#include "graphics/vf_BlendImage.h"
+#include "graphics/vf_LayerContext.h"
+#include "graphics/vf_Pixels.h"
 
 }
 
@@ -91,4 +74,3 @@ namespace vf
 #endif
 
 #endif
-

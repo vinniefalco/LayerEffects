@@ -139,6 +139,12 @@
     <Filter Include="VF Modules\vf_audio\midi">
       <UniqueIdentifier>{03c092f1-b44e-44b5-a93e-6669fbbf219a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VF Modules\vf_unfinished">
+      <UniqueIdentifier>{fc13727b-31bd-45ad-85c4-4a5b1dad20af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VF Modules\vf_unfinished\graphics">
+      <UniqueIdentifier>{3cd53d60-e6d7-46a8-9ab5-3216bc2ad15a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\modules\vf_audio\vf_audio.cpp">
@@ -539,6 +545,18 @@
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\vf_unfinished.cpp">
+      <Filter>VF Modules\vf_unfinished</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1048,6 +1066,21 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_Pixels.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h">
+      <Filter>VF Modules\vf_unfinished</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
