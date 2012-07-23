@@ -182,7 +182,16 @@ void LayerContext::applyInnerShadow (Image& workImage)
 
   Image shadow = k.createConvolvedImage (mask);
 
-  InvertImage (shadow);
+  // Apply inner shadow using layer mask.
+  fillImage (workImage,
+             getImageBounds ().getTopLeft (),
+             mask,
+             mask.getBounds (),
+             innerShadow.mode,
+             innerShadow.opacity,
+             innerShadow.colour);
+
+  //InvertImage (shadow);
 
   // clip inverse shadow mask to interior of layer
   copyImage (shadow,
@@ -195,6 +204,7 @@ void LayerContext::applyInnerShadow (Image& workImage)
   //shadow = shadow.getClippedImage (mask.getBounds () + Point <int> (dx, dy));
 
   // Fill the shadow mask.
+#if 0
   fillImage (workImage,
              getImageBounds ().getTopLeft (),
              shadow,
@@ -202,6 +212,7 @@ void LayerContext::applyInnerShadow (Image& workImage)
              innerShadow.mode,
              innerShadow.opacity,
              innerShadow.colour);
+#endif
 }
 
 //------------------------------------------------------------------------------

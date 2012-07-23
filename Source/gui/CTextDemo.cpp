@@ -76,10 +76,10 @@ void CTextDemo::paint (Graphics& g)
   opt.dropShadow.size     = 10;
   opt.dropShadow.knockout = false;
 
-  opt.innerShadow.active   = true;
+  opt.innerShadow.active   = false;
   opt.innerShadow.mode     = vf::normal;
-  opt.innerShadow.opacity  = 1;
-  opt.innerShadow.colour   = Colours::yellow;
+  opt.innerShadow.opacity  = .2;
+  opt.innerShadow.colour   = Colours::cyan;
   opt.innerShadow.angle    = 2*3.14159 * 135 / 360;
   opt.innerShadow.distance = 8;
   opt.innerShadow.choke    = 0.5;

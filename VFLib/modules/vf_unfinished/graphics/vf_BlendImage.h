@@ -33,49 +33,4 @@
 #ifndef VF_BLENDIMAGE_VFHEADER
 #define VF_BLENDIMAGE_VFHEADER
 
-enum BlendMode
-{
-  normal = 1,
-  lighten,
-  darken,
-  multiply,
-  average,
-  add,
-  subtract,
-  difference,
-  negation,
-  screen,
-  exclusion,
-  overlay,
-  softLight,
-  hardLight,
-  colorDodge,
-  colorBurn,
-  linearDodge,
-  linearBurn,
-  linearLight,
-  vividLight,
-  pinLight,
-  hardMix,
-  reflect,
-  glow,
-  phoenix,
-};
-
-/** Fill an image with colour.
-*/
-extern void fillImage (Image dest,
-                       Point <int> destTopLeft,
-                       Image mask,
-                       Rectangle <int> maskBounds,
-                       BlendMode mode,
-                       double opacity,
-                       Colour colour);
-
-extern void copyImage (Image dest,
-                       Point <int> destTopLeft,
-                       Image source,
-                       Rectangle <int> sourceBounds,
-                       BlendMode mode,
-                       double opacity);
 #endif

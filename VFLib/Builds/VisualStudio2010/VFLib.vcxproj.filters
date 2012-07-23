@@ -474,9 +474,6 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.cpp">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
@@ -485,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.cpp">
       <Filter>VF Modules\vf_unfinished\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -912,9 +912,6 @@
       <Filter>VF Modules\vf_unfinished</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h">

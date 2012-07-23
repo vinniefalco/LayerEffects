@@ -424,7 +424,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.cpp">
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -585,7 +585,6 @@
     <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />

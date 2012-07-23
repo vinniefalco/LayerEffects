@@ -33,6 +33,52 @@
 #ifndef VF_PIXELS_VFHEADER
 #define VF_PIXELS_VFHEADER
 
+enum BlendMode
+{
+  normal = 1,
+  lighten,
+  darken,
+  multiply,
+  average,
+  add,
+  subtract,
+  difference,
+  negation,
+  screen,
+  exclusion,
+  overlay,
+  softLight,
+  hardLight,
+  colorDodge,
+  colorBurn,
+  linearDodge,
+  linearBurn,
+  linearLight,
+  vividLight,
+  pinLight,
+  hardMix,
+  reflect,
+  glow,
+  phoenix,
+};
+
+/** Fill an image with colour.
+*/
+extern void fillImage (Image dest,
+                       Point <int> destTopLeft,
+                       Image mask,
+                       Rectangle <int> maskBounds,
+                       BlendMode mode,
+                       double opacity,
+                       Colour colour);
+
+extern void copyImage (Image dest,
+                       Point <int> destTopLeft,
+                       Image source,
+                       Rectangle <int> sourceBounds,
+                       BlendMode mode,
+                       double opacity);
+
 /** Wrapper for @ref BitmapData.
 
     This wrapper facilitates operations on one or more images.
@@ -266,6 +312,7 @@ public:
   };
 
   //=============================================================================
+
   /** Pixel operations
 
       These are suitable for use with iterate ()
@@ -274,9 +321,42 @@ public:
   /** Blend a colour into RGB using a mask.
   */
   template <class ModeType>
-  struct FillMaskRGB
+  struct FillRGB_Mask
   {
-    explicit FillMaskRGB (Colour const& colour, double opacity, ModeType mode = ModeType ())
+    explicit FillRGB_Mask (Colour const& colour, ModeType mode = ModeType ())
+      : m_mode (mode)
+      , m_src (colour.getARGB ())
+    {
+    }
+
+    void operator () (uint8* dest, uint8 const* mask) const
+    {
+      int const m = *mask;
+      PixelRGB& d (*((PixelRGB*)dest));
+      PixelRGB s;
+
+      s.getRed ()   = m_mode (m_src.getRed   (), d.getRed ());
+      s.getGreen () = m_mode (m_src.getGreen (), d.getGreen ());
+      s.getBlue ()  = m_mode (m_src.getBlue  (), d.getBlue ());
+
+      d.blend (s, *mask);
+    }
+
+  private:
+    FillRGB_Mask <ModeType>& operator= (FillRGB_Mask <ModeType> const&);
+
+    ModeType const m_mode;
+    PixelRGB const m_src;
+  };
+
+  //------------------------------------------------------------------------------
+
+  /** Blend a colour into RGB using a mask and specified opacity.
+  */
+  template <class ModeType>
+  struct FillRGB_MaskOpacity
+  {
+    explicit FillRGB_MaskOpacity (Colour const& colour, double opacity, ModeType mode = ModeType ())
       : m_alpha (int (255 * opacity + 0.5))
       , m_mode (mode)
       , m_src (colour.getARGB ())
@@ -294,7 +374,7 @@ public:
     }
 
   private:
-    FillMaskRGB <ModeType>& operator= (FillMaskRGB <ModeType> const&);
+    FillRGB_MaskOpacity <ModeType>& operator= (FillRGB_MaskOpacity <ModeType> const&);
 
     int const m_alpha;
     ModeType const m_mode;
@@ -306,9 +386,9 @@ public:
   /** Blend two grayscale pixels.
   */
   template <class ModeType>
-  struct BlendGray
+  struct BlendGray_Opacity
   {
-    explicit BlendGray (double opacity, ModeType mode = ModeType ())
+    explicit BlendGray_Opacity (double opacity, ModeType mode = ModeType ())
       : m_alpha (int (255 * opacity + 0.5))
       , m_mode (mode)
     {
@@ -320,7 +400,7 @@ public:
     }
 
   private:
-    BlendGray <ModeType>& operator= (BlendGray <ModeType> const&);
+    BlendGray_Opacity <ModeType>& operator= (BlendGray_Opacity <ModeType> const&);
 
     int const m_alpha;
     ModeType const m_mode;
@@ -331,9 +411,9 @@ public:
   /** Blend two RGB pixels.
   */
   template <class ModeType>
-  struct BlendRGB
+  struct BlendRGB_Opacity
   {
-    explicit BlendRGB (double opacity, ModeType mode = ModeType ())
+    explicit BlendRGB_Opacity (double opacity, ModeType mode = ModeType ())
       : m_alpha (int (255 * opacity + 0.5))
       , m_mode (mode)
     {
@@ -353,7 +433,7 @@ public:
     }
 
   private:
-    BlendRGB <ModeType>& operator= (BlendRGB <ModeType> const&);
+    BlendRGB_Opacity <ModeType>& operator= (BlendRGB_Opacity <ModeType> const&);
 
     ModeType const m_mode;
     int const m_alpha;
@@ -364,9 +444,9 @@ public:
       This is an optimized specialization.
   */
   template <>
-  struct BlendRGB <Mode::normal>
+  struct BlendRGB_Opacity <Mode::normal>
   {
-    explicit BlendRGB (double opacity)
+    explicit BlendRGB_Opacity (double opacity)
       : m_alpha (int (255 * opacity + 0.5))
     {
     }
@@ -380,7 +460,7 @@ public:
     }
 
   private:
-    BlendRGB <Mode::normal> & operator= (BlendRGB <Mode::normal> const&);
+    BlendRGB_Opacity <Mode::normal> & operator= (BlendRGB_Opacity <Mode::normal> const&);
 
     int const m_alpha;
   };
@@ -390,9 +470,9 @@ public:
   /** Blend a premultiplied ARGB pixel onto an RGB pixel.
   */
   template <class ModeType>
-  struct BlendARGB
+  struct BlendARGB_Opacity
   {
-    explicit BlendARGB (double opacity, ModeType mode = ModeType ())
+    explicit BlendARGB_Opacity (double opacity, ModeType mode = ModeType ())
       : m_alpha (int (255 * opacity + 0.5))
       , m_mode (mode)
     {
@@ -415,7 +495,7 @@ public:
     }
 
   private:
-    BlendARGB <ModeType> & operator= (BlendARGB <ModeType> const&);
+    BlendARGB_Opacity <ModeType> & operator= (BlendARGB_Opacity <ModeType> const&);
 
     int const m_alpha;
     ModeType const m_mode;
@@ -532,6 +612,44 @@ void processImage (Image dest,
   Pixels sourcePixels (source, bounds);
 
   destPixels.iterate (sourcePixels, op);
+}
+
+/** Generic blend mode application.
+*/
+template <class Functor>
+void applyBlendMode (BlendMode mode, Functor functor = Functor ())
+{
+  switch (mode)
+  {
+  case normal:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::normal> (colour, opacity)); break;
+  case lighten:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::lighten> (colour, opacity)); break;
+  case darken:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::darken> (colour, opacity)); break;
+  case multiply:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::multiply> (colour, opacity)); break;
+  case average:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::average> (colour, opacity)); break;
+  case add:         destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::add> (colour, opacity)); break;
+  case subtract:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::subtract> (colour, opacity)); break;
+  case difference:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::difference> (colour, opacity)); break;
+  case negation:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::negation> (colour, opacity)); break;
+  case screen:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::screen> (colour, opacity)); break;
+  case exclusion:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::exclusion> (colour, opacity)); break;
+  case overlay:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::overlay> (colour, opacity)); break;
+  case softLight:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::softLight> (colour, opacity)); break;
+  case hardLight:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::hardLight> (colour, opacity)); break;
+  case colorDodge:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::colorDodge> (colour, opacity)); break;
+  case colorBurn:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::colorBurn> (colour, opacity)); break;
+  case linearDodge: destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearDodge> (colour, opacity)); break;
+  case linearBurn:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearBurn> (colour, opacity)); break;
+  case linearLight: destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearLight> (colour, opacity)); break;
+  case vividLight:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::vividLight> (colour, opacity)); break;
+  case pinLight:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::pinLight> (colour, opacity)); break;
+  case hardMix:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::hardMix> (colour, opacity)); break;
+  case reflect:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::reflect> (colour, opacity)); break;
+  case glow:        destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::glow> (colour, opacity)); break;
+  case phoenix:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::phoenix> (colour, opacity)); break;
+  default:
+    jassertfalse;
+  };
+  break;
 }
 
 #endif

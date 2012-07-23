@@ -66,9 +66,8 @@ namespace vf
 {
 
 #include "graphics/vf_BackgroundContext.h"
-#include "graphics/vf_BlendImage.h"
-#include "graphics/vf_LayerContext.h"
 #include "graphics/vf_Pixels.h"
+#include "graphics/vf_LayerContext.h"
 
 #include "midi/vf_MidiInput.h"
 #include "midi/vf_MidiDevices.h"
