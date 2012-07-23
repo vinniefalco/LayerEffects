@@ -46,7 +46,7 @@
 
   @ingroup vf_core
 */
-class InterruptibleThread : protected Thread
+class InterruptibleThread
 {
 public:
   typedef Thread::ThreadID id;
@@ -121,18 +121,35 @@ public:
   */
   bool isTheCurrentThread () const;
 
-  /**
-    Adjust the thread priority.
+  /** Adjust the thread priority.
 
-    @note This only affects some platforms.
+      @note This only affects some platforms.
 
-    @param priority A number from 0..10
+      @param priority A number from 0..10
   */
   void setPriority (int priority);
 
+  /** Get the InterruptibleThread for the thread of execution.
+  */
+  static InterruptibleThread* getCurrentThread ();
+
 private:
+  class ThreadHelper : public Thread
+  {
+  public:
+    ThreadHelper (String name, InterruptibleThread* owner);
+
+    InterruptibleThread* getOwner () const;
+    
+    void run ();
+
+  private:
+    InterruptibleThread* const m_owner;
+  };
+
   void run ();
 
+  ThreadHelper m_thread;
   Function <void (void)> m_function;
   WaitableEvent m_runEvent;
   id m_threadId;

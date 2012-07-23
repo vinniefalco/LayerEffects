@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E06FF0315BDDD4400899EB5 /* vf_unfinished.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */; };
+		2E06FF0415BDDD4400899EB5 /* vf_unfinished.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */; };
+		2E06FF0515BDDD4400899EB5 /* vf_unfinished.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */; };
+		2E06FF0615BDDD4400899EB5 /* vf_unfinished.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */; };
 		2E08D9C31549EF2E006A6931 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E08D9C21549EF2E006A6931 /* Cocoa.framework */; };
 		2E08D9E61549F0C6006A6931 /* vf_audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DA1549F0C6006A6931 /* vf_audio.cpp */; };
 		2E08D9E71549F0C6006A6931 /* vf_bzip2.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DB1549F0C6006A6931 /* vf_bzip2.c */; };
 		2E08D9E81549F0C6006A6931 /* vf_concurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */; };
 		2E08D9E91549F0C6006A6931 /* vf_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DD1549F0C6006A6931 /* vf_core.cpp */; };
 		2E08D9EA1549F0C6006A6931 /* vf_db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DE1549F0C6006A6931 /* vf_db.cpp */; };
-		2E08D9EB1549F0C6006A6931 /* vf_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */; };
 		2E08D9EC1549F0C6006A6931 /* vf_freetype.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E01549F0C6006A6931 /* vf_freetype.c */; };
 		2E08D9ED1549F0C6006A6931 /* vf_gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E11549F0C6006A6931 /* vf_gui.cpp */; };
 		2E08D9EF1549F0C6006A6931 /* vf_luabridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */; };
@@ -24,7 +27,6 @@
 		2E915CDA1575228C00929EBA /* vf_concurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */; };
 		2E915CDB1575228C00929EBA /* vf_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DD1549F0C6006A6931 /* vf_core.cpp */; };
 		2E915CDC1575228C00929EBA /* vf_db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DE1549F0C6006A6931 /* vf_db.cpp */; };
-		2E915CDD1575228C00929EBA /* vf_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */; };
 		2E915CDE1575228C00929EBA /* vf_freetype.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E01549F0C6006A6931 /* vf_freetype.c */; };
 		2E915CDF1575228C00929EBA /* vf_gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E11549F0C6006A6931 /* vf_gui.cpp */; };
 		2E915CE01575228C00929EBA /* vf_luabridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */; };
@@ -36,7 +38,6 @@
 		2E915CEE1575229D00929EBA /* vf_concurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */; };
 		2E915CEF1575229D00929EBA /* vf_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DD1549F0C6006A6931 /* vf_core.cpp */; };
 		2E915CF01575229D00929EBA /* vf_db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DE1549F0C6006A6931 /* vf_db.cpp */; };
-		2E915CF11575229D00929EBA /* vf_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */; };
 		2E915CF21575229D00929EBA /* vf_freetype.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E01549F0C6006A6931 /* vf_freetype.c */; };
 		2E915CF31575229D00929EBA /* vf_gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E11549F0C6006A6931 /* vf_gui.cpp */; };
 		2E915CF41575229D00929EBA /* vf_luabridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */; };
@@ -48,7 +49,6 @@
 		2E915D03157522A900929EBA /* vf_concurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */; };
 		2E915D04157522A900929EBA /* vf_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DD1549F0C6006A6931 /* vf_core.cpp */; };
 		2E915D05157522A900929EBA /* vf_db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DE1549F0C6006A6931 /* vf_db.cpp */; };
-		2E915D06157522A900929EBA /* vf_deprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */; };
 		2E915D07157522A900929EBA /* vf_freetype.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E01549F0C6006A6931 /* vf_freetype.c */; };
 		2E915D08157522A900929EBA /* vf_gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E11549F0C6006A6931 /* vf_gui.cpp */; };
 		2E915D09157522A900929EBA /* vf_luabridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */; };
@@ -58,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_unfinished.cpp; path = ../../modules/vf_unfinished/vf_unfinished.cpp; sourceTree = "<group>"; };
 		2E08D9BF1549EF2E006A6931 /* libVFLib OSX Apple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libVFLib OSX Apple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E08D9C21549EF2E006A6931 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2E08D9C51549EF2E006A6931 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -68,7 +69,6 @@
 		2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_concurrent.cpp; path = ../../modules/vf_concurrent/vf_concurrent.cpp; sourceTree = "<group>"; };
 		2E08D9DD1549F0C6006A6931 /* vf_core.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_core.cpp; path = ../../modules/vf_core/vf_core.cpp; sourceTree = "<group>"; };
 		2E08D9DE1549F0C6006A6931 /* vf_db.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_db.cpp; path = ../../modules/vf_db/vf_db.cpp; sourceTree = "<group>"; };
-		2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_deprecated.cpp; path = ../../modules/vf_deprecated/vf_deprecated.cpp; sourceTree = "<group>"; };
 		2E08D9E01549F0C6006A6931 /* vf_freetype.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vf_freetype.c; path = ../../modules/vf_freetype/vf_freetype.c; sourceTree = "<group>"; };
 		2E08D9E11549F0C6006A6931 /* vf_gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_gui.cpp; path = ../../modules/vf_gui/vf_gui.cpp; sourceTree = "<group>"; };
 		2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vf_luabridge.cpp; path = ../../modules/vf_luabridge/vf_luabridge.cpp; sourceTree = "<group>"; };
@@ -157,12 +157,12 @@
 				2E08D9DC1549F0C6006A6931 /* vf_concurrent.cpp */,
 				2E08D9DD1549F0C6006A6931 /* vf_core.cpp */,
 				2E08D9DE1549F0C6006A6931 /* vf_db.cpp */,
-				2E08D9DF1549F0C6006A6931 /* vf_deprecated.cpp */,
 				2E08D9E01549F0C6006A6931 /* vf_freetype.c */,
 				2E08D9E11549F0C6006A6931 /* vf_gui.cpp */,
 				2E08D9E31549F0C6006A6931 /* vf_luabridge.cpp */,
 				2E08D9E41549F0C6006A6931 /* vf_sqlite.c */,
 				2E08D9E51549F0C6006A6931 /* vf_taglib.cpp */,
+				2E06FF0215BDDD4400899EB5 /* vf_unfinished.cpp */,
 			);
 			name = "VFLib Modules";
 			sourceTree = "<group>";
@@ -315,12 +315,12 @@
 				2E08D9E81549F0C6006A6931 /* vf_concurrent.cpp in Sources */,
 				2E08D9E91549F0C6006A6931 /* vf_core.cpp in Sources */,
 				2E08D9EA1549F0C6006A6931 /* vf_db.cpp in Sources */,
-				2E08D9EB1549F0C6006A6931 /* vf_deprecated.cpp in Sources */,
 				2E08D9EC1549F0C6006A6931 /* vf_freetype.c in Sources */,
 				2E08D9ED1549F0C6006A6931 /* vf_gui.cpp in Sources */,
 				2E08D9EF1549F0C6006A6931 /* vf_luabridge.cpp in Sources */,
 				2E08D9F01549F0C6006A6931 /* vf_sqlite.c in Sources */,
 				2E08D9F11549F0C6006A6931 /* vf_taglib.cpp in Sources */,
+				2E06FF0315BDDD4400899EB5 /* vf_unfinished.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,12 +333,12 @@
 				2E915CDA1575228C00929EBA /* vf_concurrent.cpp in Sources */,
 				2E915CDB1575228C00929EBA /* vf_core.cpp in Sources */,
 				2E915CDC1575228C00929EBA /* vf_db.cpp in Sources */,
-				2E915CDD1575228C00929EBA /* vf_deprecated.cpp in Sources */,
 				2E915CDE1575228C00929EBA /* vf_freetype.c in Sources */,
 				2E915CDF1575228C00929EBA /* vf_gui.cpp in Sources */,
 				2E915CE01575228C00929EBA /* vf_luabridge.cpp in Sources */,
 				2E915CE11575228C00929EBA /* vf_sqlite.c in Sources */,
 				2E915CE21575228C00929EBA /* vf_taglib.cpp in Sources */,
+				2E06FF0415BDDD4400899EB5 /* vf_unfinished.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,12 +351,12 @@
 				2E915CEE1575229D00929EBA /* vf_concurrent.cpp in Sources */,
 				2E915CEF1575229D00929EBA /* vf_core.cpp in Sources */,
 				2E915CF01575229D00929EBA /* vf_db.cpp in Sources */,
-				2E915CF11575229D00929EBA /* vf_deprecated.cpp in Sources */,
 				2E915CF21575229D00929EBA /* vf_freetype.c in Sources */,
 				2E915CF31575229D00929EBA /* vf_gui.cpp in Sources */,
 				2E915CF41575229D00929EBA /* vf_luabridge.cpp in Sources */,
 				2E915CF51575229D00929EBA /* vf_sqlite.c in Sources */,
 				2E915CF61575229D00929EBA /* vf_taglib.cpp in Sources */,
+				2E06FF0515BDDD4400899EB5 /* vf_unfinished.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,12 +369,12 @@
 				2E915D03157522A900929EBA /* vf_concurrent.cpp in Sources */,
 				2E915D04157522A900929EBA /* vf_core.cpp in Sources */,
 				2E915D05157522A900929EBA /* vf_db.cpp in Sources */,
-				2E915D06157522A900929EBA /* vf_deprecated.cpp in Sources */,
 				2E915D07157522A900929EBA /* vf_freetype.c in Sources */,
 				2E915D08157522A900929EBA /* vf_gui.cpp in Sources */,
 				2E915D09157522A900929EBA /* vf_luabridge.cpp in Sources */,
 				2E915D0A157522A900929EBA /* vf_sqlite.c in Sources */,
 				2E915D0B157522A900929EBA /* vf_taglib.cpp in Sources */,
+				2E06FF0615BDDD4400899EB5 /* vf_unfinished.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

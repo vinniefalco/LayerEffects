@@ -439,33 +439,7 @@ public:
     int const m_alpha;
   };
 
-  /** Blend two RGB pixels using normal mode.
-
-      This is an optimized specialization.
-  */
-  template <>
-  struct BlendRGB_Opacity <Mode::normal>
-  {
-    explicit BlendRGB_Opacity (double opacity)
-      : m_alpha (int (255 * opacity + 0.5))
-    {
-    }
-
-    void operator () (uint8* dest, uint8 const* src) const
-    {
-      PixelRGB& d (*((PixelRGB*)dest));
-      PixelRGB const& s (*((PixelRGB const*)src));
-
-      d.blend (s, m_alpha);
-    }
-
-  private:
-    BlendRGB_Opacity <Mode::normal> & operator= (BlendRGB_Opacity <Mode::normal> const&);
-
-    int const m_alpha;
-  };
-  
-  //------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
 
   /** Blend a premultiplied ARGB pixel onto an RGB pixel.
   */
@@ -590,6 +564,33 @@ public:
   }
 };
 
+/** Blend two RGB pixels using normal mode.
+
+    This is an optimized specialization.
+*/
+template <>
+struct Pixels::BlendRGB_Opacity <Pixels::Mode::normal>
+{
+  explicit BlendRGB_Opacity (double opacity)
+    : m_alpha (int (255 * opacity + 0.5))
+  {
+  }
+
+  void operator () (uint8* dest, uint8 const* src) const
+  {
+    PixelRGB& d (*((PixelRGB*)dest));
+    PixelRGB const& s (*((PixelRGB const*)src));
+
+    d.blend (s, m_alpha);
+  }
+
+private:
+  BlendRGB_Opacity <Pixels::Mode::normal> & operator= (BlendRGB_Opacity <Pixels::Mode::normal> const&);
+
+  int const m_alpha;
+};
+
+ 
 /** Process an image.
 
     This wrapper is provided for convenience.
@@ -616,6 +617,7 @@ void processImage (Image dest,
 
 /** Generic blend mode application.
 */
+#if 0
 template <class Functor>
 void applyBlendMode (BlendMode mode, Functor functor = Functor ())
 {
@@ -651,5 +653,6 @@ void applyBlendMode (BlendMode mode, Functor functor = Functor ())
   };
   break;
 }
+#endif
 
 #endif
