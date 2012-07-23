@@ -34,146 +34,162 @@
 #define VF_CALLQUEUE_VFHEADER
 
 /*============================================================================*/
-/** @ingroup vf_concurrent
+/**
+  A FIFO for calling functors asynchronously.
 
-    @brief A FIFO for calling functors asynchronously.
+  This object is an alternative to traditional locking techniques used to
+  implement concurrent systems. Instead of acquiring a mutex to change shared
+  data, a functor is queued for later execution (usually on another thread). The
+  execution of the functor applies the transformation to the shared state that
+  was formerly performed within a lock (i.e. CriticalSection).
 
-    This object is an alternative to traditional locking techniques used to
-    implement concurrent systems. Instead of acquiring a mutex to change shared
-    data, a functor is queued for later execution (usually on another thread). The
-    execution of the functor applies the transformation to the shared state that
-    was formerly performed within a lock (i.e. CriticalSection).
+  For read operations on shared data, instead of acquiring a mutex and
+  accessing the data directly, copies are made (one for each thread), and the
+  thread accesses its copy without acquiring a lock. One thread owns the master
+  copy of the shared state. Requests for changing shared state are made by other
+  threads by posting functors to the master thread's CallQueue. The master
+  thread notifies other threads of changes by posting functors to their
+  respective associated CallQueue, using the Listeners interface.
 
-    For read operations on shared data, instead of acquiring a mutex and
-    accessing the data directly, copies are made (one for each thread), and the
-    thread accesses its copy without acquiring a lock. One thread owns the master
-    copy of the shared state. Requests for changing shared state are made by other
-    threads by posting functors to the master thread's CallQueue. The master
-    thread notifies other threads of changes by posting functors to their
-    respective associated CallQueue, using the Listeners interface.
+  The purpose of the functor is to encapsulate one mutation of shared state to
+  guarantee progress towards a consensus of the concurrent data among
+  participating threads. Functors should execute quickly, ideally in constant
+  time. Dynamically allocated objects of class type passed as functor parameters
+  should, in general, be reference counted. The ConcurrentObject class is ideal
+  for meeting this requirement, and has the additional benefit that the workload
+  of deletion is performed on a separate, provided thread. This queue is not a
+  replacement for a thread pool or job queue type system.
 
-    The purpose of the functor is to encapsulate one mutation of shared state to
-    guarantee progress towards a consensus of the concurrent data among
-    participating threads. Functors should execute quickly, ideally in constant
-    time. Dynamically allocated objects of class type passed as functor parameters
-    should, in general, be reference counted. The ConcurrentObject class is ideal
-    for meeting this requirement, and has the additional benefit that the workload
-    of deletion is performed on a separate, provided thread. This queue is not a
-    replacement for a thread pool or job queue type system.
+  A CallQueue is considered signaled when one or more functors are present.
+  Functors are executed during a call to synchronize(). The operation of
+  executing functors via the call to synchronize() is called synchronizing
+  the queue. It can more generally be thought of as synchronizing multiple
+  copies of shared data between threads.
 
-    A CallQueue is considered signaled when one or more functors are present.
-    Functors are executed during a call to synchronize(). The operation of
-    executing functors via the call to synchronize() is called synchronizing
-    the queue. It can more generally be thought of as synchronizing multiple
-    copies of shared data between threads.
+  Although there is some extra work required to set up and maintain this
+  system, the benefits are significant. Since shared data is only synchronized
+  at well defined times, the programmer can reason and make strong statements
+  about the correctness of the concurrent system. For example, if an
+  AudioIODeviceCallback synchronizes the CallQueue only at the beginning of its
+  execution, it is guaranteed that shared data will remain the same throughout
+  the remainder of the function.
 
-    Although there is some extra work required to set up and maintain this
-    system, the benefits are significant. Since shared data is only synchronized
-    at well defined times, the programmer can reason and make strong statements
-    about the correctness of the concurrent system. For example, if an
-    AudioIODeviceCallback synchronizes the CallQueue only at the beginning of its
-    execution, it is guaranteed that shared data will remain the same throughout
-    the remainder of the function.
+  Because shared data is accessed for reading without a lock, upper bounds
+  on the run time performance can easily be calculated and assured. Compare
+  this with the use of a mutex - the run time performance experiences a
+  combinatorial explosion of possibilities depending on the complex interaction
+  of multiple threads.
 
-    Because shared data is accessed for reading without a lock, upper bounds
-    on the run time performance can easily be calculated and assured. Compare
-    this with the use of a mutex - the run time performance experiences a
-    combinatorial explosion of possibilities depending on the complex interaction
-    of multiple threads.
+  Since a CallQueue is almost always used to invoke parameterized member
+  functions of objects, the call() function comes in a variety of convenient
+  forms to make usage easy:
 
-    Since a CallQueue is almost always used to invoke parameterized member
-    functions of objects, the call() function comes in a variety of convenient
-    forms to make usage easy:
+  @code
 
-    @code
+  void func1 (int);
 
-    void func1 (int);
+  struct Object
+  {
+    void func2 (void);
+    void func3 (String name);
 
-    struct Object
-    {
-      void func2 (void);
-      void func3 (String name);
+    static void func4 ();
+  };
 
-      static void func4 ();
-    };
+  CallQueue fifo ("Example");
 
-    CallQueue fifo ("Example");
+  void example ()
+  {
+    fifo.call (func1, 42);               // same as: func1 (42)
 
-    void example ()
-    {
-      fifo.call (func1, 42);               // same as: func1 (42)
+    Object* object = new Object;
 
-      Object* object = new Object;
+    fifo.call (&Object::func2, object);  // same as: object->func2 ()
 
-      fifo.call (&Object::func2, object);  // same as: object->func2 ()
+    fifo.call (&Object::func3,           // same as: object->funcf ("Label")
+                object,
+                "Label");
 
-      fifo.call (&Object::func3,           // same as: object->funcf ("Label")
-                  object,
-                  "Label");
+    fifo.call (&Object::func4);          // even static members can be called.
 
-      fifo.call (&Object::func4);          // even static members can be called.
+    fifo.callf (bind (&Object::func2,    // same as: object->func2 ()
+                      object));
+  }
 
-      fifo.callf (bind (&Object::func2,    // same as: object->func2 ()
-                        object));
-    }
+  @endcode
 
-    @endcode
+  @invariant Functors can be added from any thread at any time, to any queue
+              which is not closed.
 
-    @invariant Functors can be added from any thread at any time, to any queue
-                which is not closed.
+  @invariant When synchronize() is called, functors are called and deleted.
 
-    @invariant When synchronize() is called, functors are called and deleted.
+  @invariant The thread from which synchronize() is called is considered the
+              thread associated with the CallQueue.
 
-    @invariant The thread from which synchronize() is called is considered the
-                thread associated with the CallQueue.
+  @invariant Functors queued by the same thread always execute in the same
+              order they were queued.
 
-    @invariant Functors queued by the same thread always execute in the same
-                order they were queued.
+  @invariant Functors are guaranteed to execute. It is an error if the
+              CallQueue is deleted while there are functors in it.
 
-    @invariant Functors are guaranteed to execute. It is an error if the
-                CallQueue is deleted while there are functors in it.
+  Normally, you will not use CallQueue directly, but one of its subclasses
+  instead. The CallQueue is one of a handful of objects that work together to
+  implement this system of concurrent data access.
 
-    Normally, you will not use CallQueue directly, but one of its subclasses
-    instead. The CallQueue is one of a handful of objects that work together to
-    implement this system of concurrent data access.
+  For performance considerations, this implementation is wait-free for
+  producers and mostly wait-free for consumers. It also uses a lock-free
+  and wait-free (in the fast path) custom memory allocator.
 
-    For performance considerations, this implementation is wait-free for
-    producers and mostly wait-free for consumers. It also uses a lock-free
-    and wait-free (in the fast path) custom memory allocator.
+  @see GuiCallQueue, ManualCallQueue, MessageThread, ThreadWithCallQueue
 
-    @see GuiCallQueue, ManualCallQueue, MessageThread
-
-    @todo Standardize terminology: "functor" to represent the stored item.
+  @ingroup vf_concurrent
 */
 class CallQueue
 {
 public:
   //============================================================================
 
+  /** Type of allocator to use.
+  
+      @internal
+  */
   typedef FifoFreeStoreType AllocatorType;
 
-  /** @internal
-      @ingroup vf_concurrent internal
+  /** Abstract nullary functor in a @ref CallQueue.
 
-      @brief Abstract nullary functor.
+      Custom implementations may derive from this object for efficiency instead
+      of using the automatic binding functions.
   */
-  class Call : public LockFreeQueue <Call>::Node,
+  class Work : public LockFreeQueue <Work>::Node,
                public AllocatedBy <AllocatorType>
   {
   public:
-    virtual ~Call () { }
+    virtual ~Work () { }
+
+    /** Calls the functor.
+
+        This executes during the queue's call to synchronize().
+    */
     virtual void operator() () = 0;
   };
 
   //============================================================================
 
-  /** @param  name  A string to identify the queue during debugging.
+  /** Create the CallQueue.
+  
+      The queue starts out open and empty.
+
+      @param name A string to identify the queue during debugging.
   */
   explicit CallQueue (String name);
 
-  /** @details
+  /** Destroy the CallQueue.
   
-      @invariant Destroying a queue that contains functors is undefined.
+      @invariant Destroying a queue that contains functors results in undefined
+                 behavior.
+
+      @note It is customary to call close() on the CallQueue early in the
+            shutdown process to catch functors going into the queue late.
   */
   ~CallQueue ();
 
@@ -201,15 +217,16 @@ public:
       associated with the CallQueue, synchronize() is called automatically. This
       behavior can be avoided by using queue() instead.
 
-      @param f The function to call followed by up to eight parameters, evaluated
-                immediately. The parameter list must match the function signature.
-                For class member functions, the first argument must be a pointer
-                to the class object.
+      @param f The function to call followed by up to eight parameters,
+               evaluated immediately. The parameter list must match the function
+      signature. For class member functions, the first argument must be a
+      pointer to the class object.
 
       @see queue
 
       @todo Provide an example of when synchronize() is needed in call().
   */
+  /** @{ */
   template <class Fn>
   void call (Fn f)
   {
@@ -263,6 +280,7 @@ public:
   {
     callf (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8));
   }
+  /** @} */
 
   /** Add a functor without synchronizing.
 
@@ -322,6 +340,7 @@ public:
 
       @see call
   */
+  /** @{ */
   template <class Fn>
   void queue (Fn f)
   {
@@ -375,6 +394,7 @@ public:
   {
     queuef (vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8));
   }
+  /** @} */
 
 protected:
   //============================================================================
@@ -412,55 +432,64 @@ protected:
   */
   virtual void signal () = 0;
 
-  /** Called when the queue becomes non-signaled. */
+  /** Called when the queue is reset.
+
+      A queue is reset when it was previously signaled and then becomes empty
+      as a result of a call to synchronize.
+  */
   virtual void reset () = 0;
 
 public:
   //============================================================================
 
-  /** @internal
-  
-      @details Add a raw Call to the queue and synchronize if possible.
+  /** Add a raw call.
 
-      @param c The call to add.
-    */
-  void callp (Call* c);
+      @internal
 
-  /** @internal 
+      Custom implementations use this to control the allocation.
 
-      @details Add a raw Call to the queue without synchronizing.
-
-      @param c The call to add.
+      @param c The call to add. The memory must come from the allocator.
   */
-  void queuep (Call* c);
+  void callp (Work* c);
 
-  /** @internal
+  /** Queue a raw call.
   
-      @return The allocator to use when allocating a raw Call object.      
+      Custom implementations use this to control the allocation.
+
+      @param c The call to add. The memory must come from the allocator.
+  */
+  void queuep (Work* c);
+
+  /** Retrieve the allocator.
+
+      @return The allocator to use when allocating a raw Work object.      
    */
   inline AllocatorType& getAllocator ()
   {
     return m_allocator;
   }
 
-  /** @internal
-  
-      @return \c true if the calling thread of execution is associated with the
+  /** See if the caller is on the association thread.
+
+      @return `true` if the calling thread of execution is associated with the
               queue.
   */
   bool isAssociatedWithCurrentThread () const;
 
-  /** @internal
+  /** See if the queue is being synchronized.
+
+      This is used for diagnostics.
   
-      @details This function helps provide diagnostics.
-  
-      @return \c true if the call stack contains synchronize() for this queue.
+      @note This must be called from the associated thread or else the return
+            value is undefined.
+
+      @return `true` if the call stack contains synchronize() for this queue.
   */
   bool isBeingSynchronized () const { return m_isBeingSynchronized.isSignaled(); }
 
 private:
   template <class Functor>
-  class CallType : public Call
+  class CallType : public Work
   {
   public:
     explicit CallType (Functor const& f) : m_f (f) { }
@@ -475,7 +504,7 @@ private:
 private:
   String const m_name;
   Thread::ThreadID m_id;
-  LockFreeQueue <Call> m_queue;
+  LockFreeQueue <Work> m_queue;
   AtomicFlag m_closed;
   AtomicFlag m_isBeingSynchronized;
   AllocatorType m_allocator;

@@ -43,7 +43,7 @@
   - Midi input and output devices identified by a permanent handle.
 
 */
-class MidiDevices : public ReferenceCountedSingleton <MidiDevices>
+class MidiDevices : public RefCountedSingleton <MidiDevices>
 {
 public:
   /**
@@ -98,9 +98,9 @@ public:
   virtual void removeListener (Listener* listener) = 0;
 
 protected:
-  friend class ReferenceCountedSingleton <MidiDevices>;
+  friend class RefCountedSingleton <MidiDevices>;
 
-  MidiDevices () : ReferenceCountedSingleton <MidiDevices> (
+  MidiDevices () : RefCountedSingleton <MidiDevices> (
     SingletonLifetime::persistAfterCreation)
   {
   }

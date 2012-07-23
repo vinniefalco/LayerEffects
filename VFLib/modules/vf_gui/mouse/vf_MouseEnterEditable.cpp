@@ -60,7 +60,7 @@ Component& MouseEnterEditable::Helper::getComponent ()
 void MouseEnterEditable::Helper::mouseEnter (const MouseEvent& e)
 {
   Container* container = m_component->findParentComponentOfClass <Container> ();
-  vfassert (container != nullptr);
+  jassert (container != nullptr);
 
   if (container != nullptr)
     container->mouseEnterEditableActivity (m_editable, true);
@@ -69,7 +69,7 @@ void MouseEnterEditable::Helper::mouseEnter (const MouseEvent& e)
 void MouseEnterEditable::Helper::mouseExit (const MouseEvent& e)
 {
   Container* container = m_component->findParentComponentOfClass <Container> ();
-  vfassert (container != nullptr);
+  jassert (container != nullptr);
 
   if (container != nullptr)
     container->mouseEnterEditableActivity (m_editable, false);
@@ -133,7 +133,7 @@ void MouseEnterEditable::Container::mouseEnterEditableActivity (
 
 void MouseEnterEditable::Container::timerCallback ()
 {
-  vfassert (m_currentEdit != nullptr);
+  jassert (m_currentEdit != nullptr);
 
   exitCurrentEditMode ();
 }

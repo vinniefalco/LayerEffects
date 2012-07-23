@@ -43,8 +43,7 @@
 
 /** Selected free store based on compilation settings.
 
-    @internal
-    @ingroup internal
+    @ingroup vf_concurrent
 */
 #if VF_USE_BOOST
 typedef FifoFreeStoreWithTLS FifoFreeStoreType;

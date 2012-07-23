@@ -38,7 +38,7 @@
   Abstract source of audio samples.
 
   This interface is used to retrieve sequentual raw audio samples from an
-  abstract source. It is intended as a facade for @ref AudioSource, with these
+  abstract source. It is intended as a facade for AudioSource, with these
   features:
 
   - No thread safety; the caller is responsible for all synchronization.
@@ -53,11 +53,19 @@ public:
   virtual ~SampleSource () { }
 
   /** Read the next block of samples.
+
+      @note The rules for AudioSource::getNextAudioBlock apply to this function
+            as well.
+
+      @param bufferToFill The buffer to fill.
   */
   virtual void getNextAudioBlock (AudioSourceChannelInfo const& bufferToFill) = 0;
 
 public:
-  /** Adapter to appear as an @ref AudioSource.
+  class SampleSourceAdapter;
+
+public:
+  /** Presents a SampleSource as an AudioSource.
   */
   class AudioSourceAdapter : public AudioSource, Uncopyable
   {
@@ -79,19 +87,14 @@ public:
   private:
     OptionalScopedPointer <SampleSource> m_source;
   };
-
-public:
-  class Adapter;
 };
 
-//------------------------------------------------------------------------------
-
-/** Adapter to appear as a @ref SampleSource.
+/** Presents an AudioSource as a SampleSource.
 */
-class SampleSource::Adapter : public SampleSource
+class SampleSource::SampleSourceAdapter : public SampleSource
 {
 public:
-  Adapter (AudioSource* source, bool takeOwnership)
+  SampleSourceAdapter (AudioSource* source, bool takeOwnership)
     : m_source (source, takeOwnership)
   {
   }

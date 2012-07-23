@@ -37,15 +37,28 @@
 #include "../memory/vf_StaticObject.h"
 
 /**
-  Construction options for ReferenceCountedSingleton
+  Thread-safe singleton which comes into existence on first use. Use this
+  instead of creating objects with static storage duration. These singletons
+  are automatically reference counted, so if you hold a pointer to it in every
+  object that depends on it, the order of destruction of objects is assured
+  to be correct.
 
+  class Object must provide the function `Object* Object::createInstance()`
+
+  @class RefCountedSingleton
   @ingroup vf_core
 */
-
-// "base classes dependent on a template parameter aren't part of lookup." - ville
+/** @{ */
 class SingletonLifetime
 {
+  // "base classes dependent on a template parameter
+  // aren't part of lookup." - ville
 public:
+  /**
+    Construction options for RefCountedSingleton
+
+    @ingroup vf_core
+  */
   enum Lifetime
   {
     /** Singleton is created on first use and destroyed when
@@ -58,40 +71,34 @@ public:
     */
     createOnDemandOnce,
 
-    /* The singleton is created on first use and persists until program exit.
+    /** The singleton is created on first use and persists until program exit.
     */
     persistAfterCreation
   };
 };
 
-//------------------------------------------------------------------------------
-/**
-  Thread-safe singleton which comes into existence on first use. Use this
-  instead of creating objects with static storage duration. These singletons
-  are automatically reference counted, so if you hold a pointer to it in every
-  object that depends on it, the order of destruction of objects is assured
-  to be correct.
-
-  class Object must provide the function `Object* Object::createInstance()`
-
-  @ingroup vf_core
-*/
 template <class Object>
-class ReferenceCountedSingleton : private PerformedAtExit
+class RefCountedSingleton
+  : public SingletonLifetime
+  , private PerformedAtExit
 {
 protected:
   typedef SpinLock LockType;
 
-  explicit ReferenceCountedSingleton (SingletonLifetime::Lifetime const lifetime)
+  /** Create the singleton.
+
+      @param lifetime The lifetime management option.
+  */
+  explicit RefCountedSingleton (Lifetime const lifetime)
     : m_lifetime (lifetime)
   {
-    vfassert (s_instance == nullptr);
+    jassert (s_instance == nullptr);
 
-    if (m_lifetime == SingletonLifetime::persistAfterCreation)
+    if (m_lifetime == persistAfterCreation)
     {
       incReferenceCount ();
     }
-    else if (m_lifetime == SingletonLifetime::createOnDemandOnce && *s_created)
+    else if (m_lifetime == createOnDemandOnce && *s_created)
     {
       Throw (Error().fail (__FILE__, __LINE__));
     }
@@ -99,14 +106,16 @@ protected:
     *s_created = true;
   }
 
-  virtual ~ReferenceCountedSingleton ()
+  virtual ~RefCountedSingleton ()
   {
-    vfassert (s_instance == nullptr);
+    jassert (s_instance == nullptr);
   }
 
 public:
   typedef ReferenceCountedObjectPtr <Object> Ptr;
 
+  /** Retrieve a reference to the singleton.
+  */
   static Ptr getInstance ()
   {
     Ptr instance;
@@ -179,24 +188,25 @@ private:
   }
 
 private:
-  SingletonLifetime::Lifetime const m_lifetime;
+  Lifetime const m_lifetime;
   AtomicCounter m_refs;
 
 private:
   static Object* s_instance;
-  static Static::Storage <LockType, ReferenceCountedSingleton <Object> > s_mutex;
-  static Static::Storage <bool, ReferenceCountedSingleton <Object> > s_created;
+  static Static::Storage <LockType, RefCountedSingleton <Object> > s_mutex;
+  static Static::Storage <bool, RefCountedSingleton <Object> > s_created;
 };
+/** @{ */
 
 template <class Object>
-Object* ReferenceCountedSingleton <Object>::s_instance;
+Object* RefCountedSingleton <Object>::s_instance;
 
 template <class Object>
-Static::Storage <typename ReferenceCountedSingleton <Object>::LockType, ReferenceCountedSingleton <Object> >
-  ReferenceCountedSingleton <Object>::s_mutex;
+Static::Storage <typename RefCountedSingleton <Object>::LockType, RefCountedSingleton <Object> >
+  RefCountedSingleton <Object>::s_mutex;
 
 template <class Object>
-Static::Storage <bool, ReferenceCountedSingleton <Object> >
-  ReferenceCountedSingleton <Object>::s_created;
+Static::Storage <bool, RefCountedSingleton <Object> >
+  RefCountedSingleton <Object>::s_created;
 
 #endif

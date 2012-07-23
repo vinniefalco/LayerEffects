@@ -57,7 +57,7 @@ public:
 
   /** Increment the usage count.
 
-      @return \c true if the counter became signaled.
+      @return `true` if the counter became signaled.
   */
   inline bool addref () noexcept
   {
@@ -66,7 +66,7 @@ public:
 
   /** Decrements the usage count.
 
-      @return \c true if the counter became non-signaled.
+      @return `true` if the counter became non-signaled.
   */
   inline bool release () noexcept
   {
@@ -81,7 +81,7 @@ public:
       Note that another thread can cause the counter to become reset after
       this function returns true.
 
-      @return \c true if the counter was signaled.
+      @return `true` if the counter was signaled.
   */
   inline bool isSignaled () const noexcept
   {

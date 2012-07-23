@@ -133,7 +133,7 @@ public:
   {
     // This object must be created from the JUCE Message Thread.
     //
-    vfassert (MessageManager::getInstance()->isThisTheMessageThread());
+    jassert (MessageManager::getInstance()->isThisTheMessageThread());
 
     //startTimer (1000);
     startThread ();

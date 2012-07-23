@@ -57,43 +57,50 @@ public:
     reverse
   };
 
-  /**
-    Get the direction for the retrieval of samples.
+  /** Get the direction for the retrieval of samples.
+
+      @return The direction of playback.
   */
   virtual Direction getNextReadDirection () const = 0;
 
-  /**
-    Set the direction for the retrieval of samples.
+  /** Set the direction for the retrieval of samples.
+
+      @param direction The direction of playback.
   */
 
   virtual void setNextReadDirection (Direction direction) = 0;
 
-  /**
-    Get the position of the next returned sample.
+  /** Get the position of the next returned sample.
 
-    @see setNextReadPosition
+      @see setNextReadPosition
+
+      @return The index of the sample which will be read next.
   */
   virtual int64 getNextReadPosition () const = 0;
 
-  /**
-    Move the read position.
+  /** Move the read position.
 
-    Calling this indicates that the next call to SampleSource::getNextAudioBlock()
-    should return samples from this position.
+      Calling this indicates that the next call to
+      SampleSource::getNextAudioBlock() should return samples from this
+      position.
+
+      @param newPosition The index of the sample to read next.
   */
   virtual void setNextReadPosition (int64 newPosition) = 0;
 
 public:
   //============================================================================
   /**
-    Adapter to appear as a @ref PositionableAudioSource.
+    Presents a SeekingSampleSource as a PositionableAudioSourceAdapter.
 
     @ingroup vf_audio
   */
-  class PositionableAdapter : public PositionableAudioSource, Uncopyable
+  class PositionableAudioSourceAdapter : public PositionableAudioSource
+                                       , Uncopyable
   {
   public:
-    PositionableAdapter (SeekingSampleSource* source, bool takeOwnership);
+    PositionableAudioSourceAdapter (SeekingSampleSource* source,
+                                    bool takeOwnership);
 
     void setNextReadPosition (int64 newPosition);
 

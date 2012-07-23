@@ -156,7 +156,7 @@ public:
   template <class Object>
   void add (Object const& object)
   {
-    vfassert (! find <Object> ());
+    jassert (! find <Object> ());
     m_items.push_back (*new StoredItem <Object> (object));
   }
 
@@ -167,7 +167,7 @@ public:
       @param[out] pResult  Receives a copy of the object if it exists in the
                            container.
       
-      @return              \c true if the object was found.
+      @return              `true` if the object was found.
   */
   template <class Object>
   bool find (Object* pResult = 0) const
@@ -210,7 +210,7 @@ public:
         
     @param dragSourceDetails The original DragAndDropTarget::SourceDetails
       
-    @return \c true if we want to receive further drag notifications.
+    @return `true` if we want to receive further drag notifications.
 */
     virtual bool isInterestedInDragSource (DragAndDropData const& data,
                                            DragAndDropTarget::SourceDetails const& dragSourceDetails)

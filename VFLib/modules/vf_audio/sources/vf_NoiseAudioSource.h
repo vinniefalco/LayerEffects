@@ -123,7 +123,7 @@ private:
 class NoiseAudioSource : public AudioSource
 {
 public:
-  /** @param pink \c true for pink noise. */
+  /** @param pink `true` for pink noise. */
   explicit NoiseAudioSource (bool pink = false);
   
   ~NoiseAudioSource ();

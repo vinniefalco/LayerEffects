@@ -46,10 +46,8 @@ public:
 
   inline void pause ()
   {
-	if (++m_count > 20)
-	{
-	  Thread::yield ();
-	}
+    if (++m_count > 20)
+      Thread::yield ();
   }
 
 private:

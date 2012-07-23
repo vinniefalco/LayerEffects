@@ -30,7 +30,7 @@
 */
 /*============================================================================*/
 
-SeekingAudioSource::PositionableAdapter::PositionableAdapter (
+SeekingAudioSource::PositionableAudioSourceAdapter::PositionableAudioSourceAdapter (
   SeekingAudioSource* source,
   bool takeOwnership,
   int64 totalLength)
@@ -40,43 +40,43 @@ SeekingAudioSource::PositionableAdapter::PositionableAdapter (
 {
 }
 
-void SeekingAudioSource::PositionableAdapter::setNextReadPosition (int64 newPosition)
+void SeekingAudioSource::PositionableAudioSourceAdapter::setNextReadPosition (int64 newPosition)
 {
   m_source->setNextReadPosition (newPosition);
 }
 
-int64 SeekingAudioSource::PositionableAdapter::getNextReadPosition () const
+int64 SeekingAudioSource::PositionableAudioSourceAdapter::getNextReadPosition () const
 {
   return m_source->getNextReadPosition ();
 }
 
-int64 SeekingAudioSource::PositionableAdapter::getTotalLength () const
+int64 SeekingAudioSource::PositionableAudioSourceAdapter::getTotalLength () const
 {
   return m_totalLength;
 }
 
-bool SeekingAudioSource::PositionableAdapter::isLooping () const
+bool SeekingAudioSource::PositionableAudioSourceAdapter::isLooping () const
 {
   return m_shouldLoop;
 }
 
-void SeekingAudioSource::PositionableAdapter::setLooping (bool shouldLoop)
+void SeekingAudioSource::PositionableAudioSourceAdapter::setLooping (bool shouldLoop)
 {
   m_shouldLoop = shouldLoop;
 }
 
-void SeekingAudioSource::PositionableAdapter::prepareToPlay (
+void SeekingAudioSource::PositionableAudioSourceAdapter::prepareToPlay (
   int samplesPerBlockExpected, double sampleRate)
 {
   m_source->prepareToPlay (samplesPerBlockExpected, sampleRate);
 }
 
-void SeekingAudioSource::PositionableAdapter::releaseResources ()
+void SeekingAudioSource::PositionableAudioSourceAdapter::releaseResources ()
 {
   m_source->releaseResources ();
 }
 
-void SeekingAudioSource::PositionableAdapter::getNextAudioBlock (
+void SeekingAudioSource::PositionableAudioSourceAdapter::getNextAudioBlock (
   const AudioSourceChannelInfo& bufferToFill)
 {
   if (m_shouldLoop)
@@ -132,34 +132,34 @@ void SeekingAudioSource::PositionableAdapter::getNextAudioBlock (
 
 //==============================================================================
 
-SeekingAudioSource::Adapter::Adapter (
+SeekingAudioSource::SeekingAudioSourceAdapter::SeekingAudioSourceAdapter (
   PositionableAudioSource* source, bool takeOwnership)
   : m_source (source, takeOwnership)
 {
 }
 
-void SeekingAudioSource::Adapter::setNextReadPosition (int64 newPosition)
+void SeekingAudioSource::SeekingAudioSourceAdapter::setNextReadPosition (int64 newPosition)
 {
   m_source->setNextReadPosition (newPosition);
 }
 
-int64 SeekingAudioSource::Adapter::getNextReadPosition () const
+int64 SeekingAudioSource::SeekingAudioSourceAdapter::getNextReadPosition () const
 {
   return m_source->getNextReadPosition ();
 }
 
-void SeekingAudioSource::Adapter::prepareToPlay (
+void SeekingAudioSource::SeekingAudioSourceAdapter::prepareToPlay (
   int samplesPerBlockExpected, double sampleRate)
 {
   m_source->prepareToPlay (samplesPerBlockExpected, sampleRate);
 }
 
-void SeekingAudioSource::Adapter::releaseResources ()
+void SeekingAudioSource::SeekingAudioSourceAdapter::releaseResources ()
 {
   m_source->releaseResources ();
 }
 
-void SeekingAudioSource::Adapter::getNextAudioBlock (
+void SeekingAudioSource::SeekingAudioSourceAdapter::getNextAudioBlock (
   AudioSourceChannelInfo const& bufferToFill)
 {
   m_source->getNextAudioBlock (bufferToFill);

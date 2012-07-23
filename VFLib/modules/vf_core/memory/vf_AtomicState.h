@@ -100,7 +100,7 @@ public:
   {
 #if VF_DEBUG
     const bool success = tryChangeState (from, to);
-    vfassert (success);
+    jassert (success);
 #else
     tryChangeState (from, to);
 #endif

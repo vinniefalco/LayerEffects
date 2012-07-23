@@ -33,31 +33,53 @@
 #ifndef VF_INTERVAL_VFHEADER
 #define VF_INTERVAL_VFHEADER
 
-// Represents the half-open interval [m_begin, m_end)
+/**
+  A half-open interval.
+
+  This represents the half-open interval [begin, end) over the scalar
+  type of template parameter `Ty`. It may also be considered as the
+  specification of a subset of a 1-dimensional Euclidean space.
+
+  @tparam Ty A scalar numerical type.
+*/
 template <class Ty>
 class Interval
 {
 public:
   typedef Ty value_type;
 
+  /** The empty interval.
+  */
   static const Interval none;
 
+  /** Create an uninitialized interval.
+  */
   Interval ()
   {
   }
 
-  Interval (const Ty& begin, const Ty& end)
+  /** Create an interval with the specified values.
+  */
+  Interval (Ty begin, Ty end)
     : m_begin (begin)
     , m_end (end)
   {
   }
 
-  Interval (const Interval& other)
+  /** Create an interval from another interval.
+  */
+  Interval (Interval const& other)
     : m_begin (other.m_begin)
     , m_end (other.m_end)
   {
   }
 
+  /** Assign from another interval.
+
+      @param other The interval to assign from.
+
+      @return A reference to this interval.
+  */
   Interval& operator= (const Interval& other)
   {
     m_begin = other.m_begin;
@@ -65,144 +87,305 @@ public:
     return *this;
   }
 
+  /** Compare an interval for equality.
+
+      Empty intervals are always equal to other empty intervals.
+
+      @param rhs The other interval to compare.
+
+      @return `true` if this interval is equal to the specified interval.
+  */
   bool operator== (Interval const& rhs) const
   {
     return (empty() && rhs.empty()) ||
            (m_begin == rhs.m_begin && m_end == rhs.m_end);
   }
 
-  bool operator!= (Interval const& rhs ) const
+  /** Compare an interval for inequality.
+
+      @param rhs The other interval to compare.
+
+      @return `true` if this interval is not equal to the specified interval.
+  */
+  bool operator!= (Interval const& rhs) const
   {
     return !this->operator== (rhs);
-    /*
-    return empty() ? (!rhs.empty()) :
-                     (rhs.empty() || (m_begin != rhs.m_begin ||
-                                      m_end != rhs.m_end));
-    */
   }
 
-  Ty const& begin () const { return m_begin; }
-  Ty const& end () const { return m_end; }
-  Ty count () const { return empty () ? 0 : (m_end-m_begin); } // Lebesque measure
-  Ty length () const { return count (); }  // sugar
-  Ty distance () const { return count (); } // sugar
-  bool empty () const { return m_begin >= m_end; }
-  bool notEmpty () const { return m_begin < m_end; }
-  void setBegin (Ty const& v) { m_begin = v; }
-  void setEnd (Ty const& v) { m_end = v; }
-  void setLength (Ty const& v) { m_end = m_begin + v; }
+  /** Get the starting value of the interval.
 
-  bool contains (Ty const& v ) const
+      @return The starting point of the interval.
+  */
+  Ty begin () const
+  {
+    return m_begin;
+  }
+
+  /** Get the ending value of the interval.
+
+      @return The ending point of the interval.
+  */
+  Ty end () const
+  {
+    return m_end;
+  }
+
+  /** Get the Lebesque measure.
+
+      @return The Lebesque measure.
+  */
+  Ty length () const
+  {
+    return empty () ? Ty () : (end () - begin ());
+  }
+
+  //Ty count () const { return length (); } // suger
+  //Ty distance () const { return length (); } // sugar
+
+  /** Determine if the interval is empty.
+
+      @return `true` if the interval is empty.
+  */
+  bool empty () const
+  {
+    return m_begin >= m_end;
+  }
+
+  /** Determine if the interval is non-empty.
+
+      @return `true` if the interval is not empty.
+  */
+  bool notEmpty () const
+  {
+    return m_begin < m_end;
+  }
+
+  /** Set the starting point of the interval.
+
+      @param v The starting point.
+  */
+  void setBegin (Ty v)
+  {
+    m_begin = v;
+  }
+
+  /** Set the ending point of the interval.
+
+      @param v The ending point.
+  */
+  void setEnd (Ty v)
+  {
+    m_end = v;
+  }
+
+  /** Set the ending point relative to the starting point.
+
+      @param v The length of the resulting interval.
+  */
+  void setLength (Ty v)
+  {
+    m_end = m_begin + v;
+  }
+
+  /** Determine if a value is contained in the interval.
+
+      @param v The value to check.
+
+      @return `true` if this interval contains `v`.
+  */
+  bool contains (Ty v) const
   {
     return notEmpty () && v >= m_begin && v < m_end;
   }
 
-  bool intersects (Interval const& interval) const
+  /** Determine if this interval intersects another interval.
+
+      @param other The other interval.
+
+      @return `true` if the intervals intersect.
+  */
+  template <class To>
+  bool intersects (Interval <To> const& other) const
   {
-    return notEmpty() && interval.notEmpty() &&
-           m_end > interval.m_begin && m_begin < interval.m_end;
+    return notEmpty() && other.notEmpty() &&
+           end () > other.begin () && begin () < other.end ();
   }
 
-  // true iff the union is a single non empty half-open interval
-  bool adjoins (Interval const& interval) const
+  /** Determine if this interval adjoins another interval.
+
+      An interval is adjoint to another interval if and only if the union of the
+      intervals is a single non-empty half-open subset.
+
+      @param other The other interval.
+
+      @return `true` if the intervals are adjoint.
+  */
+  template <class To>
+  bool adjoins (Interval <To> const& other) const
   {
-    return (empty() != interval.empty()) ||
-           (notEmpty() && m_end >= interval.m_begin
-                       && m_begin <= interval.m_end);
+    return (empty() != other.empty()) ||
+           (notEmpty() && end () >= other.begin ()
+                       && begin () <= other.end ());
   }
 
-  bool disjoint (Interval const& interval) const
+  /** Determine if this interval is disjoint from another interval.
+
+      @param other The other interval.
+
+      @return `true` if the intervals are disjoint.
+  */
+  bool disjoint (Interval const& other) const
   {
-    return !intersects (interval);
+    return !intersects (other);
   }
 
-  // A is a superset of B if B is empty or if A fully contains B
-  bool superset_of (Interval const& interval) const
+  /** Determine if this interval is a superset of another interval.
+
+      An interval A is a superset of interval B if B is empty or if A fully
+      contains B.
+
+      @param other The other interval.
+
+      @return `true` if this is a superset of `other`.
+  */
+  template <class To>
+  bool superset_of (Interval <To> const& other) const
   {
-    return interval.empty() ||
-           (notEmpty() && m_begin <= interval.m_begin
-                       && m_end >= interval.m_end);
+    return other.empty() ||
+           (notEmpty() && begin () <= other.begin ()
+                       && end () >= other.end ());
   }
 
-  // A is a proper superset of B iff:
-  // - A is not empty,
-  // - B is empty OR A contains B and A has more than B
-  bool proper_superset_of (Interval const& interval) const
+  /** Determine if this interval is a proper superset of another interval.
+
+      An interval A is a proper superset of interval B if A is a superset of
+      B and A is not equal to B.
+
+      @param other The other interval.
+
+      @return `true` if this interval is a proper superset of `other`.
+  */
+  template <class To>
+  bool proper_superset_of (Interval <To> const& other) const
   {
-    return notEmpty() &&
-           (interval.empty() || (
-             (m_begin <= interval.m_begin && m_end >  interval.m_end) ||
-             (m_begin <  interval.m_begin && m_end >= interval.m_end) ));
+    return this->superset_of (other) && this->operator != (other);
   }
 
-  bool subset_of (Interval const& interval) const
+  /** Determine if this interval is a subset of another interval.
+
+      @param other The other interval.
+
+      @return `true` if this interval is a subset of `other`.
+  */
+  template <class To>
+  bool subset_of (Interval <To> const& other) const
   {
-    return interval.superset_of (*this);
+    return other.superset_of (*this);
   }
 
-  bool proper_subset_of (Interval const& interval) const
+  /** Determine if this interval is a proper subset of another interval.
+
+      @param other The other interval.
+
+      @return `true` if this interval is a proper subset of `other`.
+  */
+  template <class To>
+  bool proper_subset_of (Interval <To> const& other) const
   {
-    return interval.proper_superset_of (*this);
+    return other.proper_superset_of (*this);
   }
 
-  Interval intersection (const Interval& interval) const
+  /** Return the intersection of this interval with another interval.
+
+      @param other The other interval.
+
+      @return The intersection of the intervals.
+  */
+  template <class To>
+  Interval intersection (Interval <To> const& other) const
   {
-    return Interval (std::max (m_begin, interval.m_begin),
-                     std::min (m_end, interval.m_end));
+    return Interval (std::max (begin (), other.begin ()),
+                     std::min (end (), other.end ()));
   }
 
-  // Returns the smallest interval that contains both intervals
-  Interval simple_union (Interval const& interval ) const
+  /** Determine the smallest interval that contains both intervals.
+
+      @param other The other interval.
+
+      @return The simple union of the intervals.
+  */
+  template <class To>
+  Interval simple_union (Interval <To> const& other) const
   {
     return Interval(
-             std::min (interval.normalized().m_begin, normalized().m_begin),
-             std::max (interval.normalized().m_end, normalized().m_end));
+             std::min (other.normalized ().begin (), normalized().begin ()),
+             std::max (other.normalized ().end (), normalized().end ()));
   }
 
-  // empty if the union cannot be represented as a single half-open interval
-  Interval single_union (Interval const& interval) const
+  /** Calculate the single-interval union.
+
+      The result is empty if the union cannot be represented as a
+      single half-open interval.
+
+      @param other The other interval.
+
+      @return The simple union of the intervals.
+  */
+  template <class To>
+  Interval single_union (Interval <To> const& other) const
   {
     if (empty())
-      return interval;
+      return other;
 
-    else if (interval.empty())
+    else if (other.empty())
       return *this;
 
-    else if (m_end < interval.m_begin || m_begin > interval.m_end)
+    else if (end () < other.begin () || begin () > other.end ())
       return none;
 
     else
-      return Interval (std::min (m_begin, interval.m_begin),
-                       std::max (m_end, interval.m_end));
+      return Interval (std::min (begin (), other.begin ()),
+                       std::max (end (), other.end ()));
   }
+  
+  /** Determine if the interval is correctly ordered.
 
-  // Returns true if the Interval is correctly ordererd
+      @return `true` if the interval is correctly ordered.
+  */
   bool normal () const
   {
-    return m_end >= m_begin;
+    return end () >= begin ();
   }
 
-  // Returns a correctly ordered interval
+  /** Return a normalized interval.
+
+      @return The normalized interval.
+  */
   Interval normalized () const
   {
     if (normal ())
       return *this;
     else
-      return Interval (m_end, m_begin);
+      return Interval (end (), begin ());
   }
 
-  // Clamp the value to lie within the interval
+  /** Clamp a value to the interval.
+
+      @param v The value to clamp.
+
+      @return The clamped result.
+  */
   template <typename Tv>
-  const Ty clamp (Tv v) const
+  Ty clamp (Tv v) const
   {
     // These conditionals are carefully ordered so
     // that if m_begin == m_end, value is assigned m_begin.
-    if (v > m_end)
-      v = m_end - (std::numeric_limits <Tv>::is_integer ? 1 :
+    if (v > end ())
+      v = end ()- (std::numeric_limits <Tv>::is_integer ? 1 :
                    std::numeric_limits <Tv>::epsilon());
 
-    if (v < m_begin)
-      v = m_begin;
+    if (v < begin ())
+      v = begin ();
 
     return v;
   }

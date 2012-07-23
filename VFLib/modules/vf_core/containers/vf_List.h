@@ -48,7 +48,7 @@ struct ListDefaultTag;
   and exception safety guarantees than non-intrusive containers (like the
   STL containers). They are useful building blocks for high performance
   concurrent systems or other purposes where allocations are restricted
-  (such as the AudioDeviceIOCallback object), because intrusive list
+  (such as the AudioIODeviceCallback object), because intrusive list
   operations do not allocate or free memory.
 
   While intrusive containers were and are widely used in C, they became more
@@ -92,8 +92,8 @@ struct ListDefaultTag;
   @endcode
 
   Because intrusive containers allocate no memory, allowing objects to be
-  placed inside requires a modification to their cless declaration. Each
-  intrusive container declares a nested class Node which elements must be
+  placed inside requires a modification to their class declaration. Each
+  intrusive container declares a nested class `Node` which elements must be
   derived from, using the Curiously Recurring Template Pattern (CRTP). We  
   will continue to fully declare the Object type from the previous example
   to support emplacement into an intrusive container:
@@ -138,7 +138,7 @@ struct ListDefaultTag;
     list.push_back (*new Object);
 
   // Call a method on each list
-  for (ListType::iterator iter = list.begin(); iter != list.end; ++iter)
+  for (ListType::iterator iter = list.begin(); iter != list.end (); ++iter)
     iter->performAction ();
 
   @endcode
@@ -269,7 +269,7 @@ struct ListDefaultTag;
   @endcode
 
   Because List is mostly STL compliant, it can be passed into STL algorithms:
-  e.g. std::for_each() or std::find_first_of.
+  e.g. `std::for_each()` or `std::find_first_of()`.
 
   In general, objects placed into a List should be dynamically allocated
   although this cannot be enforced at compile time. Since the caller provides
@@ -317,7 +317,6 @@ struct ListDefaultTag;
 
   @ingroup vf_core intrusive
 */
-
 template <class Element, class Tag = ListDefaultTag>
 class List : Uncopyable
 {
@@ -441,13 +440,13 @@ private:
 
     void increment ()
     {
-      vfassert (m_node->m_next);
+      jassert (m_node->m_next);
       m_node = m_node->m_next;
     }
 
     void decrement ()
     {
-      vfassert (m_node->m_prev && m_node->m_prev->m_prev != 0);
+      jassert (m_node->m_prev && m_node->m_prev->m_prev != 0);
       m_node = m_node->m_prev;
     }
 
@@ -725,6 +724,8 @@ public:
   /** Insert another list at the beginning of this list.
 
       The other list is cleared.
+
+      @param list The other list to insert.
   */ 
   void prepend (List& list)
   {
@@ -734,6 +735,8 @@ public:
   /** Append another list at the end of this list.
 
       The other list is cleared.
+
+      @param list the other list to append.
   */ 
   void append (List& list)
   {
@@ -793,10 +796,10 @@ private:
   Node m_tail;
 };
 
-/*============================================================================*/
-/** Default tag for List
+/**
+  Default tag for List.
 
-    @ingroup vf_core intrusive
+  @ingroup vf_core intrusive
 */
 struct ListDefaultTag { };
 

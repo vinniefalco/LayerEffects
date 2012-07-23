@@ -35,7 +35,7 @@
 
 //==============================================================================
 /**
-  Facade for @ref PositionableAudioSource.
+  A SeekingSampleSource with sample rate conversion information.
 
   This Facade provides an alternative interface to @ref PositionableAudioSource
   with the following features:
@@ -54,23 +54,25 @@ public:
   virtual void prepareToPlay (int samplesPerBlockExpected,
                               double sampleRate) = 0;
 
-  /** Allows the source to release anything it no longer needs after playback has stopped.
+  /** Allows the source to release anything it no longer needs after playback
+      has stopped.
   */
   virtual void releaseResources() = 0;
 
 public:
   //============================================================================
   /**
-    Adapter to appear as a @ref PositionableAudioSource.
+    Presents a SeekingAudioSource as a PositionableAudioSource.
 
     @ingroup vf_audio
   */
-  class PositionableAdapter : public PositionableAudioSource, Uncopyable
+  class PositionableAudioSourceAdapter : public PositionableAudioSource
+                                       , Uncopyable
   {
   public:
-    PositionableAdapter (SeekingAudioSource* source,
-                         bool takeOwnership,
-                         int64 totalLength);
+    PositionableAudioSourceAdapter (SeekingAudioSource* source,
+                                    bool takeOwnership,
+                                    int64 totalLength);
 
     void setNextReadPosition (int64 newPosition);
 
@@ -96,7 +98,7 @@ public:
   };
 
 public:
-  class Adapter;
+  class SeekingAudioSourceAdapter;
 };
 
 //==============================================================================
@@ -105,10 +107,10 @@ public:
 
   @ingroup vf_audio
 */
-class SeekingAudioSource::Adapter : public SeekingAudioSource
+class SeekingAudioSource::SeekingAudioSourceAdapter : public SeekingAudioSource
 {
 public:
-  Adapter (PositionableAudioSource* source, bool takeOwnership);
+  SeekingAudioSourceAdapter (PositionableAudioSource* source, bool takeOwnership);
 
   void setNextReadPosition (int64 newPosition);
 

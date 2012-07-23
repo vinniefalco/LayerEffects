@@ -96,7 +96,7 @@ public:
 
   /** Synchronize the queue by calling all pending functors.
   
-      @return \c true if any functors were called.
+      @return `true` if any functors were called.
   */
   bool synchronize ();
 

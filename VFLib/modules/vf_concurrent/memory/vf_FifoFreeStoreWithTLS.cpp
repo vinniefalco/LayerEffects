@@ -66,19 +66,19 @@ public:
 
   ~Page ()
   {
-    vfassert (! m_refs.isSignaled ());
+    jassert (! m_refs.isSignaled ());
   }
 
   inline bool release ()
   {
-    vfassert (! m_refs.isSignaled ());
+    jassert (! m_refs.isSignaled ());
 
     return m_refs.release ();
   }
 
   void* allocate (size_t bytes)
   {
-    vfassert (bytes > 0);
+    jassert (bytes > 0);
 
     char* p = Memory::pointerAdjustedForAlignment (m_free);
     char* free = p + bytes;
@@ -169,7 +169,7 @@ inline void FifoFreeStoreWithTLS::deletePage (Page* page)
 FifoFreeStoreWithTLS::FifoFreeStoreWithTLS ()
   : m_pages (PagedFreeStoreType::getInstance ())
 {
-  //vfassert (m_pages->getPageBytes () >= sizeof (Page) + Memory::allocAlignBytes);
+  //jassert (m_pages->getPageBytes () >= sizeof (Page) + Memory::allocAlignBytes);
 }
 
 FifoFreeStoreWithTLS::~FifoFreeStoreWithTLS ()
