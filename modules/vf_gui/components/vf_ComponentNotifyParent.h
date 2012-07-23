@@ -35,65 +35,65 @@
 
 /*============================================================================*/
 /**
-    Notify some parent of a Component.
+  Notify some parent of a Component.
 
-    This class functor will ascend the chain of parent components and
-    call a member function on the first parent it finds that exposes a
-    defined interface. A Component exposes the interface by deriving from the
-    class containing the member function of interest. The implementation uses
-    dynamic_cast to determine if the Component is eligible, so the interface
-    must have a virtual table.
+  This class functor will ascend the chain of parent components and call a
+  member function on the first parent it finds that exposes a defined interface.
+  A Component exposes the interface by deriving from the class containing the
+  member function of interest. The implementation uses `dynamic_cast` to
+  determine if the Component is eligible, so the interface must have a virtual
+  table.
 
-    This provides robust assistance for enforcing separation of concerns, and
-    decentralizing program logic into only the areas that need it.
+  This provides robust assistance for enforcing separation of concerns, and
+  decentralizing program logic into only the areas that need it.
 
-    In this example we will implement a ToggleButton which switches a window
-    between basic and advanced modes:
+  In this example we will implement a ToggleButton which switches a window
+  between basic and advanced modes:
 
-    @code
+  @code
 
-    // Interface for a window that has basic and advanced modes:
+  // Interface for a window that has basic and advanced modes:
 
-    struct TwoModeWindow
+  struct TwoModeWindow
+  {
+    virtual void onModeChanged (bool isAdvanced) = 0;
+  };
+
+  // A ToggleButton that switches between basic and advanced modes
+
+  class AdvancedModeToggleButton : public ToggleButton
+  {
+  public:
+    AdvancedModeToggleButton (String buttonText) : ToggleButton (buttonText)
     {
-      virtual void onModeChanged (bool isAdvanced) = 0;
-    };
+      setClickingTogglesState (true);
+    }
 
-    // A ToggleButton that switches between basic and advanced modes
-
-    class AdvancedModeToggleButton : public ToggleButton
+    void clicked ()
     {
-    public:
-      AdvancedModeToggleButton (String buttonText) : ToggleButton (buttonText)
-      {
-        setClickingTogglesState (true);
-      }
+      // Inform a parent that the window mode was changed
 
-      void clicked ()
-      {
-        // Inform a parent that the window mode was changed
+      componentNotifyParent (this,
+                              &TwoModeWindow::onModeChanged,
+                              getToggleState ());
+    }
+  };
 
-        componentNotifyParent (this,
-                               &TwoModeWindow::onModeChanged,
-                               getToggleState ());
-      }
-    };
+  @endcode
 
-    @endcode
+  These are some of the benefits of using this system:
 
-    These are some of the benefits of using this system:
+  - A Component sending a notification doesn't need to know about
+    the recipient.
 
-    - A Component sending a notification doesn't need to know about
-      the recipient.
-
-    - A Component doesn't need to know where it is in the hierarchy
-      of components in the window. You can add, remove, or reparent
-      controls without breaking anything.
+  - A Component doesn't need to know where it is in the hierarchy
+    of components in the window. You can add, remove, or reparent
+    controls without breaking anything.
       
-    - Child and parent components support sending and receiving notifications
-      for multiple interfaces very easily.
+  - Child and parent components support sending and receiving notifications
+    for multiple interfaces very easily.
 
-    @ingroup vf_gui
+  @ingroup vf_gui
 */
 class componentNotifyParent
 {

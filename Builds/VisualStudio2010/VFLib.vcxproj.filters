@@ -453,17 +453,8 @@
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.cpp">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LayerContext.cpp">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
       <Filter>VF Modules\vf_audio\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_BlendImage.cpp">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.cpp">
       <Filter>VF Modules\vf_gui\graphics</Filter>
@@ -474,9 +465,6 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.cpp">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
@@ -485,6 +473,9 @@
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.cpp">
       <Filter>VF Modules\vf_unfinished\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -890,31 +881,16 @@
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.h">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BackgroundContext.h">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LayerContext.h">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_audio\sources\vf_Metronome.h">
       <Filter>VF Modules\vf_audio\sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_BlendImage.h">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.h">
-      <Filter>VF Modules\vf_gui\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_Pixels.h">
       <Filter>VF Modules\vf_gui\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h">
       <Filter>VF Modules\vf_unfinished</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendImage.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h">
@@ -936,8 +912,6 @@
   <ItemGroup>
     <None Include="..\..\README.md" />
     <None Include="..\..\COPYRIGHT" />
-    <None Include="..\..\Doxyfile">
-      <Filter>VF Modules</Filter>
-    </None>
+    <None Include="..\..\Doxyfile" />
   </ItemGroup>
 </Project>

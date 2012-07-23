@@ -30,8 +30,27 @@
 */
 /*============================================================================*/
 
-InterruptibleThread::InterruptibleThread (String name)
+InterruptibleThread::ThreadHelper::ThreadHelper (String name,
+                                                 InterruptibleThread* owner)
   : Thread (name)
+  , m_owner (owner)
+{
+}
+
+InterruptibleThread* InterruptibleThread::ThreadHelper::getOwner () const
+{
+  return m_owner;
+}
+
+void InterruptibleThread::ThreadHelper::run ()
+{
+  m_owner->run ();
+}
+
+//------------------------------------------------------------------------------
+
+InterruptibleThread::InterruptibleThread (String name)
+  : m_thread (name, this)
   , m_state (stateRun)
 {
 }
@@ -47,7 +66,7 @@ void InterruptibleThread::start (const Function <void (void)>& f)
 {
   m_function = f;
 
-  Thread::startThread ();
+  m_thread.startThread ();
 
   // prevents data race with member variables
   m_runEvent.signal ();
@@ -55,7 +74,7 @@ void InterruptibleThread::start (const Function <void (void)>& f)
 
 void InterruptibleThread::join ()
 {
-  Thread::stopThread (-1);
+  m_thread.stopThread (-1);
 }
 
 bool InterruptibleThread::wait (int milliSeconds)
@@ -89,7 +108,7 @@ bool InterruptibleThread::wait (int milliSeconds)
 
   if (!interrupted)
   {
-    interrupted = Thread::wait (milliSeconds);
+    interrupted = m_thread.wait (milliSeconds);
 
     if (!interrupted)
     {
@@ -124,7 +143,7 @@ void InterruptibleThread::interrupt ()
     }
     else if (m_state.tryChangeState (stateWait, stateRun))
     {
-      Thread::notify ();
+      m_thread.notify ();
       break;
     }
   }
@@ -162,17 +181,31 @@ InterruptibleThread::id InterruptibleThread::getId () const
 
 bool InterruptibleThread::isTheCurrentThread () const
 {
-  return Thread::getCurrentThreadId () == m_threadId;
+  return m_thread.getCurrentThreadId () == m_threadId;
 }
 
 void InterruptibleThread::setPriority (int priority)
 {
-  Thread::setPriority (priority);
+  m_thread.setPriority (priority);
+}
+
+InterruptibleThread* InterruptibleThread::getCurrentThread ()
+{
+  Thread* const thread = Thread::getCurrentThread();
+
+  // This doesn't work for the message thread!
+  jassert (thread != nullptr);
+
+  ThreadHelper* const helper = dynamic_cast <ThreadHelper*> (thread);
+
+  jassert (helper != nullptr);
+
+  return helper->getOwner ();
 }
 
 void InterruptibleThread::run ()
 {
-  m_threadId = Thread::getThreadId ();
+  m_threadId = m_thread.getThreadId ();
 
   m_runEvent.wait ();
 
@@ -185,6 +218,10 @@ bool CurrentInterruptibleThread::interruptionPoint ()
 {
   bool interrupted = false;
 
+#if 1
+  interrupted = InterruptibleThread::getCurrentThread ()->interruptionPoint ();
+
+#else
   Thread* const thread = Thread::getCurrentThread();
 
   // Can't use interruption points on the message thread
@@ -209,6 +246,7 @@ bool CurrentInterruptibleThread::interruptionPoint ()
   {
     interrupted = false;
   }
+#endif
 
   return interrupted;
 }

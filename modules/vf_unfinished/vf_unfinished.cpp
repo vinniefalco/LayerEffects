@@ -50,8 +50,8 @@ namespace vf
 {
 
 #include "graphics/vf_BackgroundContext.cpp"
-#include "graphics/vf_BlendImage.cpp"
 #include "graphics/vf_LayerContext.cpp"
+#include "graphics/vf_Pixels.cpp"
 
 #include "midi/vf_MidiDevices.cpp"
 #include "midi/vf_MidiInput.cpp"
