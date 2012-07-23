@@ -30,16 +30,34 @@
 */
 /*============================================================================*/
 
-namespace Ui {
+/** Add this to get the @ref vf_unfinished module.
 
-namespace Control {
+    @file vf_unfinished.cpp
+    @ingroup vf_unfinished
+*/
 
-ResizablePanel::ResizablePanel (Facade::Base* facade)
-: Static (facade)
-, ResizableLayout (this)
+#include "AppConfig.h"
+
+#include "vf_unfinished.h"
+
+#if JUCE_MSVC
+#pragma warning (push)
+//#pragma warning (disable: 4100) // unreferenced formal parmaeter
+//#pragma warning (disable: 4355) // 'this' used in base member
+#endif
+
+namespace vf
 {
-}
+
+#include "graphics/vf_BackgroundContext.cpp"
+#include "graphics/vf_BlendImage.cpp"
+#include "graphics/vf_LayerContext.cpp"
+
+#include "midi/vf_MidiDevices.cpp"
+#include "midi/vf_MidiInput.cpp"
 
 }
 
-}
+#if JUCE_MSVC
+#pragma warning (pop)
+#endif

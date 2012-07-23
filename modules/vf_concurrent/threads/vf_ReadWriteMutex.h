@@ -35,7 +35,7 @@
 
 /*============================================================================*/
 /**
-  Multiple consumer, single producer (MCSP) synchronization primitive.
+  Multiple consumer, single producer (MCSP) synchronization.
 
   This is an optimized lock for the multiple reader, single writer
   scenario. It provides only a subset of features of the more general

@@ -56,6 +56,13 @@ public:
 
   ~ThreadGroup ();
 
+  /** Allocator access.
+  */
+  inline AllocatorType& getAllocator ()
+  {
+    return m_allocator;
+  }
+
   /** Determine the number of threads in the group.
 
       @return The number of threads in the group.
@@ -68,9 +75,12 @@ public:
       A call is always guaranteed to execute.
 
       @param maxThreads The maximum number of threads to use, or -1 for all.
+
+      @param f The functor to call for each thread.
   */
+  /** @{ */
   template <class Functor>
-  void callf (int maxThreads, Functor const& f)
+  void callf (int maxThreads, Functor f)
   {
     jassert (maxThreads > 0 || maxThreads == -1);
 
@@ -86,58 +96,43 @@ public:
     }
   }
 
-  /** Allocator access.
-  */
-  inline AllocatorType& getAllocator ()
-  {
-    return m_allocator;
-  }
-
   template <class Fn>
   void call (int maxThreads, Fn f)
-  { callf (maxThreads, vf::bind (f)); }
+    { callf (maxThreads, vf::bind (f)); }
 
-  template <class Fn,              typename  T1>
-  void call (int maxThreads, Fn f, const T1& t1)
-  { callf (maxThreads, vf::bind (f, t1)); }
+  template <class Fn, class T1>
+  void call (int maxThreads, Fn f, T1 t1)
+    { callf (maxThreads, vf::bind (f, t1)); }
 
-  template <class Fn,              typename  T1, typename  T2>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2)
-  { callf (maxThreads, vf::bind (f, t1, t2)); }
+  template <class Fn, class T1, class T2>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2)
+    { callf (maxThreads, vf::bind (f, t1, t2)); }
 
-  template <class Fn,              typename  T1, typename  T2, typename  T3>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2, const T3& t3)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3)); }
+  template <class Fn, class T1, class T2, class T3>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3)); }
 
-  template <class Fn,              typename  T1, typename  T2,
-                                   typename  T3, typename  T4>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2,
-                                   const T3& t3, const T4& t4)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3, t4)); }
+  template <class Fn, class T1, class T2, class T3, class T4>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3, T4 t4)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3, t4)); }
 
-  template <class Fn,              typename  T1, typename  T2, typename  T3,
-                                   typename  T4, typename  T5>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2, const T3& t3,
-                                   const T4& t4, const T5& t5)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5)); }
 
-  template <class Fn,              typename  T1, typename  T2, typename  T3,
-                                   typename  T4, typename  T5, typename  T6>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2, const T3& t3,
-                                   const T4& t4, const T5& t5, const T6& t6)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6)); }
 
-  template <class Fn,              typename  T1, typename  T2, typename  T3, typename  T4,
-                                   typename  T5, typename  T6, typename  T7>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                                   const T5& t5, const T6& t6, const T7& t7)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6, t7)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6, t7)); }
 
-  template <class Fn,              typename  T1, typename  T2, typename  T3, typename  T4,
-                                   typename  T5, typename  T6, typename  T7, typename  T8>
-  void call (int maxThreads, Fn f, const T1& t1, const T2& t2, const T3& t3, const T4& t4,
-                                   const T5& t5, const T6& t6, const T7& t7, const T8& t8)
-  { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8)); }
+  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+  void call (int maxThreads, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
+    { callf (maxThreads, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8)); }
+
+  /** @} */
 
 private:
   void stopThreads (int numberOfThreadsToStop);

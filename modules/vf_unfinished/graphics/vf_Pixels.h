@@ -279,17 +279,18 @@ public:
     explicit FillMaskRGB (Colour const& colour, double opacity, ModeType mode = ModeType ())
       : m_alpha (int (255 * opacity + 0.5))
       , m_mode (mode)
+      , m_src (colour.getARGB ())
     {
-      m_src[0] = colour.getBlue ();
-      m_src[1] = colour.getGreen ();
-      m_src[2] = colour.getRed ();
     }
 
     void operator () (uint8* dest, uint8 const* mask) const
     {
-      dest[0] = uint8 (dest[0] + (m_mode (m_src[0], dest[0]) - dest[0]) * *mask * m_alpha / 65025);
-      dest[1] = uint8 (dest[1] + (m_mode (m_src[1], dest[1]) - dest[1]) * *mask * m_alpha / 65025);
-      dest[2] = uint8 (dest[2] + (m_mode (m_src[2], dest[2]) - dest[2]) * *mask * m_alpha / 65025);
+      int const m = *mask;
+      PixelRGB& d (*((PixelRGB*)dest));
+
+      d.getRed ()   = uint8 (d.getRed ()    + (m_mode (m_src.getRed (),   d.getRed ()) -   d.getRed ())    * m * m_alpha / 65025);
+      d.getGreen () = uint8 (d.getGreen ()  + (m_mode (m_src.getGreen (), d.getGreen ()) - d.getGreen ())  * m * m_alpha / 65025);
+      d.getBlue ()  = uint8 (d.getBlue ()   + (m_mode (m_src.getBlue (),  d.getBlue ()) -  d.getBlue ())   * m * m_alpha / 65025);
     }
 
   private:
@@ -297,7 +298,7 @@ public:
 
     int const m_alpha;
     ModeType const m_mode;
-    uint8 m_src [3];
+    PixelRGB const m_src;
   };
 
   //------------------------------------------------------------------------------
@@ -340,13 +341,15 @@ public:
 
     void operator () (uint8* dest, uint8 const* src) const
     {
-      uint8 result[3];
+      PixelRGB v;
+      PixelRGB& d (*((PixelRGB*)dest));
+      PixelRGB const& s (*((PixelRGB const*)src));
 
-      result[0] = uint8 (m_mode (src[0], dest[0]));
-      result[1] = uint8 (m_mode (src[1], dest[1]));
-      result[2] = uint8 (m_mode (src[2], dest[2]));
+      v.getRed ()   = uint8 (m_mode (s.getRed (),   d.getRed ()));
+      v.getGreen () = uint8 (m_mode (s.getGreen (), d.getGreen ()));
+      v.getBlue ()  = uint8 (m_mode (s.getBlue (),  d.getBlue ()));
 
-      ((PixelRGB*)dest)->blend (*((PixelRGB*)result), m_alpha);
+      d.blend (v, m_alpha);
     }
 
   private:
@@ -370,7 +373,10 @@ public:
 
     void operator () (uint8* dest, uint8 const* src) const
     {
-      ((PixelRGB*)dest)->blend (*((PixelRGB*)src), m_alpha);
+      PixelRGB& d (*((PixelRGB*)dest));
+      PixelRGB const& s (*((PixelRGB const*)src));
+
+      d.blend (s, m_alpha);
     }
 
   private:
@@ -399,10 +405,13 @@ public:
 
     void operator () (uint8* dest, uint8 const* src) const
     {
-      int const mask = src[3];
-      dest[0] = uint8 (dest[0] + (m_mode (unpremultiply (src[0], mask), dest[0]) - dest[0]) * mask * m_alpha / 65025);
-      dest[1] = uint8 (dest[1] + (m_mode (unpremultiply (src[1], mask), dest[1]) - dest[1]) * mask * m_alpha / 65025);
-      dest[2] = uint8 (dest[2] + (m_mode (unpremultiply (src[2], mask), dest[2]) - dest[2]) * mask * m_alpha / 65025);
+      PixelARGB s (((PixelARGB const*)src)->getUnpremultipliedARGB ());
+      PixelRGB& d (*((PixelRGB*)dest));
+      int const mask = s.getAlpha ();
+
+      d.getRed ()   = uint8 (d.getRed ()    + (m_mode (s.getRed (),   d.getRed ()) -   d.getRed ())    * mask * m_alpha / 65025);
+      d.getGreen () = uint8 (d.getGreen ()  + (m_mode (s.getGreen (), d.getGreen ()) - d.getGreen ())  * mask * m_alpha / 65025);
+      d.getBlue ()  = uint8 (d.getBlue ()   + (m_mode (s.getBlue (),  d.getBlue ()) -  d.getBlue ())   * mask * m_alpha / 65025);
     }
 
   private:

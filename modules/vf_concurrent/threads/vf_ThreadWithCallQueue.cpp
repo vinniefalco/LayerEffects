@@ -53,7 +53,7 @@ void ThreadWithCallQueue::start (idle_t worker_idle,
     CriticalSection::ScopedLockType lock (m_mutex);
 
     // start() MUST be called.
-    vfassert (!m_calledStart);
+    jassert (!m_calledStart);
     m_calledStart = true;
   }
 
@@ -67,13 +67,13 @@ void ThreadWithCallQueue::start (idle_t worker_idle,
 void ThreadWithCallQueue::stop (bool const wait)
 {
   // can't call stop(true) from within a thread function
-  vfassert (!wait || !m_thread.isTheCurrentThread ());
+  jassert (!wait || !m_thread.isTheCurrentThread ());
 
   {
     CriticalSection::ScopedLockType lock (m_mutex);
 
     // start() MUST be called.
-    vfassert (m_calledStart);
+    jassert (m_calledStart);
 
     // TODO: Atomic for this
     if (!m_calledStop)

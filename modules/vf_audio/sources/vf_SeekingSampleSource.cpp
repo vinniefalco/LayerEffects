@@ -30,52 +30,52 @@
 */
 /*============================================================================*/
 
-SeekingSampleSource::PositionableAdapter::PositionableAdapter (
+SeekingSampleSource::PositionableAudioSourceAdapter::PositionableAudioSourceAdapter (
   SeekingSampleSource* source, bool takeOwnership)
   : m_source (source, takeOwnership)
 {
 }
 
-void SeekingSampleSource::PositionableAdapter::setNextReadPosition (int64 newPosition)
+void SeekingSampleSource::PositionableAudioSourceAdapter::setNextReadPosition (int64 newPosition)
 {
   m_source->setNextReadPosition (newPosition);
 }
 
-int64 SeekingSampleSource::PositionableAdapter::getNextReadPosition () const
+int64 SeekingSampleSource::PositionableAudioSourceAdapter::getNextReadPosition () const
 {
   return m_source->getNextReadPosition ();
 }
 
-int64 SeekingSampleSource::PositionableAdapter::getTotalLength () const
+int64 SeekingSampleSource::PositionableAudioSourceAdapter::getTotalLength () const
 {
   // Unsupported
   jassertfalse;
   return 0;
 }
 
-bool SeekingSampleSource::PositionableAdapter::isLooping () const
+bool SeekingSampleSource::PositionableAudioSourceAdapter::isLooping () const
 {
   // Unsupported
   jassertfalse;
   return false;
 }
 
-void SeekingSampleSource::PositionableAdapter::setLooping (bool shouldLoop)
+void SeekingSampleSource::PositionableAudioSourceAdapter::setLooping (bool shouldLoop)
 {
   // Unsupported
   jassertfalse;
 }
 
-void SeekingSampleSource::PositionableAdapter::prepareToPlay (
+void SeekingSampleSource::PositionableAudioSourceAdapter::prepareToPlay (
   int samplesPerBlockExpected, double sampleRate)
 {
 }
 
-void SeekingSampleSource::PositionableAdapter::releaseResources ()
+void SeekingSampleSource::PositionableAudioSourceAdapter::releaseResources ()
 {
 }
 
-void SeekingSampleSource::PositionableAdapter::getNextAudioBlock (
+void SeekingSampleSource::PositionableAudioSourceAdapter::getNextAudioBlock (
   const AudioSourceChannelInfo& bufferToFill)
 {
   m_source->getNextAudioBlock (bufferToFill);

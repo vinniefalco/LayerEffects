@@ -40,7 +40,7 @@ static const size_t globalPageBytes = 8 * 1024;
 }
 
 GlobalPagedFreeStore::GlobalPagedFreeStore ()
-  : ReferenceCountedSingleton <GlobalPagedFreeStore> (SingletonLifetime::persistAfterCreation)
+  : RefCountedSingleton <GlobalPagedFreeStore> (SingletonLifetime::persistAfterCreation)
   , m_allocator (globalPageBytes)
 {
 }

@@ -35,21 +35,23 @@
 
 /*============================================================================*/
 /** 
-    An InterruptibleThread with a CallQueue.
+  An InterruptibleThread with a CallQueue.
 
-    This combines an InterruptibleThread with a CallQueue, allowing functors to
-    be queued for asynchronous execution on the thread.
+  This combines an InterruptibleThread with a CallQueue, allowing functors to
+  be queued for asynchronous execution on the thread.
 
-    The thread runs an optional user-defined idle function, which must regularly
-    check for an interruption using the InterruptibleThread interface. When an
-    interruption is signaled, the idle function returns and the CallQueue is
-    synchronized. Then, the idle function is resumed.
+  The thread runs an optional user-defined idle function, which must regularly
+  check for an interruption using the InterruptibleThread interface. When an
+  interruption is signaled, the idle function returns and the CallQueue is
+  synchronized. Then, the idle function is resumed.
 
-    When the ThreadWithCallQueue first starts up, an optional user-defined
-    initialization function is executed on the thread. When the thread exits,
-    a user-defined exit function may be executed on the thread.
+  When the ThreadWithCallQueue first starts up, an optional user-defined
+  initialization function is executed on the thread. When the thread exits,
+  a user-defined exit function may be executed on the thread.
 
-    @ingroup vf_concurrent
+  @see CallQueue
+
+  @ingroup vf_concurrent
 */
 class ThreadWithCallQueue : public CallQueue
 {

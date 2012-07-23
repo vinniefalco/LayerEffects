@@ -31,11 +31,11 @@
 /*============================================================================*/
 
 class OncePerSecond::TimerSingleton
-  : public ReferenceCountedSingleton <OncePerSecond::TimerSingleton>
+  : public RefCountedSingleton <OncePerSecond::TimerSingleton>
 {
 private:
   TimerSingleton ()
-    : ReferenceCountedSingleton <OncePerSecond::TimerSingleton> (
+    : RefCountedSingleton <OncePerSecond::TimerSingleton> (
 		SingletonLifetime::persistAfterCreation)
     , m_thread ("Once Per Second")
   {
@@ -46,7 +46,7 @@ private:
   {
     m_thread.join ();
 
-    vfassert (m_list.empty ());
+    jassert (m_list.empty ());
   }
 
   void run ()

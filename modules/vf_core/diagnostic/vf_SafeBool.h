@@ -33,16 +33,25 @@
 #ifndef VF_SAFEBOOL_VFHEADER
 #define VF_SAFEBOOL_VFHEADER
 
-//
-// From http://www.artima.com/cppsource/safebool.html
-//
-// Allows evaluation of an object as bool,
-// without the usual harmful side effects.
-//
+/**
+  Safe evaluation of class as `bool`.
 
-//------------------------------------------------------------------------------
+  This allows a class to be safely evaluated as a bool without the usual harmful
+  side effects of the straightforward operator conversion approach. To use it,
+  derive your class from SafeBool and implement `asBoolean()` as:
 
-namespace detail {
+  @code
+
+  bool asBoolean () const;
+
+  @endcode
+
+  Ideas from http://www.artima.com/cppsource/safebool.html
+
+  @class SafeBool
+
+  @ingroup vf_core
+*/
 
 class SafeBoolBase
 {
@@ -61,18 +70,14 @@ protected:
   ~SafeBoolBase () { }
 };
 
-}
-
-//------------------------------------------------------------------------------
-
 template <typename T = void>
-class SafeBool : public detail::SafeBoolBase
+class SafeBool : public SafeBoolBase
 {
 public:
   operator boolean_t () const
   {
-    return (static_cast <const T*> (this))->asBoolean ()
-      ? &detail::SafeBoolBase::allowed : 0;
+    return (static_cast <T const*> (this))->asBoolean ()
+      ? &SafeBoolBase::allowed : 0;
   }
 
 protected:

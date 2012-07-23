@@ -30,57 +30,82 @@
 */
 /*============================================================================*/
 
-#ifndef VF_CONTROL_VFHEADER
-#define VF_CONTROL_VFHEADER
+#ifndef VF_MIDIDEVICES_VFHEADER
+#define VF_MIDIDEVICES_VFHEADER
 
-#include "vf_Facade.h"
-#include "vf_Model.h"
+/**
+  Midi input and output device manager.
 
-namespace Ui {
+  This wraps JUCE support for Midi devices, with the following features:
 
-// A control is a Component that combines a Facade with an optional Model
-// that displays the Model and allows the user to interact. Derived classes
-// provide the actual Component
-//
+  - Add/remove notification.
 
-namespace Control {
+  - Midi input and output devices identified by a permanent handle.
 
-class View
+*/
+class MidiDevices : public RefCountedSingleton <MidiDevices>
 {
 public:
-  virtual void updateView () = 0;
-};
+  /**
+    Common Midi device characteristics.
+  */
+  class Device
+  {
+  public:
+    virtual String getName () const = 0;
+  };
 
-//------------------------------------------------------------------------------
+  /**
+    An input device.
+  */
+  class Input : public Device
+  {
+  public:
+  };
 
-class Base
-  : public View
-  , public Model::Base::Listener
-  , Uncopyable
-{
+  /**
+    An output device.
+  */
+  class Output : public Device
+  {
+  public:
+  };
+
 public:
-  Base (Component* component,
-        Facade::Base* facade,
-        ReferenceCountedObjectPtr <Model::Base> model);
-  ~Base ();
+  struct Listener
+  {
+    /**
+      Called when the connection status of a device changes.
+    */
+    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
 
-  Model::Base& getModel ();
-  Facade::Base& getFacade ();
-  Component& getComponent ();
+    /**
+      Called when the connection status of any devices changes.
+
+      This is usually a good opportunity to rebuild user interface lists.
+    */
+    virtual void onMidiDevicesChanged () { }
+  };
+
+  /**
+    Add a device notification listener.
+  */
+  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
+
+  /**
+    Remove a device notification listener.
+  */
+  virtual void removeListener (Listener* listener) = 0;
 
 protected:
-  void updateView ();
+  friend class RefCountedSingleton <MidiDevices>;
 
-  void onModelEnablement (Model::Base* model);
+  MidiDevices () : RefCountedSingleton <MidiDevices> (
+    SingletonLifetime::persistAfterCreation)
+  {
+  }
 
-private:
-  Component& m_component;
-  ScopedPointer <Facade::Base> m_facade;
-  ReferenceCountedObjectPtr <Model::Base> m_model;
+  static MidiDevices* createInstance ();
 };
-
-}
-
-}
 
 #endif

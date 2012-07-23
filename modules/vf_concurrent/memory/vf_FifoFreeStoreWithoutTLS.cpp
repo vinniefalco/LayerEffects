@@ -77,7 +77,7 @@ public:
 
   Result allocate (size_t bytes, void* pBlock)
   {
-    vfassert (bytes > 0);
+    jassert (bytes > 0);
 
     Result result;
 

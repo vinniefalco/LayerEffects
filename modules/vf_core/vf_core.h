@@ -406,22 +406,21 @@
   #pragma pop_macro("calloc")
 #endif
 
+/*
 using juce::int64;
 using juce::uint64;
 using juce::uint32;
 using juce::uint8;
+*/
 
+/** The VFLib namespace.
+
+    This namespace contains all VFLib symbols.
+*/
 namespace vf
 {
 
 using namespace juce;
-
-#define vfassert jassert
-
-}
-
-namespace vf
-{
 
 #include "memory/vf_Uncopyable.h"
 
@@ -464,7 +463,7 @@ namespace vf
 #endif
 
 #include "memory/vf_MemoryAlignment.h"
-#include "memory/vf_ReferenceCountedSingleton.h"
+#include "memory/vf_RefCountedSingleton.h"
 #include "memory/vf_StaticObject.h"
 
 #include "threads/vf_Semaphore.h"

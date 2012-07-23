@@ -35,41 +35,41 @@
 
 /*============================================================================*/
 /**
-    A temporary audio buffer with scoped lifetime.
+  A temporary audio buffer with scoped lifetime.
 
-    This utility class allows scoped lifetime management for acquiring temporary
-    audio buffers from the AudioBufferPool. It is easy to use:
+  This utility class allows scoped lifetime management for acquiring temporary
+  audio buffers from the AudioBufferPool. It is easy to use:
 
-    @code
+  @code
 
-    AudioBufferPoolType <CriticalSection> pool;
+  AudioBufferPoolType <CriticalSection> pool;
 
-    // Request a stereo buffer with room for 1024 samples.
-    ScopedAudioSampleBuffer buffer (pool, 2, 1024);
+  // Request a stereo buffer with room for 1024 samples.
+  ScopedAudioSampleBuffer buffer (pool, 2, 1024);
 
-    // 'buffer' is released when it goes out of scope.
+  // 'buffer' is released when it goes out of scope.
 
-    @endcode
+  @endcode
 
-    ScopedAudioSampleBuffer is freely convertible to AudioSampleBuffer* so it
-    can be used anywhere a pointer to AudioSampleBuffer is expected. The
-    dereference and pointer to member operators are similarly overloaded to
-    support transparent usage of the underlying AudioSampleBuffer:
+  ScopedAudioSampleBuffer is freely convertible to AudioSampleBuffer* so it
+  can be used anywhere a pointer to AudioSampleBuffer is expected. The
+  dereference and pointer to member operators are similarly overloaded to
+  support transparent usage of the underlying AudioSampleBuffer:
 
-    @code
+  @code
 
-    AudioBufferPoolType <CriticalSection> pool;
+  AudioBufferPoolType <CriticalSection> pool;
 
-    ScopedAudioSampleBuffer buffer (pool, 2, 1024);
+  ScopedAudioSampleBuffer buffer (pool, 2, 1024);
 
-    // Call a member of AudioSampleBuffer
-    buffer->clear ();
+  // Call a member of AudioSampleBuffer
+  buffer->clear ();
 
-    @endcode
+  @endcode
 
-    Note that changing the size of a buffer is undefined.
+  Note that changing the size of a buffer is undefined.
 
-    @ingroup vf_audio
+  @ingroup vf_audio
 */
 class ScopedAudioSampleBuffer
   // NO IDEA why the leak checking fails

@@ -39,7 +39,7 @@
 /** 
   Perform an action at program exit
 
-  To use, derive your class from PerformedAtExit, and override performAtExit().
+  To use, derive your class from PerformedAtExit, and override `performAtExit()`.
   The call will be made during the destruction of objects with static storage
   duration, before LeakChecked performs its diagnostics.
 
@@ -50,7 +50,7 @@ class PerformedAtExit : public LockFreeStack <PerformedAtExit>::Node
 protected:
   PerformedAtExit ();
 
-private:
+protected:
   /** Called at program exit.
   */
   virtual void performAtExit () = 0;

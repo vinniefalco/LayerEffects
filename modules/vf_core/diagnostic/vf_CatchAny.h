@@ -55,6 +55,12 @@
     
   @todo Remove dependence on the JUCEApplication object and remove juce_gui_basics.h from vf_core.cpp
 
+  @param f The function to call.
+
+  @param returnFromException `false` if exceptions should terminate the app.
+
+  @return `true` if an exception was caught.
+
   @ingroup vf_core
 */
 extern bool CatchAny (Function <void (void)> f,

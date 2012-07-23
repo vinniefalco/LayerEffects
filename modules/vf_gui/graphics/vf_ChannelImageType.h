@@ -45,9 +45,14 @@ class ChannelImageType : vf::Uncopyable
 public:
   /** Create an Image that references a channel in the source image.
 
-      The image type will be @ref Image::SingleChannel.
+      The image type will be Image::SingleChannel, or Image::RGB if
+      `channelNumber` is -1.
+
+      @param sourceImage The image to retrieve a channel from.
 
       @param channelNumber 0 based channel number, -1 for all RGB channels.
+
+      @return The resulting Image.
   */
   static Image fromImage (Image sourceImage, int channelNumber);
 

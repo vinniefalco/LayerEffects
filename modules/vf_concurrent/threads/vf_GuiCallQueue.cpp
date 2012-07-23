@@ -36,7 +36,7 @@ GuiCallQueue::GuiCallQueue ()
 {
   // This object must be created from the Juce Message Thread.
   //
-  vfassert (MessageManager::getInstance()->isThisTheMessageThread());
+  jassert (MessageManager::getInstance()->isThisTheMessageThread());
 
   // Associate the CallQueue with the message thread right away.
   //

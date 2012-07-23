@@ -35,20 +35,20 @@
 
 /*============================================================================*/
 /**
-  @ingroup vf_concurrent
-
-  @brief A ThreadGroup singleton.
+  A ThreadGroup singleton.
 
   @see ThreadGroup
+
+  @ingroup vf_concurrent
 */
 class GlobalThreadGroup : public ThreadGroup,
-                          public ReferenceCountedSingleton <GlobalThreadGroup>
+                          public RefCountedSingleton <GlobalThreadGroup>
 {
 private:
-  friend class ReferenceCountedSingleton <GlobalThreadGroup>;
+  friend class RefCountedSingleton <GlobalThreadGroup>;
 
   GlobalThreadGroup ()
-    : ReferenceCountedSingleton <GlobalThreadGroup> (
+    : RefCountedSingleton <GlobalThreadGroup> (
         SingletonLifetime::persistAfterCreation)
   {
   }

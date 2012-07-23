@@ -41,7 +41,7 @@
 
 /*============================================================================*/
 /** 
-    bZip2: a freely available, high quality data compressor.
+    bZip2: A freely available, high quality data compressor.
 
     This external module brings in the bZip2 library.
 

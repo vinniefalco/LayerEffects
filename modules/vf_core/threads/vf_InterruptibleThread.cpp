@@ -61,13 +61,13 @@ void InterruptibleThread::join ()
 bool InterruptibleThread::wait (int milliSeconds)
 {
   // Can only be called from the current thread
-  vfassert (isTheCurrentThread ());
+  jassert (isTheCurrentThread ());
 
   bool interrupted = false;
 
   for (;;)
   {
-    vfassert (m_state != stateWait);
+    jassert (m_state != stateWait);
 
     // See if we are interrupted
     if (m_state.tryChangeState (stateInterrupt, stateRun))
@@ -99,7 +99,7 @@ bool InterruptibleThread::wait (int milliSeconds)
       }
       else
       {
-        vfassert (m_state == stateInterrupt);
+        jassert (m_state == stateInterrupt);
 
         interrupted = true;
       }
@@ -133,7 +133,7 @@ void InterruptibleThread::interrupt ()
 bool InterruptibleThread::interruptionPoint ()
 {
   // Can only be called from the current thread
-  vfassert (isTheCurrentThread ());
+  jassert (isTheCurrentThread ());
 
   if (m_state == stateWait)
   {
@@ -181,23 +181,20 @@ void InterruptibleThread::run ()
 
 //------------------------------------------------------------------------------
 
-namespace CurrentInterruptibleThread
-{
-
-bool interruptionPoint ()
+bool CurrentInterruptibleThread::interruptionPoint ()
 {
   bool interrupted = false;
 
   Thread* const thread = Thread::getCurrentThread();
 
   // Can't use interruption points on the message thread
-  vfassert (thread != nullptr);
+  jassert (thread != nullptr);
 
   if (thread)
   {
     InterruptibleThread* const interruptibleThread = dynamic_cast <InterruptibleThread*> (thread);
 
-    vfassert (interruptibleThread != nullptr);
+    jassert (interruptibleThread != nullptr);
 
     if (interruptibleThread != nullptr)
     {
@@ -214,6 +211,4 @@ bool interruptionPoint ()
   }
 
   return interrupted;
-}
-
 }

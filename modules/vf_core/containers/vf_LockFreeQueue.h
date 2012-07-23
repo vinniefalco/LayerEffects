@@ -41,27 +41,26 @@ struct LockFreeQueueDefaultTag;
 
 /*============================================================================*/
 /** 
-    Multiple Producer, Single Consumer (MPSC) intrusive FIFO.
+  Multiple Producer, Single Consumer (MPSC) intrusive FIFO.
 
-    This container uses the same intrusive interface as List. It is wait-free
-    for producers and lock-free for consumers. The caller is responsible for
-    preventing the ABA problem (http://en.wikipedia.org/wiki/ABA_problem)
+  This container uses the same intrusive interface as List. It is wait-free
+  for producers and lock-free for consumers. The caller is responsible for
+  preventing the ABA problem (http://en.wikipedia.org/wiki/ABA_problem)
 
-    Invariants:
+  Invariants:
 
-    - Any thread may call push_back() at any time (Multiple Producer).
+  - Any thread may call push_back() at any time (Multiple Producer).
 
-    - Only one thread may call try_pop_front() at a time (Single Consumer)
+  - Only one thread may call try_pop_front() at a time (Single Consumer)
 
-    - The queue is signaled if there are one or more elements.
+  - The queue is signaled if there are one or more elements.
 
-    @param Tag  A type name used to distinguish lists and nodes, for
-                putting objects in multiple lists. If this parameter is
-                omitted, the default tag is used.
+  @param Tag  A type name used to distinguish lists and nodes, for
+              putting objects in multiple lists. If this parameter is
+              omitted, the default tag is used.
 
-    @ingroup vf_core intrusive
+  @ingroup vf_core intrusive
 */
-
 template <class Element, class Tag = LockFreeQueueDefaultTag>
 class LockFreeQueue
 {
@@ -69,19 +68,15 @@ public:
   class Node : Uncopyable
   {
   public:
-    Node ()
-	{
-	}
-
-	explicit Node (Node* next) : m_next (next)
-	{
-	}
+    Node () { }
+    explicit Node (Node* next) : m_next (next) { }
 
     AtomicPointer <Node> m_next;
   };
 
 public:
-  /** Create an empty list. */
+  /** Create an empty list.
+  */
   LockFreeQueue ()
     : m_head (&m_null)
     , m_tail (&m_null)
@@ -104,8 +99,9 @@ public:
   
       This operation is wait-free.
 
-      @return true if the list was previously empty.
+      @param node The element to enqueue.
 
+      @return true if the list was previously empty.
   */
   bool push_back (Node* node)
   {

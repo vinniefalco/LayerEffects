@@ -35,24 +35,24 @@
 
 /*============================================================================*/
 /** 
-    A reference counted object, deleted on a separate thread.
+  A reference counted object with overridable destroy behavior.
 
-    This is a reference counted object compatible with
-    ReferenceCountedObjectPtr. When the last reference is removed, the
-    object is queued for deletion on a separate, provided thread. On
-    program exit the thread will clean itself up - no other action is
-    required.
+  This is a reference counted object compatible with
+  ReferenceCountedObjectPtr. When the last reference is removed, the
+  object is queued for deletion on a separate, provided thread. On
+  program exit the thread will clean itself up - no other action is
+  required.
 
-    This class is useful for offloading the deletion work of "deep" objects
-    shared by multiple threads: objects containing complex members, or a
-    hierarchy of allocated structures. For example, a ValueTree. The problem
-    of performing heavyweight memory or cleanup operations from either an
-    AudioIODeviceCallback or the message thread is avoided.
+  This class is useful for offloading the deletion work of "deep" objects
+  shared by multiple threads: objects containing complex members, or a
+  hierarchy of allocated structures. For example, a ValueTree. The problem
+  of performing heavyweight memory or cleanup operations from either an
+  AudioIODeviceCallback or the message thread is avoided.
 
-    The deletion behavior can be overriden by providing a replacement
-    for destroyConcurrentObject().
+  The deletion behavior can be overriden by providing a replacement
+  for destroyConcurrentObject().
 
-    @ingroup vf_concurrent
+  @ingroup vf_concurrent
 */
 class ConcurrentObject : Uncopyable
 {

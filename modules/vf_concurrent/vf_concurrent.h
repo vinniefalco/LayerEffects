@@ -173,7 +173,6 @@ namespace vf
 #include "threads/vf_GuiCallQueue.h"
 
 #include "threads/vf_MessageThread.h"
-
 }
 
 #endif

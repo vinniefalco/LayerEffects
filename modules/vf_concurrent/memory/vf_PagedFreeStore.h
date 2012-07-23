@@ -35,13 +35,12 @@
 
 /*============================================================================*/
 /**
-    Lock-free memory allocator for fixed size pages.
+  Lock-free memory allocator for fixed size pages.
 
-    The ABA problem (http://en.wikipedia.org/wiki/ABA_problem) is avoided by
-    treating freed pages as garbage, and performing a collection every second.
+  The ABA problem (http://en.wikipedia.org/wiki/ABA_problem) is avoided by
+  treating freed pages as garbage, and performing a collection every second.
 
-    @internal
-    @ingroup vf_concurrent internal
+  @ingroup vf_concurrent
 */
 class PagedFreeStore : private OncePerSecond
 {

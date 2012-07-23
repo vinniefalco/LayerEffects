@@ -218,7 +218,6 @@
   @class Listeners
   @ingroup vf_concurrent
 */
-
 class ListenersBase
 {
 public:
@@ -352,9 +351,7 @@ private:
 };
 
 /*============================================================================*/
-/** @class Listeners
-    @ingroup vf_concurrent
-*/
+
 template <class ListenerClass>
 class Listeners : public ListenersBase
 {
@@ -481,77 +478,12 @@ public:
       @param mf The member function to call. This may be followed by up to 8
                 arguments.
   */
+  /** @{ */
   template <class Mf>
   inline void call (Mf mf)
   {
     callf (vf::bind (mf, vf::_1));
   }
-
-  /** Queue a member function on every added listener, without synchronizing.
-
-      Operates like call(), but no CallQueue synchronization takes place. This
-      can be necessary when the call to queue() is made inside a held lock.
-
-      @param mf The member function to call. This may be followed by up to 8
-                arguments.
-  */
-  template <class Mf>
-  inline void queue (Mf mf)
-  {
-    queuef (vf::bind (mf, vf::_1));
-  }
-
-  /** Call a member function on every added listener, replacing pending
-      calls to the same member.
-
-      This operates like call(), except that if there are pending unprocessed
-      calls to the same member function,they will be replaced, with the previous
-      parameters destroyed normally. This functionality is useful for
-      high frequency notifications of non critical data, where the recipient
-      may not catch up often enough. For example, the output level of the
-      AudioIODeviceCallback in the example is a candidate for the use of
-      update().
-
-      @param mf The member function to call. This may be followed by up to 8
-                arguments.
-  */
-  template <class Mf>
-  inline void update (Mf mf)
-  { updatef (mf, vf::bind (mf, vf::_1)); }
-
-  /** Call a member function on a specific listener.
-
-      Like call(), except that one listener is targeted only. This is useful when
-      builing complex behaviors during the addition of a listener, such as
-      providing an initial state.
-
-      @param listener The listener to call.
-
-      @param mf       The member function to call. This may be followed by up
-                      to 8 arguments.
-  */
-  template <class Mf>
-  inline void call1 (ListenerClass* const listener, Mf mf)
-  {
-    call1f (listener, vf::bind (mf, vf::_1));
-  }
-
-  /** Queue a member function on a specific listener.
-
-      Like call1(), except that no CallQueue synchronization takes place.
-
-      @param listener The listener to call.
-
-      @param mf       The member function to call. This may be followed by up
-                      to 8 arguments.
-  */
-  template <class Mf>
-  inline void queue1 (ListenerClass* const listener, Mf mf)
-  {
-    queue1f (listener, vf::bind (mf, vf::_1));
-  }
-
-  /* Automatic binding for up to 8 arguments */
 
   template <class Mf, class T1>
   void call (Mf mf, T1 t1)
@@ -599,6 +531,22 @@ public:
   void call (Mf mf, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
   {
     callf (vf::bind (mf, vf::_1, t1, t2, t3, t4, t5, t6, t7, t8));
+  }
+  /** @} */
+
+  /** Queue a member function on every added listener, without synchronizing.
+
+      Operates like call(), but no CallQueue synchronization takes place. This
+      can be necessary when the call to queue() is made inside a held lock.
+
+      @param mf The member function to call. This may be followed by up to 8
+                arguments.
+  */
+  /** @{ */
+  template <class Mf>
+  inline void queue (Mf mf)
+  {
+    queuef (vf::bind (mf, vf::_1));
   }
 
   template <class Mf, class T1>
@@ -648,6 +596,26 @@ public:
   {
     queuef (vf::bind (mf, vf::_1, t1, t2, t3, t4, t5, t6, t7, t8));
   }
+  /** @} */
+
+  /** Call a member function on every added listener, replacing pending
+      calls to the same member.
+
+      This operates like call(), except that if there are pending unprocessed
+      calls to the same member function,they will be replaced, with the previous
+      parameters destroyed normally. This functionality is useful for
+      high frequency notifications of non critical data, where the recipient
+      may not catch up often enough. For example, the output level of the
+      AudioIODeviceCallback in the example is a candidate for the use of
+      update().
+
+      @param mf The member function to call. This may be followed by up to 8
+                arguments.
+  */
+  /** @{ */
+  template <class Mf>
+  inline void update (Mf mf)
+  { updatef (mf, vf::bind (mf, vf::_1)); }
 
   template <class Mf, class T1>
   void update (Mf mf, T1 t1)
@@ -695,6 +663,25 @@ public:
   void update (Mf mf, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
   {
     updatef (mf, vf::bind (mf, vf::_1, t1, t2, t3, t4, t5, t6, t7, t8));
+  }
+  /** @} */
+
+  /** Call a member function on a specific listener.
+
+      Like call(), except that one listener is targeted only. This is useful when
+      builing complex behaviors during the addition of a listener, such as
+      providing an initial state.
+
+      @param listener The listener to call.
+
+      @param mf       The member function to call. This may be followed by up
+                      to 8 arguments.
+  */
+  /** @{ */
+  template <class Mf>
+  inline void call1 (ListenerClass* const listener, Mf mf)
+  {
+    call1f (listener, vf::bind (mf, vf::_1));
   }
 
   template <class Mf, class T1>
@@ -744,6 +731,23 @@ public:
   {
     call1f (listener, vf::bind (mf, vf::_1, t1, t2, t3, t4, t5, t6, t7, t8));
   }
+  /** @} */
+
+  /** Queue a member function on a specific listener.
+
+      Like call1(), except that no CallQueue synchronization takes place.
+
+      @param listener The listener to call.
+
+      @param mf       The member function to call. This may be followed by up
+                      to 8 arguments.
+  */
+  /** @{ */
+  template <class Mf>
+  inline void queue1 (ListenerClass* const listener, Mf mf)
+  {
+    queue1f (listener, vf::bind (mf, vf::_1));
+  }
 
   template <class Mf, class T1>
   void queue1 (ListenerClass* const listener, Mf mf, T1 t1)
@@ -792,6 +796,8 @@ public:
   {
     queue1f (listener, vf::bind (mf, vf::_1, t1, t2, t3, t4, t5, t6, t7, t8));
   }
+  /** @} */
 };
+/** @} */
 
 #endif

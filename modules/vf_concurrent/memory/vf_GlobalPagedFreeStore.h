@@ -37,13 +37,12 @@
 
 /*============================================================================*/
 /**
-    A PagedFreeStore singleton.
+  A PagedFreeStore singleton.
 
-    @internal
-    @ingroup vf_concurrent internal
+  @ingroup vf_concurrent
 */
 class GlobalPagedFreeStore
-  : public ReferenceCountedSingleton <GlobalPagedFreeStore>
+  : public RefCountedSingleton <GlobalPagedFreeStore>
   , LeakChecked <GlobalPagedFreeStore>
 {
 private:

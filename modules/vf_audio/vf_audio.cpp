@@ -50,9 +50,6 @@ namespace vf
 
 #include "buffers/vf_AudioBufferPool.cpp"
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
 #include "sources/vf_Metronome.cpp"
 #include "sources/vf_NoiseAudioSource.cpp"
 #include "sources/vf_SeekingAudioSource.cpp"

@@ -30,49 +30,53 @@
 */
 /*============================================================================*/
 
-namespace Ui {
+/** Include this to get the @ref vf_unfinished module.
 
-//------------------------------------------------------------------------------
+    @file vf_unfinished.h
+    @ingroup vf_unfinished
+*/
 
-namespace Model {
+#ifndef VF_UNFINISHED_VFHEADER
+#define VF_UNFINISHED_VFHEADER
 
-DummyValue::DummyValue (double value, const String name)
-: m_name (name)
-, m_value (value)
+/*============================================================================*/
+/**
+  Work in progress.
+
+  This module contains unfinished code.
+
+  @defgroup vf_unfinished vf_unfinished
+*/
+
+#include "modules/juce_audio_basics/juce_audio_basics.h"
+#include "modules/juce_audio_devices/juce_audio_devices.h"
+#include "modules/juce_gui_basics/juce_gui_basics.h"
+
+#include "../vf_core/vf_core.h"
+#include "../vf_concurrent/vf_concurrent.h"
+#include "../vf_gui/vf_gui.h"
+
+#if JUCE_MSVC
+#pragma warning (push)
+//#pragma warning (disable: 4100) // unreferenced formal parameter
+//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
+#endif
+
+namespace vf
 {
-}
 
-const String DummyValue::getName ()
-{
-  return m_name;
-}
+#include "graphics/vf_BackgroundContext.h"
+#include "graphics/vf_BlendImage.h"
+#include "graphics/vf_LayerContext.h"
+#include "graphics/vf_Pixels.h"
 
-double DummyValue::getValue ()
-{
-  return m_value;
-}
-
-const String DummyValue::getValueAsText ()
-{
-  return String (m_value, 3);
-}
-
-double DummyValue::getDefaultValue ()
-{
-  return 0;
-}
-
-void DummyValue::setValue (double newValue)
-{
-  newValue = jlimit (0., 1., newValue);
-
-  if (m_value != newValue)
-  {
-    m_value = newValue;
-    updateAllViews ();
-  }
-}
+#include "midi/vf_MidiInput.h"
+#include "midi/vf_MidiDevices.h"
 
 }
 
-}
+#if JUCE_MSVC
+#pragma warning (pop)
+#endif
+
+#endif

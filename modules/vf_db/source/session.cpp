@@ -72,12 +72,12 @@
 
 namespace db {
 
-class session::Sqlite3 : public ReferenceCountedSingleton <Sqlite3>
+class session::Sqlite3 : public RefCountedSingleton <Sqlite3>
 {
 private:
-  friend class ReferenceCountedSingleton <Sqlite3>;
+  friend class RefCountedSingleton <Sqlite3>;
 
-  Sqlite3 () : ReferenceCountedSingleton <Sqlite3> (SingletonLifetime::persistAfterCreation)
+  Sqlite3 () : RefCountedSingleton <Sqlite3> (SingletonLifetime::persistAfterCreation)
   {
     int threadSafe = sqlite3_threadsafe ();
 
@@ -319,7 +319,7 @@ void session::close()
 
 void session::begin()
 {
-  vfassert( !m_bInTransaction );
+  jassert( !m_bInTransaction );
   m_bInTransaction = true;
   
   //Error error = hard_exec("BEGIN EXCLUSIVE");
@@ -330,14 +330,14 @@ void session::begin()
 
 Error session::commit()
 {
-  vfassert( m_bInTransaction );
+  jassert( m_bInTransaction );
   m_bInTransaction = false;
   return hard_exec("COMMIT");
 }
 
 void session::rollback()
 {
-  vfassert (m_bInTransaction);
+  jassert (m_bInTransaction);
   m_bInTransaction = false;
   Error error = hard_exec("ROLLBACK");
   if (error)

@@ -67,9 +67,6 @@ namespace vf
 #include "buffers/vf_AudioSampleBufferArray.h"
 #include "buffers/vf_ScopedAudioSampleBuffer.h"
 
-#include "midi/vf_MidiInput.h"
-#include "midi/vf_MidiDevices.h"
-
 #include "sources/vf_Metronome.h"
 #include "sources/vf_NoiseAudioSource.h"
 #include "sources/vf_SampleSource.h"

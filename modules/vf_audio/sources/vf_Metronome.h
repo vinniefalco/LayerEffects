@@ -35,12 +35,23 @@
 
 /** A metronome.
 
+    The metronome plays a segment of audio at each tick, defined by the tempo
+    and phase parameters.
+
     @ingroup vf_audio
 */
 class Metronome : public AudioSource
 {
 public:
   /** Create a new metronome.
+
+      The sound is determined by the audio data.
+
+      @param audioData A binary audio file loaded into memory.
+
+      @param dataBytes The number of bytes in `audioData`.
+
+      @return A pointer to the created metronome object.
   */
   static Metronome* New (void const* audioData, int dataBytes);
 

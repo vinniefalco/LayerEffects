@@ -111,14 +111,14 @@ PagedFreeStore::~PagedFreeStore ()
   endOncePerSecond ();
 
 #if LOG_GC
-  vfassert (!m_used.isSignaled ());
+  jassert (!m_used.isSignaled ());
 #endif
 
   dispose (m_pool1);
   dispose (m_pool2);
 
 #if LOG_GC
-  vfassert (!m_total.isSignaled ());
+  jassert (!m_total.isSignaled ());
 #endif
 }
 

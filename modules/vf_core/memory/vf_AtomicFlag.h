@@ -73,7 +73,7 @@ public:
   {
   #if VF_DEBUG
     const bool success = m_value.compareAndSetBool (1, 0);
-    vfassert (success);
+    jassert (success);
   #else
     m_value.set (1);
   #endif
@@ -89,7 +89,7 @@ public:
   {
   #if VF_DEBUG
     const bool success = m_value.compareAndSetBool (0, 1);
-    vfassert (success);
+    jassert (success);
   #else
     m_value.set (0);
   #endif

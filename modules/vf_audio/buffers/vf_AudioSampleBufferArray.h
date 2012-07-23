@@ -67,19 +67,22 @@ public:
   {
   }
 
-/**
-  @param numSamples      The number of samples in the resulting array. This
-                         may be less than or equal to the actual amount of
-                         space in the memory pointed to by arrayOfChannels.
+/** Create a buffer from existing memory.
 
-  @param arrayOfChannels The array of pointers to existing memory.
+    @param numSamples The number of samples in the resulting array. This
+                      may be less than or equal to the actual amount of
+    space in the memory pointed to by arrayOfChannels.
+
+    @param arrayOfChannels The array of pointers to existing memory.
 */
   AudioSampleBufferArray (int numSamples, Sample* const* arrayOfChannels)
   {
     setFrom (numSamples, arrayOfChannels);
   }
 
-  /** @param other The AudioSampleBufferArray to copy from.
+  /** Create a buffer from another buffer.
+
+      @param other The AudioSampleBufferArray to point to.
   */
   AudioSampleBufferArray (const AudioSampleBufferArray& other)
   {
@@ -228,16 +231,15 @@ public:
     return m_channels[index];
   }
 
-/**
-  Advance all channels by the specified number of samples.
+/** Advance all channels by the specified number of samples.
 
-  Advancing by more than the number of samples remaining is undefined.
-  After the pointers are moved forward, the number of samples remaining
-  is adjusted downwards.
+    Advancing by more than the number of samples remaining is undefined.
+    After the pointers are moved forward, the number of samples remaining
+    is adjusted downwards.
 
-  @param numSamples The number of samples to advance by.
+    @param numSamples The number of samples to advance by.
 
-  @return An array that points to the new range of samples.
+    @return An array that points to the new range of samples.
 */
   AudioSampleBufferArray operator+ (int numSamples)
   {
@@ -254,16 +256,15 @@ public:
     return *this;
   }
 
-/**
-  Rewind all channels by the specified number of samples.
+/** Rewind all channels by the specified number of samples.
 
-  Rewinding to before the start of the original memory pointers is
-  undefined. After the pointers are moved back, the number of samples
-  remaining is adjusted upwards.
+    Rewinding to before the start of the original memory pointers is
+    undefined. After the pointers are moved back, the number of samples
+    remaining is adjusted upwards.
 
-  @param numSamples The number of samples to rewind by.
+    @param numSamples The number of samples to rewind by.
 
-  @return An array representing the new range of samples.
+    @return An array representing the new range of samples.
 */
   AudioSampleBufferArray operator- (int numSamples)
   {

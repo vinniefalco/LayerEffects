@@ -35,13 +35,16 @@
 
 /*============================================================================*/
 /** 
-  A CallQueue handled by the Juce message thread (gui).
+  A CallQueue handled by the JUCE message thread (gui).
 
   A singleton instance of GuiCallQueue is provided as MessageThread. Or
   you can use this one. To use this, put an instance of the class in your
   application object or other central location. Calls placed in the queue will
   automatically get processed by the Juce message loop, no further action is
   required to make it work.
+
+  @note For most applications, using this class is not necessary, use
+        MessageThread instead.
 
   @see MessageThread
 
@@ -52,7 +55,8 @@ class GuiCallQueue
   , private AsyncUpdater
 {
 public:
-  /** Create a GuiCallQueue */
+  /** Create a GuiCallQueue.
+  */
   GuiCallQueue ();
 
   /** Close the GuiCallQueue.
@@ -67,7 +71,7 @@ public:
 
       This can be called manually if needed.
 
-      @return \c true if any functors were called.
+      @return `true` if any functors were called.
   */
   bool synchronize ();
 

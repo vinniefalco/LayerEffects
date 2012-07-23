@@ -35,14 +35,14 @@
 
 /*============================================================================*/
 /**
-  @ingroup vf_core
-
-  @brief A semaphore.
+  A semaphore.
 
   This provides a traditional semaphore synchronization primitive. There is no
   upper limit on the number of signals.
 
   @note There is no tryWait() or timeout facility for acquiring a resource.
+
+  @ingroup vf_core
 */
 class Semaphore
 {
