@@ -69,6 +69,8 @@ LayerContext::~LayerContext ()
 
   applyInnerShadow (workImage);
 
+  applyEuclideanDistanceMap (workImage);
+
   // Copy the work image onto the background layer
   // using normal mode and the general opacity.
   copyImage (m_destinationContext.getImage (),
@@ -216,7 +218,6 @@ void LayerContext::applyInnerShadow (Image& workImage)
 }
 
 //------------------------------------------------------------------------------
-
 void LayerContext::applyFill (Image& workImage)
 {
   copyImage (workImage,
@@ -228,12 +229,92 @@ void LayerContext::applyFill (Image& workImage)
 }
 
 //------------------------------------------------------------------------------
-/*
 
-Experimental Evidence:
+struct CopyGray
+{
+  void operator () (uint8* dest, uint8 const* src) const
+  {
+    *dest = *src;
+  }
+};
 
-- Inner Shadow draws on top of Drop Shadow
-- Fill draws on top of Drop Shadow
+float calcEuclideanDistance (Pixels const& mask, int x, int y, int radius)
+{
+  float dist = 1;
 
+  int const x0 = jmax (x - radius, 0);
+  int const x1 = jmin (x + radius, mask.width);
+  int const y0 = jmax (y - radius, 0);
+  int const y1 = jmin (y + radius, mask.height);
 
-*/
+  for (int py = y0; py < y1; ++py)
+  {
+    for (int px = x0; px < x1; ++px)
+    {
+      uint8 const m = *mask.getPixelPointer (px, py);
+
+      if (m != 0)
+      {
+        float d = sqrt (float(x-px)*(x-px)+(y-py)*(y-py)) / float (radius + 1);
+        if (d < dist)
+          dist = d;
+      }
+    }
+  }
+
+  return dist;
+}
+
+void calcEuclideanDistanceMap (Image& destImage, Image const& maskImage, int radius)
+{
+  Pixels dest (destImage, destImage.getBounds ());
+  Pixels mask (maskImage, maskImage.getBounds ());
+
+  for (int y = 0; y < dest.height; ++y)
+  {
+    for (int x = 0; x < dest.width; ++x)
+    {
+      uint8 dist = static_cast <uint8> (
+        255 * (1 - calcEuclideanDistance (mask, x, y, radius)) + 0.5);
+
+      *dest.getPixelPointer (x, y) = dist;
+    }
+  }
+}
+
+void LayerContext::applyEuclideanDistanceMap (Image& workImage)
+{
+#if 0
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
+  Image map (Image::SingleChannel, workImage.getWidth (), workImage.getHeight (), true);
+
+  InvertImage (mask);
+
+  calcEuclideanDistanceMap (map, mask, 16);
+
+  InvertImage (map);
+
+  for (int i = 0; i < 3; ++i)
+  {
+    Image dest = ChannelImageType::fromImage (workImage, i);
+
+    Pixels p (dest, dest.getBounds ());
+    p.iterate (Pixels (map, map.getBounds ()), CopyGray ());
+  }
+#else
+  Image mask = ChannelImageType::fromImage (getImage (), 3);
+  Image map (Image::SingleChannel, workImage.getWidth (), workImage.getHeight (), true);
+
+  calcEuclideanDistanceMap (map, mask, 8);
+
+  for (int i = 0; i < 3; ++i)
+  {
+    Image dest = ChannelImageType::fromImage (workImage, i);
+
+    Pixels p (dest, dest.getBounds ());
+    p.iterate (Pixels (map, map.getBounds ()), CopyGray ());
+  }
+#endif
+}
+
+//------------------------------------------------------------------------------

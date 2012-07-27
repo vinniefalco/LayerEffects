@@ -152,6 +152,8 @@ private:
 
   void applyFill (Image& destImage);
 
+  void applyEuclideanDistanceMap (Image& destImage);
+
 private:
   BackgroundContext& m_destinationContext;
   Options m_options;
