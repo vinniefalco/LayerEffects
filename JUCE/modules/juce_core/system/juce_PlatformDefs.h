@@ -294,7 +294,7 @@ namespace juce
  #define JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS 1
 #endif
 
-#if defined (__clang__) && defined (__has_feature)
+#if JUCE_CLANG && defined (__has_feature)
  #if __has_feature (cxx_nullptr)
   #define JUCE_COMPILER_SUPPORTS_NULLPTR 1
  #endif
@@ -317,6 +317,9 @@ namespace juce
 // Declare some fake versions of nullptr and noexcept, for older compilers:
 #if ! (DOXYGEN || JUCE_COMPILER_SUPPORTS_NOEXCEPT)
  #define noexcept  throw()
+ #if defined (_MSC_VER) && _MSC_VER > 1600
+  #define _ALLOW_KEYWORD_MACROS 1 // (to stop VC2012 complaining)
+ #endif
 #endif
 
 #if ! (DOXYGEN || JUCE_COMPILER_SUPPORTS_NULLPTR)

@@ -56,6 +56,8 @@ public:
     bool showDocument (OpenDocumentManager::Document* doc, bool grabFocus);
     void hideDocument (OpenDocumentManager::Document* doc);
     OpenDocumentManager::Document* getCurrentDocument() const   { return currentDocument; }
+    void closeDocument();
+    void saveDocument();
 
     void hideEditor();
     bool setEditorComponent (Component* editor, OpenDocumentManager::Document* doc);
@@ -63,6 +65,14 @@ public:
 
     bool goToPreviousFile();
     bool goToNextFile();
+
+    bool saveProject();
+    void closeProject();
+    void openInIDE();
+
+    void deleteSelectedTreeItems();
+
+    void updateMainWindowTitle();
 
     void updateMissingFileStatuses();
     virtual void createProjectTabs();
@@ -86,6 +96,7 @@ protected:
     Project* project;
     OpenDocumentManager::Document* currentDocument;
     RecentDocumentList recentDocumentList;
+    ScopedPointer<Component> logo;
 
     TabbedComponent treeViewTabs;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
@@ -96,9 +107,6 @@ protected:
 
     void documentAboutToClose (OpenDocumentManager::Document*);
     void changeListenerCallback (ChangeBroadcaster*);
-    void updateMainWindowTitle();
-    bool reinvokeCommandAfterClosingPropertyEditors (const InvocationInfo&);
-    bool canProjectBeLaunched() const;
     TreeView* getFilesTreeView() const;
     ProjectTreeViewBase* getFilesTreeRoot() const;
 

@@ -103,7 +103,6 @@ public:
                                                        styleMask: getNSWindowStyleMask (windowStyleFlags)
                                                          backing: NSBackingStoreBuffered
                                                            defer: YES];
-
             setOwner (window, this);
             [window orderOut: nil];
            #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
@@ -132,6 +131,9 @@ public:
            #if defined (MAC_OS_X_VERSION_10_7) && (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7)
             if ((windowStyleFlags & (windowHasMaximiseButton | windowHasTitleBar)) == (windowHasMaximiseButton | windowHasTitleBar))
                 [window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
+
+            if ([window respondsToSelector: @selector (setRestorable:)])
+                [window setRestorable: NO];
            #endif
         }
 
@@ -234,7 +236,7 @@ public:
         {
             r = [[view superview] convertRect: r toView: nil];
 
-           #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MIN_ALLOWED >= MAC_OS_X_VERSION_10_7
+           #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
             r = [window convertRectToScreen: r];
            #else
             r.origin = [window convertBaseToScreen: r.origin];
@@ -278,7 +280,7 @@ public:
         }
         else
         {
-           #if defined (MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MIN_ALLOWED >= MAC_OS_X_VERSION_10_5
+           #if defined (MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
             [view setAlphaValue: (CGFloat) newAlpha];
            #else
             if ([view respondsToSelector: @selector (setAlphaValue:)])
@@ -502,16 +504,18 @@ public:
 
     void redirectMouseMove (NSEvent* ev)
     {
+       #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
         if ([NSWindow windowNumberAtPoint: [[ev window] convertBaseToScreen: [ev locationInWindow]]
-              belowWindowWithWindowNumber: 0] == [window windowNumber])
+              belowWindowWithWindowNumber: 0] != [window windowNumber])
+        {
+            [[NSCursor arrowCursor] set];
+        }
+        else
+       #endif
         {
             currentModifiers = currentModifiers.withoutMouseButtons();
             sendMouseEvent (ev);
             showArrowCursorIfNeeded();
-        }
-        else
-        {
-            [[NSCursor arrowCursor] set];
         }
     }
 
@@ -802,7 +806,7 @@ public:
             Rectangle<int> original (convertToRectInt (current));
             const Rectangle<int> screenBounds (Desktop::getInstance().getDisplays().getTotalBounds (true));
 
-           #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_ALLOWED >= MAC_OS_X_VERSION_10_6
+           #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
             if ([window inLiveResize])
            #else
             if ([window respondsToSelector: @selector (inLiveResize)]
@@ -891,7 +895,7 @@ public:
                                               '4', KeyPress::numberPad4, '5', KeyPress::numberPad5,
                                               '6', KeyPress::numberPad6, '7', KeyPress::numberPad7,
                                               '8', KeyPress::numberPad8, '9', KeyPress::numberPad9,
-                                              '+', KeyPress::numberPadAdd,  '-', KeyPress::numberPadSubtract,
+                                              '+', KeyPress::numberPadAdd, '-', KeyPress::numberPadSubtract,
                                               '*', KeyPress::numberPadMultiply, '/', KeyPress::numberPadDivide,
                                               '.', KeyPress::numberPadDecimalPoint, '=', KeyPress::numberPadEquals };
 
@@ -912,14 +916,14 @@ public:
     static Point<int> getMousePos (NSEvent* e, NSView* view)
     {
         NSPoint p = [view convertPoint: [e locationInWindow] fromView: nil];
-        return Point<int> (roundToInt (p.x), roundToInt ([view frame].size.height - p.y));
+        return Point<int> ((int) p.x, (int) ([view frame].size.height - p.y));
     }
 
     static int getModifierForButtonNumber (const NSInteger num)
     {
         return num == 0 ? ModifierKeys::leftButtonModifier
-                    : (num == 1 ? ModifierKeys::rightButtonModifier
-                                : (num == 2 ? ModifierKeys::middleButtonModifier : 0));
+                        : (num == 1 ? ModifierKeys::rightButtonModifier
+                                    : (num == 2 ? ModifierKeys::middleButtonModifier : 0));
     }
 
     static unsigned int getNSWindowStyleMask (const int flags) noexcept
@@ -1784,8 +1788,10 @@ bool KeyPress::isKeyCurrentlyDown (const int keyCode)
 
 ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
 {
+   #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
     if ([NSEvent respondsToSelector: @selector (modifierFlags)])
         NSViewComponentPeer::updateModifiers ((NSUInteger) [NSEvent modifierFlags]);
+   #endif
 
     return NSViewComponentPeer::currentModifiers;
 }

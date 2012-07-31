@@ -57,6 +57,7 @@ class ImageButton;
 class CallOutBox;
 class Drawable;
 class CaretComponent;
+class BubbleComponent;
 
 //==============================================================================
 /**
@@ -183,8 +184,8 @@ public:
                               bool isButtonDown);
 
     //==============================================================================
-    /* AlertWindow handling..
-    */
+    // AlertWindow handling..
+
     virtual AlertWindow* createAlertWindow (const String& title,
                                             const String& message,
                                             const String& button1,
@@ -203,8 +204,8 @@ public:
 
     virtual int getAlertWindowButtonHeight();
 
-    virtual const Font getAlertWindowMessageFont();
-    virtual const Font getAlertWindowFont();
+    virtual Font getAlertWindowMessageFont();
+    virtual Font getAlertWindowFont();
 
     void setUsingNativeAlertWindows (bool shouldUseNativeAlerts);
     bool isUsingNativeAlertWindows();
@@ -291,9 +292,9 @@ public:
 
     //==============================================================================
     /** Returns a tick shape for use in yes/no boxes, etc. */
-    virtual const Path getTickShape (float height);
+    virtual Path getTickShape (float height);
     /** Returns a cross shape for use in yes/no boxes, etc. */
-    virtual const Path getCrossShape (float height);
+    virtual Path getCrossShape (float height);
 
     //==============================================================================
     /** Draws the + or - box in a treeview. */
@@ -335,9 +336,11 @@ public:
                                              Button* goUpButton);
 
     //==============================================================================
-    virtual void drawBubble (Graphics& g,
-                             float tipX, float tipY,
-                             float boxX, float boxY, float boxW, float boxH);
+    virtual void drawBubble (Graphics& g, BubbleComponent&,
+                             const Point<float>& tip, const Rectangle<float>& body);
+
+    //==============================================================================
+    virtual void drawLasso (Graphics& g, Component& lassoComp);
 
     //==============================================================================
     /** Fills the background of a popup menu component. */
@@ -662,6 +665,7 @@ private:
     virtual int drawTabAreaBehindFrontButton (Graphics&, int, int, TabbedButtonBar&, TabbedButtonBar::Orientation) { return 0; }
     virtual int drawTabButtonText (Graphics&, int, int, int, int, const Colour&, int, const String&, Button&, TabbedButtonBar::Orientation, bool, bool, bool) { return 0; }
     virtual int getTabButtonBestWidth (int, const String&, int, Button&) { return 0; }
+    virtual int drawBubble (Graphics&, float, float, float, float, float, float) { return 0; }
    #endif
 
     class GlassWindowButton;
