@@ -88,16 +88,13 @@ void AppearanceSettings::writeDefaultSchemeFile (const String& xmlString, const 
 {
     const File file (getSchemesFolder().getChildFile (name).withFileExtension (getSchemeFileSuffix()));
 
-    if (! file.exists())
-    {
-        AppearanceSettings settings (false);
+    AppearanceSettings settings (false);
 
-        ScopedPointer<XmlElement> xml (XmlDocument::parse (xmlString));
-        if (xml != nullptr)
-            settings.readFromXML (*xml);
+    ScopedPointer<XmlElement> xml (XmlDocument::parse (xmlString));
+    if (xml != nullptr)
+        settings.readFromXML (*xml);
 
-        settings.writeToFile (file);
-    }
+    settings.writeToFile (file);
 }
 
 void AppearanceSettings::refreshPresetSchemeList()
@@ -289,50 +286,6 @@ Colour AppearanceSettings::getScrollbarColourForBackground (const Colour& backgr
 //==============================================================================
 struct AppearanceEditor
 {
-    class Window   : public DialogWindow
-    {
-    public:
-        Window()   : DialogWindow ("Appearance Settings", Colours::darkgrey, true, true)
-        {
-            setUsingNativeTitleBar (true);
-
-            if (getAppSettings().monospacedFontNames.size() == 0)
-                setContentOwned (new FontScanPanel(), false);
-            else
-                setContentOwned (new EditorPanel(), false);
-
-            setResizable (true, true);
-
-            const int width = 350;
-            setResizeLimits (width, 200, width, 1000);
-
-            String windowState (getAppProperties().getValue (getWindowPosName()));
-
-            if (windowState.isNotEmpty())
-                restoreWindowStateFromString (windowState);
-            else
-                centreAroundComponent (Component::getCurrentlyFocusedComponent(), width, 500);
-
-            setVisible (true);
-        }
-
-        ~Window()
-        {
-            getAppProperties().setValue (getWindowPosName(), getWindowStateAsString());
-        }
-
-        void closeButtonPressed()
-        {
-            JucerApplication::getApp().appearanceEditorWindow = nullptr;
-        }
-
-    private:
-        static const char* getWindowPosName()   { return "colourSchemeEditorPos"; }
-
-        JUCE_DECLARE_NON_COPYABLE (Window);
-    };
-
-    //==============================================================================
     class FontScanPanel   : public Component,
                             private Timer
     {
@@ -362,7 +315,7 @@ struct AppearanceEditor
             if (fontsToScan.size() == 0)
             {
                 getAppSettings().monospacedFontNames = fontsFound;
-                Window* w = findParentComponentOfClass<Window>();
+                DialogWindow* w = findParentComponentOfClass<DialogWindow>();
 
                 if (w != nullptr)
                     w->setContentOwned (new EditorPanel(), false);
@@ -552,9 +505,27 @@ struct AppearanceEditor
     };
 };
 
-Component* AppearanceSettings::createEditorWindow()
+void AppearanceSettings::showEditorWindow (ScopedPointer<Component>& ownerPointer)
 {
-    return new AppearanceEditor::Window();
+    if (ownerPointer != nullptr)
+    {
+        ownerPointer->toFront (true);
+    }
+    else
+    {
+        Component* content;
+        if (getAppSettings().monospacedFontNames.size() == 0)
+            content = new AppearanceEditor::FontScanPanel();
+        else
+            content = new AppearanceEditor::EditorPanel();
+
+        const int width = 350;
+        new FloatingToolWindow ("Appearance Settings",
+                                "colourSchemeEditorPos",
+                                content, ownerPointer,
+                                width, 500,
+                                width, 200, width, 1000);
+    }
 }
 
 //==============================================================================
@@ -567,7 +538,7 @@ IntrojucerLookAndFeel::IntrojucerLookAndFeel()
 Rectangle<int> IntrojucerLookAndFeel::getPropertyComponentContentPosition (PropertyComponent& component)
 {
     if (component.findParentComponentOfClass<AppearanceEditor::EditorPanel>() != nullptr)
-        return component.getLocalBounds().reduced (1, 1).removeFromRight (component.getWidth() / 2);
+        return component.getLocalBounds().reduced (1).removeFromRight (component.getWidth() / 2);
 
     return LookAndFeel::getPropertyComponentContentPosition (component);
 }
@@ -588,7 +559,7 @@ void IntrojucerLookAndFeel::createTabTextLayout (const TabBarButton& button, con
 
 Colour IntrojucerLookAndFeel::getTabBackgroundColour (TabBarButton& button)
 {
-    const Colour normalBkg (button.getTabBackgroundColour());
+    const Colour normalBkg (button.findColour (mainBackgroundColourId));
     Colour bkg (normalBkg.contrasting (0.15f));
     if (button.isFrontTab())
         bkg = bkg.overlaidWith (Colours::yellow.withAlpha (0.5f));
@@ -606,7 +577,7 @@ void IntrojucerLookAndFeel::drawTabButton (TabBarButton& button, Graphics& g, bo
                                        bkg.darker (0.1f), 0, (float) activeArea.getBottom(), false));
     g.fillRect (activeArea);
 
-    g.setColour (button.getTabBackgroundColour().darker (0.3f));
+    g.setColour (button.findColour (mainBackgroundColourId).darker (0.3f));
     g.drawRect (activeArea);
 
     GlyphArrangement textLayout;
@@ -664,4 +635,33 @@ void IntrojucerLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, in
 
     g.setColour (thumbCol.contrasting ((isMouseOver  || isMouseDown) ? 0.2f : 0.1f));
     g.strokePath (thumbPath, PathStrokeType (1.0f));
+}
+
+void IntrojucerLookAndFeel::fillWithBackgroundTexture (Graphics& g)
+{
+    const Colour bkg (findColour (mainBackgroundColourId));
+
+    if (backgroundTextureBaseColour != bkg)
+    {
+        backgroundTextureBaseColour = bkg;
+
+        const Image original (ImageCache::getFromMemory (BinaryData::brushed_aluminium_png,
+                                                         BinaryData::brushed_aluminium_pngSize));
+        const int w = original.getWidth();
+        const int h = original.getHeight();
+
+        backgroundTexture = Image (Image::RGB, w, h, false);
+
+        for (int y = 0; y < h; ++y)
+        {
+            for (int x = 0; x < w; ++x)
+            {
+                const float b = original.getPixelAt (x, y).getBrightness();
+                backgroundTexture.setPixelAt (x, y, bkg.withMultipliedBrightness (b + 0.4f));
+            }
+        }
+    }
+
+    g.setTiledImageFill (backgroundTexture, 0, 0, 1.0f);
+    g.fillAll();
 }

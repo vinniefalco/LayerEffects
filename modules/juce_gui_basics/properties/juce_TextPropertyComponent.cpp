@@ -35,8 +35,9 @@ public:
     {
         setEditable (true, true, false);
 
-        setColour (backgroundColourId, findColour (ComboBox::backgroundColourId));
-        setColour (outlineColourId, findColour (ComboBox::outlineColourId));
+        setColour (backgroundColourId, owner.findColour (TextPropertyComponent::backgroundColourId));
+        setColour (outlineColourId,    owner.findColour (TextPropertyComponent::outlineColourId));
+        setColour (textColourId,       owner.findColour (TextPropertyComponent::textColourId));
     }
 
     TextEditor* createEditorComponent()

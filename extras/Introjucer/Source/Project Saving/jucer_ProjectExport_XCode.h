@@ -186,6 +186,22 @@ protected:
         XcodeBuildConfiguration (Project& project, const ValueTree& settings, const bool iOS_)
             : BuildConfiguration (project, settings), iOS (iOS_)
         {
+            if (iOS)
+            {
+                if (getiOSCompatibilityVersion().isEmpty())
+                    getiOSCompatibilityVersionValue() = osxVersionDefault;
+            }
+            else
+            {
+                if (getMacSDKVersion().isEmpty())
+                    getMacSDKVersionValue() = osxVersionDefault;
+
+                if (getMacCompatibilityVersion().isEmpty())
+                    getMacCompatibilityVersionValue() = osxVersionDefault;
+
+                if (getMacArchitecture().isEmpty())
+                    getMacArchitectureValue() = osxArch_Default;
+            }
         }
 
         Value  getMacSDKVersionValue()                 { return getValue (Ids::osxSDK); }
@@ -207,9 +223,6 @@ protected:
 
             if (iOS)
             {
-                if (getiOSCompatibilityVersion().isEmpty())
-                    getiOSCompatibilityVersionValue() = osxVersionDefault;
-
                 const char* iosVersions[]      = { "Use Default",     "3.2", "4.0", "4.1", "4.2", "4.3", "5.0", "5.1", 0 };
                 const char* iosVersionValues[] = { osxVersionDefault, "3.2", "4.0", "4.1", "4.2", "4.3", "5.0", "5.1", 0 };
 
@@ -219,12 +232,6 @@ protected:
             }
             else
             {
-                if (getMacSDKVersion().isEmpty())
-                    getMacSDKVersionValue() = osxVersionDefault;
-
-                if (getMacCompatibilityVersion().isEmpty())
-                    getMacCompatibilityVersionValue() = osxVersionDefault;
-
                 const char* osxVersions[]      = { "Use Default",     osxVersion10_5, osxVersion10_6, osxVersion10_7, 0 };
                 const char* osxVersionValues[] = { osxVersionDefault, osxVersion10_5, osxVersion10_6, osxVersion10_7, 0 };
 
@@ -235,9 +242,6 @@ protected:
                 props.add (new ChoicePropertyComponent (getMacCompatibilityVersionValue(), "OSX Compatibility Version",
                                                         StringArray (osxVersions), Array<var> (osxVersionValues)),
                            "The minimum version of OSX that the target binary will be compatible with.");
-
-                if (getMacArchitecture().isEmpty())
-                    getMacArchitectureValue() = osxArch_Default;
 
                 const char* osxArch[] = { "Use Default", "Native architecture of build machine",
                                           "Universal Binary (32-bit)", "Universal Binary (64-bit)", "64-bit Intel", 0 };
@@ -311,9 +315,13 @@ private:
         {
             StringArray topLevelGroupIDs;
 
-            for (int i = 0; i < groups.size(); ++i)
-                if (groups.getReference(i).getNumChildren() > 0)
-                    topLevelGroupIDs.add (addProjectItem (groups.getReference(i)));
+            for (int i = 0; i < getAllGroups().size(); ++i)
+            {
+                const Project::Item& group = getAllGroups().getReference(i);
+
+                if (group.getNumChildren() > 0)
+                    topLevelGroupIDs.add (addProjectItem (group));
+            }
 
             { // Add 'resources' group
                 String resourcesGroupID (createID ("__resources"));

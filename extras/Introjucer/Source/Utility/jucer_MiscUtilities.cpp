@@ -184,55 +184,6 @@ void autoScrollForMouseEvent (const MouseEvent& e, bool scrollX, bool scrollY)
     }
 }
 
-void drawComponentPlaceholder (Graphics& g, int w, int h, const String& text)
-{
-    g.fillAll (Colours::white.withAlpha (0.4f));
-    g.setColour (Colours::grey);
-    g.drawRect (0, 0, w, h);
-
-    g.drawLine (0.5f, 0.5f, w - 0.5f, h - 0.5f);
-    g.drawLine (0.5f, h - 0.5f, w - 0.5f, 0.5f);
-
-    g.setColour (Colours::black);
-    g.setFont (11.0f);
-    g.drawFittedText (text, 2, 2, w - 4, h - 4, Justification::centredTop, 2);
-}
-
-static Image createTexturisedBackgroundTile()
-{
-    const Colour bkg (LookAndFeel::getDefaultLookAndFeel().findColour (mainBackgroundColourId));
-    const int64 hash = bkg.getARGB() + 0x3474572a;
-
-    Image tile (ImageCache::getFromHashCode (hash));
-
-    if (tile.isNull())
-    {
-        const Image original (ImageCache::getFromMemory (BinaryData::brushed_aluminium_png,
-                                                         BinaryData::brushed_aluminium_pngSize));
-
-        tile = Image (Image::RGB, original.getWidth(), original.getHeight(), false);
-
-        for (int y = 0; y < tile.getHeight(); ++y)
-        {
-            for (int x = 0; x < tile.getWidth(); ++x)
-            {
-                const float b = original.getPixelAt (x, y).getBrightness();
-                tile.setPixelAt (x, y, bkg.withMultipliedBrightness (b + 0.4f));
-            }
-        }
-
-        ImageCache::addImageToCache (tile, hash);
-    }
-
-    return tile;
-}
-
-void drawTexturedBackground (Graphics& g)
-{
-    g.setTiledImageFill (createTexturisedBackgroundTile(), 0, 0, 1.0f);
-    g.fillAll();
-}
-
 //==============================================================================
 int indexOfLineStartingWith (const StringArray& lines, const String& text, int startIndex)
 {
@@ -373,20 +324,22 @@ public:
         : desc (String::empty,
                 "Type any string into the box, and it'll be shown below as a portable UTF-8 literal, ready to cut-and-paste into your source-code...")
     {
-        setSize (400, 300);
-
-        desc.setBounds ("8, 8, parent.width - 8, 55");
         desc.setJustificationType (Justification::centred);
+        desc.setColour (Label::textColourId, Colours::white);
         addAndMakeVisible (&desc);
 
+        const Colour bkgd (Colours::white.withAlpha (0.6f));
+
         userText.setMultiLine (true, true);
-        userText.setBounds ("8, 60, parent.width - 8, parent.height / 2 - 4");
+        userText.setReturnKeyStartsNewLine (true);
+        userText.setColour (TextEditor::backgroundColourId, bkgd);
         addAndMakeVisible (&userText);
         userText.addListener (this);
 
         resultText.setMultiLine (true, true);
+        resultText.setColour (TextEditor::backgroundColourId, bkgd);
         resultText.setReadOnly (true);
-        resultText.setBounds ("8, parent.height / 2 + 4, parent.width - 8, parent.height - 8");
+        resultText.setSelectAllWhenFocused (true);
         addAndMakeVisible (&resultText);
 
         userText.setText (getLastText());
@@ -408,6 +361,13 @@ public:
         resultText.setText (CodeHelpers::stringLiteral (getLastText()), false);
     }
 
+    void resized()
+    {
+        desc.setBounds (8, 8, getWidth() - 16, 44);
+        userText.setBounds (desc.getX(), desc.getBottom() + 8, getWidth() - 16, getHeight() / 2 - desc.getBottom() - 8);
+        resultText.setBounds (desc.getX(), userText.getBottom() + 4, getWidth() - 16, getHeight() - userText.getBottom() - 12);
+    }
+
 private:
     Label desc;
     TextEditor userText, resultText;
@@ -419,11 +379,20 @@ private:
     }
 };
 
-void showUTF8ToolWindow()
+void showUTF8ToolWindow (ScopedPointer<Component>& ownerPointer)
 {
-    UTF8Component comp;
-    DialogWindow::showModalDialog ("UTF-8 String Literal Converter", &comp,
-                                   nullptr, Colours::white, true, true);
+    if (ownerPointer != nullptr)
+    {
+        ownerPointer->toFront (true);
+    }
+    else
+    {
+        new FloatingToolWindow ("UTF-8 String Literal Converter",
+                                "utf8WindowPos",
+                                new UTF8Component(), ownerPointer,
+                                400, 300,
+                                300, 300, 1000, 1000);
+    }
 }
 
 bool cancelAnyModalComponents()

@@ -140,9 +140,6 @@ LookAndFeel::LookAndFeel()
         TextButton::textColourOnId,                 0xff000000,
         TextButton::textColourOffId,                0xff000000,
 
-        ComboBox::buttonColourId,                   0xffbbbbff,
-        ComboBox::outlineColourId,                  standardOutlineColour,
-
         ToggleButton::textColourId,                 0xff000000,
 
         TextEditor::backgroundColourId,             0xffffffff,
@@ -172,9 +169,15 @@ LookAndFeel::LookAndFeel()
         PopupMenu::highlightedTextColourId,         0xffffffff,
         PopupMenu::highlightedBackgroundColourId,   0x991111aa,
 
+        ComboBox::buttonColourId,                   0xffbbbbff,
+        ComboBox::outlineColourId,                  standardOutlineColour,
         ComboBox::textColourId,                     0xff000000,
         ComboBox::backgroundColourId,               0xffffffff,
         ComboBox::arrowColourId,                    0x99000000,
+
+        TextPropertyComponent::backgroundColourId,  0xffffffff,
+        TextPropertyComponent::textColourId,        0xff000000,
+        TextPropertyComponent::outlineColourId,     standardOutlineColour,
 
         ListBox::backgroundColourId,                0xffffffff,
         ListBox::outlineColourId,                   standardOutlineColour,
@@ -220,6 +223,9 @@ LookAndFeel::LookAndFeel()
 
         GroupComponent::outlineColourId,            0x66000000,
         GroupComponent::textColourId,               0xff000000,
+
+        BubbleComponent::backgroundColourId,        0xeeeeeebb,
+        BubbleComponent::outlineColourId,           0x77000000,
 
         DirectoryContentsDisplayComponent::highlightColourId,   textHighlightColour,
         DirectoryContentsDisplayComponent::textColourId,        0xff000000,
@@ -498,8 +504,8 @@ AlertWindow* LookAndFeel::createAlertWindow (const String& title,
     if (numButtons == 1)
     {
         aw->addButton (button1, 0,
-                       KeyPress (KeyPress::escapeKey, 0, 0),
-                       KeyPress (KeyPress::returnKey, 0, 0));
+                       KeyPress (KeyPress::escapeKey),
+                       KeyPress (KeyPress::returnKey));
     }
     else
     {
@@ -510,14 +516,14 @@ AlertWindow* LookAndFeel::createAlertWindow (const String& title,
 
         if (numButtons == 2)
         {
-            aw->addButton (button1, 1, KeyPress (KeyPress::returnKey, 0, 0), button1ShortCut);
-            aw->addButton (button2, 0, KeyPress (KeyPress::escapeKey, 0, 0), button2ShortCut);
+            aw->addButton (button1, 1, KeyPress (KeyPress::returnKey), button1ShortCut);
+            aw->addButton (button2, 0, KeyPress (KeyPress::escapeKey), button2ShortCut);
         }
         else if (numButtons == 3)
         {
             aw->addButton (button1, 1, button1ShortCut);
             aw->addButton (button2, 2, button2ShortCut);
-            aw->addButton (button3, 0, KeyPress (KeyPress::escapeKey, 0, 0));
+            aw->addButton (button3, 0, KeyPress (KeyPress::escapeKey));
         }
     }
 
@@ -605,12 +611,12 @@ int LookAndFeel::getAlertWindowButtonHeight()
     return 28;
 }
 
-const Font LookAndFeel::getAlertWindowMessageFont()
+Font LookAndFeel::getAlertWindowMessageFont()
 {
     return Font (15.0f);
 }
 
-const Font LookAndFeel::getAlertWindowFont()
+Font LookAndFeel::getAlertWindowFont()
 {
     return Font (12.0f);
 }
@@ -887,7 +893,7 @@ int LookAndFeel::getScrollbarButtonSize (ScrollBar& scrollbar)
 }
 
 //==============================================================================
-const Path LookAndFeel::getTickShape (const float height)
+Path LookAndFeel::getTickShape (const float height)
 {
     static const unsigned char tickShapeData[] =
     {
@@ -904,7 +910,7 @@ const Path LookAndFeel::getTickShape (const float height)
     return p;
 }
 
-const Path LookAndFeel::getCrossShape (const float height)
+Path LookAndFeel::getCrossShape (const float height)
 {
     static const unsigned char crossShapeData[] =
     {
@@ -949,25 +955,17 @@ void LookAndFeel::drawTreeviewPlusMinusBox (Graphics& g, int x, int y, int w, in
 }
 
 //==============================================================================
-void LookAndFeel::drawBubble (Graphics& g,
-                              float tipX, float tipY,
-                              float boxX, float boxY,
-                              float boxW, float boxH)
+void LookAndFeel::drawBubble (Graphics& g, BubbleComponent& comp,
+                              const Point<float>& tip, const Rectangle<float>& body)
 {
-    const Rectangle<float> body (boxX, boxY, boxW, boxH);
-
     Path p;
-    p.addBubble (body,
-                 body.getUnion (Rectangle<float> (tipX, tipY, 1.0f, 1.0f)),
-                 Point<float> (tipX, tipY),
-                 5.0f, jmin (15.0f, boxW * 0.2f, boxH * 0.2f));
+    p.addBubble (body, body.getUnion (Rectangle<float> (tip.x, tip.y, 1.0f, 1.0f)),
+                 tip, 5.0f, jmin (15.0f, body.getWidth() * 0.2f, body.getHeight() * 0.2f));
 
-    //xxx need to take comp as param for colour
-    g.setColour (findColour (TooltipWindow::backgroundColourId).withAlpha (0.9f));
+    g.setColour (comp.findColour (BubbleComponent::backgroundColourId));
     g.fillPath (p);
 
-    //xxx as above
-    g.setColour (findColour (TooltipWindow::textColourId).withAlpha (0.4f));
+    g.setColour (comp.findColour (BubbleComponent::outlineColourId));
     g.strokePath (p, PathStrokeType (1.33f));
 }
 
@@ -2398,6 +2396,16 @@ void LookAndFeel::drawTableHeaderColumn (Graphics& g, const String& columnName, 
     g.drawFittedText (columnName, textX, 0, rightOfText - textX, height, Justification::centredLeft, 1);
 }
 
+//==============================================================================
+void LookAndFeel::drawLasso (Graphics& g, Component& lassoComp)
+{
+    const int outlineThickness = 1;
+
+    g.fillAll (lassoComp.findColour (0x1000440 /*lassoFillColourId*/));
+
+    g.setColour (lassoComp.findColour (0x1000441 /*lassoOutlineColourId*/));
+    g.drawRect (lassoComp.getLocalBounds(), outlineThickness);
+}
 
 //==============================================================================
 void LookAndFeel::paintToolbarBackground (Graphics& g, int w, int h, Toolbar& toolbar)

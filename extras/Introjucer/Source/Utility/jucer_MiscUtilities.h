@@ -46,10 +46,7 @@ int indexOfLineStartingWith (const StringArray& lines, const String& text, int s
 
 void autoScrollForMouseEvent (const MouseEvent& e, bool scrollX = true, bool scrollY = true);
 
-void drawComponentPlaceholder (Graphics& g, int w, int h, const String& text);
-void drawTexturedBackground (Graphics& g);
-
-void showUTF8ToolWindow();
+void showUTF8ToolWindow (ScopedPointer<Component>& ownerPointer);
 
 bool cancelAnyModalComponents();
 bool reinvokeCommandAfterCancellingModalComps (const ApplicationCommandTarget::InvocationInfo&);
@@ -173,6 +170,54 @@ protected:
 };
 
 //==============================================================================
+class FloatingToolWindow  : public DialogWindow
+{
+public:
+    FloatingToolWindow (const String& title,
+                        const String& windowPosPropertyName,
+                        Component* content,
+                        ScopedPointer<Component>& ownerPointer,
+                        int defaultW, int defaultH,
+                        int minW, int minH,
+                        int maxW, int maxH)
+        : DialogWindow (title, Colours::darkgrey, true, true),
+          windowPosProperty (windowPosPropertyName),
+          owner (ownerPointer)
+    {
+        setUsingNativeTitleBar (true);
+        setResizable (true, true);
+        setResizeLimits (minW, minH, maxW, maxH);
+        setContentOwned (content, false);
+
+        const String windowState (getAppProperties().getValue (windowPosProperty));
+
+        if (windowState.isNotEmpty())
+            restoreWindowStateFromString (windowState);
+        else
+            centreAroundComponent (Component::getCurrentlyFocusedComponent(), defaultW, defaultH);
+
+        setVisible (true);
+        owner = this;
+    }
+
+    ~FloatingToolWindow()
+    {
+        getAppProperties().setValue (windowPosProperty, getWindowStateAsString());
+    }
+
+    void closeButtonPressed()
+    {
+        owner = nullptr;
+    }
+
+private:
+    String windowPosProperty;
+    ScopedPointer<Component>& owner;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FloatingToolWindow);
+};
+
+//==============================================================================
 class PopupColourSelector   : public Component,
                               public ChangeListener,
                               public Value::Listener,
@@ -280,7 +325,7 @@ public:
         const Colour colour (getColour());
 
         g.fillAll (Colours::grey);
-        g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
+        g.fillCheckerBoard (getLocalBounds().reduced (2),
                             10, 10,
                             Colour (0xffdddddd).overlaidWith (colour),
                             Colour (0xffffffff).overlaidWith (colour));

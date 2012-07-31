@@ -41,11 +41,12 @@ public:
 
         if (tokeniser == nullptr)
         {
-            newTokens.add (SyntaxToken (document.getLine (lineNum), -1));
+            const String line (document.getLine (lineNum));
+            addToken (newTokens, line, line.length(), -1);
         }
         else if (lineNum < document.getNumLines())
         {
-            const CodeDocument::Position pos (&document, lineNum, 0);
+            const CodeDocument::Position pos (document, lineNum, 0);
             createTokens (pos.getPosition(), pos.getLineText(),
                           source, *tokeniser, newTokens);
         }
@@ -59,7 +60,7 @@ public:
         {
             const String line (document.getLine (lineNum));
 
-            CodeDocument::Position lineStart (&document, lineNum, 0), lineEnd (&document, lineNum + 1, 0);
+            CodeDocument::Position lineStart (document, lineNum, 0), lineEnd (document, lineNum + 1, 0);
             newHighlightStart = indexToColumn (jmax (0, selectionStart.getPosition() - lineStart.getPosition()),
                                                line, spacesPerTab);
             newHighlightEnd = indexToColumn (jmin (lineEnd.getPosition() - lineStart.getPosition(), selectionEnd.getPosition() - lineStart.getPosition()),
@@ -71,24 +72,9 @@ public:
             highlightColumnStart = newHighlightStart;
             highlightColumnEnd = newHighlightEnd;
         }
-        else
+        else if (tokens == newTokens)
         {
-            if (tokens.size() == newTokens.size())
-            {
-                bool allTheSame = true;
-
-                for (int i = newTokens.size(); --i >= 0;)
-                {
-                    if (tokens.getReference(i) != newTokens.getReference(i))
-                    {
-                        allTheSame = false;
-                        break;
-                    }
-                }
-
-                if (allTheSame)
-                    return false;
-            }
+            return false;
         }
 
         tokens.swapWithArray (newTokens);
@@ -96,22 +82,29 @@ public:
     }
 
     void draw (CodeEditorComponent& owner, Graphics& g, const Font& font,
-               float x, const float rightEdge, const int y, const int baselineOffset, const int lineHeight,
+               const float leftClip, const float rightClip,
+               const float xOffset, const int y, const int baselineOffset,
+               const int lineHeight, const float charWidth,
                const Colour& highlightColour) const
     {
         if (highlightColumnStart < highlightColumnEnd)
         {
             g.setColour (highlightColour);
-            g.fillRect (roundToInt (x + highlightColumnStart * owner.getCharWidth()), y,
+            g.fillRect (roundToInt (xOffset + highlightColumnStart * owner.getCharWidth()), y,
                         roundToInt ((highlightColumnEnd - highlightColumnStart) * owner.getCharWidth()), lineHeight);
         }
 
         const float baselineY = (float) (y + baselineOffset);
         Colour lastColour (0x00000001);
         GlyphArrangement ga;
+        int column = 0;
 
         for (int i = 0; i < tokens.size(); ++i)
         {
+            const float tokenX = xOffset + column * charWidth;
+            if (tokenX > rightClip)
+                break;
+
             SyntaxToken& token = tokens.getReference(i);
 
             const Colour newColour (owner.getColourForTokenType (token.tokenType));
@@ -124,18 +117,11 @@ public:
                 g.setColour (newColour);
             }
 
-            ga.addCurtailedLineOfText (font, token.text, x, baselineY, rightEdge - x, false);
+            column += token.length;
 
-            if (i < tokens.size() - 1)
-            {
-                if (token.width < 0)
-                    token.width = font.getStringWidthFloat (token.text);
-
-                x += token.width;
-
-                if (x > rightEdge)
-                    break;
-            }
+            if (xOffset + column * charWidth >= leftClip)
+                ga.addCurtailedLineOfText (font, token.text, tokenX, baselineY,
+                                           (rightClip - tokenX) + charWidth, false);
         }
 
         ga.draw (g);
@@ -144,19 +130,20 @@ public:
 private:
     struct SyntaxToken
     {
-        SyntaxToken (const String& text_, const int type) noexcept
-            : text (text_), tokenType (type), width (-1.0f)
-        {
-        }
+        SyntaxToken (const String& t, const int len, const int type) noexcept
+            : text (t), length (len), tokenType (type)
+        {}
 
-        bool operator!= (const SyntaxToken& other) const noexcept
+        bool operator== (const SyntaxToken& other) const noexcept
         {
-            return text != other.text || tokenType != other.tokenType;
+            return tokenType == other.tokenType
+                    && length == other.length
+                    && text == other.text;
         }
 
         String text;
+        int length;
         int tokenType;
-        float width;
     };
 
     Array <SyntaxToken> tokens;
@@ -184,8 +171,9 @@ private:
             if (tokenEnd > 0)
             {
                 tokenStart -= startPosition;
-                newTokens.add (SyntaxToken (lineText.substring (jmax (0, tokenStart), tokenEnd),
-                                            tokenType));
+                const int start = jmax (0, tokenStart);
+                addToken (newTokens, lineText.substring (start, tokenEnd),
+                          tokenEnd - start, tokenType);
 
                 if (tokenEnd >= lineLength)
                     break;
@@ -212,9 +200,10 @@ private:
 
                 const int spacesNeeded = spacesPerTab - ((tabPos + x) % spacesPerTab);
                 t.text = t.text.replaceSection (tabPos, 1, String::repeatedString (" ", spacesNeeded));
+                t.length = t.text.length();
             }
 
-            x += t.text.length();
+            x += t.length;
         }
     }
 
@@ -233,6 +222,21 @@ private:
         }
 
         return col;
+    }
+
+    static void addToken (Array<SyntaxToken>& dest, const String& text,
+                          const int length, const int type)
+    {
+        if (length > 1000)
+        {
+            // subdivide very long tokens to avoid unwieldy glyph sequences
+            addToken (dest, text.substring (0, length / 2), length / 2, type);
+            addToken (dest, text.substring (length / 2), length - length / 2, type);
+        }
+        else
+        {
+            dest.add (SyntaxToken (text, length, type));
+        }
     }
 };
 
@@ -271,18 +275,19 @@ public:
 
         const Rectangle<int> clip (g.getClipBounds());
         const int lineHeight = editor.lineHeight;
+        const float lineHeightFloat = (float) lineHeight;
         const int firstLineToDraw = jmax (0, clip.getY() / lineHeight);
         const int lastLineToDraw = jmin (editor.lines.size(), clip.getBottom() / lineHeight + 1,
                                          lastNumLines - editor.firstLineOnScreen);
 
-        const Font lineNumberFont (editor.getFont().withHeight (jmin (13.0f, lineHeight * 0.8f)));
-        const float y = lineHeight - editor.getFont().getDescent();
+        const Font lineNumberFont (editor.getFont().withHeight (jmin (13.0f, lineHeightFloat * 0.8f)));
         const float w = getWidth() - 2.0f;
 
         GlyphArrangement ga;
         for (int i = firstLineToDraw; i < lastLineToDraw; ++i)
-            ga.addJustifiedText (lineNumberFont, String (editor.firstLineOnScreen + i + 1),
-                                 0.0f, y + (lineHeight * i), w, Justification::centredRight);
+            ga.addFittedText (lineNumberFont, String (editor.firstLineOnScreen + i + 1),
+                              0, (float) (lineHeight * i), w, lineHeightFloat,
+                              Justification::centredRight, 1, 0.2f);
 
         g.setColour (editor.findColour (lineNumberTextId));
         ga.draw (g);
@@ -304,9 +309,8 @@ private:
 
 
 //==============================================================================
-CodeEditorComponent::CodeEditorComponent (CodeDocument& document_,
-                                          CodeTokeniser* const codeTokeniser_)
-    : document (document_),
+CodeEditorComponent::CodeEditorComponent (CodeDocument& doc, CodeTokeniser* const tokeniser)
+    : document (doc),
       firstLineOnScreen (0),
       spacesPerTab (4),
       lineHeight (0),
@@ -317,17 +321,15 @@ CodeEditorComponent::CodeEditorComponent (CodeDocument& document_,
       useSpacesForTabs (false),
       showLineNumbers (false),
       xOffset (0),
+      caretPos (doc, 0, 0),
+      selectionStart (doc, 0, 0),
+      selectionEnd (doc, 0, 0),
       verticalScrollBar (true),
       horizontalScrollBar (false),
-      codeTokeniser (codeTokeniser_)
+      codeTokeniser (tokeniser)
 {
-    caretPos = CodeDocument::Position (&document_, 0, 0);
     caretPos.setPositionMaintained (true);
-
-    selectionStart = CodeDocument::Position (&document_, 0, 0);
     selectionStart.setPositionMaintained (true);
-
-    selectionEnd = CodeDocument::Position (&document_, 0, 0);
     selectionEnd.setPositionMaintained (true);
 
     setOpaque (true);
@@ -466,11 +468,13 @@ void CodeEditorComponent::paint (Graphics& g)
     const int firstLineToDraw = jmax (0, clip.getY() / lineHeight);
     const int lastLineToDraw = jmin (lines.size(), clip.getBottom() / lineHeight + 1);
     const float x = (float) (gutter - xOffset * charWidth);
-    const float rightEdge = (float) getWidth();
+    const float leftClip  = (float) clip.getX();
+    const float rightClip = (float) clip.getRight();
 
     for (int i = firstLineToDraw; i < lastLineToDraw; ++i)
-        lines.getUnchecked(i)->draw (*this, g, font, x, rightEdge, lineHeight * i,
-                                     baselineOffset, lineHeight, highlightColour);
+        lines.getUnchecked(i)->draw (*this, g, font, leftClip, rightClip,
+                                     x, lineHeight * i, baselineOffset,
+                                     lineHeight, charWidth, highlightColour);
 }
 
 void CodeEditorComponent::setScrollbarThickness (const int thickness)
@@ -509,8 +513,8 @@ void CodeEditorComponent::rebuildLineTokens()
 
     jassert (numNeeded == lines.size());
 
-    CodeDocument::Iterator source (&document);
-    getIteratorForPosition (CodeDocument::Position (&document, firstLineOnScreen, 0).getPosition(), source);
+    CodeDocument::Iterator source (document);
+    getIteratorForPosition (CodeDocument::Position (document, firstLineOnScreen, 0).getPosition(), source);
 
     for (int i = 0; i < numNeeded; ++i)
     {
@@ -686,7 +690,7 @@ CodeDocument::Position CodeEditorComponent::getPositionAt (int x, int y)
     const int column = roundToInt ((x - (getGutterSize() - xOffset * charWidth)) / charWidth);
     const int index = columnToIndex (line, column);
 
-    return CodeDocument::Position (&document, line, index);
+    return CodeDocument::Position (document, line, index);
 }
 
 //==============================================================================
@@ -727,25 +731,25 @@ void CodeEditorComponent::insertTabAtCaret()
 
 bool CodeEditorComponent::deleteWhitespaceBackwardsToTabStop()
 {
-    if (! getHighlightedRegion().isEmpty())
-        return false;
-
-    for (;;)
+    if (getHighlightedRegion().isEmpty())
     {
-        const int currentColumn = indexToColumn (caretPos.getLineNumber(), caretPos.getIndexInLine());
+        for (;;)
+        {
+            const int currentColumn = indexToColumn (caretPos.getLineNumber(), caretPos.getIndexInLine());
 
-        if (currentColumn <= 0 || (currentColumn % spacesPerTab) == 0)
-            break;
+            if (currentColumn <= 0 || (currentColumn % spacesPerTab) == 0)
+                break;
 
-        moveCaretLeft (false, true);
-    }
+            moveCaretLeft (false, true);
+        }
 
-    const String selected (getTextInRange (getHighlightedRegion()));
+        const String selected (getTextInRange (getHighlightedRegion()));
 
-    if (selected.isNotEmpty() && selected.trim().isEmpty())
-    {
-        cut();
-        return true;
+        if (selected.isNotEmpty() && selected.trim().isEmpty())
+        {
+            cut();
+            return true;
+        }
     }
 
     return false;
@@ -776,8 +780,8 @@ void CodeEditorComponent::indentSelectedLines (const int spacesToAdd)
 
         if (nonWhitespaceStart > 0 || lineText.trimStart().isNotEmpty())
         {
-            const CodeDocument::Position wsStart (&document, line, 0);
-            const CodeDocument::Position wsEnd   (&document, line, nonWhitespaceStart);
+            const CodeDocument::Position wsStart (document, line, 0);
+            const CodeDocument::Position wsEnd   (document, line, nonWhitespaceStart);
 
             const int numLeadingSpaces = indexToColumn (line, wsEnd.getIndexInLine());
             const int newNumLeadingSpaces = jmax (0, numLeadingSpaces + spacesToAdd);
@@ -803,7 +807,6 @@ void CodeEditorComponent::cut()
 bool CodeEditorComponent::copyToClipboard()
 {
     newTransaction();
-
     const String selection (document.getTextBetween (selectionStart, selectionEnd));
 
     if (selection.isNotEmpty())
@@ -876,7 +879,7 @@ bool CodeEditorComponent::moveCaretDown (const bool selecting)
     newTransaction();
 
     if (caretPos.getLineNumber() == document.getNumLines() - 1)
-        moveCaretTo (CodeDocument::Position (&document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), selecting);
+        moveCaretTo (CodeDocument::Position (document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), selecting);
     else
         moveLineDelta (1, selecting);
 
@@ -888,7 +891,7 @@ bool CodeEditorComponent::moveCaretUp (const bool selecting)
     newTransaction();
 
     if (caretPos.getLineNumber() == 0)
-        moveCaretTo (CodeDocument::Position (&document, 0, 0), selecting);
+        moveCaretTo (CodeDocument::Position (document, 0, 0), selecting);
     else
         moveLineDelta (-1, selecting);
 
@@ -936,7 +939,7 @@ bool CodeEditorComponent::scrollDown()
 bool CodeEditorComponent::moveCaretToTop (const bool selecting)
 {
     newTransaction();
-    moveCaretTo (CodeDocument::Position (&document, 0, 0), selecting);
+    moveCaretTo (CodeDocument::Position (document, 0, 0), selecting);
     return true;
 }
 
@@ -949,21 +952,21 @@ bool CodeEditorComponent::moveCaretToStartOfLine (const bool selecting)
     if (index >= caretPos.getIndexInLine() && caretPos.getIndexInLine() > 0)
         index = 0;
 
-    moveCaretTo (CodeDocument::Position (&document, caretPos.getLineNumber(), index), selecting);
+    moveCaretTo (CodeDocument::Position (document, caretPos.getLineNumber(), index), selecting);
     return true;
 }
 
 bool CodeEditorComponent::moveCaretToEnd (const bool selecting)
 {
     newTransaction();
-    moveCaretTo (CodeDocument::Position (&document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), selecting);
+    moveCaretTo (CodeDocument::Position (document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), selecting);
     return true;
 }
 
 bool CodeEditorComponent::moveCaretToEndOfLine (const bool selecting)
 {
     newTransaction();
-    moveCaretTo (CodeDocument::Position (&document, caretPos.getLineNumber(), std::numeric_limits<int>::max()), selecting);
+    moveCaretTo (CodeDocument::Position (document, caretPos.getLineNumber(), std::numeric_limits<int>::max()), selecting);
     return true;
 }
 
@@ -1031,8 +1034,8 @@ bool CodeEditorComponent::deleteForwards (const bool moveInWholeWordSteps)
 bool CodeEditorComponent::selectAll()
 {
     newTransaction();
-    moveCaretTo (CodeDocument::Position (&document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), false);
-    moveCaretTo (CodeDocument::Position (&document, 0, 0), true);
+    moveCaretTo (CodeDocument::Position (document, std::numeric_limits<int>::max(), std::numeric_limits<int>::max()), false);
+    moveCaretTo (CodeDocument::Position (document, 0, 0), true);
     return true;
 }
 
@@ -1070,14 +1073,14 @@ Range<int> CodeEditorComponent::getHighlightedRegion() const
 
 void CodeEditorComponent::setHighlightedRegion (const Range<int>& newRange)
 {
-    moveCaretTo (CodeDocument::Position (&document, newRange.getStart()), false);
-    moveCaretTo (CodeDocument::Position (&document, newRange.getEnd()), true);
+    moveCaretTo (CodeDocument::Position (document, newRange.getStart()), false);
+    moveCaretTo (CodeDocument::Position (document, newRange.getEnd()), true);
 }
 
 String CodeEditorComponent::getTextInRange (const Range<int>& range) const
 {
-    return document.getTextBetween (CodeDocument::Position (&document, range.getStart()),
-                                    CodeDocument::Position (&document, range.getEnd()));
+    return document.getTextBetween (CodeDocument::Position (document, range.getStart()),
+                                    CodeDocument::Position (document, range.getEnd()));
 }
 
 //==============================================================================
@@ -1085,36 +1088,16 @@ bool CodeEditorComponent::keyPressed (const KeyPress& key)
 {
     if (! TextEditorKeyMapper<CodeEditorComponent>::invokeKeyFunction (*this, key))
     {
-        if (key == KeyPress::tabKey || key.getTextCharacter() == '\t')
-        {
-            handleTabKey();
-        }
-        else if (key == KeyPress::returnKey)
-        {
-            handleReturnKey();
-        }
-        else if (key.isKeyCode (KeyPress::escapeKey))
-        {
-            handleEscapeKey();
-        }
-        else if (key.getTextCharacter() >= ' ')
-        {
-            insertTextAtCaret (String::charToString (key.getTextCharacter()));
-        }
-        else if (key == KeyPress ('[', ModifierKeys::commandModifier, 0))
-        {
-            unindentSelection();
-        }
-        else if (key == KeyPress (']', ModifierKeys::commandModifier, 0))
-        {
-            indentSelection();
-        }
-        else
-        {
-            return false;
-        }
+        if (key == KeyPress::tabKey || key.getTextCharacter() == '\t')      handleTabKey();
+        else if (key == KeyPress::returnKey)                                handleReturnKey();
+        else if (key == KeyPress::escapeKey)                                handleEscapeKey();
+        else if (key == KeyPress ('[', ModifierKeys::commandModifier, 0))   unindentSelection();
+        else if (key == KeyPress (']', ModifierKeys::commandModifier, 0))   indentSelection();
+        else if (key.getTextCharacter() >= ' ')                             insertTextAtCaret (String::charToString (key.getTextCharacter()));
+        else                                                                return false;
     }
 
+    handleUpdateNowIfNeeded();
     return true;
 }
 
@@ -1399,7 +1382,7 @@ void CodeEditorComponent::updateCachedIterators (int maxLineNum)
     const int linesBetweenCachedSources = jmax (10, document.getNumLines() / maxNumCachedPositions);
 
     if (cachedIterators.size() == 0)
-        cachedIterators.add (new CodeDocument::Iterator (&document));
+        cachedIterators.add (new CodeDocument::Iterator (document));
 
     if (codeTokeniser != nullptr)
     {
@@ -1478,8 +1461,8 @@ CodeEditorComponent::State::State (const State& other) noexcept
 
 void CodeEditorComponent::State::restoreState (CodeEditorComponent& editor) const
 {
-    editor.moveCaretTo (CodeDocument::Position (&editor.getDocument(), lastSelectionEnd), false);
-    editor.moveCaretTo (CodeDocument::Position (&editor.getDocument(), lastCaretPos), true);
+    editor.moveCaretTo (CodeDocument::Position (editor.getDocument(), lastSelectionEnd), false);
+    editor.moveCaretTo (CodeDocument::Position (editor.getDocument(), lastCaretPos), true);
 
     if (lastTopLine > 0 && lastTopLine < editor.getDocument().getNumLines())
         editor.scrollToLine (lastTopLine);
