@@ -30,32 +30,81 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CBLENDMODERESULT_HEADER
-#define LAYEREFFECTS_CBLENDMODERESULT_HEADER
-
-class CBlendModeResult
-  : public Component
-  , private ComboBox::Listener
+CImageDropTarget::CImageDropTarget (int id)
+  : m_id (id)
+  , m_isFocused (false)
 {
-public:
-  CBlendModeResult ();
+  setOpaque (false);
+}
 
-  ~CBlendModeResult ();
+CImageDropTarget::~CImageDropTarget ()
+{
+}
 
-  void setSourceImage (int index, Image image);
+void CImageDropTarget::paint (Graphics& g)
+{
+  if (m_image.isValid ())
+  {
+    g.drawImageWithin (m_image, 0, 0, getWidth (), getHeight (), RectanglePlacement::stretchToFit);
+  }
+  else
+  {
+    g.setColour (Colours::black);
+    g.drawText ("Drop Image", getLocalBounds (), Justification::centred, true);
+  }
 
-  void resized ();
+  if (m_isFocused)
+  {
+    g.setColour (findColour (TextEditor::highlightColourId));
+    g.drawRect (getLocalBounds (), 4);
+  }
+}
 
-  void paint (Graphics& g);
+bool CImageDropTarget::isInterestedInFileDrag (const StringArray& files)
+{
+  bool isInterested = false;
 
-private:
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  if (files.size () == 1)
+  {
+    isInterested = true;
+  }
 
-private:
-  Image m_sourceImage [2];
-  ScopedPointer <ComboBox> m_comboBox;
-  vf::BlendMode m_blendMode;
-};
+  return isInterested;
+}
 
-#endif
+void CImageDropTarget::fileDragEnter (const StringArray& files, int x, int y)
+{
+  setFocused (true);
+}
 
+void CImageDropTarget::fileDragExit (const StringArray& files)
+{
+  setFocused (false);
+}
+
+void CImageDropTarget::filesDropped (const StringArray& files, int x, int y)
+{
+  if (files.size () == 1)
+  {
+    Image image = ImageFileFormat::loadFrom (File (files [0]));
+
+    if (image.isValid ())
+    {
+      m_image = image;
+      repaint ();
+
+      vf::componentNotifyParent (this, &Listener::onImageDropTargetDrop, m_id, image);
+    }
+  }
+
+  setFocused (false);
+}
+
+void CImageDropTarget::setFocused (bool isFocused)
+{
+  if (m_isFocused != isFocused)
+  {
+    m_isFocused = isFocused;
+    repaint ();
+  }
+}

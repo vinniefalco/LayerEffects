@@ -30,40 +30,31 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
+#define LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
 
-class MainApp : public JUCEApplication
+/** Displays a preview of the layer graphics effects.
+*/
+class CLayerGraphicsPreview
+  : public Component
+  , public Timer
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  CLayerGraphicsPreview ();
+  ~CLayerGraphicsPreview ();
 
-public:
-  MainApp();
-  ~MainApp();
+  void setOptions (Options* newOptions, bool updateNow = false);
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
+  void paint (Graphics& g);
 
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
+  void paintBackground (Graphics& g);
+  void paintForeground (Graphics& g);
 
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
+  void timerCallback ();
 
 private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  Options m_options;
+  Options m_newOptions;
 };
 
 #endif

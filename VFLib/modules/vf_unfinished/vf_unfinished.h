@@ -58,16 +58,19 @@
 
 #if JUCE_MSVC
 #pragma warning (push)
-//#pragma warning (disable: 4100) // unreferenced formal parameter
+#pragma warning (disable: 4100) // unreferenced formal parameter
 //#pragma warning (disable: 4355) // 'this' : used in base member initializer list
 #endif
 
 namespace vf
 {
 
-#include "graphics/vf_BackgroundContext.h"
+#include "graphics/vf_BlendMode.h"
+#include "graphics/vf_BlendProc.h"
 #include "graphics/vf_Pixels.h"
-#include "graphics/vf_LayerContext.h"
+#include "graphics/vf_GradientColours.h"
+#include "graphics/vf_GradientOverlayStyle.h"
+#include "graphics/vf_LayerGraphics.h"
 
 #include "midi/vf_MidiInput.h"
 #include "midi/vf_MidiDevices.h"

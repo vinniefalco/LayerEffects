@@ -83,7 +83,7 @@ public:
     return *this;
   }
 
-  #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
+#if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
   SharedTable (SharedTable&& other) noexcept
       : m_data (static_cast <Data::Ptr&&> (other.m_data))
   {
@@ -94,7 +94,7 @@ public:
       m_data = static_cast <Data::Ptr&&> (other.m_data);
       return *this;
   }
-  #endif
+#endif
 
   /** Destructor.
   */

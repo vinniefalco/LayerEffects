@@ -30,20 +30,25 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CTEXTDEMO_HEADER
-#define LAYEREFFECTS_CTEXTDEMO_HEADER
+#ifndef LAYEREFFECTS_COPTIONSFILLTAB_HEADER
+#define LAYEREFFECTS_COPTIONSFILLTAB_HEADER
 
-class CTextDemo
-  : public Component
+/** Fill options.
+*/
+class COptionsFillTab : public COptionsTab
 {
 public:
-  CTextDemo ();
-  ~CTextDemo ();
+  COptionsFillTab ();
+  ~COptionsFillTab ();
+  
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
 
-  void paint (Graphics& g);
+private:
+  Options::Fill m_options;
 
-  void mouseDown (MouseEvent const& e);
+  ComboBox* m_modeComboBox;
+  Slider* m_opacitySlider;
 };
 
 #endif
-

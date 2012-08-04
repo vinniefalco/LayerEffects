@@ -30,28 +30,24 @@
 */
 //------------------------------------------------------------------------------
 
-MainWindow::MainWindow () 
-  : DocumentWindow (TRANS("Layer Effects"),
-                    Colours::lightgrey, 
-                    DocumentWindow::allButtons,
-                    true)
+#ifndef LAYEREFFECTS_COPTIONSPANEL_HEADER
+#define LAYEREFFECTS_COPTIONSPANEL_HEADER
+
+/** Holds groups of effect options panels.
+*/
+class COptionsPanel
+  : public CBackgroundPanel
+  , public ComboBox::Listener
 {
-  setResizable (true, false);
+public:
+  COptionsPanel ();
+  ~COptionsPanel ();
 
-  MainPanel* contentComponent = new MainPanel;
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
 
-  setMenuBar (contentComponent);
-  setContentOwned (contentComponent, true);
+private:
+  Array <Component*> m_panels;
+  Component* m_panel;
+};
 
-  centreWithSize (getWidth(), getHeight());
-  setVisible (true);
-}
-
-MainWindow::~MainWindow()
-{
-}
-
-void MainWindow::closeButtonPressed()
-{
-  JUCEApplication::quit();
-}
+#endif

@@ -30,23 +30,18 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CBLENDMODEDEMO_HEADER
-#define LAYEREFFECTS_CBLENDMODEDEMO_HEADER
+#ifndef LAYEREFFECTS_CBACKGROUNDPANEL_HEADER
+#define LAYEREFFECTS_CBACKGROUNDPANEL_HEADER
 
-class CBlendModeDemo
-  : public Component
-  , public CImageSource::Listener
+/** Draws a standard background panel.
+*/
+class CBackgroundPanel : public Component
 {
 public:
-  CBlendModeDemo ();
-  ~CBlendModeDemo ();
-
-  void onImageSourceSelect (int id, Image image);
+  CBackgroundPanel ();
+  ~CBackgroundPanel ();
 
   void paint (Graphics& g);
-
-private:
-  ScopedPointer <CBlendModeResult> m_blendResult;
 };
 
 #endif

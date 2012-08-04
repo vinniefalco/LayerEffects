@@ -30,40 +30,18 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CUSTOMLOOKANDFEEL_HEADER
+#define LAYEREFFECTS_CUSTOMLOOKANDFEEL_HEADER
 
-class MainApp : public JUCEApplication
+/** Look and feel that forces the software renderer for contexts.
+*/
+class CustomLookAndFeel : LookAndFeel
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
-
-public:
-  MainApp();
-  ~MainApp();
-
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  LowLevelGraphicsContext* createGraphicsContext (
+    const Image& imageToRenderOn,
+    const Point<int>& origin,
+    const RectangleList& initialClip);
 };
 
 #endif

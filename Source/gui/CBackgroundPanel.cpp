@@ -30,40 +30,19 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
-
-class MainApp : public JUCEApplication
+CBackgroundPanel::CBackgroundPanel ()
 {
-public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+}
 
-public:
-  MainApp();
-  ~MainApp();
+CBackgroundPanel::~CBackgroundPanel ()
+{
+}
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
+void CBackgroundPanel::paint (Graphics& g)
+{
+  g.setColour (Colours::black);
+  g.drawRect (getLocalBounds ());
 
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
-};
-
-#endif
+  g.setColour (Colours::white);
+  g.fillRect (getLocalBounds ().reduced (1));
+}

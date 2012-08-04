@@ -30,40 +30,16 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CMAINWINDOW_HEADER
+#define LAYEREFFECTS_CMAINWINDOW_HEADER
 
-class MainApp : public JUCEApplication
+class CMainWindow : public DocumentWindow
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  CMainWindow ();
+  ~CMainWindow ();
 
-public:
-  MainApp();
-  ~MainApp();
-
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  void closeButtonPressed ();
 };
 
 #endif

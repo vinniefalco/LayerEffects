@@ -42,25 +42,57 @@
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
-        <FILE id="MBrG3T" name="CBlendModeDemo.h" compile="0" resource="0"
-              file="../../Source/gui/CBlendModeDemo.h"/>
-        <FILE id="pqlI5H" name="CBlendModeDemo.cpp" compile="0" resource="0"
-              file="../../Source/gui/CBlendModeDemo.cpp"/>
-        <FILE id="JftAvR" name="CBlendModeResult.cpp" compile="0" resource="0"
-              file="../../Source/gui/CBlendModeResult.cpp"/>
-        <FILE id="y3jVJn" name="CBlendModeResult.h" compile="0" resource="0"
-              file="../../Source/gui/CBlendModeResult.h"/>
-        <FILE id="d9VTIN" name="CImageSource.cpp" compile="0" resource="0"
-              file="../../Source/gui/CImageSource.cpp"/>
-        <FILE id="hH6fiu" name="CImageSource.h" compile="0" resource="0" file="../../Source/gui/CImageSource.h"/>
-        <FILE id="NzRKgm" name="CTextDemo.cpp" compile="0" resource="0" file="../../Source/gui/CTextDemo.cpp"/>
-        <FILE id="ZCvCfz" name="CTextDemo.h" compile="0" resource="0" file="../../Source/gui/CTextDemo.h"/>
+        <FILE id="o6z9Ms" name="CBackgroundPanel.cpp" compile="0" resource="0"
+              file="../../Source/gui/CBackgroundPanel.cpp"/>
+        <FILE id="R6GlV4" name="CBackgroundPanel.h" compile="0" resource="0"
+              file="../../Source/gui/CBackgroundPanel.h"/>
+        <FILE id="gyj2TP" name="CImageDropTarget.cpp" compile="0" resource="0"
+              file="../../Source/gui/CImageDropTarget.cpp"/>
+        <FILE id="P93slq" name="CImageDropTarget.h" compile="0" resource="0"
+              file="../../Source/gui/CImageDropTarget.h"/>
+        <FILE id="BT2FJZ" name="CLayerGraphicsPreview.cpp" compile="0" resource="0"
+              file="../../Source/gui/CLayerGraphicsPreview.cpp"/>
+        <FILE id="F0iJSK" name="CLayerGraphicsPreview.h" compile="0" resource="0"
+              file="../../Source/gui/CLayerGraphicsPreview.h"/>
+        <FILE id="NO32bv" name="CMainPanel.cpp" compile="0" resource="0" file="../../Source/gui/CMainPanel.cpp"/>
+        <FILE id="m2W4Bh" name="CMainPanel.h" compile="0" resource="0" file="../../Source/gui/CMainPanel.h"/>
+        <FILE id="LeDTYD" name="CMainWindow.cpp" compile="0" resource="0" file="../../Source/gui/CMainWindow.cpp"/>
+        <FILE id="mBvX9G" name="CMainWindow.h" compile="0" resource="0" file="../../Source/gui/CMainWindow.h"/>
+        <FILE id="XjJHEC" name="Controls.cpp" compile="0" resource="0" file="../../Source/gui/Controls.cpp"/>
+        <FILE id="AKKzE2" name="Controls.h" compile="0" resource="0" file="../../Source/gui/Controls.h"/>
+        <FILE id="YamNmp" name="CDropShadowTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CDropShadowTab.cpp"/>
+        <FILE id="FLrlxU" name="CDropShadowTab.h" compile="0" resource="0"
+              file="../../Source/gui/CDropShadowTab.h"/>
+        <FILE id="M1eVOC" name="COptionsFillTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/COptionsFillTab.cpp"/>
+        <FILE id="lNzKP7" name="COptionsFillTab.h" compile="0" resource="0"
+              file="../../Source/gui/COptionsFillTab.h"/>
+        <FILE id="UFFJun" name="COptionsGeneralTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/COptionsGeneralTab.cpp"/>
+        <FILE id="e69g40" name="COptionsGeneralTab.h" compile="0" resource="0"
+              file="../../Source/gui/COptionsGeneralTab.h"/>
+        <FILE id="OLTDv7" name="CGradientOverlayTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CGradientOverlayTab.cpp"/>
+        <FILE id="vNJIg6" name="CGradientOverlayTab.h" compile="0" resource="0"
+              file="../../Source/gui/CGradientOverlayTab.h"/>
+        <FILE id="W0nlpb" name="COptionsPanel.cpp" compile="0" resource="0"
+              file="../../Source/gui/COptionsPanel.cpp"/>
+        <FILE id="kt6e4L" name="COptionsPanel.h" compile="0" resource="0" file="../../Source/gui/COptionsPanel.h"/>
+        <FILE id="niI07D" name="COptionsTab.cpp" compile="0" resource="0" file="../../Source/gui/COptionsTab.cpp"/>
+        <FILE id="J4XQ7b" name="COptionsTab.h" compile="0" resource="0" file="../../Source/gui/COptionsTab.h"/>
+        <FILE id="xyMavP" name="CSolidColourPicker.cpp" compile="0" resource="0"
+              file="../../Source/gui/CSolidColourPicker.cpp"/>
+        <FILE id="APthKO" name="CSolidColourPicker.h" compile="0" resource="0"
+              file="../../Source/gui/CSolidColourPicker.h"/>
+        <FILE id="WWSyE0" name="CustomLookAndFeel.cpp" compile="0" resource="0"
+              file="../../Source/gui/CustomLookAndFeel.cpp"/>
+        <FILE id="q5gfN0" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="../../Source/gui/CustomLookAndFeel.h"/>
         <FILE id="KnCdLZ" name="MainApp.cpp" compile="0" resource="0" file="../../Source/gui/MainApp.cpp"/>
         <FILE id="Qs1b9K" name="MainApp.h" compile="0" resource="0" file="../../Source/gui/MainApp.h"/>
-        <FILE id="NO32bv" name="MainPanel.cpp" compile="0" resource="0" file="../../Source/gui/MainPanel.cpp"/>
-        <FILE id="m2W4Bh" name="MainPanel.h" compile="0" resource="0" file="../../Source/gui/MainPanel.h"/>
-        <FILE id="LeDTYD" name="MainWindow.cpp" compile="0" resource="0" file="../../Source/gui/MainWindow.cpp"/>
-        <FILE id="mBvX9G" name="MainWindow.h" compile="0" resource="0" file="../../Source/gui/MainWindow.h"/>
+        <FILE id="avK6sV" name="Options.cpp" compile="0" resource="0" file="../../Source/gui/Options.cpp"/>
+        <FILE id="Sk5hyV" name="Options.h" compile="0" resource="0" file="../../Source/gui/Options.h"/>
       </GROUP>
       <FILE id="OwhNkh" name="source.cpp" compile="1" resource="0" file="../../Source/source.cpp"/>
     </GROUP>
@@ -75,6 +107,7 @@
     <MODULE id="juce_graphics" showAllCode="0" useLocalCopy="0"/>
     <MODULE id="juce_gui_basics" showAllCode="0" useLocalCopy="0"/>
     <MODULE id="juce_data_structures" showAllCode="0" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="0" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS/>
 </JUCERPROJECT>

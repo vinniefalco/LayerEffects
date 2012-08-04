@@ -30,40 +30,30 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_OPTIONS_HEADER
+#define LAYEREFFECTS_OPTIONS_HEADER
 
-class MainApp : public JUCEApplication
+/** Holds the options for layer graphics.
+*/
+struct Options
 {
-public:
-  enum CommandIDs
+  typedef vf::LayerGraphics::Options::General General;
+  typedef vf::LayerGraphics::Options::Fill Fill;
+  typedef vf::LayerGraphics::Options::DropShadow DropShadow;
+  typedef vf::GradientOverlayStyle::Options GradientOverlay;
+
+  struct Listener
   {
-    cmdAbout                     = 0x2020
+    virtual void onOptionsGeneral (General general) { }
+    virtual void onOptionsFill (Fill fill) { }
+    virtual void onOptionsDropShadow (DropShadow dropShadow) { }
+    virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
   };
 
-public:
-  MainApp();
-  ~MainApp();
-
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  General general;
+  Fill fill;
+  DropShadow dropShadow;
+  GradientOverlay gradientOverlay;
 };
 
 #endif

@@ -30,40 +30,39 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CIMAGEDROPTARGET_HEADER
+#define LAYEREFFECTS_CIMAGEDROPTARGET_HEADER
 
-class MainApp : public JUCEApplication
+/** Accepts a drag and dropped image.
+*/
+class CImageDropTarget
+  : public Component
+  , public FileDragAndDropTarget
 {
 public:
-  enum CommandIDs
+  struct Listener
   {
-    cmdAbout                     = 0x2020
+    virtual void onImageDropTargetDrop (int id, Image image) = 0;
   };
 
-public:
-  MainApp();
-  ~MainApp();
+  explicit CImageDropTarget (int id);
+  ~CImageDropTarget ();
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
+  void paint (Graphics& g);
 
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
+  bool isInterestedInFileDrag (const StringArray& files);
+  void fileDragEnter (const StringArray& files, int x, int y);
+  void fileDragExit (const StringArray& files);
+  void filesDropped (const StringArray& files, int x, int y);
 
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
+protected:
+  void setFocused (bool isFocused);
 
 private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  int const m_id;
+  bool m_isFocused;
+  Image m_image;
 };
 
 #endif
+

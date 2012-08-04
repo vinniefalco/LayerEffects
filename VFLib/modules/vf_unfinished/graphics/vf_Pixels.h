@@ -33,33 +33,282 @@
 #ifndef VF_PIXELS_VFHEADER
 #define VF_PIXELS_VFHEADER
 
-enum BlendMode
+/** Image pixel data.
+
+    This convenient wrapper provides reference counting and efficient pass by
+    value semantics to @ref Image::BitmapData objects, to facilitate its usage
+    in generic programming.
+
+    @ingroup vf_gui
+*/
+class Pixels
 {
-  normal = 1,
-  lighten,
-  darken,
-  multiply,
-  average,
-  add,
-  subtract,
-  difference,
-  negation,
-  screen,
-  exclusion,
-  overlay,
-  softLight,
-  hardLight,
-  colorDodge,
-  colorBurn,
-  linearDodge,
-  linearBurn,
-  linearLight,
-  vividLight,
-  pinLight,
-  hardMix,
-  reflect,
-  glow,
-  phoenix,
+public:
+  static Pixels const null;
+
+  /** Creates a null pixel data.
+  */
+  Pixels ();
+
+  /** Creates pixel data from an image.
+  */
+  explicit Pixels (
+    Image image,
+    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite);
+
+  /** Creates pixel data from a portion of an image.
+  */
+  Pixels (
+    Image,
+    Rectangle <int> const& bounds,
+    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite);
+
+  /** Creates a shared reference to another pixel data.
+  */
+  Pixels (Pixels const& other);
+
+  /** Make this pixel data refer to another pixel data.
+  */
+  Pixels& operator= (Pixels const& other);
+
+#if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
+  Pixels (Pixels&& other) noexcept;
+  Pixels& operator= (Pixels&& other) noexcept;
+#endif
+
+  /** Destructor.
+  */
+  ~Pixels ();
+
+  /** Returns true if this shares the same @ref Image::BitmapData.
+  */
+  inline bool operator== (Pixels const& other) const noexcept
+  {
+    return m_data == other.m_data;
+  }
+
+  /** Returns true if this does not share the same @ref Image::BitmapData.
+  */
+  inline bool operator!= (Pixels const& other) const noexcept
+  {
+    return m_data != other.m_data;
+  }
+
+  /** Returns true if the pixel data is not null.
+  */
+  inline bool isValid () const noexcept
+  {
+    return m_data != nullptr;
+  }
+
+  /** Returns true if the pixel data is null.
+  */
+  inline bool isNull () const noexcept
+  {
+    return m_data == nullptr;
+  }
+
+  /** Retrieve the pixel format.
+  */
+  inline Image::PixelFormat getFormat () const noexcept
+  {
+    return m_data->pixelFormat;
+  }
+
+  /** Return `true` if the format is RGB.
+  */
+  inline bool isRGB () const noexcept
+  {
+    return getFormat () == Image::RGB;
+  }
+
+  /** Return `true` if the format is ARGB.
+  */
+  inline bool isARGB () const noexcept
+  {
+    return getFormat () == Image::ARGB;
+  }
+
+  /** Return `true` if the format is single channel.
+  */
+  inline bool isSingleChannel () const noexcept
+  {
+    return getFormat () == Image::SingleChannel;
+  }
+
+  /** Retrieve a pointer to the start of the pixel data.
+  */
+  inline uint8* getData () const noexcept
+  {
+    return m_data->data;
+  }
+
+  /** Retrieve the bounding rectangle.
+  */
+  inline Rectangle <int> getBounds () const noexcept
+  {
+    return Rectangle <int> (0, 0, m_data->width, m_data->height);
+  }
+
+  /** Retrieve the width in pixels.
+  */
+
+  inline int getCols () const noexcept
+  {
+    return m_data->width;
+  }
+
+  /** Retrieve the height in pixels.
+  */
+  inline int getRows () const noexcept
+  {
+    return m_data->height;
+  }
+
+  /** Retrieve a pointer to the beginning of the specified line.
+  */
+  inline uint8* getLinePointer (int y) const noexcept
+  {
+    return m_data->getLinePointer (y);
+  }
+
+  /** Retrieve a pointer to the beginning of the specified pixel.
+  */
+  inline uint8* getPixelPointer (int x, int y) const noexcept
+  {
+    return m_data->getPixelPointer (x, y);
+  }
+
+  /** Retrieve the bytes per line.
+  */
+  inline int getRowBytes () const noexcept
+  {
+    return m_data->lineStride;
+  }
+
+  /** Retrieve the bytes per column.
+  */
+  inline int getColBytes () const noexcept
+  {
+    return m_data->pixelStride;
+  }
+
+public:
+  class Iterate1;
+  class Iterate2;
+
+private:
+  class Data : public Image::BitmapData, public ReferenceCountedObject
+  {
+  public:
+    typedef ReferenceCountedObjectPtr <Data> Ptr;
+
+    Data (Image image,
+          Rectangle <int> const& bounds,
+          Image::BitmapData::ReadWriteMode access)
+      : BitmapData (
+          image,
+          bounds.getX (), bounds.getY (),
+          bounds.getWidth (), bounds.getHeight (),
+          access)
+    {
+      jassert (image.getBounds ().contains (bounds));
+    }
+  };
+
+  Data::Ptr m_data;
+};
+
+/** Functor to apply a functor to one Pixels map.
+
+    Prototype for `Functor`:
+
+    @code
+
+    void f (uint8* pixel);
+
+    @endcode
+*/
+class Pixels::Iterate1
+{
+public:
+  explicit Iterate1 (Pixels map) : m_map (map)
+  {
+  }
+
+  template <class Functor>
+  void operator () (Functor f)
+  {
+    int const colSkip = m_map.getColBytes ();
+    int const rowSkip = m_map.getRowBytes () - m_map.getCols () * colSkip;
+
+    uint8* pixel = m_map.getData ();
+
+    for (int y = m_map.getRows (); y--;)
+    {
+      for (int x = m_map.getCols (); x--;)
+      {
+        f (pixel);
+
+        pixel = addBytesToPointer (pixel, colSkip);
+      }
+
+      pixel = addBytesToPointer (pixel, rowSkip);
+    }
+  }
+
+private:
+  Pixels m_map;
+};
+
+/** Functor to apply a functor to two Pixels maps.
+
+    Prototype for `Functor`:
+
+    @code
+
+    void f (uint8* pixel1, uint8* pixel2);
+
+    @endcode
+*/
+class Pixels::Iterate2
+{
+public:
+  Iterate2 (Pixels map1, Pixels map2)
+    : m_map1 (map1), m_map2 (map2)
+  {
+    jassert (m_map1.getBounds () == m_map2.getBounds ());
+  }
+
+  template <class Functor>
+  void operator () (Functor f)
+  {
+    int const colSkip1 = m_map1.getColBytes ();
+    int const rowSkip1 = m_map1.getRowBytes () - m_map1.getCols () * colSkip1;
+    int const colSkip2 = m_map2.getColBytes ();
+    int const rowSkip2 = m_map2.getRowBytes () - m_map2.getCols () * colSkip2;
+
+    uint8* pixel1 = m_map1.getData ();
+    uint8* pixel2 = m_map2.getData ();
+
+    for (int y = m_map1.getRows (); y--;)
+    {
+      for (int x = m_map1.getCols (); x--;)
+      {
+        f (pixel1, pixel2);
+
+        pixel1 = addBytesToPointer (pixel1, colSkip1);
+        pixel2 = addBytesToPointer (pixel2, colSkip2);
+      }
+
+      pixel1 = addBytesToPointer (pixel1, rowSkip1);
+      pixel2 = addBytesToPointer (pixel2, rowSkip2);
+    }
+  }
+
+private:
+  Pixels m_map1;
+  Pixels m_map2;
 };
 
 /** Fill an image with colour.
@@ -68,591 +317,17 @@ extern void fillImage (Image dest,
                        Point <int> destTopLeft,
                        Image mask,
                        Rectangle <int> maskBounds,
-                       BlendMode mode,
+                       BlendMode::Type mode,
                        double opacity,
                        Colour colour);
 
+/** Copy one image over another.
+*/
 extern void copyImage (Image dest,
                        Point <int> destTopLeft,
                        Image source,
                        Rectangle <int> sourceBounds,
-                       BlendMode mode,
+                       BlendMode::Type mode,
                        double opacity);
-
-/** Wrapper for @ref BitmapData.
-
-    This wrapper facilitates operations on one or more images.
-
-    @ingroup vf_gui
-*/
-class Pixels : public Image::BitmapData
-{
-public:
-  /** Blending modes.
-
-      These are suitable for use with the pixel operations.
-      These replicate the Photoshop layer blending modes.
-
-      See: http://inlandstudios.com/en/?p=851
-
-      @ingroup vf_gui
-  */
-
-  struct Mode
-  {
-    // f = front, b = back
-
-    struct normal
-    {
-      inline int operator () (int f, int) const
-      {
-        return f;
-      }
-    };
-
-    struct lighten
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f > b) ? f : b;
-      }
-    };
-
-    struct darken
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f < b) ? f : b;
-      }
-    };
-
-    struct multiply
-    {
-      inline int operator () (int f, int b) const
-      {
-        return f * b / 255;
-      }
-    };
-
-    struct average
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f + b) / 2;
-      }
-    };
-
-    struct add
-    {
-      inline int operator () (int f, int b) const
-      {
-        return std::min (255, f + b);
-      }
-    };
-
-    struct subtract
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f > b) ? 0 : (b - f);
-      }
-    };
-
-    struct difference
-    {
-      inline int operator () (int f, int b) const
-      {
-        return std::abs (f - b);
-      }
-    };
-
-    struct negation
-    {
-      inline int operator () (int f, int b) const
-      {
-        return 255 - std::abs (255 - f - b);
-      }
-    };
-
-    struct screen
-    {
-      inline int operator () (int f, int b) const
-      {
-        return 255 - (((255 - f) * (255 - b)) / 255);
-      }
-    };
-
-    struct exclusion
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f + b - 2 * f * b / 255);
-      }
-    };
-
-    struct overlay
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (b < 128) ? (2 * f * b / 255) : (255 - 2 * (255 - f) * (255 - b) / 255);
-      }
-    };
-
-    struct softLight
-    {
-      inline int operator () (int f, int b) const
-      {
-        return int ((b < 128) ?
-          (2 * ((f >> 1) + 64)) * ((float)b / 255) :
-          (255 - (2 * (255 - ((f >> 1) + 64)) * (float)(255 - b) / 255)));
-      }
-    };
-
-    struct hardLight
-    {
-      inline int operator () (int f, int b) const
-      {
-        return overlay () (f, b);
-      }
-    };
-
-    struct colorDodge
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f == 255) ? f : std::min (255, (b << 8) / (255 - f));
-      }
-    };
-
-    struct colorBurn
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (b == 0) ? 0 : std::max (0, (255 - ((255 - f) << 8) / b));
-      }
-    };
-
-    struct linearDodge
-    {
-      inline int operator () (int f, int b) const
-      {
-        return add () (f, b);
-      }
-    };
-
-    struct linearBurn
-    {
-      inline int operator () (int f, int b) const
-      {
-        return subtract () (f, b);
-      }
-    };
-
-    struct linearLight
-    {
-      inline int operator () (int f, int b) const
-      {
-         return (f < 128) ?
-           linearBurn () (256 - b, 2 * f) :
-           linearDodge () (b, 2 * (f - 128));
-      }
-    };
-
-    struct vividLight
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (b < 128) ?
-          colorBurn () (f, 2 * b) :
-          colorDodge () (f, 2 * (b - 128));
-      }
-    };
-
-    struct pinLight
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (f < 128) ?
-          darken () (b, 2 * f) :
-          lighten () (b, 2 * (f - 128));
-      }
-    };
-
-    struct hardMix
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (vividLight () (f, b) < 128) ? 0 : 255;
-      }
-    };
-
-    struct reflect
-    {
-      inline int operator () (int f, int b) const
-      {
-        return (b == 255) ? 255 : std::min (255, f * f / (255 - b));
-      }
-    };
-
-    struct glow
-    {
-      inline int operator () (int f, int b) const
-      {
-        return reflect () (b, f);
-      }
-    };
-
-    struct phoenix
-    {
-      inline int operator () (int f, int b) const
-      {
-        return std::min (f, b) - std::max (f, b) + 255;
-      }
-    };
-  };
-
-  //=============================================================================
-
-  /** Pixel operations
-
-      These are suitable for use with iterate ()
-  */
-
-  /** Blend a colour into RGB using a mask.
-  */
-  template <class ModeType>
-  struct FillRGB_Mask
-  {
-    explicit FillRGB_Mask (Colour const& colour, ModeType mode = ModeType ())
-      : m_mode (mode)
-      , m_src (colour.getARGB ())
-    {
-    }
-
-    void operator () (uint8* dest, uint8 const* mask) const
-    {
-      int const m = *mask;
-      PixelRGB& d (*((PixelRGB*)dest));
-      PixelRGB s;
-
-      s.getRed ()   = m_mode (m_src.getRed   (), d.getRed ());
-      s.getGreen () = m_mode (m_src.getGreen (), d.getGreen ());
-      s.getBlue ()  = m_mode (m_src.getBlue  (), d.getBlue ());
-
-      d.blend (s, *mask);
-    }
-
-  private:
-    FillRGB_Mask <ModeType>& operator= (FillRGB_Mask <ModeType> const&);
-
-    ModeType const m_mode;
-    PixelRGB const m_src;
-  };
-
-  //------------------------------------------------------------------------------
-
-  /** Blend a colour into RGB using a mask and specified opacity.
-  */
-  template <class ModeType>
-  struct FillRGB_MaskOpacity
-  {
-    explicit FillRGB_MaskOpacity (Colour const& colour, double opacity, ModeType mode = ModeType ())
-      : m_alpha (int (255 * opacity + 0.5))
-      , m_mode (mode)
-      , m_src (colour.getARGB ())
-    {
-    }
-
-    void operator () (uint8* dest, uint8 const* mask) const
-    {
-      int const m = *mask;
-      PixelRGB& d (*((PixelRGB*)dest));
-
-      d.getRed ()   = uint8 (d.getRed ()    + (m_mode (m_src.getRed (),   d.getRed ()) -   d.getRed ())    * m * m_alpha / 65025);
-      d.getGreen () = uint8 (d.getGreen ()  + (m_mode (m_src.getGreen (), d.getGreen ()) - d.getGreen ())  * m * m_alpha / 65025);
-      d.getBlue ()  = uint8 (d.getBlue ()   + (m_mode (m_src.getBlue (),  d.getBlue ()) -  d.getBlue ())   * m * m_alpha / 65025);
-    }
-
-  private:
-    FillRGB_MaskOpacity <ModeType>& operator= (FillRGB_MaskOpacity <ModeType> const&);
-
-    int const m_alpha;
-    ModeType const m_mode;
-    PixelRGB const m_src;
-  };
-
-  //------------------------------------------------------------------------------
-
-  /** Blend two grayscale pixels.
-  */
-  template <class ModeType>
-  struct BlendGray_Opacity
-  {
-    explicit BlendGray_Opacity (double opacity, ModeType mode = ModeType ())
-      : m_alpha (int (255 * opacity + 0.5))
-      , m_mode (mode)
-    {
-    }
-
-    void operator () (uint8* dest, uint8 const* src) const
-    {
-      dest[0] = uint8 (dest[0] + ((m_mode (src[0], dest[0]) - dest[0]) * m_alpha + 128) / 255);
-    }
-
-  private:
-    BlendGray_Opacity <ModeType>& operator= (BlendGray_Opacity <ModeType> const&);
-
-    int const m_alpha;
-    ModeType const m_mode;
-  };
-
-  //------------------------------------------------------------------------------
-
-  /** Blend two RGB pixels.
-  */
-  template <class ModeType>
-  struct BlendRGB_Opacity
-  {
-    explicit BlendRGB_Opacity (double opacity, ModeType mode = ModeType ())
-      : m_alpha (int (255 * opacity + 0.5))
-      , m_mode (mode)
-    {
-    }
-
-    void operator () (uint8* dest, uint8 const* src) const
-    {
-      PixelRGB v;
-      PixelRGB& d (*((PixelRGB*)dest));
-      PixelRGB const& s (*((PixelRGB const*)src));
-
-      v.getRed ()   = uint8 (m_mode (s.getRed (),   d.getRed ()));
-      v.getGreen () = uint8 (m_mode (s.getGreen (), d.getGreen ()));
-      v.getBlue ()  = uint8 (m_mode (s.getBlue (),  d.getBlue ()));
-
-      d.blend (v, m_alpha);
-    }
-
-  private:
-    BlendRGB_Opacity <ModeType>& operator= (BlendRGB_Opacity <ModeType> const&);
-
-    ModeType const m_mode;
-    int const m_alpha;
-  };
-
- //------------------------------------------------------------------------------
-
-  /** Blend a premultiplied ARGB pixel onto an RGB pixel.
-  */
-  template <class ModeType>
-  struct BlendARGB_Opacity
-  {
-    explicit BlendARGB_Opacity (double opacity, ModeType mode = ModeType ())
-      : m_alpha (int (255 * opacity + 0.5))
-      , m_mode (mode)
-    {
-    }
-
-    static inline int unpremultiply (int value, int alpha)
-    {
-      return alpha ? value * 255 / alpha : 0;
-    }
-
-    void operator () (uint8* dest, uint8 const* src) const
-    {
-      PixelARGB s (((PixelARGB const*)src)->getUnpremultipliedARGB ());
-      PixelRGB& d (*((PixelRGB*)dest));
-      int const mask = s.getAlpha ();
-
-      d.getRed ()   = uint8 (d.getRed ()    + (m_mode (s.getRed (),   d.getRed ()) -   d.getRed ())    * mask * m_alpha / 65025);
-      d.getGreen () = uint8 (d.getGreen ()  + (m_mode (s.getGreen (), d.getGreen ()) - d.getGreen ())  * mask * m_alpha / 65025);
-      d.getBlue ()  = uint8 (d.getBlue ()   + (m_mode (s.getBlue (),  d.getBlue ()) -  d.getBlue ())   * mask * m_alpha / 65025);
-    }
-
-  private:
-    BlendARGB_Opacity <ModeType> & operator= (BlendARGB_Opacity <ModeType> const&);
-
-    int const m_alpha;
-    ModeType const m_mode;
-  };
-
-public:
-  //=============================================================================
-
-  /** Construct from an image.
-
-      The pixels will refer to the specified subset of the image.
-
-      @param image  The image to get pixels from.
-      @param bounds The area of interest.
-      @param access The type of access desired.
-  */
-  Pixels (Image image,
-          Rectangle <int> const& bounds,
-          Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite)
-    : BitmapData (image,
-                  bounds.getX (), bounds.getY (),
-                  bounds.getWidth (), bounds.getHeight (),
-                  access)
-  {
-    jassert (image.getBounds ().contains (bounds));
-  }
-
-  //-----------------------------------------------------------------------------
-
-  /** Perform an operation on each pixel.
-
-      The functor is applied to every pixel in the image.
-
-      @param op A functor with signature `void (uint8* dest)`
-  */
-  template <class Operation>
-  void iterate (Operation op)
-  {
-    int const     rows        = height;
-    int const     cols        = width;
-    uint8*        dest        = getLinePointer (0);
-    int const     destColSkip = pixelStride;
-    int const     destRowSkip = lineStride - cols * destColSkip;
-
-    for (int y = rows; y--;)
-    {
-      for (int x = cols; x--;)
-      {
-        op (dest);
-
-        dest = addBytesToPointer (dest, destColSkip);
-      }
-
-      dest = addBytesToPointer (dest, destRowSkip);
-    }
-  }
-
-  //-----------------------------------------------------------------------------
-
-  /** Perform an operation on each pixel.
-
-      The functor is applied to every pixel in the image. The
-      source pixel image is walked at the same time and passed to the functor.
-
-      @param op A functor with signature `void (uint8* dest, uint8 const* src)`
-  */
-  template <class Operation>
-  void iterate (Pixels const& srcPixels, Operation op)
-  {
-    int const     rows        = height;
-    int const     cols        = width;
-    uint8*        dest        = getLinePointer (0);
-    int const     destColSkip = pixelStride;
-    int const     destRowSkip = lineStride - cols * destColSkip;
-    uint8 const*  src         = srcPixels.getLinePointer (0);
-    int const     srcColSkip  = srcPixels.pixelStride;
-    int const     srcRowSkip  = srcPixels.lineStride - cols * srcColSkip;
-
-    for (int y = rows; y--;)
-    {
-      for (int x = cols; x--;)
-      {
-        op (dest, src);
-
-        src  = addBytesToPointer (src, srcColSkip);
-        dest = addBytesToPointer (dest, destColSkip);
-      }
-
-      src  = addBytesToPointer (src, srcRowSkip);
-      dest = addBytesToPointer (dest, destRowSkip);
-    }
-  }
-};
-
-/** Blend two RGB pixels using normal mode.
-
-    This is an optimized specialization.
-*/
-template <>
-struct Pixels::BlendRGB_Opacity <Pixels::Mode::normal>
-{
-  explicit BlendRGB_Opacity (double opacity)
-    : m_alpha (int (255 * opacity + 0.5))
-  {
-  }
-
-  void operator () (uint8* dest, uint8 const* src) const
-  {
-    PixelRGB& d (*((PixelRGB*)dest));
-    PixelRGB const& s (*((PixelRGB const*)src));
-
-    d.blend (s, m_alpha);
-  }
-
-private:
-  BlendRGB_Opacity <Pixels::Mode::normal> & operator= (BlendRGB_Opacity <Pixels::Mode::normal> const&);
-
-  int const m_alpha;
-};
-
- 
-/** Process an image.
-
-    This wrapper is provided for convenience.
-
-    @ingroup vf_gui
-*/
-template <class Operation>
-void processImage (Image dest,
-                   Point <int> destTopLeft,
-                   Image source,
-                   Rectangle <int> sourceBounds,
-                   Operation op)
-{
-  jassert (source.getBounds ().contains (sourceBounds));
-
-  Rectangle <int> const bounds = sourceBounds.getIntersection (
-    dest.getBounds () + destTopLeft);
-
-  Pixels destPixels (dest, bounds);
-  Pixels sourcePixels (source, bounds);
-
-  destPixels.iterate (sourcePixels, op);
-}
-
-/** Generic blend mode application.
-*/
-#if 0
-template <class Functor>
-void applyBlendMode (BlendMode mode, Functor functor = Functor ())
-{
-  switch (mode)
-  {
-  case normal:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::normal> (colour, opacity)); break;
-  case lighten:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::lighten> (colour, opacity)); break;
-  case darken:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::darken> (colour, opacity)); break;
-  case multiply:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::multiply> (colour, opacity)); break;
-  case average:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::average> (colour, opacity)); break;
-  case add:         destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::add> (colour, opacity)); break;
-  case subtract:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::subtract> (colour, opacity)); break;
-  case difference:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::difference> (colour, opacity)); break;
-  case negation:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::negation> (colour, opacity)); break;
-  case screen:      destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::screen> (colour, opacity)); break;
-  case exclusion:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::exclusion> (colour, opacity)); break;
-  case overlay:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::overlay> (colour, opacity)); break;
-  case softLight:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::softLight> (colour, opacity)); break;
-  case hardLight:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::hardLight> (colour, opacity)); break;
-  case colorDodge:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::colorDodge> (colour, opacity)); break;
-  case colorBurn:   destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::colorBurn> (colour, opacity)); break;
-  case linearDodge: destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearDodge> (colour, opacity)); break;
-  case linearBurn:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearBurn> (colour, opacity)); break;
-  case linearLight: destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::linearLight> (colour, opacity)); break;
-  case vividLight:  destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::vividLight> (colour, opacity)); break;
-  case pinLight:    destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::pinLight> (colour, opacity)); break;
-  case hardMix:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::hardMix> (colour, opacity)); break;
-  case reflect:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::reflect> (colour, opacity)); break;
-  case glow:        destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::glow> (colour, opacity)); break;
-  case phoenix:     destPixels.iterate (maskPixels, Pixels::FillRGB_MaskOpacity <Pixels::Mode::phoenix> (colour, opacity)); break;
-  default:
-    jassertfalse;
-  };
-  break;
-}
-#endif
 
 #endif

@@ -30,40 +30,26 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_COPTIONSGENERALTAB_HEADER
+#define LAYEREFFECTS_COPTIONSGENERALTAB_HEADER
 
-class MainApp : public JUCEApplication
+/** General options.
+*/
+class COptionsGeneralTab : public COptionsTab
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  COptionsGeneralTab ();
+  ~COptionsGeneralTab ();
 
-public:
-  MainApp();
-  ~MainApp();
-
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
+  void buttonClicked (Button* button);
+  void sliderValueChanged (Slider* slider);
 
 private:
-  static MainApp* s_app;
+  Options::General m_options;
 
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  Slider* m_opacitySlider;
+  ToggleButton* m_groupButton;
+
 };
 
 #endif

@@ -30,40 +30,33 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CDROPSHADOWTAB_HEADER
+#define LAYEREFFECTS_CDROPSHADOWTAB_HEADER
 
-class MainApp : public JUCEApplication
+/** Drop Shadow options.
+*/
+class CDropShadowTab : public COptionsTab
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  CDropShadowTab ();
+  ~CDropShadowTab ();
 
-public:
-  MainApp();
-  ~MainApp();
-
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
+  void buttonClicked (Button* button);
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
 
 private:
-  static MainApp* s_app;
+  Options::DropShadow m_options;
 
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  ToggleButton* m_activeButton;
+  ComboBox* m_modeComboBox;
+  CSolidColourPicker* m_colourPicker;
+  Slider* m_opacitySlider;
+  Slider* m_angleSlider;
+  Slider* m_distanceSlider;
+  Slider* m_spreadSlider;
+  Slider* m_sizeSlider;
+  ToggleButton* m_knockoutButton;
 };
 
 #endif

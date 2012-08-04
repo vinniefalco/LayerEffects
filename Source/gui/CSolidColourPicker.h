@@ -30,16 +30,39 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINWINDOW_HEADER
-#define LAYEREFFECTS_MAINWINDOW_HEADER
+#ifndef LAYEREFFECTS_CSOLIDCOLOURPICKER_HEADER
+#define LAYEREFFECTS_CSOLIDCOLOURPICKER_HEADER
 
-class MainWindow : public DocumentWindow
+/** A control for selecting a solid colour.
+*/
+class CSolidColourPicker : public Component
 {
 public:
-  MainWindow ();
-  ~MainWindow ();
+  struct Listener
+  {
+    virtual void onSolidColourChanged (CSolidColourPicker* picker) { }
+  };
 
-  void closeButtonPressed ();
+  CSolidColourPicker ();
+  
+  ~CSolidColourPicker ();
+
+  void addListener (Listener* listener);
+
+  void removeListener (Listener* listener);
+
+  void setValue (Colour const& colour, bool sendChangeNotification = false);
+
+  Colour getValue () const;
+
+  void paint (Graphics& g);
+
+  void mouseDown (const MouseEvent& e);
+
+private:
+  ListenerList <Listener> m_listeners;
+
+  Colour m_colour;
 };
 
 #endif

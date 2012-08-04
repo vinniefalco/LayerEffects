@@ -35,10 +35,12 @@
 #ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable: 4100) // unreferenced formal parameter
+#pragma warning (disable: 4355) // 'this' used in base member intializer list
 #endif
 
 #include "modules/juce_core/juce_core.h"
 #include "modules/juce_gui_basics/juce_gui_basics.h"
+#include "modules/juce_gui_extra/juce_gui_extra.h"
 
 #include "modules/vf_core/vf_core.h"
 #include "modules/vf_gui/vf_gui.h"
@@ -46,27 +48,44 @@
 
 using namespace juce;
 
-#include "gui/CBlendModeResult.h"
-#include "gui/CImageSource.h"
+#include "gui/Controls.h"
+#include "gui/CustomLookAndFeel.h"
+#include "gui/Options.h"
+#include "gui/CSolidColourPicker.h"
 
-#include "gui/CBlendModeDemo.h"
-#include "gui/CTextDemo.h"
+#include "gui/CBackgroundPanel.h"
+#include "gui/CImageDropTarget.h"
+#include "gui/COptionsTab.h"
+#include "gui/CDropShadowTab.h"
+#include "gui/CGradientOverlayTab.h"
+#include "gui/COptionsFillTab.h"
+#include "gui/COptionsGeneralTab.h"
+#include "gui/COptionsPanel.h"
+#include "gui/CLayerGraphicsPreview.h"
+#include "gui/CMainPanel.h"
+#include "gui/CMainWindow.h"
 
-#include "gui/MainPanel.h"
-#include "gui/MainWindow.h"
 #include "gui/MainApp.h"
 
 //----------
 
-#include "gui/CBlendModeResult.cpp"
-#include "gui/CImageSource.cpp"
-
-#include "gui/CBlendModeDemo.cpp"
-#include "gui/CTextDemo.cpp"
-
+#include "gui/Controls.cpp"
+#include "gui/CustomLookAndFeel.cpp"
 #include "gui/MainApp.cpp"
-#include "gui/MainPanel.cpp"
-#include "gui/MainWindow.cpp"
+#include "gui/Options.cpp"
+#include "gui/CSolidColourPicker.cpp"
+
+#include "gui/CBackgroundPanel.cpp"
+#include "gui/CGradientOverlayTab.cpp"
+#include "gui/CImageDropTarget.cpp"
+#include "gui/CDropShadowTab.cpp"
+#include "gui/CLayerGraphicsPreview.cpp"
+#include "gui/CMainPanel.cpp"
+#include "gui/CMainWindow.cpp"
+#include "gui/COptionsFillTab.cpp"
+#include "gui/COptionsGeneralTab.cpp"
+#include "gui/COptionsPanel.cpp"
+#include "gui/COptionsTab.cpp"
 
 #ifdef _MSC_VER
 #pragma warning (pop)

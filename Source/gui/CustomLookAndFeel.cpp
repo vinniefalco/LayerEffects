@@ -30,23 +30,10 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINPANEL_HEADER
-#define LAYEREFFECTS_MAINPANEL_HEADER
-
-class MainPanel
-  : public Component
-  , public MenuBarModel
+LowLevelGraphicsContext* CustomLookAndFeel::createGraphicsContext (
+    const Image& imageToRenderOn,
+    const Point<int>& origin,
+    const RectangleList& initialClip)
 {
-public:
-  MainPanel ();
-  ~MainPanel ();
-
-  void resized ();
-
-  StringArray getMenuBarNames();
-  PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
-  void menuItemSelected (int menuItemID, int topLevelMenuIndex);
-};
-
-#endif
-
+  return new LowLevelGraphicsSoftwareRenderer (imageToRenderOn, origin, initialClip);
+}

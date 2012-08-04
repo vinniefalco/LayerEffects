@@ -30,47 +30,84 @@
 */
 //------------------------------------------------------------------------------
 
-CBlendModeDemo::CBlendModeDemo ()
+CSolidColourPicker::CSolidColourPicker ()
+  : m_colour (Colours::black)
 {
-  {
-    CBlendModeResult* c = new CBlendModeResult;
-    c->setBounds (4 + 256 + 4 + 256 + 4, 4, 256, 280);
-    addAndMakeVisible (c);
+}
+  
+CSolidColourPicker::~CSolidColourPicker ()
+{
+}
 
-    m_blendResult = c;
+void CSolidColourPicker::addListener (Listener* listener)
+{
+  m_listeners.add (listener);
+}
+
+void CSolidColourPicker::removeListener (Listener* listener)
+{
+  m_listeners.remove (listener);
+}
+
+void CSolidColourPicker::setValue (Colour const& colour, bool sendChangeNotification)
+{
+  if (m_colour != colour)
+  {
+    if (sendChangeNotification)
+    {
+      m_listeners.call (&Listener::onSolidColourChanged, this);
+    }
+  }
+}
+
+Colour CSolidColourPicker::getValue () const
+{
+  return m_colour;
+}
+
+void CSolidColourPicker::paint (Graphics& g)
+{
+  Rectangle <int> b (getLocalBounds ());
+
+  g.setColour (Colours::black);
+  g.drawRect (b);
+
+  g.setColour (Colours::white);
+  g.drawRect (b.reduced (1));
+
+  g.setColour (m_colour);
+  g.fillRect (b.reduced (2));
+}
+
+class ColourSelectorWindow
+  : public DocumentWindow
+{
+public:
+  ColourSelectorWindow ()
+    : DocumentWindow ("Select Colour", Colours::grey, DocumentWindow::closeButton, true)
+  {
+    ColourSelector* c = new ColourSelector (
+      ColourSelector::showColourAtTop | ColourSelector::showSliders | ColourSelector::showColourspace);
+
+    c->setSize (400, 300);
+
+    setContentOwned (c, true);
+
+    centreWithSize (getWidth(), getHeight());
+    setVisible (true);
   }
 
+  void closeButtonPressed ()
   {
-    CImageSource* c = new CImageSource (1);
-    c->setBounds (4, 4, 256, 280);
-    addAndMakeVisible (c);
-
-    c->selectImage (1);
+    exitModalState (0);
   }
+};
 
-  {
-    CImageSource* c = new CImageSource (2);
-    c->setBounds (4 + 256 + 4, 4, 256, 280);
-    addAndMakeVisible (c);
-
-    c->selectImage (2);
-  }
-
-  setSize (4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
-}
-
-CBlendModeDemo::~CBlendModeDemo()
+void CSolidColourPicker::mouseDown (const MouseEvent& e)
 {
-  m_blendResult = 0;
+  ColourSelectorWindow* w = new ColourSelectorWindow;
 
-  deleteAllChildren();
+  w->enterModalState (true, nullptr, true);
 }
 
-void CBlendModeDemo::onImageSourceSelect (int id, Image image)
-{
-  m_blendResult->setSourceImage (id - 1, image);
-}
 
-void CBlendModeDemo::paint (Graphics& g)
-{
-}

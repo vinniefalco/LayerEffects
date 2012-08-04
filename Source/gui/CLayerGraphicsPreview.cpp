@@ -30,55 +30,78 @@
 */
 //------------------------------------------------------------------------------
 
-MainPanel::MainPanel ()
+CLayerGraphicsPreview::CLayerGraphicsPreview ()
 {
-#if 0
-  CBlendModeDemo* c = new CBlendModeDemo;
-#else
-  CTextDemo* c = new CTextDemo;
-#endif
-  c->setBounds (0, 0, 4 + 256 + 4 + 256 + 4 + 256 + 4, 4 + 280 + 4);
-  addAndMakeVisible (c);
-
-  setSize (c->getBounds().getWidth (), c->getBounds().getHeight ());
 }
 
-MainPanel::~MainPanel()
+CLayerGraphicsPreview::~CLayerGraphicsPreview ()
 {
-  deleteAllChildren();
 }
 
-void MainPanel::resized ()
+void CLayerGraphicsPreview::setOptions (Options* newOptions, bool updateNow)
 {
-  getChildComponent (0)->setBounds (getLocalBounds ());
-}
+  m_newOptions = *newOptions;
 
-StringArray MainPanel::getMenuBarNames()
-{
-  StringArray names;
-  names.add (TRANS("File"));
-  return names;
-}
-
-PopupMenu MainPanel::getMenuForIndex (int topLevelMenuIndex, const String& menuName)
-{
-  PopupMenu menu;
-  ApplicationCommandManager* commandManager = MainApp::getInstance().getCommandManager();
-
-  switch (topLevelMenuIndex)
+  if (updateNow)
   {
-  case 0:
-    menu.addCommandItem (commandManager, StandardApplicationCommandIDs::quit);
-    break;
-
-  case 1:
-    menu.addCommandItem (commandManager, MainApp::cmdAbout);
-    break;
-  };
-
-  return menu;
+    m_options = m_newOptions;
+    repaint ();
+  }
+  else
+  {
+    startTimer (250);
+  }
 }
 
-void MainPanel::menuItemSelected (int menuItemID, int topLevelMenuIndex)
+void CLayerGraphicsPreview::paint (Graphics& g)
 {
+  paintBackground (g);
+
+  vf::LayerGraphics lc (g, getLocalBounds ());
+
+  lc.getOptions ().general = m_options.general;
+  lc.getOptions ().fill = m_options.fill;
+  lc.getOptions ().dropShadow = m_options.dropShadow;
+  lc.getOptions ().gradientOverlay = m_options.gradientOverlay;
+
+  paintForeground (lc);
 }
+
+void CLayerGraphicsPreview::paintBackground (Graphics& g)
+{
+#if 1
+  g.setGradientFill (ColourGradient (
+    Colours::black, 0.f, 0.f,
+    Colours::white, 0.f, float (getLocalBounds ().getHeight ()),
+    false));
+  g.fillRect (getLocalBounds ());
+#else
+  g.fillAll (Colours::white);
+#endif
+}
+
+void CLayerGraphicsPreview::paintForeground (Graphics& g)
+{
+  Rectangle <int> const b (getLocalBounds ());
+
+#if 1
+  g.setGradientFill (ColourGradient (
+    Colours::red, float (b.getX ()), float (b.getY ()),
+    Colours::yellow, float (b.getRight ()), float (b.getBottom ()),
+    false));
+#else
+  g.setColour (Colours::black);
+#endif
+  g.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
+  g.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
+}
+
+void CLayerGraphicsPreview::timerCallback ()
+{
+  stopTimer ();
+
+  m_options = m_newOptions;
+
+  repaint ();
+}
+

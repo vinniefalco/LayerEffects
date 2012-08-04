@@ -30,40 +30,47 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_COPTIONSTAB_HEADER
+#define LAYEREFFECTS_COPTIONSTAB_HEADER
 
-class MainApp : public JUCEApplication
+/** Common options tab functionality.
+*/
+class COptionsTab
+  : public Component
+  , public Button::Listener
+  , public ComboBox::Listener
+  , public Slider::Listener
+  , public CSolidColourPicker::Listener
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  explicit COptionsTab (String componentName);
+  
+  ~COptionsTab ();
+
+  void buttonClicked (Button* button);
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
+  void onSolidColourChanged (CSolidColourPicker* picker);
+
+protected:
+  ComboBox* createEmptyComboBox (String label);
+  ComboBox* createModeComboBox (String label, vf::BlendMode::Type mode);
+  Slider* createPercentSlider (String label, double opacity);
+  Slider* createIntegerSlider (String label, int startValue, int endValue, int initialValue);
+  ToggleButton* createToggleButton (String label, bool initialValue);
+  CSolidColourPicker* createColourPicker (String label, Colour colour);
+
+  static void addBlendModesToComboBox (ComboBox* comboBox);
 
 public:
-  MainApp();
-  ~MainApp();
+  static int getXStart ()             { return 4; }
+  static int getWidth ()              { return 232; }
+  static int getYGap ()               { return 4; }
+  static int getLabelHeight ()        { return 15; }
+  static int getSliderHeight ()       { return 24; }
+  static int getToggleButtonHeight () { return 20; }
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
-
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  Point <int> m_pos;
 };
 
 #endif

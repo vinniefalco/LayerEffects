@@ -129,25 +129,52 @@
     <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp"/>
     <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp"/>
     <ClCompile Include="..\..\VFLib\modules\vf_unfinished\vf_unfinished.cpp"/>
-    <ClCompile Include="..\..\Source\gui\CBlendModeDemo.cpp">
+    <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CBlendModeResult.cpp">
+    <ClCompile Include="..\..\Source\gui\CImageDropTarget.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CImageSource.cpp">
+    <ClCompile Include="..\..\Source\gui\CLayerGraphicsPreview.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CTextDemo.cpp">
+    <ClCompile Include="..\..\Source\gui\CMainPanel.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CMainWindow.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\Controls.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\COptionsFillTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\COptionsGeneralTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\COptionsPanel.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\COptionsTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CustomLookAndFeel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\MainPanel.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\MainWindow.cpp">
+    <ClCompile Include="..\..\Source\gui\Options.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\source.cpp"/>
@@ -159,15 +186,25 @@
     <ClCompile Include="..\..\JUCE\modules\juce_events\juce_events.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\juce_graphics.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp"/>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\gui\CBlendModeDemo.h"/>
-    <ClInclude Include="..\..\Source\gui\CBlendModeResult.h"/>
-    <ClInclude Include="..\..\Source\gui\CImageSource.h"/>
-    <ClInclude Include="..\..\Source\gui\CTextDemo.h"/>
+    <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h"/>
+    <ClInclude Include="..\..\Source\gui\CImageDropTarget.h"/>
+    <ClInclude Include="..\..\Source\gui\CLayerGraphicsPreview.h"/>
+    <ClInclude Include="..\..\Source\gui\CMainPanel.h"/>
+    <ClInclude Include="..\..\Source\gui\CMainWindow.h"/>
+    <ClInclude Include="..\..\Source\gui\Controls.h"/>
+    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h"/>
+    <ClInclude Include="..\..\Source\gui\COptionsFillTab.h"/>
+    <ClInclude Include="..\..\Source\gui\COptionsGeneralTab.h"/>
+    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h"/>
+    <ClInclude Include="..\..\Source\gui\COptionsPanel.h"/>
+    <ClInclude Include="..\..\Source\gui\COptionsTab.h"/>
+    <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h"/>
+    <ClInclude Include="..\..\Source\gui\CustomLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\gui\MainApp.h"/>
-    <ClInclude Include="..\..\Source\gui\MainPanel.h"/>
-    <ClInclude Include="..\..\Source\gui\MainWindow.h"/>
+    <ClInclude Include="..\..\Source\gui\Options.h"/>
     <ClInclude Include="..\Jucer\JuceLibraryCode\AppConfig.h"/>
     <ClInclude Include="..\Jucer\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>

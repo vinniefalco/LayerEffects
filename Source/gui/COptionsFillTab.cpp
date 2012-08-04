@@ -30,40 +30,33 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
-
-class MainApp : public JUCEApplication
+COptionsFillTab::COptionsFillTab () : COptionsTab ("Fill")
 {
-public:
-  enum CommandIDs
+  m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
+
+  m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
+}
+
+COptionsFillTab::~COptionsFillTab ()
+{
+}
+
+void COptionsFillTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+  if (comboBoxThatHasChanged == m_modeComboBox)
   {
-    cmdAbout                     = 0x2020
-  };
+    m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
 
-public:
-  MainApp();
-  ~MainApp();
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsFill, m_options);
+  }
+}
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
+void COptionsFillTab::sliderValueChanged (Slider* slider)
+{
+  if (slider == m_opacitySlider)
+  {
+    m_options.opacity = slider->getValue () / 100;
 
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
-
-private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
-};
-
-#endif
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsFill, m_options);
+  }
+}

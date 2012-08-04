@@ -51,7 +51,7 @@ void MainApp::initialise (const String& commandLine)
   m_commandManager = new ApplicationCommandManager;
   m_commandManager->registerAllCommandsForTarget (this);
 
-  m_mainWindow = new MainWindow;
+  m_mainWindow = new CMainWindow;
 }
 
 void MainApp::shutdown()

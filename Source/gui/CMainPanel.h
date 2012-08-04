@@ -30,40 +30,34 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_MAINAPP_HEADER
-#define LAYEREFFECTS_MAINAPP_HEADER
+#ifndef LAYEREFFECTS_CMAINPANEL_HEADER
+#define LAYEREFFECTS_CMAINPANEL_HEADER
 
-class MainApp : public JUCEApplication
+class CMainPanel
+  : public Component
+  , public MenuBarModel
+  , public vf::ResizableLayout
+  , public vf::TopLevelConstrainer
+  , public Options::Listener
 {
 public:
-  enum CommandIDs
-  {
-    cmdAbout                     = 0x2020
-  };
+  CMainPanel ();
+  ~CMainPanel ();
 
-public:
-  MainApp();
-  ~MainApp();
+  void paint (Graphics& g);
 
-  void initialise (const String& commandLine);
-  void shutdown ();
-  const String getApplicationName ();
-  const String getApplicationVersion ();
-  bool moreThanOneInstanceAllowed ();
+  void onOptionsGeneral (Options::General options);
+  void onOptionsFill (Options::Fill options);
+  void onOptionsDropShadow (Options::DropShadow options);
+  void onOptionsGradientOverlay (Options::GradientOverlay options);
 
-  void getAllCommands (Array <CommandID>& commands);
-  void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result);
-  bool perform (const InvocationInfo& info);
-
-  ApplicationCommandManager* getCommandManager() { return m_commandManager; }
-
-  static MainApp& getInstance() { return *s_app; }
+  StringArray getMenuBarNames();
+  PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
+  void menuItemSelected (int menuItemID, int topLevelMenuIndex);
 
 private:
-  static MainApp* s_app;
-
-  ScopedPointer <ApplicationCommandManager> m_commandManager;
-  ScopedPointer <CMainWindow> m_mainWindow;
+  Options m_options;
 };
 
 #endif
+

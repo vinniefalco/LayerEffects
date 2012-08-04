@@ -30,16 +30,41 @@
 */
 /*============================================================================*/
 
-#ifndef VF_LAYERCONTEXT_VFHEADER
-#define VF_LAYERCONTEXT_VFHEADER
+#ifndef VF_LAYERGRAPHICS_VFHEADER
+#define VF_LAYERGRAPHICS_VFHEADER
 
-/** Graphics context for a compositing layer.
+/** LayerGraphics Image container base.
 
-    This allows an Image to be composited into a BackgroundContext.
+    This holds the image and bounding rectangle used for a LayerGraphics
+    context, to resolve the order of construction issues.
+
+    @ingroup vf_gui
+
+    @internal
+*/
+class LayerGraphicsBase : vf::Uncopyable
+{
+protected:
+  LayerGraphicsBase (Graphics& g, Rectangle <int> const& fillBounds);
+
+protected:
+  Image m_base;
+  Image m_fill;
+  Image m_work;
+  Point <int> m_workOrigin;       // relative to m_base
+  Rectangle <int> m_fillBounds;   // relative to m_base
+  Point <int> m_fillOrigin;       // relative to m_fill
+};
+
+/** A @ref Graphics context for a compositing layer.
+
+    This allows you to apply layer styles to anything that can be drawn into
+    a @ref Graphics context. The @ref ComponentPeer must use the software
+    renderer.
 
     @ingroup vf_gui
 */
-class LayerContext : public ContextImageBase, public Graphics
+class LayerGraphics : public LayerGraphicsBase, public Graphics
 {
 public:
   struct Options
@@ -50,16 +75,12 @@ public:
     {
       General ()
         : opacity (1)
-        , red (true)
-        , green (true)
-        , blue (true)
+        , groupInteriorEffects (false)
       {
       }
 
       double    opacity;                // [0, 1] of fill
-      bool      red;                    // true to copy these channels
-      bool      green;
-      bool      blue;
+      bool      groupInteriorEffects;
     };
 
     //----
@@ -67,12 +88,12 @@ public:
     struct Fill
     {
       Fill ()
-        : mode (normal)
+        : mode (BlendMode::modeNormal)
         , opacity (1)
       {
       }
 
-      BlendMode mode;
+      BlendMode::Type mode;
       double opacity;                   // [0, 1] overall
     };
 
@@ -82,7 +103,7 @@ public:
     {
       DropShadow ()
         : active (false)
-        , mode (normal)
+        , mode (BlendMode::modeNormal)
         , opacity (1)
         , colour (Colours::black)
         , angle (0)
@@ -91,10 +112,11 @@ public:
         , size (1)
         , knockout (true)
       {
+        active = false;
       }
 
       bool      active;
-      BlendMode mode;
+      BlendMode::Type mode;
       double    opacity;
       Colour    colour;                 // can have alpha
       double    angle;                  // radians
@@ -110,7 +132,7 @@ public:
     {
       InnerShadow ()
         : active (false)
-        , mode (normal)
+        , mode (BlendMode::modeNormal)
         , colour (Colours::black)
         , angle (0)
         , distance (1)
@@ -120,7 +142,7 @@ public:
       }
 
       bool      active;
-      BlendMode mode;
+      BlendMode::Type mode;
       double    opacity;
       Colour    colour;                 // can have alpha
       double    angle;                  // radians
@@ -135,13 +157,20 @@ public:
     Fill          fill;
     DropShadow    dropShadow;
     InnerShadow   innerShadow;
+
+    GradientOverlayStyle::Options gradientOverlay;
   };
 
 public:
-  LayerContext (BackgroundContext& destinationContext,
-                Rectangle <int> const& drawBounds);
+  /** Create a layer graphics context.
 
-  ~LayerContext ();
+      @param fillBounds The smallest rectangle which encloses all pixels in
+                        the fill which are not fully transparent. The
+             coordinates are relative to the origin.
+  */
+  LayerGraphics (Graphics& g, Rectangle <int> const& fillBounds);
+
+  ~LayerGraphics ();
 
   Options& getOptions ();
 
@@ -150,12 +179,15 @@ private:
 
   void applyInnerShadow (Image& destImage);
 
-  void applyFill (Image& destImage);
+  void applyFill ();
 
   void applyEuclideanDistanceMap (Image& destImage);
 
+  Image calcDistanceMap (Image maskImage, int radius);
+
+  Image calcEmbossMap (Image sourceImage);
+
 private:
-  BackgroundContext& m_destinationContext;
   Options m_options;
 };
 

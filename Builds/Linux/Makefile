@@ -56,6 +56,7 @@ OBJECTS := \
   $(OBJDIR)/juce_events_7223972.o \
   $(OBJDIR)/juce_graphics_9f490fd6.o \
   $(OBJDIR)/juce_gui_basics_af749c52.o \
+  $(OBJDIR)/juce_gui_extra_1495ba5a.o \
 
 .PHONY: clean
 
@@ -135,6 +136,11 @@ $(OBJDIR)/juce_graphics_9f490fd6.o: ../../JUCE/modules/juce_graphics/juce_graphi
 $(OBJDIR)/juce_gui_basics_af749c52.o: ../../JUCE/modules/juce_gui_basics/juce_gui_basics.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_gui_basics.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/juce_gui_extra_1495ba5a.o: ../../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling juce_gui_extra.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

@@ -408,7 +408,19 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_taglib\vf_taglib.cpp" />
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -416,7 +428,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -467,6 +479,7 @@
     <ClInclude Include="..\..\modules\vf_core\containers\vf_List.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeQueue.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeStack.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_SharedTable.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_SortedLookupTable.h" />
     <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_CatchAny.h" />
     <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_Debug.h" />
@@ -568,8 +581,11 @@
     <ClInclude Include="..\..\modules\vf_sqlite\vf_sqlite.h" />
     <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />

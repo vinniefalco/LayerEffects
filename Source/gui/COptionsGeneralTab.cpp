@@ -30,41 +30,34 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CIMAGESOURCE_HEADER
-#define LAYEREFFECTS_CIMAGESOURCE_HEADER
-
-class CImageSource
-  : public Component
-  , private ComboBox::Listener
+COptionsGeneralTab::COptionsGeneralTab ()
+  : COptionsTab ("General")
 {
-public:
-  struct Listener
+  m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
+
+  m_groupButton = createToggleButton ("Group interior effects", m_options.groupInteriorEffects);
+}
+
+COptionsGeneralTab::~COptionsGeneralTab ()
+{
+}
+
+void COptionsGeneralTab::buttonClicked (Button* button)
+{
+  if (button == m_groupButton)
   {
-    virtual void onImageSourceSelect (int id, Image image) { }
-  };
+    m_options.groupInteriorEffects = m_groupButton->getToggleState ();
 
-public:
-  explicit CImageSource (int id);
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsGeneral, m_options);
+  }
+}
 
-  ~CImageSource ();
+void COptionsGeneralTab::sliderValueChanged (Slider* slider)
+{
+  if (slider == m_opacitySlider)
+  {
+    m_options.opacity = slider->getValue () / 100;
 
-  void selectImage (int imageIndex);
-
-  void resized ();
-
-  void paint (Graphics& g);
-
-private:
-  void buildImage ();
-
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
-
-private:
-  int const m_id;
-  int m_imageIndex;
-  Image m_image;
-  ScopedPointer <ComboBox> m_comboBox;
-};
-
-#endif
-
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsGeneral, m_options);
+  }
+}
