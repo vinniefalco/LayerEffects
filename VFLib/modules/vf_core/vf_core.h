@@ -427,6 +427,7 @@ using namespace juce;
 #include "containers/vf_List.h"
 #include "containers/vf_LockFreeStack.h"
 #include "containers/vf_LockFreeQueue.h"
+#include "containers/vf_SharedTable.h"
 #include "containers/vf_SortedLookupTable.h"
 
 #include "diagnostic/vf_CatchAny.h"
