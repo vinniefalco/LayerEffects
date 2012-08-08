@@ -30,57 +30,51 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_unfinished module.
+#ifndef VF_BEVELEMBOSSSTYLE_VFHEADER
+#define VF_BEVELEMBOSSSTYLE_VFHEADER
 
-    @file vf_unfinished.h
-    @ingroup vf_unfinished
+/** Provides the Bevel and Emboss layer style.
+
+    @ingroup vf_gui
 */
-
-#ifndef VF_UNFINISHED_VFHEADER
-#define VF_UNFINISHED_VFHEADER
-
-/*============================================================================*/
-/**
-  Work in progress.
-
-  This module contains unfinished code.
-
-  @defgroup vf_unfinished vf_unfinished
-*/
-
-#include "modules/juce_audio_basics/juce_audio_basics.h"
-#include "modules/juce_audio_devices/juce_audio_devices.h"
-#include "modules/juce_gui_basics/juce_gui_basics.h"
-
-#include "../vf_core/vf_core.h"
-#include "../vf_concurrent/vf_concurrent.h"
-#include "../vf_gui/vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
-#endif
-
-namespace vf
+struct BevelEmbossStyle
 {
+  enum Kind
+  {
+    kindOuterBevel = 1,
+    kindInnerBevel,
+    kindEmboss,
+    kindPillowEmboss,
+    kindStrokeEmboss
+  };
 
-#include "graphics/vf_BlendMode.h"
-#include "graphics/vf_BlendProc.h"
-#include "graphics/vf_Pixels.h"
-#include "graphics/vf_GradientColours.h"
-#include "graphics/vf_BevelEmbossStyle.h"
-#include "graphics/vf_GradientOverlayStyle.h"
-#include "graphics/vf_LayerGraphics.h"
-#include "graphics/vf_Vec3.h"
+  enum Technique
+  {
+    techniqueSmooth = 1,
+    techniqueChiselHard,
+    techinqueChiselSoft
+  };
 
-#include "midi/vf_MidiInput.h"
-#include "midi/vf_MidiDevices.h"
+  struct Options
+  {
+    Options ()
+      : active (false)
+    {
+    }
 
-}
+    bool            active;
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+    float           lightElevation; // radians
+    float           lightAngle;     // radians
+
+    BlendMode::Type hilightMode;
+    Colour          hilightColour;
+
+    BlendMode::Type shadowMode;
+    BlendMode::Type shadowColour;
+  };
+
+  static void render (Pixels destPixels, Pixels maskPixels, Options const& options);
+};
 
 #endif

@@ -408,6 +408,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_taglib\vf_taglib.cpp" />
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -581,12 +585,14 @@
     <ClInclude Include="..\..\modules\vf_sqlite\vf_sqlite.h" />
     <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Vec3.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />

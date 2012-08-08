@@ -158,7 +158,8 @@ public:
     DropShadow    dropShadow;
     InnerShadow   innerShadow;
 
-    GradientOverlayStyle::Options gradientOverlay;
+    BevelEmbossStyle::Options       bevelEmboss;
+    GradientOverlayStyle::Options   gradientOverlay;
   };
 
 public:

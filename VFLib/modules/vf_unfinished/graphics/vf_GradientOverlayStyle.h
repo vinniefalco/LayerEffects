@@ -37,9 +37,8 @@
 
     @ingroup vf_gui
 */
-class GradientOverlayStyle
+struct GradientOverlayStyle
 {
-public:
   enum Kind
   {
     kindLinear = 1,
@@ -79,7 +78,6 @@ public:
 
   static void render (Pixels destPixels, Options const& options);
 
-public:
   static inline float piFloat ()
   {
     return 3.14159265f;

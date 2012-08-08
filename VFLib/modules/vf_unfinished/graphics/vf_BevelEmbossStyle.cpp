@@ -30,57 +30,62 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_unfinished module.
+//------------------------------------------------------------------------------
 
-    @file vf_unfinished.h
-    @ingroup vf_unfinished
-*/
-
-#ifndef VF_UNFINISHED_VFHEADER
-#define VF_UNFINISHED_VFHEADER
-
-/*============================================================================*/
-/**
-  Work in progress.
-
-  This module contains unfinished code.
-
-  @defgroup vf_unfinished vf_unfinished
-*/
-
-#include "modules/juce_audio_basics/juce_audio_basics.h"
-#include "modules/juce_audio_devices/juce_audio_devices.h"
-#include "modules/juce_gui_basics/juce_gui_basics.h"
-
-#include "../vf_core/vf_core.h"
-#include "../vf_concurrent/vf_concurrent.h"
-#include "../vf_gui/vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
-#endif
-
-namespace vf
+void BevelEmbossStyle::render (
+  Pixels destPixels, Pixels maskPixels, BevelEmbossStyle::Options const& options)
 {
+#if 0
+  jassert (maskPixels.getBounds () == destPixels.getBounds ());
 
-#include "graphics/vf_BlendMode.h"
-#include "graphics/vf_BlendProc.h"
-#include "graphics/vf_Pixels.h"
-#include "graphics/vf_GradientColours.h"
-#include "graphics/vf_BevelEmbossStyle.h"
-#include "graphics/vf_GradientOverlayStyle.h"
-#include "graphics/vf_LayerGraphics.h"
-#include "graphics/vf_Vec3.h"
+  Vec3 <float> lightNormal (
+     cos (options.lightElevation) * cos (options.lightAngle),
+    -cos (options.lightElevation) * sin (options.lightAngle),
+     sin (options.lightElevation));
 
-#include "midi/vf_MidiInput.h"
-#include "midi/vf_MidiDevices.h"
+  Image hilightImage (
+    Image::SingleChannel,
+    destPixels.getCols (),
+    destPixels.getRows (),
+    true);
 
+  Image shadowImage (
+    Image::SingleChannel,
+    destPixels.getCols (),
+    destPixels.getRows (),
+    true);
+
+  Pixels hilitePixels (hilightImage);
+  Pixels shadowPixels (shadowImage);
+
+  for (int y = 1; y < dest.getRows ()-1; ++y)
+  {
+    for (int x = 1; x < dest.getCols ()-1; ++x)
+    {
+      uint8* ps = maskPixels.getPixelPointer (x, y);
+
+      Vec3 <float> n (
+        float (ps [-src.getColBytes ()] - ps [src.getColBytes ()]),
+        float (ps [-src.getRowBytes ()] - ps [src.getRowBytes ()]),
+        float (1));
+
+      float incidentLight = n.getDotProduct (lightNormal) / n.getNormal ();
+
+      if (incidentLight > 0)
+        *dest.getPixelPointer (x, y) = uint8 (255 * incidentLight);
+      //else
+      //  *dest.getPixelPointer (x, y) = uint8 (-255 * incidentLight);
+    }
+  }
+
+  copyImage (destImage,
+             Point <int> (0, 0),
+             sourceImage,
+             sourceImage.getBounds (),
+             BlendMode::modeDarken,
+             1);
+
+  return destImage;
+#endif
 }
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
-
-#endif

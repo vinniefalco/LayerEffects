@@ -49,6 +49,7 @@
 namespace vf
 {
 
+#include "graphics/vf_BevelEmbossStyle.cpp"
 #include "graphics/vf_BlendMode.cpp"
 #include "graphics/vf_BlendProc.cpp"
 #include "graphics/vf_GradientColours.cpp"
