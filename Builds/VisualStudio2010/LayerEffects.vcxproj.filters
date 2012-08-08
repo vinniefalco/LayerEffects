@@ -34,6 +34,15 @@
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CBevelEmbossTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CImageDropTarget.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -49,16 +58,10 @@
     <ClCompile Include="..\..\Source\gui\Controls.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsFillTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsGeneralTab.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsPanel.cpp">
@@ -114,6 +117,15 @@
     <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\CImageDropTarget.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
@@ -129,16 +141,10 @@
     <ClInclude Include="..\..\Source\gui\Controls.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsFillTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsGeneralTab.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsPanel.h">

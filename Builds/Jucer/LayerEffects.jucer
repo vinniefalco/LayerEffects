@@ -46,6 +46,18 @@
               file="../../Source/gui/CBackgroundPanel.cpp"/>
         <FILE id="R6GlV4" name="CBackgroundPanel.h" compile="0" resource="0"
               file="../../Source/gui/CBackgroundPanel.h"/>
+        <FILE id="D5vxbI" name="CBevelEmbossTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CBevelEmbossTab.cpp"/>
+        <FILE id="ZPpvL7" name="CBevelEmbossTab.h" compile="0" resource="0"
+              file="../../Source/gui/CBevelEmbossTab.h"/>
+        <FILE id="YamNmp" name="CDropShadowTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CDropShadowTab.cpp"/>
+        <FILE id="FLrlxU" name="CDropShadowTab.h" compile="0" resource="0"
+              file="../../Source/gui/CDropShadowTab.h"/>
+        <FILE id="OLTDv7" name="CGradientOverlayTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CGradientOverlayTab.cpp"/>
+        <FILE id="vNJIg6" name="CGradientOverlayTab.h" compile="0" resource="0"
+              file="../../Source/gui/CGradientOverlayTab.h"/>
         <FILE id="gyj2TP" name="CImageDropTarget.cpp" compile="0" resource="0"
               file="../../Source/gui/CImageDropTarget.cpp"/>
         <FILE id="P93slq" name="CImageDropTarget.h" compile="0" resource="0"
@@ -60,10 +72,6 @@
         <FILE id="mBvX9G" name="CMainWindow.h" compile="0" resource="0" file="../../Source/gui/CMainWindow.h"/>
         <FILE id="XjJHEC" name="Controls.cpp" compile="0" resource="0" file="../../Source/gui/Controls.cpp"/>
         <FILE id="AKKzE2" name="Controls.h" compile="0" resource="0" file="../../Source/gui/Controls.h"/>
-        <FILE id="YamNmp" name="CDropShadowTab.cpp" compile="0" resource="0"
-              file="../../Source/gui/CDropShadowTab.cpp"/>
-        <FILE id="FLrlxU" name="CDropShadowTab.h" compile="0" resource="0"
-              file="../../Source/gui/CDropShadowTab.h"/>
         <FILE id="M1eVOC" name="COptionsFillTab.cpp" compile="0" resource="0"
               file="../../Source/gui/COptionsFillTab.cpp"/>
         <FILE id="lNzKP7" name="COptionsFillTab.h" compile="0" resource="0"
@@ -72,10 +80,6 @@
               file="../../Source/gui/COptionsGeneralTab.cpp"/>
         <FILE id="e69g40" name="COptionsGeneralTab.h" compile="0" resource="0"
               file="../../Source/gui/COptionsGeneralTab.h"/>
-        <FILE id="OLTDv7" name="CGradientOverlayTab.cpp" compile="0" resource="0"
-              file="../../Source/gui/CGradientOverlayTab.cpp"/>
-        <FILE id="vNJIg6" name="CGradientOverlayTab.h" compile="0" resource="0"
-              file="../../Source/gui/CGradientOverlayTab.h"/>
         <FILE id="W0nlpb" name="COptionsPanel.cpp" compile="0" resource="0"
               file="../../Source/gui/COptionsPanel.cpp"/>
         <FILE id="kt6e4L" name="COptionsPanel.h" compile="0" resource="0" file="../../Source/gui/COptionsPanel.h"/>

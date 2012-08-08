@@ -132,6 +132,15 @@
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CBevelEmbossTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CImageDropTarget.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -147,16 +156,10 @@
     <ClCompile Include="..\..\Source\gui\Controls.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsFillTab.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsGeneralTab.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsPanel.cpp">
@@ -190,15 +193,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h"/>
+    <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h"/>
+    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h"/>
+    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h"/>
     <ClInclude Include="..\..\Source\gui\CImageDropTarget.h"/>
     <ClInclude Include="..\..\Source\gui\CLayerGraphicsPreview.h"/>
     <ClInclude Include="..\..\Source\gui\CMainPanel.h"/>
     <ClInclude Include="..\..\Source\gui\CMainWindow.h"/>
     <ClInclude Include="..\..\Source\gui\Controls.h"/>
-    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h"/>
     <ClInclude Include="..\..\Source\gui\COptionsFillTab.h"/>
     <ClInclude Include="..\..\Source\gui\COptionsGeneralTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h"/>
     <ClInclude Include="..\..\Source\gui\COptionsPanel.h"/>
     <ClInclude Include="..\..\Source\gui\COptionsTab.h"/>
     <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h"/>

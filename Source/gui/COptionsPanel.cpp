@@ -35,20 +35,20 @@ COptionsPanel::COptionsPanel ()
 {
   setSize (240, 360);
 
-  m_panels.add (new COptionsGeneralTab); // 1
-  m_panels.add (new COptionsFillTab);    // 2
-  m_panels.add (new CDropShadowTab);   // 3
-  m_panels.add (new CBackgroundPanel);   // 4
-  m_panels.add (new CBackgroundPanel);   // 5
-  m_panels.add (new CBackgroundPanel);   // 6
-  m_panels.add (new CBackgroundPanel);   // 7
-  m_panels.add (new CBackgroundPanel);   // 8
-  m_panels.add (new CBackgroundPanel);   // 9
-  m_panels.add (new CGradientOverlayTab);   // 10
-  m_panels.add (new CBackgroundPanel);   // 11
-  m_panels.add (new CBackgroundPanel);   // 12
-  m_panels.add (new CBackgroundPanel);   // 13
-  m_panels.add (new CBackgroundPanel);   // 14
+  m_panels.add (new COptionsGeneralTab);  // 1
+  m_panels.add (new COptionsFillTab);     // 2
+  m_panels.add (new CDropShadowTab);      // 3
+  m_panels.add (new CBackgroundPanel);    // 4
+  m_panels.add (new CBackgroundPanel);    // 5
+  m_panels.add (new CBackgroundPanel);    // 6
+  m_panels.add (new CBevelEmbossTab);     // 7
+  m_panels.add (new CBackgroundPanel);    // 8
+  m_panels.add (new CBackgroundPanel);    // 9
+  m_panels.add (new CGradientOverlayTab); // 10
+  m_panels.add (new CBackgroundPanel);    // 11
+  m_panels.add (new CBackgroundPanel);    // 12
+  m_panels.add (new CBackgroundPanel);    // 13
+  m_panels.add (new CBackgroundPanel);    // 14
 
   for (int i = 0; i < 14; ++i)
   {

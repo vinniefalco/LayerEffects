@@ -30,47 +30,35 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_COPTIONSTAB_HEADER
-#define LAYEREFFECTS_COPTIONSTAB_HEADER
+#ifndef LAYEREFFECTS_CBEVELEMBOSSTAB_HEADER
+#define LAYEREFFECTS_CBEVELEMBOSSTAB_HEADER
 
-/** Common options tab functionality.
+/** Bevel and emboss options.
 */
-class COptionsTab
-  : public Component
-  , public Button::Listener
-  , public ComboBox::Listener
-  , public Slider::Listener
-  , public CSolidColourPicker::Listener
+class CBevelEmbossTab : public COptionsTab
 {
 public:
-  explicit COptionsTab (String componentName);
-  
-  ~COptionsTab ();
+  CBevelEmbossTab ();
+  ~CBevelEmbossTab ();
 
   void buttonClicked (Button* button);
   void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
-  void onSolidColourChanged (CSolidColourPicker* picker);
 
-protected:
-  ComboBox* createEmptyComboBox (String label);
-  ComboBox* createModeComboBox (String label, vf::BlendMode::Type mode);
-  Slider* createPercentSlider (String label, double fraction, int maxPercent = 100);
-  Slider* createIntegerSlider (String label, int startValue, int endValue, int initialValue);
-  ToggleButton* createToggleButton (String label, bool initialValue);
-  CSolidColourPicker* createColourPicker (String label, Colour colour);
+private:
+  //Options::GradientOverlay m_options;
 
-  static void addBlendModesToComboBox (ComboBox* comboBox);
-
-public:
-  static int getXStart ()             { return 4; }
-  static int getWidth ()              { return 232; }
-  static int getYGap ()               { return 4; }
-  static int getLabelHeight ()        { return 15; }
-  static int getSliderHeight ()       { return 24; }
-  static int getToggleButtonHeight () { return 20; }
-
-  Point <int> m_pos;
+  ToggleButton* m_activeButton;
+  ComboBox* m_kindComboBox;
+  ComboBox* m_techniqueComboBox;
+  Slider* m_depthSlider;
+  ToggleButton* m_reverseButton;
+  Slider* m_sizeSlider;
+  Slider* m_softenSlider;
+  ComboBox* m_hiliteModeComboBox;
+  Slider* m_hiliteOpacitySlider;
+  ComboBox* m_shadowModeComboBox;
+  Slider* m_shadowOpacitySlider;
 };
 
 #endif

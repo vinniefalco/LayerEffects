@@ -124,7 +124,7 @@ ComboBox* COptionsTab::createModeComboBox (String label, vf::BlendMode::Type mod
   return result;
 }
 
-Slider* COptionsTab::createPercentSlider (String label, double opacity)
+Slider* COptionsTab::createPercentSlider (String label, double fraction, int maxPercent)
 {
   Slider* result;
 
@@ -146,7 +146,6 @@ Slider* COptionsTab::createPercentSlider (String label, double opacity)
 
   {
     Slider* c = new Slider (Slider::LinearHorizontal,  Slider::TextBoxRight);
-    c->setRange (0, 100, 1);
     c->setTextValueSuffix ("%");
     c->setBounds (
       getXStart (),
@@ -162,7 +161,8 @@ Slider* COptionsTab::createPercentSlider (String label, double opacity)
     result = c;
   }
 
-  result->setValue (opacity * 100);
+  result->setRange (0, maxPercent, 1);
+  result->setValue (fraction * 100);
 
   return result;
 }

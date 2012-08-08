@@ -56,6 +56,7 @@ using namespace juce;
 #include "gui/CBackgroundPanel.h"
 #include "gui/CImageDropTarget.h"
 #include "gui/COptionsTab.h"
+#include "gui/CBevelEmbossTab.h"
 #include "gui/CDropShadowTab.h"
 #include "gui/CGradientOverlayTab.h"
 #include "gui/COptionsFillTab.h"
@@ -76,6 +77,7 @@ using namespace juce;
 #include "gui/CSolidColourPicker.cpp"
 
 #include "gui/CBackgroundPanel.cpp"
+#include "gui/CBevelEmbossTab.cpp"
 #include "gui/CGradientOverlayTab.cpp"
 #include "gui/CImageDropTarget.cpp"
 #include "gui/CDropShadowTab.cpp"

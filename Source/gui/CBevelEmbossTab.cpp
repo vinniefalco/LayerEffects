@@ -30,47 +30,53 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_COPTIONSTAB_HEADER
-#define LAYEREFFECTS_COPTIONSTAB_HEADER
-
-/** Common options tab functionality.
-*/
-class COptionsTab
-  : public Component
-  , public Button::Listener
-  , public ComboBox::Listener
-  , public Slider::Listener
-  , public CSolidColourPicker::Listener
+CBevelEmbossTab::CBevelEmbossTab ()
+  : COptionsTab ("Drop Shadow")
 {
-public:
-  explicit COptionsTab (String componentName);
-  
-  ~COptionsTab ();
+  m_activeButton = createToggleButton ("Active", false);
 
-  void buttonClicked (Button* button);
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
-  void sliderValueChanged (Slider* slider);
-  void onSolidColourChanged (CSolidColourPicker* picker);
+  m_kindComboBox = createEmptyComboBox ("Kind");
+  m_kindComboBox->addItem ("Outer Bevel", 1);
+  m_kindComboBox->addItem ("Inner Bevel", 2);
+  m_kindComboBox->addItem ("Emboss", 3);
+  m_kindComboBox->addItem ("Pillow Emboss", 4);
+  m_kindComboBox->addItem ("Stroke Emboss", 5);
 
-protected:
-  ComboBox* createEmptyComboBox (String label);
-  ComboBox* createModeComboBox (String label, vf::BlendMode::Type mode);
-  Slider* createPercentSlider (String label, double fraction, int maxPercent = 100);
-  Slider* createIntegerSlider (String label, int startValue, int endValue, int initialValue);
-  ToggleButton* createToggleButton (String label, bool initialValue);
-  CSolidColourPicker* createColourPicker (String label, Colour colour);
+  m_techniqueComboBox = createEmptyComboBox ("How");
+  m_techniqueComboBox->addItem ("Smooth", 1);
+  m_techniqueComboBox->addItem ("Chisel Hard", 2);
+  m_techniqueComboBox->addItem ("Chisel Soft", 3);
 
-  static void addBlendModesToComboBox (ComboBox* comboBox);
+  m_depthSlider = createPercentSlider ("Depth", 100, 1000);
 
-public:
-  static int getXStart ()             { return 4; }
-  static int getWidth ()              { return 232; }
-  static int getYGap ()               { return 4; }
-  static int getLabelHeight ()        { return 15; }
-  static int getSliderHeight ()       { return 24; }
-  static int getToggleButtonHeight () { return 20; }
+  m_reverseButton = createToggleButton ("Reverse", false);
 
-  Point <int> m_pos;
-};
+  m_sizeSlider = createIntegerSlider ("Size", 0, 250, 0);
 
-#endif
+  m_softenSlider = createIntegerSlider ("Soften", 0, 16, 0);
+
+  m_hiliteModeComboBox = createModeComboBox ("Mode (H)", vf::BlendMode::modeNormal);
+
+  m_hiliteOpacitySlider = createPercentSlider ("Hilite", 1);
+
+  m_shadowModeComboBox = createModeComboBox ("Mode (S)", vf::BlendMode::modeNormal);
+
+  m_shadowOpacitySlider = createPercentSlider ("Shadow", 1);
+}
+
+CBevelEmbossTab::~CBevelEmbossTab ()
+{
+  deleteAllChildren ();
+}
+
+void CBevelEmbossTab::buttonClicked (Button* button)
+{
+}
+
+void CBevelEmbossTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+}
+
+void CBevelEmbossTab::sliderValueChanged (Slider* slider)
+{
+}
