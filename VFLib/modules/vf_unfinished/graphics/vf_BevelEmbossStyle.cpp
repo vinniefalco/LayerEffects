@@ -30,61 +30,6 @@
 */
 /*============================================================================*/
 
-//------------------------------------------------------------------------------
-#if 0
-Image LayerGraphics::calcEmbossMap (Image sourceImage)
-{
-  float lightElevation = 45;
-  float lightAngle = 135;
-
-  lightElevation = 3.14159265358979f * lightElevation / 180;
-  lightAngle = 3.14159265358979f * lightAngle / 180;
-
-  Vec3 <float> lightNormal (
-    cos (lightElevation) * cos (lightAngle),
-    -cos (lightElevation) * sin (lightAngle),
-    sin (lightElevation));
-
-  Image destImage (
-    Image::SingleChannel,
-    sourceImage.getWidth (),
-    sourceImage.getHeight (),
-    true);
-
-  Pixels src (sourceImage);
-  Pixels dest (destImage);
-
-  for (int y = 1; y < dest.getRows ()-1; ++y)
-  {
-    for (int x = 1; x < dest.getCols ()-1; ++x)
-    {
-      uint8* ps = src.getPixelPointer (x, y);
-
-      Vec3 <float> n (
-        float (ps [-src.getColBytes ()] - ps [src.getColBytes ()]),
-        float (ps [-src.getRowBytes ()] - ps [src.getRowBytes ()]),
-        float (1));
-
-      float incidentLight = n.getDotProduct (lightNormal) / n.getNormal ();
-
-      if (incidentLight > 0)
-        *dest.getPixelPointer (x, y) = uint8 (255 * incidentLight);
-      //else
-      //  *dest.getPixelPointer (x, y) = uint8 (-255 * incidentLight);
-    }
-  }
-
-  copyImage (destImage,
-             Point <int> (0, 0),
-             sourceImage,
-             sourceImage.getBounds (),
-             BlendMode::modeDarken,
-             1);
-
-  return destImage;
-}
-#endif
-
 void BevelEmbossStyle::render (
   Pixels destPixels, Pixels maskPixels, BevelEmbossStyle::Options const& options)
 {
@@ -93,7 +38,66 @@ void BevelEmbossStyle::render (
 
   // Calculate the distance transform on the mask.
   //
-  Image distImage = DistanceTransform::calculate (maskPixels, options.size + 1);
+  struct OutputDistance
+  {
+    OutputDistance (Pixels dest, int radius)
+      : m_dest (dest)
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
+    {
+    }
+
+    void operator () (int const x, int const y, double distance)
+    {
+      if (distance <= m_radiusSquared && distance > 0)
+      {
+        distance = sqrt (distance);
+
+        *m_dest.getPixelPointer (x, y) = uint8 (255 * distance / m_radius + 0.5);
+      }
+      else
+      {
+        *m_dest.getPixelPointer (x, y) = 0;
+      }
+    }
+
+  private:
+    Pixels m_dest;
+    int m_radius;
+    int m_radiusSquared;
+  };
+
+  Image distImage (Image::SingleChannel, maskPixels.getWidth (), maskPixels.getHeight (), false);
+  Pixels distPixels (distImage);
+  DistanceTransform::Meijster::calculate (distPixels, maskPixels);
+
+  switch (options.kind)
+  {
+  case kindOuterBevel:
+    DistanceTransform::Meijster::calculate (
+      OutputDistance (distPixels, options.size),
+      DistanceTransform::BlackTest (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+    break;
+
+  case kindInnerBevel:
+    DistanceTransform::Meijster::calculate (
+      OutputDistance (distPixels, options.size),
+      DistanceTransform::WhiteTest (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+    break;
+
+  case kindEmboss:
+  case kindPillowEmboss:
+  case kindStrokeEmboss:
+  default:
+    jassertfalse;
+    break;
+  }
 
   // Apply a softening to the transform.
   //
@@ -102,6 +106,7 @@ void BevelEmbossStyle::render (
     RadialImageConvolutionKernel k (options.soften + 1);
     k.createGaussianBlur ();
     distImage = k.createConvolvedImage (distImage);
+    distPixels = Pixels (distImage);
   }
 
   // Set up a few constants.
@@ -123,7 +128,6 @@ void BevelEmbossStyle::render (
     destPixels.getRows (),
     true);
 
-  Pixels distPixels (distImage);
   Pixels hiPixels (hiImage);
   Pixels loPixels (loImage);
 
@@ -166,7 +170,7 @@ void BevelEmbossStyle::render (
     BlendProc::RGB::Fill (options.shadowColour, options.shadowOpacity));
 
 #else
-  Pixels::Iterate2 (destPixels, loPixels) (BlendProc::RGB::CopyGray ());
+  Pixels::Iterate2 (destPixels, distPixels) (BlendProc::RGB::CopyGray ());
 
 #endif
 }

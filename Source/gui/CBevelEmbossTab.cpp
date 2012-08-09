@@ -39,8 +39,8 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_options.depth = 1.;
   m_options.size = 8;
   m_options.soften = 0;
-  m_options.lightAngle = 135 * 2 * 3.14159265358979 / 360;
-  m_options.lightElevation = 30 * 2 * 3.14159265358979 / 360;
+  m_options.lightAngle = vf::degreesToRadians <float> (135);
+  m_options.lightElevation = vf::degreesToRadians <float> (30);
   m_options.hilightMode = vf::BlendMode::modeScreen;
   m_options.hilightOpacity = .8f;
   m_options.hilightColour = Colours::white;
@@ -76,11 +76,11 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_elevationSlider = createIntegerSlider ("Elevation", 0, 90,
     vf::radiansToDegrees <int> (m_options.lightElevation));
 
-  m_hiliteModeComboBox = createModeComboBox ("Mode (H)", vf::BlendMode::modeNormal);
+  m_hiliteModeComboBox = createModeComboBox ("Mode (H)", m_options.hilightMode);
 
   m_hiliteOpacitySlider = createPercentSlider ("Hilite", 1);
 
-  m_shadowModeComboBox = createModeComboBox ("Mode (S)", vf::BlendMode::modeNormal);
+  m_shadowModeComboBox = createModeComboBox ("Mode (S)", m_options.shadowMode);
 
   m_shadowOpacitySlider = createPercentSlider ("Shadow", 1);
 }
@@ -102,7 +102,11 @@ void CBevelEmbossTab::buttonClicked (Button* button)
 
 void CBevelEmbossTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
-  if (comboBoxThatHasChanged == m_hiliteModeComboBox)
+  if (comboBoxThatHasChanged == m_kindComboBox)
+  {
+    m_options.kind = vf::BevelEmbossStyle::Kind (comboBoxThatHasChanged->getSelectedId ());
+  }
+  else if (comboBoxThatHasChanged == m_hiliteModeComboBox)
   {
     m_options.hilightMode = vf::BlendMode::Type (comboBoxThatHasChanged->getSelectedId ());
   }

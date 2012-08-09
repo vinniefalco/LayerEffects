@@ -18,7 +18,7 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"
+                       isDebug="0" optimisation="3" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"
                        wholeProgramOptimisation="1"/>
       </CONFIGURATIONS>
     </VS2010>
