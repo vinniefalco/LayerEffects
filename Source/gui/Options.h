@@ -40,19 +40,22 @@ struct Options
   typedef vf::LayerGraphics::Options::General General;
   typedef vf::LayerGraphics::Options::Fill Fill;
   typedef vf::LayerGraphics::Options::DropShadow DropShadow;
+  typedef vf::BevelEmbossStyle::Options BevelEmboss;
   typedef vf::GradientOverlayStyle::Options GradientOverlay;
 
   struct Listener
   {
-    virtual void onOptionsGeneral (General general) { }
-    virtual void onOptionsFill (Fill fill) { }
-    virtual void onOptionsDropShadow (DropShadow dropShadow) { }
+    virtual void onOptionsGeneral         (General general) { }
+    virtual void onOptionsFill            (Fill fill) { }
+    virtual void onOptionsDropShadow      (DropShadow dropShadow) { }
+    virtual void onOptionsBevelEmboss     (BevelEmboss bevelEmboss) { }
     virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
   };
 
-  General general;
-  Fill fill;
-  DropShadow dropShadow;
+  General         general;
+  Fill            fill;
+  DropShadow      dropShadow;
+  BevelEmboss     bevelEmboss;
   GradientOverlay gradientOverlay;
 };
 

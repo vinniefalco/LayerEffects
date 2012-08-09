@@ -49,6 +49,7 @@ public:
   void onOptionsGeneral (Options::General options);
   void onOptionsFill (Options::Fill options);
   void onOptionsDropShadow (Options::DropShadow options);
+  void onOptionsBevelEmboss  (Options::BevelEmboss options);
   void onOptionsGradientOverlay (Options::GradientOverlay options);
 
   StringArray getMenuBarNames();

@@ -46,15 +46,16 @@ public:
   void sliderValueChanged (Slider* slider);
 
 private:
-  //Options::GradientOverlay m_options;
+  Options::BevelEmboss m_options;
 
   ToggleButton* m_activeButton;
   ComboBox* m_kindComboBox;
   ComboBox* m_techniqueComboBox;
   Slider* m_depthSlider;
-  ToggleButton* m_reverseButton;
   Slider* m_sizeSlider;
   Slider* m_softenSlider;
+  Slider* m_angleSlider;
+  Slider* m_elevationSlider;
   ComboBox* m_hiliteModeComboBox;
   Slider* m_hiliteOpacitySlider;
   ComboBox* m_shadowModeComboBox;

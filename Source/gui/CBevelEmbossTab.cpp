@@ -33,7 +33,22 @@
 CBevelEmbossTab::CBevelEmbossTab ()
   : COptionsTab ("Drop Shadow")
 {
-  m_activeButton = createToggleButton ("Active", false);
+  m_options.active = false;
+  m_options.kind = vf::BevelEmbossStyle::kindOuterBevel;
+  m_options.technique = vf::BevelEmbossStyle::techniqueSmooth;
+  m_options.depth = 1.;
+  m_options.size = 8;
+  m_options.soften = 0;
+  m_options.lightAngle = 135 * 2 * 3.14159265358979 / 360;
+  m_options.lightElevation = 30 * 2 * 3.14159265358979 / 360;
+  m_options.hilightMode = vf::BlendMode::modeScreen;
+  m_options.hilightOpacity = .8f;
+  m_options.hilightColour = Colours::white;
+  m_options.shadowMode = vf::BlendMode::modeMultiply;
+  m_options.shadowOpacity = .8f;
+  m_options.shadowColour = Colours::black;
+
+  m_activeButton = createToggleButton ("Active", m_options.active);
 
   m_kindComboBox = createEmptyComboBox ("Kind");
   m_kindComboBox->addItem ("Outer Bevel", 1);
@@ -41,19 +56,25 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_kindComboBox->addItem ("Emboss", 3);
   m_kindComboBox->addItem ("Pillow Emboss", 4);
   m_kindComboBox->addItem ("Stroke Emboss", 5);
+  m_kindComboBox->setSelectedId (m_options.kind);
 
   m_techniqueComboBox = createEmptyComboBox ("How");
   m_techniqueComboBox->addItem ("Smooth", 1);
   m_techniqueComboBox->addItem ("Chisel Hard", 2);
   m_techniqueComboBox->addItem ("Chisel Soft", 3);
+  m_techniqueComboBox->setSelectedId (m_options.technique);
 
-  m_depthSlider = createPercentSlider ("Depth", 100, 1000);
+  m_depthSlider = createPercentSlider ("Depth", m_options.depth, 1000);
 
-  m_reverseButton = createToggleButton ("Reverse", false);
+  m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
 
-  m_sizeSlider = createIntegerSlider ("Size", 0, 250, 0);
+  m_softenSlider = createIntegerSlider ("Soften", 0, 16, m_options.soften);
 
-  m_softenSlider = createIntegerSlider ("Soften", 0, 16, 0);
+  m_angleSlider = createIntegerSlider ("Angle", 0, 359,
+    vf::radiansToDegrees <int> (m_options.lightAngle));
+
+  m_elevationSlider = createIntegerSlider ("Elevation", 0, 90,
+    vf::radiansToDegrees <int> (m_options.lightElevation));
 
   m_hiliteModeComboBox = createModeComboBox ("Mode (H)", vf::BlendMode::modeNormal);
 
@@ -71,12 +92,54 @@ CBevelEmbossTab::~CBevelEmbossTab ()
 
 void CBevelEmbossTab::buttonClicked (Button* button)
 {
+  if (button == m_activeButton)
+  {
+    m_options.active = button->getToggleState ();
+  }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsBevelEmboss, m_options);
 }
 
 void CBevelEmbossTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
+  if (comboBoxThatHasChanged == m_hiliteModeComboBox)
+  {
+    m_options.hilightMode = vf::BlendMode::Type (comboBoxThatHasChanged->getSelectedId ());
+  }
+  else if (comboBoxThatHasChanged == m_shadowModeComboBox)
+  {
+    m_options.shadowMode = vf::BlendMode::Type (comboBoxThatHasChanged->getSelectedId ());
+  }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsBevelEmboss, m_options);
 }
 
 void CBevelEmbossTab::sliderValueChanged (Slider* slider)
 {
+  if (slider == m_sizeSlider)
+  {
+    m_options.size = int (slider->getValue ());
+  }
+  else if (slider == m_softenSlider)
+  {
+    m_options.soften = int (slider->getValue ());
+  }
+  else if (slider == m_angleSlider)
+  {
+    m_options.lightAngle = vf::degreesToRadians <float> (slider->getValue ());
+  }
+  else if (slider == m_elevationSlider)
+  {
+    m_options.lightElevation = vf::degreesToRadians <float> (slider->getValue ());
+  }
+  else if (slider == m_hiliteOpacitySlider)
+  {
+    m_options.hilightOpacity = slider->getValue () / 100.;
+  }
+  else if (slider == m_shadowOpacitySlider)
+  {
+    m_options.shadowOpacity = slider->getValue () / 100.;
+  }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsBevelEmboss, m_options);
 }

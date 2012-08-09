@@ -152,8 +152,12 @@ public:
 
   /** Retrieve the width in pixels.
   */
-
   inline int getCols () const noexcept
+  {
+    return m_data->width;
+  }
+
+  inline int getWidth () const noexcept
   {
     return m_data->width;
   }
@@ -161,6 +165,11 @@ public:
   /** Retrieve the height in pixels.
   */
   inline int getRows () const noexcept
+  {
+    return m_data->height;
+  }
+
+  inline int getHeight () const noexcept
   {
     return m_data->height;
   }

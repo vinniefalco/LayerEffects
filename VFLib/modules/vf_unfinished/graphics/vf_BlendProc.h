@@ -121,6 +121,19 @@ namespace BlendProc
 
     //---
 
+    struct CopyGray
+    {
+      void operator () (uint8* dest, uint8 const* src) const
+      {
+        PixelRGB* d ((PixelRGB*)dest);
+        d->getRed ()   = *src;
+        d->getGreen () = *src;
+        d->getBlue ()  = *src;
+      }
+    };
+    
+    //---
+
     struct CopyARGB
     {
       explicit CopyARGB (double opacity)

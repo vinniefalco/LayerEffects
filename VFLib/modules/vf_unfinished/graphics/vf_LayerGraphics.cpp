@@ -30,17 +30,6 @@
 */
 /*============================================================================*/
 
-struct CopyGrayToRGB
-{
-  void operator () (uint8* dest, uint8 const* src) const
-  {
-    PixelRGB* d ((PixelRGB*)dest);
-    d->getRed () = *src;
-    d->getGreen () = *src;
-    d->getBlue () = *src;
-  }
-};
-
 //------------------------------------------------------------------------------
 
 LayerGraphicsBase::LayerGraphicsBase (
@@ -117,19 +106,26 @@ LayerGraphics::LayerGraphics (Graphics& g, Rectangle <int> const& fillBounds)
 
 LayerGraphics::~LayerGraphics ()
 {
+  // Convert from premultiplied to normal.
+  //
+  unPremultiplyImage (m_fill);
+
   // Extract the layer's RGB components as Image::RGB
+  //
   Image fillImage (ChannelImageType::fromImage (m_fill, -1));
 
   // Extract the layer's alpha mask as a single channel image.
+  //
   Image maskImage (ChannelImageType::fromImage (m_fill, PixelARGB::indexA));
 
-  // Obtain bitmap data for mask and fill
+  // Obtain bitmap data for mask and fill.
+  //
   Pixels fillPixels (m_fill);
-
-  unPremultiplyImage (m_fill);
+  Pixels maskPixels (maskImage);
+  Pixels workPixels (m_work);
 
   //
-  // Apply overlays to the fill image.
+  // Apply overlays to fill image, bottom up.
   //
 
   if (m_options.gradientOverlay.active)
@@ -137,32 +133,20 @@ LayerGraphics::~LayerGraphics ()
     GradientOverlayStyle::render (fillPixels, m_options.gradientOverlay);
   }
 
-  // Draw effects from the bottom up.
+  //applyInnerShadow (m_work);
 
-#if 1
+  //
+  // Apply effects to work image, bottom up.
+  //
+
   applyDropShadow (m_work);
 
   applyFill ();
 
-  //applyInnerShadow (m_work);
-
-  //applyEuclideanDistanceMap (m_work);
-#endif
-
-#if 0
-  Image distanceMap = calcDistanceMap (ChannelImageType::fromImage (m_fill, PixelARGB::indexA), 6);
-  RadialImageConvolutionKernel k (4);
-  k.createGaussianBlur ();
-  distanceMap = k.createConvolvedImage (distanceMap);
-  Image embossMap = calcEmbossMap (distanceMap);
-  fillImage (m_work,
-             Point <int> (0, 0),
-             embossMap,
-             embossMap.getBounds (),
-             normal,
-             1,
-             Colours::yellow);
-#endif
+  if (m_options.bevelEmboss.active)
+  {
+    BevelEmbossStyle::render (workPixels, maskPixels, m_options.bevelEmboss);
+  }
 
   // Copy the work image onto the background layer
   // using normal mode and the general opacity.
@@ -328,194 +312,3 @@ void LayerGraphics::applyFill ()
     m_options.fill.mode,
     m_options.fill.opacity);
 }
-
-//------------------------------------------------------------------------------
-
-/*
-float calcEuclideanDistance (Pixels const& mask, int x, int y, int radius)
-{
-  float dist = std::numeric_limits <float>::infinity ();
-
-  int const x0 = jmax (x - radius, 0);
-  int const x1 = jmin (x + radius, mask.width);
-  int const y0 = jmax (y - radius, 0);
-  int const y1 = jmin (y + radius, mask.height);
-
-  for (int py = y0; py < y1; ++py)
-  {
-    float const dy = float (y-py);
-    float const dys = dy * dy;
-
-    for (int px = x0; px < x1; ++px)
-    {
-      uint8 const m = *mask.getPixelPointer (px, py);
-
-      if (m != 0)
-      {
-        float const dx = float (x-px);
-        float d = dx * dx + dys;
-        if (d < dist)
-          dist = d;
-      }
-    }
-  }
-
-  dist = sqrt (dist) / float (radius + 1);
-
-  return dist;
-}
-
-void calcEuclideanDistanceMap (Image& destImage, Image const& maskImage, int radius)
-{
-  Pixels dest (destImage, destImage.getBounds ());
-  Pixels mask (maskImage, maskImage.getBounds ());
-
-  for (int y = 0; y < dest.height; ++y)
-  {
-    for (int x = 0; x < dest.width; ++x)
-    {
-      uint8 dist = static_cast <uint8> (
-        255 * (1 - calcEuclideanDistance (mask, x, y, radius)) + 0.5);
-
-      *dest.getPixelPointer (x, y) = dist;
-    }
-  }
-}
-
-void LayerGraphics::applyEuclideanDistanceMap (Image& workImage)
-{
-  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
-  Image map (Image::SingleChannel, workImage.getWidth (), workImage.getHeight (), true);
-
-  calcEuclideanDistanceMap (map, mask, 10);
-
-  Pixels p (workImage);
-  p.iterate (Pixels (mask), CopyGrayToRGB());
-}
-*/
-
-//------------------------------------------------------------------------------
-
-float calcDistancePixel (Pixels mask, int x, int y, int radius)
-{
-  float dist = float ((radius + 1) * (radius + 1));
-
-  int const x0 = jmax (x - radius, 0);
-  int const x1 = jmin (x + radius, mask.getCols ());
-  int const y0 = jmax (y - radius, 0);
-  int const y1 = jmin (y + radius, mask.getRows ());
-
-  if (*mask.getPixelPointer (x, y) > 127)
-  {
-    for (int py = y0; py < y1; ++py)
-    {
-      float const dy = float (y-py);
-      float const dys = dy * dy;
-
-      for (int px = x0; px < x1; ++px)
-      {
-        uint8 const m = *mask.getPixelPointer (px, py);
-
-        if (m < 127)
-        {
-          float const dx = float (x-px);
-          float d = dx * dx + dys;
-          if (d < dist)
-            dist = d;
-        }
-      }
-    }
-
-    dist = sqrt (dist) / float (radius + 1);
-
-    if (dist > 1)
-      dist = 1;
-  }
-  else
-  {
-    dist = 1;
-  }
-
-  return dist;
-}
-
-Image LayerGraphics::calcDistanceMap (Image maskImage, int radius)
-{
-  Image destImage (
-    Image::SingleChannel,
-    maskImage.getWidth (),
-    maskImage.getHeight (),
-    true);
-
-  Pixels dest (destImage, destImage.getBounds ());
-  Pixels mask (maskImage, maskImage.getBounds ());
-
-  for (int y = 0; y < dest.getRows (); ++y)
-  {
-    for (int x = 0; x < dest.getCols (); ++x)
-    {
-      float df = calcDistancePixel (mask, x, y, radius);
-      uint8 dist = static_cast <uint8> (255 * (1 - df) + 0.5);
-
-      *dest.getPixelPointer (x, y) = dist;
-    }
-  }
-
-  return destImage;
-}
-
-//------------------------------------------------------------------------------
-
-Image LayerGraphics::calcEmbossMap (Image sourceImage)
-{
-  float lightElevation = 45;
-  float lightAngle = 135;
-
-  lightElevation = 3.14159265358979f * lightElevation / 180;
-  lightAngle = 3.14159265358979f * lightAngle / 180;
-
-  Vec3 <float> lightNormal (
-    cos (lightElevation) * cos (lightAngle),
-    -cos (lightElevation) * sin (lightAngle),
-    sin (lightElevation));
-
-  Image destImage (
-    Image::SingleChannel,
-    sourceImage.getWidth (),
-    sourceImage.getHeight (),
-    true);
-
-  Pixels src (sourceImage);
-  Pixels dest (destImage);
-
-  for (int y = 1; y < dest.getRows ()-1; ++y)
-  {
-    for (int x = 1; x < dest.getCols ()-1; ++x)
-    {
-      uint8* ps = src.getPixelPointer (x, y);
-
-      Vec3 <float> n (
-        float (ps [-src.getColBytes ()] - ps [src.getColBytes ()]),
-        float (ps [-src.getRowBytes ()] - ps [src.getRowBytes ()]),
-        float (1));
-
-      float incidentLight = n.getDotProduct (lightNormal) / n.getNormal ();
-
-      if (incidentLight > 0)
-        *dest.getPixelPointer (x, y) = uint8 (255 * incidentLight);
-      //else
-      //  *dest.getPixelPointer (x, y) = uint8 (-255 * incidentLight);
-    }
-  }
-
-  copyImage (destImage,
-             Point <int> (0, 0),
-             sourceImage,
-             sourceImage.getBounds (),
-             BlendMode::modeDarken,
-             1);
-
-  return destImage;
-}
-
-//------------------------------------------------------------------------------

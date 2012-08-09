@@ -49,7 +49,7 @@ CMainPanel::CMainPanel ()
   addAndMakeVisible (c);
   addToLayout (c, anchorTopLeft, anchorBottomRight);
 
-  setMinimumSize (4+240+4+120+4, 4+360+4+120+4);
+  setMinimumSize (4+240+4+120+4, 120);
 
   m_options.dropShadow.size = 8;
   m_options.dropShadow.angle = 135;
@@ -83,6 +83,13 @@ void CMainPanel::onOptionsFill (Options::Fill options)
 void CMainPanel::onOptionsDropShadow (Options::DropShadow options)
 {
   m_options.dropShadow = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
+void CMainPanel::onOptionsBevelEmboss (Options::BevelEmboss options)
+{
+  m_options.bevelEmboss = options;
 
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }

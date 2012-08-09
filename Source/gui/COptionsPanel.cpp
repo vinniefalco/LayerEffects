@@ -33,7 +33,7 @@
 COptionsPanel::COptionsPanel ()
   : m_panel (nullptr)
 {
-  setSize (240, 360);
+  setSize (240, 560);
 
   m_panels.add (new COptionsGeneralTab);  // 1
   m_panels.add (new COptionsFillTab);     // 2
@@ -53,7 +53,7 @@ COptionsPanel::COptionsPanel ()
   for (int i = 0; i < 14; ++i)
   {
     Component* c = m_panels [i];
-    c->setBounds (0, 32, 240, 360-32);
+    c->setBounds (0, 32, 240, 560-32);
     addChildComponent (c);
   }
 

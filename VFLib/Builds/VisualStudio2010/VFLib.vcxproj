@@ -420,6 +420,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -588,6 +592,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />

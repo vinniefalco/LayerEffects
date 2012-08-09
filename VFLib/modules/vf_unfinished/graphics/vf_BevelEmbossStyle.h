@@ -64,14 +64,22 @@ struct BevelEmbossStyle
 
     bool            active;
 
-    float           lightElevation; // radians
+    Kind            kind;
+    Technique       technique;
+    double          depth;          // [0, 10], 1 = 100%
+    int             size;           // [0, 250]
+    int             soften;         // [0, 16]
+
     float           lightAngle;     // radians
+    float           lightElevation; // radians
 
     BlendMode::Type hilightMode;
+    double          hilightOpacity;
     Colour          hilightColour;
 
     BlendMode::Type shadowMode;
-    BlendMode::Type shadowColour;
+    double          shadowOpacity;
+    Colour          shadowColour;
   };
 
   static void render (Pixels destPixels, Pixels maskPixels, Options const& options);

@@ -182,12 +182,6 @@ private:
 
   void applyFill ();
 
-  void applyEuclideanDistanceMap (Image& destImage);
-
-  Image calcDistanceMap (Image maskImage, int radius);
-
-  Image calcEmbossMap (Image sourceImage);
-
 private:
   Options m_options;
 };

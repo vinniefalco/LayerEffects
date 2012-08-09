@@ -489,6 +489,9 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\vf_db\api\backend.h">
@@ -936,6 +939,9 @@
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Vec3.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
   </ItemGroup>
