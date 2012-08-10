@@ -9,11 +9,14 @@ namespace BinaryData
     extern const char*   AudioPluginXCodeScript_txt;
     const int            AudioPluginXCodeScript_txtSize = 2112;
 
-    extern const char*   brushed_aluminium_png;
-    const int            brushed_aluminium_pngSize = 14724;
+    extern const char*   background_tile_png;
+    const int            background_tile_pngSize = 151;
 
-    extern const char*   dark_scheme_xml;
-    const int            dark_scheme_xmlSize = 1052;
+    extern const char*   colourscheme_dark_xml;
+    const int            colourscheme_dark_xmlSize = 1050;
+
+    extern const char*   colourscheme_light_xml;
+    const int            colourscheme_light_xmlSize = 1050;
 
     extern const char*   jucer_AudioPluginEditorTemplate_cpp;
     const int            jucer_AudioPluginEditorTemplate_cppSize = 1008;

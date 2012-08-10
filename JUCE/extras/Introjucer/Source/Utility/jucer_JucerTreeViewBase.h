@@ -28,7 +28,7 @@
 
 #include "../jucer_Headers.h"
 class ProjectContentComponent;
-
+class Project;
 
 //==============================================================================
 class JucerTreeViewBase   : public TreeViewItem
@@ -109,8 +109,8 @@ private:
 class TreePanelBase   : public Component
 {
 public:
-    TreePanelBase (const String& opennessStateKey_)
-        : opennessStateKey (opennessStateKey_)
+    TreePanelBase (const Project* p, const String& treeviewID)
+        : project (p), opennessStateKey (treeviewID)
     {
         addAndMakeVisible (&tree);
         tree.setRootItemVisible (true);
@@ -125,39 +125,37 @@ public:
         tree.setRootItem (nullptr);
     }
 
-    void setRoot (JucerTreeViewBase* root)
-    {
-        rootItem = root;
-        tree.setRootItem (root);
-        tree.getRootItem()->setOpen (true);
-
-        const ScopedPointer<XmlElement> treeOpenness (getAppProperties().getXmlValue (opennessStateKey));
-        if (treeOpenness != nullptr)
-        {
-            tree.restoreOpennessState (*treeOpenness, true);
-
-            for (int i = tree.getNumSelectedItems(); --i >= 0;)
-            {
-                JucerTreeViewBase* item = dynamic_cast<JucerTreeViewBase*> (tree.getSelectedItem (i));
-
-                if (item != nullptr)
-                    item->cancelDelayedSelectionTimer();
-            }
-        }
-    }
-
-    void saveOpenness()
-    {
-        const ScopedPointer<XmlElement> opennessState (tree.getOpennessState (true));
-
-        if (opennessState != nullptr)
-            getAppProperties().setValue (opennessStateKey, opennessState);
-    }
+    void setRoot (JucerTreeViewBase* root);
+    void saveOpenness();
 
     void deleteSelectedItems()
     {
         if (rootItem != nullptr)
             rootItem->deleteAllSelectedItems();
+    }
+
+    void setEmptyTreeMessage (const String& newMessage)
+    {
+        if (emptyTreeMessage != newMessage)
+        {
+            emptyTreeMessage = newMessage;
+            repaint();
+        }
+    }
+
+    static void drawEmptyPanelMessage (Component& comp, Graphics& g, const String& message)
+    {
+        const int fontHeight = 13;
+        const Rectangle<int> area (comp.getLocalBounds());
+        g.setColour (comp.findColour (mainBackgroundColourId).contrasting (0.7f));
+        g.setFont ((float) fontHeight);
+        g.drawFittedText (message, area.reduced (4, 2), Justification::centred, area.getHeight() / fontHeight);
+    }
+
+    void paint (Graphics& g)
+    {
+        if (emptyTreeMessage.isNotEmpty() && (rootItem == nullptr || rootItem->getNumSubItems() == 0))
+            drawEmptyPanelMessage (*this, g, emptyTreeMessage);
     }
 
     void resized()
@@ -170,11 +168,12 @@ public:
         return Rectangle<int> (0, 2, getWidth() - 2, getHeight() - 2);
     }
 
+    const Project* project;
     TreeView tree;
     ScopedPointer<JucerTreeViewBase> rootItem;
 
 private:
-    String opennessStateKey;
+    String opennessStateKey, emptyTreeMessage;
 };
 
 //==============================================================================

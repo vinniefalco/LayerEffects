@@ -79,7 +79,7 @@ AppearanceSettings::AppearanceSettings (bool updateAppWhenChanged)
 
 File AppearanceSettings::getSchemesFolder()
 {
-    File f (getAppProperties().getFile().getSiblingFile ("Schemes"));
+    File f (getGlobalProperties().getFile().getSiblingFile ("Schemes"));
     f.createDirectory();
     return f;
 }
@@ -99,8 +99,8 @@ void AppearanceSettings::writeDefaultSchemeFile (const String& xmlString, const 
 
 void AppearanceSettings::refreshPresetSchemeList()
 {
-    writeDefaultSchemeFile (String::empty,               "Default (Light)");
-    writeDefaultSchemeFile (BinaryData::dark_scheme_xml, "Default (Dark)");
+    writeDefaultSchemeFile (BinaryData::colourscheme_dark_xml,  "Default (Dark)");
+    writeDefaultSchemeFile (BinaryData::colourscheme_light_xml, "Default (Light)");
 
     Array<File> newSchemes;
     getSchemesFolder().findChildFiles (newSchemes, File::findFiles, false, String ("*") + getSchemeFileSuffix());
@@ -637,6 +637,25 @@ void IntrojucerLookAndFeel::drawScrollbar (Graphics& g, ScrollBar& scrollbar, in
     g.strokePath (thumbPath, PathStrokeType (1.0f));
 }
 
+static Range<float> getBrightnessRange (const Image& im)
+{
+    float minB = 1.0f, maxB = 0;
+    const int w = im.getWidth();
+    const int h = im.getHeight();
+
+    for (int y = 0; y < h; ++y)
+    {
+        for (int x = 0; x < w; ++x)
+        {
+            const float b = im.getPixelAt (x, y).getBrightness();
+            minB = jmin (minB, b);
+            maxB = jmax (maxB, b);
+        }
+    }
+
+    return Range<float> (minB, maxB);
+}
+
 void IntrojucerLookAndFeel::fillWithBackgroundTexture (Graphics& g)
 {
     const Colour bkg (findColour (mainBackgroundColourId));
@@ -645,23 +664,52 @@ void IntrojucerLookAndFeel::fillWithBackgroundTexture (Graphics& g)
     {
         backgroundTextureBaseColour = bkg;
 
-        const Image original (ImageCache::getFromMemory (BinaryData::brushed_aluminium_png,
-                                                         BinaryData::brushed_aluminium_pngSize));
+        const Image original (ImageCache::getFromMemory (BinaryData::background_tile_png,
+                                                         BinaryData::background_tile_pngSize));
         const int w = original.getWidth();
         const int h = original.getHeight();
 
         backgroundTexture = Image (Image::RGB, w, h, false);
 
+        const Range<float> brightnessRange (getBrightnessRange (original));
+        const float brightnessOffset = (brightnessRange.getStart() + brightnessRange.getEnd()) / 2.0f;
+        const float brightnessScale = 0.025f / brightnessRange.getLength();
+        const float bkgB = bkg.getBrightness();
+
         for (int y = 0; y < h; ++y)
         {
             for (int x = 0; x < w; ++x)
             {
-                const float b = original.getPixelAt (x, y).getBrightness();
-                backgroundTexture.setPixelAt (x, y, bkg.withMultipliedBrightness (b + 0.4f));
+                const float b = (original.getPixelAt (x, y).getBrightness() - brightnessOffset) * brightnessScale;
+                backgroundTexture.setPixelAt (x, y, bkg.withBrightness (jlimit (0.0f, 1.0f, bkgB + b)));
             }
         }
     }
 
     g.setTiledImageFill (backgroundTexture, 0, 0, 1.0f);
     g.fillAll();
+}
+
+void IntrojucerLookAndFeel::fillWithBackgroundTexture (Component& c, Graphics& g)
+{
+    dynamic_cast<IntrojucerLookAndFeel&> (c.getLookAndFeel()).fillWithBackgroundTexture (g);
+}
+
+void IntrojucerLookAndFeel::drawConcertinaPanelHeader (Graphics& g, const Rectangle<int>& area,
+                                                       bool isMouseOver, bool isMouseDown,
+                                                       ConcertinaPanel& concertina, Component& panel)
+{
+    const Colour bkg (findColour (mainBackgroundColourId));
+
+    g.setGradientFill (ColourGradient (Colours::white.withAlpha (isMouseOver ? 0.4f : 0.2f), 0, area.getY(),
+                                       Colours::darkgrey.withAlpha (0.2f), 0, area.getBottom(), false));
+
+    g.fillAll();
+    g.setColour (bkg.contrasting().withAlpha (0.04f));
+    g.fillRect (area.withHeight (1));
+    g.fillRect (area.withTop (area.getBottom() - 1));
+
+    g.setColour (bkg.contrasting());
+    g.setFont (Font (area.getHeight() * 0.6f).boldened());
+    g.drawFittedText (panel.getName(), 4, 0, area.getWidth() - 6, area.getHeight(), Justification::centredLeft, 1);
 }
