@@ -78,6 +78,12 @@ public:
   */
   explicit ParallelFor (ThreadGroup& pool = *GlobalThreadGroup::getInstance ());
 
+  /** Determine the number of threads in the group.
+
+      @return The number of threads in the group.
+  */
+  int getNumberOfThreads () const;
+
   /** Execute parallel for loop.
 
       Functor is called once for each value in the range
@@ -102,35 +108,35 @@ public:
 
   template <class Fn, class T1>
   void loop (int n, Fn f, T1 t1)
-    { loopf (n, vf::bind (f, t1, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, vf::_1)); }
 
   template <class Fn, class T1, class T2>
   void loop (int n, Fn f, T1 t1, T2 t2)
-    { loopf (n, vf::bind (f, t1, t2, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3)
-    { loopf (n, vf::bind (f, t1, t2, t3, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3, class T4>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4)
-    { loopf (n, vf::bind (f, t1, t2, t3, t4, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, t4, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3, class T4, class T5>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)
-    { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)
-    { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7)
-    { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, vf::_1)); }
 
   template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
-    { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8, vf::_1)); }
+  { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8, vf::_1)); }
   /** @} */
 
 private:

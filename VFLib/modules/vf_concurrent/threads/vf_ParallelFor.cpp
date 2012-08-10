@@ -106,6 +106,11 @@ ParallelFor::ParallelFor (ThreadGroup& pool)
 {
 }
 
+int ParallelFor::getNumberOfThreads () const
+{
+  return m_pool.getNumberOfThreads ();
+}
+
 void ParallelFor::doLoop (int numberOfIterations, Iteration& iteration)
 {
   if (numberOfIterations > 1)
