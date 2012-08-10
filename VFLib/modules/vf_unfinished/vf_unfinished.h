@@ -73,7 +73,6 @@ namespace vf
 #include "graphics/vf_BevelEmbossStyle.h"
 #include "graphics/vf_GradientOverlayStyle.h"
 #include "graphics/vf_LayerGraphics.h"
-#include "graphics/vf_Vec3.h"
 
 #include "midi/vf_MidiInput.h"
 #include "midi/vf_MidiDevices.h"

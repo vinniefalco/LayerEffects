@@ -487,6 +487,7 @@
     <ClInclude Include="..\..\modules\vf_core\containers\vf_List.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeQueue.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeStack.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_Map2D.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_SharedTable.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_SortedLookupTable.h" />
     <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_CatchAny.h" />
@@ -503,6 +504,7 @@
     <ClInclude Include="..\..\modules\vf_core\math\vf_Interval.h" />
     <ClInclude Include="..\..\modules\vf_core\math\vf_Math.h" />
     <ClInclude Include="..\..\modules\vf_core\math\vf_MurmurHash.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicCounter.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicFlag.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicPointer.h" />
@@ -597,7 +599,6 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Vec3.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />

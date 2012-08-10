@@ -938,11 +938,14 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Vec3.h">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_Map2D.h">
+      <Filter>VF Modules\vf_core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h">
+      <Filter>VF Modules\vf_core\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

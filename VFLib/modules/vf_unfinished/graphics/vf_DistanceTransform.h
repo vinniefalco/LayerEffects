@@ -39,8 +39,6 @@
 */
 struct DistanceTransform
 {
-  static Image calculate (Pixels maskPixels, int radius);
-
   //----------------------------------------------------------------------------
 
   /** Mask inclusion test functor.
@@ -77,6 +75,8 @@ struct DistanceTransform
     Pixels m_src;
   };
 
+  /** Distance output to 8-bit unsigned.
+  */
   struct OutputDistance
   {
     explicit OutputDistance (Pixels dest) : m_dest (dest)
@@ -106,7 +106,7 @@ struct DistanceTransform
         return (x_i*x_i)+gi*gi;
       }
 
-      static inline int sep (int i, int u, int gi, int gu, int inf) noexcept
+      static inline int sep (int i, int u, int gi, int gu, int) noexcept
       {
         return (u*u - i*i + gu*gu - gi*gi) / (2*(u-i));
       }
@@ -130,10 +130,26 @@ struct DistanceTransform
       }
     };
 
+    struct ChessMetric
+    {
+      static inline int f (int x_i, int gi) noexcept
+      {
+        return jmax (abs (x_i), gi);
+      }
+
+      static inline int sep (int i, int u, int gi, int gu, int) noexcept
+      {
+        if (gi < gu)
+          return jmax (i+gu, (i+u)/2);
+        else
+          return jmin (u-gi, (i+u)/2);
+      }
+    };
+
     template <class Functor, class BoolImage, class Metric>
     static void calculate (Functor f, BoolImage test, int const m, int n, Metric metric)
     {
-      HeapBlock <int> g (m * n);
+      std::vector <int> g (m * n);
 
       int const inf = m + n;
 
@@ -163,8 +179,8 @@ struct DistanceTransform
 
       // phase 2
       {
-        HeapBlock <int> s (jmax (m, n));
-        HeapBlock <int> t (jmax (m, n));
+        std::vector <int> s (jmax (m, n));
+        std::vector <int> t (jmax (m, n));
 
         for (int y = 0; y < n; ++y)
         {

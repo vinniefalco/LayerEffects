@@ -427,6 +427,7 @@ using namespace juce;
 #include "containers/vf_List.h"
 #include "containers/vf_LockFreeStack.h"
 #include "containers/vf_LockFreeQueue.h"
+#include "containers/vf_Map2D.h"
 #include "containers/vf_SharedTable.h"
 #include "containers/vf_SortedLookupTable.h"
 
@@ -447,6 +448,7 @@ using namespace juce;
 #include "math/vf_Interval.h"
 #include "math/vf_Math.h"
 #include "math/vf_MurmurHash.h"
+#include "math/vf_Vec3.h"
 
 #include "memory/vf_AtomicCounter.h"
 #include "memory/vf_AtomicFlag.h"

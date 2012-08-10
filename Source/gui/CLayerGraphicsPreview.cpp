@@ -86,15 +86,30 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
   Rectangle <int> const b (getLocalBounds ());
 
 #if 1
+  // test
   g.setGradientFill (ColourGradient (
     Colours::red, float (b.getX ()), float (b.getY ()),
     Colours::yellow, float (b.getRight ()), float (b.getBottom ()),
     false));
-#else
-  g.setColour (Colours::black);
-#endif
+
   g.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
   g.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
+
+#elif 0
+  // dot
+  g.setColour (Colours::black);
+  g.fillRect (
+    getLocalBounds ().getCentreX (),
+    getLocalBounds ().getCentreY (),
+    1, 1);
+
+#else
+  // square
+  g.setColour (Colours::grey);
+  int const x = getLocalBounds ().getWidth () / 4;
+  int const y = getLocalBounds ().getHeight () / 4;
+  g.fillRect (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
+#endif
 }
 
 void CLayerGraphicsPreview::timerCallback ()

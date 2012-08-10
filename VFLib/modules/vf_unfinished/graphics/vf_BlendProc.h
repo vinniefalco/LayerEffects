@@ -41,6 +41,25 @@ namespace BlendProc
 {
   struct Gray
   {
+    template <class ModeType>
+    struct CopyMode
+    {
+      explicit CopyMode (ModeType mode = ModeType ())
+        : m_mode (mode)
+      {
+      }
+
+      inline void operator () (uint8* dest, uint8 const* src) noexcept
+      {
+        *dest = uint8 (m_mode (*src, *dest));
+      }
+
+    private:
+      ModeType m_mode;
+    };
+
+    //----------------------------------------------------------------------------
+
     struct Copy
     {
       Copy (double opacity)

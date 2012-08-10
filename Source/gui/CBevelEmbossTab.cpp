@@ -90,6 +90,7 @@ CBevelEmbossTab::~CBevelEmbossTab ()
   deleteAllChildren ();
 }
 
+
 void CBevelEmbossTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
@@ -105,6 +106,10 @@ void CBevelEmbossTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
   if (comboBoxThatHasChanged == m_kindComboBox)
   {
     m_options.kind = vf::BevelEmbossStyle::Kind (comboBoxThatHasChanged->getSelectedId ());
+  }
+  else if (comboBoxThatHasChanged == m_techniqueComboBox)
+  {
+    m_options.technique = vf::BevelEmbossStyle::Technique (comboBoxThatHasChanged->getSelectedId ());
   }
   else if (comboBoxThatHasChanged == m_hiliteModeComboBox)
   {
@@ -127,6 +132,10 @@ void CBevelEmbossTab::sliderValueChanged (Slider* slider)
   else if (slider == m_softenSlider)
   {
     m_options.soften = int (slider->getValue ());
+  }
+  else if (slider == m_depthSlider)
+  {
+    m_options.depth = slider->getValue () / 100;
   }
   else if (slider == m_angleSlider)
   {

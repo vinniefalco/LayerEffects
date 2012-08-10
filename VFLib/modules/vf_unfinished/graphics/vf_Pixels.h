@@ -203,6 +203,7 @@ public:
   }
 
 public:
+  class Map2D;
   class Iterate1;
   class Iterate2;
 
@@ -227,6 +228,34 @@ private:
 
   Data::Ptr m_data;
 };
+
+//------------------------------------------------------------------------------
+
+/** Present a Pixels object as a Map2D concept.
+*/
+class Pixels::Map2D
+{
+public:
+  typedef uint8 Type;
+  explicit Map2D (Pixels src) : m_src (src) { }
+  inline int getRows () const noexcept { return m_src.getRows (); }
+  inline int getCols () const noexcept { return m_src.getCols (); }
+  
+  inline Type& get (int x, int y) const noexcept
+  {
+    return *m_src.getPixelPointer (x, y);
+  }
+
+  inline Type& operator() (int x, int y) const noexcept
+  {
+    return get (x, y);
+  }
+
+private:
+  Pixels m_src;
+};
+
+//------------------------------------------------------------------------------
 
 /** Functor to apply a functor to one Pixels map.
 
@@ -269,6 +298,8 @@ public:
 private:
   Pixels m_map;
 };
+
+//------------------------------------------------------------------------------
 
 /** Functor to apply a functor to two Pixels maps.
 
@@ -319,6 +350,8 @@ private:
   Pixels m_map1;
   Pixels m_map2;
 };
+
+//------------------------------------------------------------------------------
 
 /** Fill an image with colour.
 */

@@ -41,7 +41,7 @@ CDropShadowTab::CDropShadowTab ()
 
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
 
-  m_angleSlider = createIntegerSlider ("Angle", 0, 359, m_options.angle);
+  m_angleSlider = createIntegerSlider ("Angle", 0, 359, int (m_options.angle));
 
   m_distanceSlider = createIntegerSlider ("Distance", 0, 1000, m_options.distance);
 

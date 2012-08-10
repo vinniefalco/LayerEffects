@@ -75,6 +75,16 @@ COptionsPanel::COptionsPanel ()
     c->addItem ("Background", 13);
     c->addItem ("Foreground", 14);
 
+    c->setItemEnabled (4, false);
+    c->setItemEnabled (5, false);
+    c->setItemEnabled (6, false);
+    c->setItemEnabled (8, false);
+    c->setItemEnabled (9, false);
+    c->setItemEnabled (11, false);
+    c->setItemEnabled (12, false);
+    c->setItemEnabled (13, false);
+    c->setItemEnabled (14, false);
+
     c->setBounds (4, 4, 232, 20);
     addAndMakeVisible (c);
 
