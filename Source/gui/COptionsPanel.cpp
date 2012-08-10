@@ -46,7 +46,7 @@ COptionsPanel::COptionsPanel ()
   m_panels.add (new CBackgroundPanel);    // 9
   m_panels.add (new CGradientOverlayTab); // 10
   m_panels.add (new CBackgroundPanel);    // 11
-  m_panels.add (new CBackgroundPanel);    // 12
+  m_panels.add (new CStrokeTab);          // 12
   m_panels.add (new CBackgroundPanel);    // 13
   m_panels.add (new CBackgroundPanel);    // 14
 
@@ -81,7 +81,6 @@ COptionsPanel::COptionsPanel ()
     c->setItemEnabled (8, false);
     c->setItemEnabled (9, false);
     c->setItemEnabled (11, false);
-    c->setItemEnabled (12, false);
     c->setItemEnabled (13, false);
     c->setItemEnabled (14, false);
 

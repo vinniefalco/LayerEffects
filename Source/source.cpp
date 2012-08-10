@@ -65,6 +65,7 @@ using namespace juce;
 #include "gui/CLayerGraphicsPreview.h"
 #include "gui/CMainPanel.h"
 #include "gui/CMainWindow.h"
+#include "gui/CStrokeTab.h"
 
 #include "gui/MainApp.h"
 
@@ -88,6 +89,7 @@ using namespace juce;
 #include "gui/COptionsGeneralTab.cpp"
 #include "gui/COptionsPanel.cpp"
 #include "gui/COptionsTab.cpp"
+#include "gui/CStrokeTab.cpp"
 
 #ifdef _MSC_VER
 #pragma warning (pop)

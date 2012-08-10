@@ -64,6 +64,7 @@ void CLayerGraphicsPreview::paint (Graphics& g)
   lc.getOptions ().dropShadow = m_options.dropShadow;
   lc.getOptions ().bevelEmboss = m_options.bevelEmboss;
   lc.getOptions ().gradientOverlay = m_options.gradientOverlay;
+  lc.getOptions ().stroke = m_options.stroke;
 
   paintForeground (lc);
 }

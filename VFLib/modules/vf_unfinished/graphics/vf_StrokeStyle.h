@@ -30,40 +30,39 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_unfinished module.
+#ifndef VF_STROKESTYLE_VFHEADER
+#define VF_STROKESTYLE_VFHEADER
 
-    @file vf_unfinished.cpp
-    @ingroup vf_unfinished
+/** Provides the Stroke layer style.
+
+    @ingroup vf_gui
 */
-
-#include "AppConfig.h"
-
-#include "vf_unfinished.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-//#pragma warning (disable: 4100) // unreferenced formal parmaeter
-//#pragma warning (disable: 4355) // 'this' used in base member
-#endif
-
-namespace vf
+struct StrokeStyle
 {
+  enum Pos
+  {
+    posOuter = 1,
+    posInner,
+    posCentre
+  };
 
-#include "graphics/vf_BevelEmbossStyle.cpp"
-#include "graphics/vf_BlendMode.cpp"
-#include "graphics/vf_BlendProc.cpp"
-#include "graphics/vf_DistanceTransform.cpp"
-#include "graphics/vf_GradientColours.cpp"
-#include "graphics/vf_GradientOverlayStyle.cpp"
-#include "graphics/vf_StrokeStyle.cpp"
-#include "graphics/vf_LayerGraphics.cpp"
-#include "graphics/vf_Pixels.cpp"
+  struct Options
+  {
+    Options ()
+      : active (false)
+    {
+    }
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
+    bool            active;
 
-}
+    Pos             pos;
+    int             size;           // [0, 250]
+    BlendMode::Type mode;
+    double          opacity;
+    Colour          colour;
+  };
 
-#if JUCE_MSVC
-#pragma warning (pop)
+  static void render (Pixels destPixels, Pixels maskPixels, Options const& options);
+};
+
 #endif

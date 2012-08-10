@@ -30,36 +30,30 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_OPTIONS_HEADER
-#define LAYEREFFECTS_OPTIONS_HEADER
+#ifndef LAYEREFFECTS_CSTROKETAB_HEADER
+#define LAYEREFFECTS_CSTROKETAB_HEADER
 
-/** Holds the options for layer graphics.
+/** Stroke options.
 */
-struct Options
+class CStrokeTab : public COptionsTab
 {
-  typedef vf::LayerGraphics::Options::General General;
-  typedef vf::LayerGraphics::Options::Fill Fill;
-  typedef vf::LayerGraphics::Options::DropShadow DropShadow;
-  typedef vf::BevelEmbossStyle::Options BevelEmboss;
-  typedef vf::GradientOverlayStyle::Options GradientOverlay;
-  typedef vf::StrokeStyle::Options Stroke;
+public:
+  CStrokeTab ();
+  ~CStrokeTab ();
 
-  struct Listener
-  {
-    virtual void onOptionsGeneral         (General general) { }
-    virtual void onOptionsFill            (Fill fill) { }
-    virtual void onOptionsDropShadow      (DropShadow dropShadow) { }
-    virtual void onOptionsBevelEmboss     (BevelEmboss bevelEmboss) { }
-    virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
-    virtual void onOptionsStroke          (Stroke gradientOverlay) { }
-  };
+  void buttonClicked (Button* button);
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
 
-  General         general;
-  Fill            fill;
-  DropShadow      dropShadow;
-  BevelEmboss     bevelEmboss;
-  GradientOverlay gradientOverlay;
-  Stroke          stroke;
+private:
+  Options::Stroke m_options;
+
+  ToggleButton* m_activeButton;
+  ComboBox* m_posComboBox;
+  Slider* m_sizeSlider;
+  ComboBox* m_modeComboBox;
+  Slider* m_opacitySlider;
+  // Colour
 };
 
 #endif

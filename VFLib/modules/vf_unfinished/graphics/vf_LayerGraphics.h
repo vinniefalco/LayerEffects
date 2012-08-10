@@ -160,6 +160,7 @@ public:
 
     BevelEmbossStyle::Options       bevelEmboss;
     GradientOverlayStyle::Options   gradientOverlay;
+    StrokeStyle::Options            stroke;
   };
 
 public:

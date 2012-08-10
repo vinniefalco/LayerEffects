@@ -148,6 +148,11 @@ LayerGraphics::~LayerGraphics ()
     BevelEmbossStyle::render (workPixels, maskPixels, m_options.bevelEmboss);
   }
 
+  if (m_options.stroke.active)
+  {
+    StrokeStyle::render (workPixels, maskPixels, m_options.stroke);
+  }
+
   // Copy the work image onto the background layer
   // using normal mode and the general opacity.
   copyImage (

@@ -89,6 +89,8 @@
               file="../../Source/gui/CSolidColourPicker.cpp"/>
         <FILE id="APthKO" name="CSolidColourPicker.h" compile="0" resource="0"
               file="../../Source/gui/CSolidColourPicker.h"/>
+        <FILE id="dQoURT" name="CStrokeTab.cpp" compile="0" resource="0" file="../../Source/gui/CStrokeTab.cpp"/>
+        <FILE id="SUY8za" name="CStrokeTab.h" compile="0" resource="0" file="../../Source/gui/CStrokeTab.h"/>
         <FILE id="WWSyE0" name="CustomLookAndFeel.cpp" compile="0" resource="0"
               file="../../Source/gui/CustomLookAndFeel.cpp"/>
         <FILE id="q5gfN0" name="CustomLookAndFeel.h" compile="0" resource="0"

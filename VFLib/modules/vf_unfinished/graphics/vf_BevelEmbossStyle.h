@@ -52,7 +52,7 @@ struct BevelEmbossStyle
   {
     techniqueSmooth = 1,
     techniqueChiselHard,
-    techinqueChiselSoft
+    techniqueChiselSoft
   };
 
   struct Options

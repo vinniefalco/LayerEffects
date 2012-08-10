@@ -51,17 +51,17 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_activeButton = createToggleButton ("Active", m_options.active);
 
   m_kindComboBox = createEmptyComboBox ("Kind");
-  m_kindComboBox->addItem ("Outer Bevel", 1);
-  m_kindComboBox->addItem ("Inner Bevel", 2);
-  m_kindComboBox->addItem ("Emboss", 3);
-  m_kindComboBox->addItem ("Pillow Emboss", 4);
-  m_kindComboBox->addItem ("Stroke Emboss", 5);
+  m_kindComboBox->addItem ("Outer Bevel",   vf::BevelEmbossStyle::kindOuterBevel);
+  m_kindComboBox->addItem ("Inner Bevel",   vf::BevelEmbossStyle::kindInnerBevel);
+  m_kindComboBox->addItem ("Emboss",        vf::BevelEmbossStyle::kindEmboss);
+  m_kindComboBox->addItem ("Pillow Emboss", vf::BevelEmbossStyle::kindPillowEmboss);
+  m_kindComboBox->addItem ("Stroke Emboss", vf::BevelEmbossStyle::kindStrokeEmboss);
   m_kindComboBox->setSelectedId (m_options.kind);
 
   m_techniqueComboBox = createEmptyComboBox ("How");
-  m_techniqueComboBox->addItem ("Smooth", 1);
-  m_techniqueComboBox->addItem ("Chisel Hard", 2);
-  m_techniqueComboBox->addItem ("Chisel Soft", 3);
+  m_techniqueComboBox->addItem ("Smooth",       vf::BevelEmbossStyle::techniqueSmooth);
+  m_techniqueComboBox->addItem ("Chisel Hard",  vf::BevelEmbossStyle::techniqueChiselSoft);
+  m_techniqueComboBox->addItem ("Chisel Soft",  vf::BevelEmbossStyle::techniqueChiselHard);
   m_techniqueComboBox->setSelectedId (m_options.technique);
 
   m_depthSlider = createPercentSlider ("Depth", m_options.depth, 1000);
@@ -78,11 +78,11 @@ CBevelEmbossTab::CBevelEmbossTab ()
 
   m_hiliteModeComboBox = createModeComboBox ("Mode (H)", m_options.hilightMode);
 
-  m_hiliteOpacitySlider = createPercentSlider ("Hilite", 1);
+  m_hiliteOpacitySlider = createPercentSlider ("Hilite", m_options.hilightOpacity);
 
   m_shadowModeComboBox = createModeComboBox ("Mode (S)", m_options.shadowMode);
 
-  m_shadowOpacitySlider = createPercentSlider ("Shadow", 1);
+  m_shadowOpacitySlider = createPercentSlider ("Shadow", m_options.shadowOpacity);
 }
 
 CBevelEmbossTab::~CBevelEmbossTab ()

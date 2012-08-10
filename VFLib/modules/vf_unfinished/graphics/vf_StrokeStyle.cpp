@@ -30,40 +30,52 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_unfinished module.
-
-    @file vf_unfinished.cpp
-    @ingroup vf_unfinished
-*/
-
-#include "AppConfig.h"
-
-#include "vf_unfinished.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-//#pragma warning (disable: 4100) // unreferenced formal parmaeter
-//#pragma warning (disable: 4355) // 'this' used in base member
-#endif
-
-namespace vf
+struct RenderStroke
 {
+  RenderStroke (Pixels::Map2D dest, Colour colour, int radius)
+    : m_dest (dest)
+    , m_src (colour.getPixelARGB ())
+    , m_radius (radius)
+    , m_radiusSquared (radius * radius)
+    , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
+  {
+  }
 
-#include "graphics/vf_BevelEmbossStyle.cpp"
-#include "graphics/vf_BlendMode.cpp"
-#include "graphics/vf_BlendProc.cpp"
-#include "graphics/vf_DistanceTransform.cpp"
-#include "graphics/vf_GradientColours.cpp"
-#include "graphics/vf_GradientOverlayStyle.cpp"
-#include "graphics/vf_StrokeStyle.cpp"
-#include "graphics/vf_LayerGraphics.cpp"
-#include "graphics/vf_Pixels.cpp"
+  void operator() (int x, int y, double distance)
+  {
+    PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
+    if (distance > 0)
+    {
+      if (distance <= m_radiusMinusOneSquared)
+      {
+        dest.blend (m_src);
+      }
+      else if (distance < m_radiusSquared)
+      {
+        distance = sqrt (distance) - (m_radius - 1);
+        uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
 
+        dest.blend (m_src, alpha);
+      }
+    }
+  }
+
+private:
+  Pixels::Map2D m_dest;
+  PixelARGB m_src;
+  int m_radius;
+  int m_radiusSquared;
+  int m_radiusMinusOneSquared;
+};
+
+void StrokeStyle::render (
+  Pixels destPixels, Pixels maskPixels, Options const& options)
+{
+  DistanceTransform::WangTan::calculate (
+    RenderStroke (Pixels::Map2D (destPixels), options.colour, options.size),
+    DistanceTransform::AlphaTest (maskPixels),
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    DistanceTransform::Meijster::EuclideanMetric ());
 }
-
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif

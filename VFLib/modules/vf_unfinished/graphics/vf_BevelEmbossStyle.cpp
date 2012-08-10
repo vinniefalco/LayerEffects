@@ -31,7 +31,7 @@
 /*============================================================================*/
 
 void BevelEmbossStyle::render (
-  Pixels destPixels, Pixels maskPixels, BevelEmbossStyle::Options const& options)
+  Pixels destPixels, Pixels maskPixels, Options const& options)
 {
   jassert (destPixels.isRGB ());
   jassert (maskPixels.getBounds () == destPixels.getBounds ());
@@ -71,7 +71,7 @@ void BevelEmbossStyle::render (
   // Apply a softening to the transform.
   //
 #if 0
-  if (options.technique == techinqueChiselSoft)
+  if (options.technique == techniqueChiselSoft)
   {
     if (options.soften > 0)
     {

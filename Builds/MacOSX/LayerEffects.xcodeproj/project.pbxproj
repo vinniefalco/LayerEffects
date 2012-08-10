@@ -58,14 +58,15 @@
 		7114A5942109BA92C5429B45 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Options.h; path = ../../Source/gui/Options.h; sourceTree = "SOURCE_ROOT"; };
 		754E41397ECEDC62B027B9FD = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGradientOverlayTab.h; path = ../../Source/gui/CGradientOverlayTab.h; sourceTree = "SOURCE_ROOT"; };
 		77A8FA2A092B1D7D09A81535 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../Jucer/JuceLibraryCode/JuceHeader.h; sourceTree = "SOURCE_ROOT"; };
+		7AFC545D333883ADD8FC8D2A = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CStrokeTab.cpp; path = ../../Source/gui/CStrokeTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		846114B3DA126446E8F7356F = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CLayerGraphicsPreview.h; path = ../../Source/gui/CLayerGraphicsPreview.h; sourceTree = "SOURCE_ROOT"; };
 		87025F57696A94048A7317CB = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_data_structures.mm"; path = "../../JUCE/modules/juce_data_structures/juce_data_structures.mm"; sourceTree = "SOURCE_ROOT"; };
-		87820BC27D77D7E037C953DF = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_gui_extra.mm"; path = "../../JUCE/modules/juce_gui_extra/juce_gui_extra.mm"; sourceTree = "SOURCE_ROOT"; };
 		8A0A418442A98B469C0A6833 = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		8ABAC6C54F06B6FC479321F8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CSolidColourPicker.cpp; path = ../../Source/gui/CSolidColourPicker.cpp; sourceTree = "SOURCE_ROOT"; };
 		8E287C7A96592C66B2156DEB = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8F6FDF59F1898467C206CB4B = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDropShadowTab.h; path = ../../Source/gui/CDropShadowTab.h; sourceTree = "SOURCE_ROOT"; };
 		8FCF1AC4D02966435CFD7491 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CLayerGraphicsPreview.cpp; path = ../../Source/gui/CLayerGraphicsPreview.cpp; sourceTree = "SOURCE_ROOT"; };
+		903BB9508176E98A0D618A02 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../Jucer/JuceLibraryCode/AppConfig.h; sourceTree = "SOURCE_ROOT"; };
 		98FA327E99707D8581756330 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CMainWindow.cpp; path = ../../Source/gui/CMainWindow.cpp; sourceTree = "SOURCE_ROOT"; };
 		9AB3C71D9395AA087B6E33A8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CMainPanel.cpp; path = ../../Source/gui/CMainPanel.cpp; sourceTree = "SOURCE_ROOT"; };
 		9B9B23E7CB8CA0606BD34756 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CBackgroundPanel.cpp; path = ../../Source/gui/CBackgroundPanel.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -75,7 +76,7 @@
 		B61B2591BF355DEF87D05AD4 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMainWindow.h; path = ../../Source/gui/CMainWindow.h; sourceTree = "SOURCE_ROOT"; };
 		C06F4531994E231AD52FFFB7 = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5D25324B2322C4E207A96FFD = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerEffects.app; sourceTree = "BUILT_PRODUCTS_DIR"; };
-		903BB9508176E98A0D618A02 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../Jucer/JuceLibraryCode/AppConfig.h; sourceTree = "SOURCE_ROOT"; };
+		87820BC27D77D7E037C953DF = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_gui_extra.mm"; path = "../../JUCE/modules/juce_gui_extra/juce_gui_extra.mm"; sourceTree = "SOURCE_ROOT"; };
 		95477EC7426598B5583B5EB8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = COptionsTab.h; path = ../../Source/gui/COptionsTab.h; sourceTree = "SOURCE_ROOT"; };
 		A325E6D5481031C6C095640C = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CSolidColourPicker.h; path = ../../Source/gui/CSolidColourPicker.h; sourceTree = "SOURCE_ROOT"; };
 		B8357D8481797DCB9250BA91 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_core.mm"; path = "../../JUCE/modules/juce_core/juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -85,6 +86,7 @@
 		DAA7B8A633D2ADA2C4CF6111 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = COptionsGeneralTab.cpp; path = ../../Source/gui/COptionsGeneralTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		DCB511134CDA79FC958F8BE3 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMainPanel.h; path = ../../Source/gui/CMainPanel.h; sourceTree = "SOURCE_ROOT"; };
 		DD85396608AA4576B488B5C6 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CBackgroundPanel.h; path = ../../Source/gui/CBackgroundPanel.h; sourceTree = "SOURCE_ROOT"; };
+		DDDAFADF92E742F30D95F485 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CStrokeTab.h; path = ../../Source/gui/CStrokeTab.h; sourceTree = "SOURCE_ROOT"; };
 		DDE0227A08278453AC01F5D6 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "vf_gui.cpp"; path = "../../VFLib/modules/vf_gui/vf_gui.cpp"; sourceTree = "SOURCE_ROOT"; };
 		E249F7F9BB655C880B0E2469 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CImageDropTarget.h; path = ../../Source/gui/CImageDropTarget.h; sourceTree = "SOURCE_ROOT"; };
 		E6A445925C0DB6C7A66B0018 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "vf_core.cpp"; path = "../../VFLib/modules/vf_core/vf_core.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -124,6 +126,8 @@
 				95477EC7426598B5583B5EB8,
 				8ABAC6C54F06B6FC479321F8,
 				A325E6D5481031C6C095640C,
+				7AFC545D333883ADD8FC8D2A,
+				DDDAFADF92E742F30D95F485,
 				70654934B8C4757151E012C8,
 				2702AD79F632FC3702AD797F,
 				10CBDEF040BB578DE544E951,

@@ -101,6 +101,13 @@ void CMainPanel::onOptionsGradientOverlay (Options::GradientOverlay options)
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }
 
+void CMainPanel::onOptionsStroke (Options::Stroke options)
+{
+  m_options.stroke = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
 StringArray CMainPanel::getMenuBarNames()
 {
   StringArray names;

@@ -73,6 +73,9 @@
     <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CStrokeTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CustomLookAndFeel.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -154,6 +157,9 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CStrokeTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CustomLookAndFeel.h">

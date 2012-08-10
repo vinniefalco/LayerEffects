@@ -51,6 +51,7 @@ public:
   void onOptionsDropShadow (Options::DropShadow options);
   void onOptionsBevelEmboss  (Options::BevelEmboss options);
   void onOptionsGradientOverlay (Options::GradientOverlay options);
+  void onOptionsStroke (Options::Stroke options);
 
   StringArray getMenuBarNames();
   PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
