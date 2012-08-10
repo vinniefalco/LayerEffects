@@ -947,6 +947,9 @@
     <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h">
       <Filter>VF Modules\vf_core\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

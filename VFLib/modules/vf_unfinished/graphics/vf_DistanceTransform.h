@@ -75,21 +75,67 @@ struct DistanceTransform
     Pixels m_src;
   };
 
+  //------------------------------------------------------------------------------
+
   /** Distance output to 8-bit unsigned.
   */
-  struct OutputDistance
+  struct OutputDistancePixels
   {
-    explicit OutputDistance (Pixels dest) : m_dest (dest)
+    OutputDistancePixels (Pixels dest, int radius)
+      : m_dest (dest)
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
     {
     }
 
-    inline void operator () (int const x, int const y, double distanceSquared) const noexcept
+    void operator () (int const x, int const y, double distance)
     {
-      *m_dest.getPixelPointer (x, y) = uint8 (sqrt (distanceSquared) + 0.5);
+      if (distance <= m_radiusSquared && distance > 0)
+      {
+        distance = sqrt (distance);
+
+        *m_dest.getPixelPointer (x, y) = uint8 (255 * distance / m_radius + 0.5);
+      }
+      else
+      {
+        *m_dest.getPixelPointer (x, y) = 0;
+      }
     }
 
   private:
     Pixels m_dest;
+    int m_radius;
+    int m_radiusSquared;
+  };
+
+  //------------------------------------------------------------------------------
+
+  /** Distance output to a generic container.
+  */
+  template <class Map>
+  struct OutputDistanceMap
+  {
+    typedef typename Map::Type Type;
+
+    OutputDistanceMap (Map map, int radius)
+      : m_map (map)
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
+    {
+    }
+
+    void operator () (int const x, int const y, double distance)
+    {
+      if (distance <= m_radiusSquared && distance > 0)
+        m_map (x, y) = Type (std::sqrt (distance));
+      else
+        m_map (x, y) = 0;
+    }
+
+  private:
+    Map m_map;
+    int m_radius;
+    int m_radiusSquared;
   };
 
   //----------------------------------------------------------------------------
@@ -224,20 +270,6 @@ struct DistanceTransform
           }
         }
       }
-    }
-
-    static void calculate (Pixels destPixels, Pixels maskPixels)
-    {
-      jassert (destPixels.isSingleChannel ());
-      jassert (maskPixels.isSingleChannel ());
-      jassert (destPixels.getBounds () == maskPixels.getBounds ());
-
-      calculate (
-        OutputDistance (destPixels),
-        BlackTest (maskPixels),
-        maskPixels.getWidth (),
-        maskPixels.getHeight (),
-        ManhattanMetric ());
     }
   };
 
