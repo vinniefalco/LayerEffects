@@ -30,22 +30,24 @@
 */
 //------------------------------------------------------------------------------
 
-COuterGlowTab::COuterGlowTab ()
-  : COptionsTab ("Outer Glow")
+COuterGlowTab::COuterGlowTab () : COptionsTab ("Outer Glow")
 {
-  m_activeButton = createToggleButton ("Active", m_options.active);
+  m_options.active = false;
+  m_options.mode = vf::BlendMode::modeScreen;
+  m_options.opacity = .75;
+  m_options.colours = vf::GradientColours (Colours::white, Colours::white.withAlpha (0.f));
+  m_options.precise = true;
+  m_options.spread = 0;
+  m_options.size = 5;
+  m_options.range = .5;
 
-  m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
-
+  m_activeButton  = createToggleButton ("Active", m_options.active);
+  m_modeComboBox  = createModeComboBox ("Mode", m_options.mode);
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
-
   m_preciseButton = createToggleButton ("Precise", m_options.precise);
-
-  m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
-
-  m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
-
-  m_rangeSlider = createPercentSlider ("Range", m_options.range);
+  m_spreadSlider  = createPercentSlider ("Spread", m_options.spread);
+  m_sizeSlider    = createIntegerSlider ("Size", 0, 250, m_options.size);
+  m_rangeSlider   = createPercentSlider ("Range", m_options.range);
 }
 
 COuterGlowTab::~COuterGlowTab ()
@@ -56,13 +58,10 @@ COuterGlowTab::~COuterGlowTab ()
 void COuterGlowTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
-  {
     m_options.active = button->getToggleState ();
-  }
+
   else if (button == m_preciseButton)
-  {
     m_options.precise = button->getToggleState ();
-  }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
 }
@@ -70,9 +69,7 @@ void COuterGlowTab::buttonClicked (Button* button)
 void COuterGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
   if (comboBoxThatHasChanged == m_modeComboBox)
-  {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
-  }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
 }
@@ -80,21 +77,16 @@ void COuterGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 void COuterGlowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-  {
     m_options.opacity = slider->getValue () / 100;
-  }
+
   else if (slider == m_spreadSlider)
-  {
     m_options.spread = slider->getValue ()/ 100;
-  }
+
   else if (slider == m_sizeSlider)
-  {
     m_options.size = int (slider->getValue ());
-  }
+
   else if (slider == m_rangeSlider)
-  {
     m_options.range = slider->getValue () / 100;
-  }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
 }

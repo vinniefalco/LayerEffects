@@ -48,35 +48,24 @@ struct GradientOverlayStyle
     kindDiamond
   };
 
-  struct Options
+  GradientOverlayStyle () : active (false)
   {
-    Options ()
-      : active (false)
-      , opacity (1)
-      , reverse (false)
-      , kind (kindLinear)
-      , angle (0)
-      , scale (1)
-      , startPoint (0, 0)
-      , endPoint (1, 1)
-      , mode (BlendMode::modeNormal)
-    {
-    }
+  }
 
-    bool        active;
-    double      opacity;
-    bool        reverse;
-    Kind        kind;
-    double      angle;
-    double      scale;
-    Point <int> startPoint;
-    Point <int> endPoint;
+  bool            active;
+  BlendMode::Type mode;
+  double          opacity;
+  GradientColours colours;
+  bool            reverse;
+  Kind            kind;
+  double          angle;
+  double          scale;
+  Point <int>     startPoint;
+  Point <int>     endPoint;
 
-    BlendMode::Type mode;
-    GradientColours colours;
-  };
+  void operator() (Pixels destPixels);
 
-  static void render (Pixels destPixels, Options const& options);
+  
 
   static inline float piFloat ()
   {

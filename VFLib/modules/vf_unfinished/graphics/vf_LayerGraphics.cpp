@@ -128,10 +128,7 @@ LayerGraphics::~LayerGraphics ()
   // Apply overlays to fill image, bottom up.
   //
 
-  if (m_options.gradientOverlay.active)
-  {
-    GradientOverlayStyle::render (fillPixels, m_options.gradientOverlay);
-  }
+  m_options.gradientOverlay (fillPixels);
 
   m_options.innerShadow (fillPixels, maskPixels);
 
@@ -143,10 +140,7 @@ LayerGraphics::~LayerGraphics ()
 
   m_options.fill (m_work, m_fill);
 
-  if (m_options.bevelEmboss.active)
-  {
-    BevelEmbossStyle::render (workPixels, maskPixels, m_options.bevelEmboss);
-  }
+  m_options.bevelEmboss (workPixels, maskPixels);
 
   m_options.stroke (workPixels, maskPixels);
 

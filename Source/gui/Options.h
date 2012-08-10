@@ -38,14 +38,14 @@
 struct Options
 {
   typedef vf::LayerGraphics::Options::General General;
-  typedef vf::FillStyle           Fill;
-  typedef vf::DropShadowStyle     DropShadow;
-  typedef vf::InnerShadowStyle    InnerShadow;
-  typedef vf::OuterGlowStyle      OuterGlow;
-  typedef vf::InnerGlowStyle      InnerGlow;
-  typedef vf::BevelEmbossStyle::Options BevelEmboss;
-  typedef vf::GradientOverlayStyle::Options GradientOverlay;
-  typedef vf::StrokeStyle         Stroke;
+  typedef vf::FillStyle             Fill;
+  typedef vf::DropShadowStyle       DropShadow;
+  typedef vf::InnerShadowStyle      InnerShadow;
+  typedef vf::OuterGlowStyle        OuterGlow;
+  typedef vf::InnerGlowStyle        InnerGlow;
+  typedef vf::BevelEmbossStyle      BevelEmboss;
+  typedef vf::GradientOverlayStyle  GradientOverlay;
+  typedef vf::StrokeStyle           Stroke;
 
   struct Listener
   {

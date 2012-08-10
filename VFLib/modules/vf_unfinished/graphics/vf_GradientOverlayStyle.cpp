@@ -65,15 +65,16 @@ namespace BlendProc
   };
 }
 
-void GradientOverlayStyle::render (
-  Pixels destPixels,
-  Options const& options)
+void GradientOverlayStyle::operator () (Pixels destPixels)
 {
   jassert (destPixels.isARGB ());
 
-  SharedTable <Colour> table = options.colours.withMultipliedAlpha (float (options.opacity)).createLookupTable ();
+  if (!active)
+    return;
 
-  switch (options.kind)
+  SharedTable <Colour> table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
+
+  switch (kind)
   {
   case kindLinear:
     jassertfalse;
@@ -85,7 +86,7 @@ void GradientOverlayStyle::render (
 
   case kindAngle:
     BlendMode::apply (
-      options.mode,
+      mode,
       AngleGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
       BlendProc::CopyTable (table));
     break;
@@ -96,7 +97,7 @@ void GradientOverlayStyle::render (
 
   case kindDiamond:
     BlendMode::apply (
-      options.mode,
+      mode,
       DiamondGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
       BlendProc::CopyTable (table));
     break;

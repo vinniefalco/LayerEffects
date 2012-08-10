@@ -33,8 +33,16 @@
 CGradientOverlayTab::CGradientOverlayTab ()
   : COptionsTab ("Drop Shadow")
 {
-  m_options.kind = vf::GradientOverlayStyle::kindAngle;
+  m_options.active = false;
+  m_options.mode = vf::BlendMode::modeNormal;
+  m_options.opacity = 1;
   m_options.colours = vf::GradientColours (Colours::black, Colours::white);
+  m_options.reverse = false;
+  m_options.kind = vf::GradientOverlayStyle::kindAngle;
+  m_options.angle = vf::degreesToRadians <double> (90);
+  m_options.scale = 1;
+  m_options.startPoint = Point <int> (0, 0);
+  m_options.endPoint = Point <int> (1, 1);
 
   m_activeButton = createToggleButton ("Active", m_options.active);
 
@@ -42,7 +50,7 @@ CGradientOverlayTab::CGradientOverlayTab ()
 
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
 
-  //m_reverseButton = createToggleButton ("Reverse", m_options.reverse);
+  m_reverseButton = createToggleButton ("Reverse", m_options.reverse);
 
   m_kindComboBox = createEmptyComboBox ("Kind");
   m_kindComboBox->addItem ("Linear", vf::GradientOverlayStyle::kindLinear);
@@ -61,41 +69,29 @@ CGradientOverlayTab::~CGradientOverlayTab ()
 void CGradientOverlayTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
-  {
     m_options.active = button->getToggleState ();
 
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
-  }
   else if (button == m_reverseButton)
-  {
-    //m_options.reverse = button->getToggleState ();
+    m_options.reverse = button->getToggleState ();
 
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
-  }
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
 }
 
 void CGradientOverlayTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
   if (comboBoxThatHasChanged == m_modeComboBox)
-  {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
 
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
-  }
   else if (comboBoxThatHasChanged == m_kindComboBox)
-  {
     m_options.kind = vf::GradientOverlayStyle::Kind (m_kindComboBox->getSelectedId ());
 
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
-  }
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
 }
 
 void CGradientOverlayTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-  {
     m_options.opacity = slider->getValue () / 100;
 
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
-  }
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsGradientOverlay, m_options);
 }

@@ -83,15 +83,15 @@ public:
       bool      groupInteriorEffects;
     };
 
-    General                         general;
-    FillStyle                       fill;
-    DropShadowStyle                 dropShadow;
-    InnerShadowStyle                innerShadow;
-    OuterGlowStyle                  outerGlow;
-    InnerGlowStyle                  innerGlow;
-    BevelEmbossStyle::Options       bevelEmboss;
-    GradientOverlayStyle::Options   gradientOverlay;
-    StrokeStyle                     stroke;
+    General               general;
+    FillStyle             fill;
+    DropShadowStyle       dropShadow;
+    InnerShadowStyle      innerShadow;
+    OuterGlowStyle        outerGlow;
+    InnerGlowStyle        innerGlow;
+    BevelEmbossStyle      bevelEmboss;
+    GradientOverlayStyle  gradientOverlay;
+    StrokeStyle           stroke;
   };
 
 public:

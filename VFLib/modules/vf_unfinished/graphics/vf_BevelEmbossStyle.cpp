@@ -30,21 +30,23 @@
 */
 /*============================================================================*/
 
-void BevelEmbossStyle::render (
-  Pixels destPixels, Pixels maskPixels, Options const& options)
+void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
   jassert (destPixels.isRGB ());
   jassert (maskPixels.getBounds () == destPixels.getBounds ());
+
+  if (!active)
+    return;
 
   // Calculate the distance transform on the mask.
   //
   typedef double T;
   Map2D <T> distMap (maskPixels.getWidth (), maskPixels.getHeight ());
-  switch (options.kind)
+  switch (kind)
   {
   case kindOuterBevel:
     DistanceTransform::Meijster::calculate (
-      DistanceTransform::OutputInverseDistanceMap <Map2D <T> > (distMap, options.size),
+      DistanceTransform::OutputInverseDistanceMap <Map2D <T> > (distMap, size),
       DistanceTransform::BlackTest (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
@@ -53,7 +55,7 @@ void BevelEmbossStyle::render (
 
   case kindInnerBevel:
     DistanceTransform::Meijster::calculate (
-      DistanceTransform::OutputDistanceMap <Map2D <T> > (distMap, options.size),
+      DistanceTransform::OutputDistanceMap <Map2D <T> > (distMap, size),
       DistanceTransform::WhiteTest (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
@@ -71,11 +73,11 @@ void BevelEmbossStyle::render (
   // Apply a softening to the transform.
   //
 #if 0
-  if (options.technique == techniqueChiselSoft)
+  if (technique == techniqueChiselSoft)
   {
-    if (options.soften > 0)
+    if (soften > 0)
     {
-      RadialImageConvolutionKernel k (options.soften + 1);
+      RadialImageConvolutionKernel k (soften + 1);
       k.createGaussianBlur ();
       distImage = k.createConvolvedImage (distImage);
       distPixels = Pixels (distImage);
@@ -101,18 +103,18 @@ void BevelEmbossStyle::render (
   LightingTransform::calculate <T> (
     LightingTransform::PixelShader (hiPixels, loPixels),
     distMap,
-    10 - options.depth,
-    options.lightAngle,
-    options.lightElevation);
+    10 - depth,
+    lightAngle,
+    lightElevation);
 
   // Apply a softening to the masks.
   //
 #if 0
-  if (options.technique == techniqueSmooth)
+  if (technique == techniqueSmooth)
   {
-    if (options.soften > 0)
+    if (soften > 0)
     {
-      RadialImageConvolutionKernel k (options.soften + 1);
+      RadialImageConvolutionKernel k (soften + 1);
       k.createGaussianBlur ();
       
       hiImage = k.createConvolvedImage (hiImage);
@@ -130,15 +132,15 @@ void BevelEmbossStyle::render (
   // Render highlights.
   //
   BlendMode::apply (
-    options.hilightMode,
+    hilightMode,
     Pixels::Iterate2 (destPixels, hiPixels),
-    BlendProc::RGB::Fill (options.hilightColour, options.hilightOpacity));
+    BlendProc::RGB::Fill (hilightColour, hilightOpacity));
 
   // Render shadows.
   //
   BlendMode::apply (
-    options.shadowMode,
+    shadowMode,
     Pixels::Iterate2 (destPixels, loPixels),
-    BlendProc::RGB::Fill (options.shadowColour, options.shadowOpacity));
+    BlendProc::RGB::Fill (shadowColour, shadowOpacity));
 }
 

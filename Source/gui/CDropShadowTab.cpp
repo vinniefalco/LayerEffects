@@ -33,22 +33,23 @@
 CDropShadowTab::CDropShadowTab ()
   : COptionsTab ("Drop Shadow")
 {
+  m_options.active = false;
+  m_options.mode = vf::BlendMode::modeNormal;
+  m_options.opacity = 1;
+  m_options.angle = vf::degreesToRadians <double> (135);
+  m_options.distance = 4;
+  m_options.spread = 0;
+  m_options.size = 9;
+  m_options.knockout = true;
+
   m_activeButton = createToggleButton ("Active", m_options.active);
-
   m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
-
   m_colourPicker = createColourPicker ("Colour", m_options.colour);
-
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
-
   m_angleSlider = createIntegerSlider ("Angle", 0, 359, vf::radiansToDegrees <int> (m_options.angle));
-
   m_distanceSlider = createIntegerSlider ("Distance", 0, 1000, m_options.distance);
-
   m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
-
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
-
   m_knockoutButton = createToggleButton ("Knockout", m_options.knockout);
 }
 
@@ -60,13 +61,10 @@ CDropShadowTab::~CDropShadowTab ()
 void CDropShadowTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
-  {
     m_options.active = button->getToggleState ();
-  }
+
   else if (button == m_knockoutButton)
-  {
     m_options.knockout = button->getToggleState ();
-  }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
 }
@@ -74,9 +72,7 @@ void CDropShadowTab::buttonClicked (Button* button)
 void CDropShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
   if (comboBoxThatHasChanged == m_modeComboBox)
-  {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
-  }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
 }
@@ -84,23 +80,19 @@ void CDropShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 void CDropShadowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-  {
     m_options.opacity = slider->getValue () / 100;
-  }
+
   else if (slider == m_angleSlider)
-  {
     m_options.angle = vf::degreesToRadians <double> (slider->getValue ());
-  }
+
   else if (slider == m_distanceSlider)
-  {
     m_options.distance = int (slider->getValue ());
-  }
+
   else if (slider == m_spreadSlider)
-  {
     m_options.spread = slider->getValue () / 100;
-  }
+
   else if (slider == m_sizeSlider)
-  {
     m_options.size = int (slider->getValue ());
-  }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
 }
