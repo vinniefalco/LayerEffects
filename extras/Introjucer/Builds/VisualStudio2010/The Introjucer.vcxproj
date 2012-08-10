@@ -688,6 +688,9 @@
     <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentMovementWatcher.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ConcertinaPanel.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_GroupComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1239,6 +1242,7 @@
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentBoundsConstrainer.h"/>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentBuilder.h"/>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentMovementWatcher.h"/>
+    <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ConcertinaPanel.h"/>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_GroupComponent.h"/>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_MultiDocumentPanel.h"/>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ResizableBorderComponent.h"/>
@@ -1333,8 +1337,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\BinaryData\AudioPluginXCodeScript.txt"/>
-    <None Include="..\..\Source\BinaryData\brushed_aluminium.png"/>
-    <None Include="..\..\Source\BinaryData\dark_scheme.xml"/>
+    <None Include="..\..\Source\BinaryData\background_tile.png"/>
+    <None Include="..\..\Source\BinaryData\colourscheme_dark.xml"/>
+    <None Include="..\..\Source\BinaryData\colourscheme_light.xml"/>
     <None Include="..\..\Source\BinaryData\juce_icon.png"/>
     <None Include="..\..\..\..\modules\juce_core\juce_module_info"/>
     <None Include="..\..\..\..\modules\juce_cryptography\juce_module_info"/>

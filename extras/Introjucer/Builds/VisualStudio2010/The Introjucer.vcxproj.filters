@@ -868,6 +868,9 @@
     <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentMovementWatcher.cpp">
       <Filter>Juce Modules\juce_gui_basics\layout</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ConcertinaPanel.cpp">
+      <Filter>Juce Modules\juce_gui_basics\layout</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_gui_basics\layout\juce_GroupComponent.cpp">
       <Filter>Juce Modules\juce_gui_basics\layout</Filter>
     </ClCompile>
@@ -2016,6 +2019,9 @@
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ComponentMovementWatcher.h">
       <Filter>Juce Modules\juce_gui_basics\layout</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_ConcertinaPanel.h">
+      <Filter>Juce Modules\juce_gui_basics\layout</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_gui_basics\layout\juce_GroupComponent.h">
       <Filter>Juce Modules\juce_gui_basics\layout</Filter>
     </ClInclude>
@@ -2294,10 +2300,13 @@
     <None Include="..\..\Source\BinaryData\AudioPluginXCodeScript.txt">
       <Filter>The Introjucer\BinaryData</Filter>
     </None>
-    <None Include="..\..\Source\BinaryData\brushed_aluminium.png">
+    <None Include="..\..\Source\BinaryData\background_tile.png">
       <Filter>The Introjucer\BinaryData</Filter>
     </None>
-    <None Include="..\..\Source\BinaryData\dark_scheme.xml">
+    <None Include="..\..\Source\BinaryData\colourscheme_dark.xml">
+      <Filter>The Introjucer\BinaryData</Filter>
+    </None>
+    <None Include="..\..\Source\BinaryData\colourscheme_light.xml">
       <Filter>The Introjucer\BinaryData</Filter>
     </None>
     <None Include="..\..\Source\BinaryData\juce_icon.png">

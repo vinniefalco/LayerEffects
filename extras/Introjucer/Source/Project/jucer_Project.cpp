@@ -123,6 +123,9 @@ void Project::setMissingDefaultValues()
 
     if (! projectRoot.getChildWithName (Tags::modulesGroup).isValid())
         addDefaultModules (false);
+
+    if (getBundleIdentifier().toString().isEmpty())
+        getBundleIdentifier() = getDefaultBundleIdentifier();
 }
 
 void Project::updateOldStyleConfigList()
@@ -366,7 +369,7 @@ void Project::createPropertyEditors (PropertyListBuilder& props)
     }
 
     props.add (new TextPropertyComponent (getBundleIdentifier(), "Bundle Identifier", 256, false),
-               "A unique identifier for this product, mainly for use in Mac builds. It should be something like 'com.yourcompanyname.yourproductname'");
+               "A unique identifier for this product, mainly for use in OSX/iOS builds. It should be something like 'com.yourcompanyname.yourproductname'");
 
     getProjectType().createPropertyEditors (*this, props);
 
@@ -454,7 +457,7 @@ Project::Item Project::Item::createGroup (Project& project, const String& name, 
 bool Project::Item::isFile() const          { return state.hasType (Tags::file); }
 bool Project::Item::isGroup() const         { return state.hasType (Tags::group) || isMainGroup(); }
 bool Project::Item::isMainGroup() const     { return state.hasType (Tags::projectMainGroup); }
-bool Project::Item::isImageFile() const     { return isFile() && getFile().hasFileExtension ("png;jpg;jpeg;gif;drawable"); }
+bool Project::Item::isImageFile() const     { return isFile() && ImageFileFormat::findImageFormatForFileExtension (getFile()) != nullptr; }
 
 Project::Item Project::Item::findItemWithID (const String& targetId) const
 {
@@ -965,4 +968,9 @@ bool Project::ExporterIterator::next()
     }
 
     return true;
+}
+
+PropertiesFile& Project::getStoredProperties() const
+{
+    return getAppSettings().getProjectProperties (getProjectUID());
 }
