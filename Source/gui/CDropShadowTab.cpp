@@ -41,7 +41,7 @@ CDropShadowTab::CDropShadowTab ()
 
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
 
-  m_angleSlider = createIntegerSlider ("Angle", 0, 359, int (m_options.angle));
+  m_angleSlider = createIntegerSlider ("Angle", 0, 359, vf::radiansToDegrees <int> (m_options.angle));
 
   m_distanceSlider = createIntegerSlider ("Distance", 0, 1000, m_options.distance);
 
@@ -62,15 +62,13 @@ void CDropShadowTab::buttonClicked (Button* button)
   if (button == m_activeButton)
   {
     m_options.active = button->getToggleState ();
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
   else if (button == m_knockoutButton)
   {
     m_options.knockout = button->getToggleState ();
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
 }
 
 void CDropShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
@@ -78,9 +76,9 @@ void CDropShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
   if (comboBoxThatHasChanged == m_modeComboBox)
   {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
 }
 
 void CDropShadowTab::sliderValueChanged (Slider* slider)
@@ -88,31 +86,21 @@ void CDropShadowTab::sliderValueChanged (Slider* slider)
   if (slider == m_opacitySlider)
   {
     m_options.opacity = slider->getValue () / 100;
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
   else if (slider == m_angleSlider)
   {
-    m_options.angle = slider->getValue () * 2 * 3.14159265358979 / 360;
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
+    m_options.angle = vf::degreesToRadians <double> (slider->getValue ());
   }
   else if (slider == m_distanceSlider)
   {
     m_options.distance = int (slider->getValue ());
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
   else if (slider == m_spreadSlider)
   {
     m_options.spread = slider->getValue () / 100;
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
   else if (slider == m_sizeSlider)
   {
     m_options.size = int (slider->getValue ());
-
-    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
 }

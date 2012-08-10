@@ -30,64 +30,29 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_unfinished module.
+#ifndef VF_INNERSHADOWSTYLE_VFHEADER
+#define VF_INNERSHADOWSTYLE_VFHEADER
 
-    @file vf_unfinished.h
-    @ingroup vf_unfinished
+/** Provides the Inner Shadow layer style.
+
+    @ingroup vf_gui
 */
-
-#ifndef VF_UNFINISHED_VFHEADER
-#define VF_UNFINISHED_VFHEADER
-
-/*============================================================================*/
-/**
-  Work in progress.
-
-  This module contains unfinished code.
-
-  @defgroup vf_unfinished vf_unfinished
-*/
-
-#include "modules/juce_audio_basics/juce_audio_basics.h"
-#include "modules/juce_audio_devices/juce_audio_devices.h"
-#include "modules/juce_gui_basics/juce_gui_basics.h"
-
-#include "../vf_core/vf_core.h"
-#include "../vf_concurrent/vf_concurrent.h"
-#include "../vf_gui/vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
-#endif
-
-namespace vf
+struct InnerShadowStyle
 {
+  bool            active;
+  BlendMode::Type mode;
+  Colour          colour;
+  double          opacity;    // [0, 1]
+  double          angle;
+  int             distance;
+  double          choke;      // [0, 1]
+  int             size;       // [0, 250]
 
-#include "graphics/vf_BlendMode.h"
-#include "graphics/vf_BlendProc.h"
-#include "graphics/vf_Pixels.h"
-#include "graphics/vf_DistanceTransform.h"
-#include "graphics/vf_LightingTransform.h"
-#include "graphics/vf_GradientColours.h"
-#include "graphics/vf_BevelEmbossStyle.h"
-#include "graphics/vf_DropShadowStyle.h"
-#include "graphics/vf_FillStyle.h"
-#include "graphics/vf_GradientOverlayStyle.h"
-#include "graphics/vf_InnerGlowStyle.h"
-#include "graphics/vf_InnerShadowStyle.h"
-#include "graphics/vf_OuterGlowStyle.h"
-#include "graphics/vf_StrokeStyle.h"
-#include "graphics/vf_LayerGraphics.h"
+  InnerShadowStyle () : active (false)
+  {
+  }
 
-#include "midi/vf_MidiInput.h"
-#include "midi/vf_MidiDevices.h"
-
-}
-
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+  void operator() (Pixels destPixels, Pixels maskPixels);
+};
 
 #endif

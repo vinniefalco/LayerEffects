@@ -30,71 +30,73 @@
 */
 //------------------------------------------------------------------------------
 
-COuterGlowTab::COuterGlowTab ()
-  : COptionsTab ("Outer Glow")
+CInnerShadowTab::CInnerShadowTab ()
+  : COptionsTab ("Inner Shadow")
 {
   m_activeButton = createToggleButton ("Active", m_options.active);
 
   m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
 
+  m_colourPicker = createColourPicker ("Colour", m_options.colour);
+
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
 
-  m_preciseButton = createToggleButton ("Precise", m_options.precise);
+  m_angleSlider = createIntegerSlider ("Angle", 0, 359, vf::radiansToDegrees <int> (m_options.angle));
 
-  m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
+  m_distanceSlider = createIntegerSlider ("Distance", 0, 1000, m_options.distance);
+
+  m_chokeSlider = createPercentSlider ("Choke", m_options.choke);
 
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
-
-  m_rangeSlider = createPercentSlider ("Range", m_options.range);
 }
 
-COuterGlowTab::~COuterGlowTab ()
+CInnerShadowTab::~CInnerShadowTab ()
 {
   deleteAllChildren ();
 }
 
-void COuterGlowTab::buttonClicked (Button* button)
+void CInnerShadowTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
   {
     m_options.active = button->getToggleState ();
   }
-  else if (button == m_preciseButton)
-  {
-    m_options.precise = button->getToggleState ();
-  }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerShadow, m_options);
 }
 
-void COuterGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+void CInnerShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
   if (comboBoxThatHasChanged == m_modeComboBox)
   {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
   }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerShadow, m_options);
 }
 
-void COuterGlowTab::sliderValueChanged (Slider* slider)
+void CInnerShadowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
   {
     m_options.opacity = slider->getValue () / 100;
   }
-  else if (slider == m_spreadSlider)
+  else if (slider == m_angleSlider)
   {
-    m_options.spread = slider->getValue ()/ 100;
+    m_options.angle = vf::degreesToRadians <double> (slider->getValue ());
+  }
+  else if (slider == m_distanceSlider)
+  {
+    m_options.distance = int (slider->getValue ());
+  }
+  else if (slider == m_chokeSlider)
+  {
+    m_options.choke = slider->getValue () / 100;
   }
   else if (slider == m_sizeSlider)
   {
     m_options.size = int (slider->getValue ());
   }
-  else if (slider == m_rangeSlider)
-  {
-    m_options.range = slider->getValue () / 100;
-  }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerShadow, m_options);
 }

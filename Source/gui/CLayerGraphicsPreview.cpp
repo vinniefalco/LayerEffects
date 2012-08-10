@@ -59,13 +59,15 @@ void CLayerGraphicsPreview::paint (Graphics& g)
 
   vf::LayerGraphics lc (g, getLocalBounds ());
 
-  lc.getOptions ().general = m_options.general;
-  lc.getOptions ().fill = m_options.fill;
-  lc.getOptions ().dropShadow = m_options.dropShadow;
-  lc.getOptions ().outerGlow = m_options.outerGlow;
-  lc.getOptions ().bevelEmboss = m_options.bevelEmboss;
-  lc.getOptions ().gradientOverlay = m_options.gradientOverlay;
-  lc.getOptions ().stroke = m_options.stroke;
+  lc.getOptions ().general          = m_options.general;
+  lc.getOptions ().fill             = m_options.fill;
+  lc.getOptions ().dropShadow       = m_options.dropShadow;
+  lc.getOptions ().innerShadow      = m_options.innerShadow;
+  lc.getOptions ().outerGlow        = m_options.outerGlow;
+  lc.getOptions ().innerGlow        = m_options.innerGlow;
+  lc.getOptions ().bevelEmboss      = m_options.bevelEmboss;
+  lc.getOptions ().gradientOverlay  = m_options.gradientOverlay;
+  lc.getOptions ().stroke           = m_options.stroke;
 
   paintForeground (lc);
 }

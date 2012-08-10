@@ -83,85 +83,15 @@ public:
       bool      groupInteriorEffects;
     };
 
-    //----
-
-    struct Fill
-    {
-      Fill ()
-        : mode (BlendMode::modeNormal)
-        , opacity (1)
-      {
-      }
-
-      BlendMode::Type mode;
-      double opacity;                   // [0, 1] overall
-    };
-
-    //----
-
-    struct DropShadow
-    {
-      DropShadow ()
-        : active (false)
-        , mode (BlendMode::modeNormal)
-        , opacity (1)
-        , colour (Colours::black)
-        , angle (0)
-        , distance (1)
-        , spread (0)
-        , size (1)
-        , knockout (true)
-      {
-        active = false;
-      }
-
-      bool      active;
-      BlendMode::Type mode;
-      double    opacity;
-      Colour    colour;                 // can have alpha
-      double    angle;                  // radians
-      int       distance;               // [0, 30000]
-      double    spread;                 // [0, 1]
-      int       size;                   // in pixels
-      bool      knockout;               // layer mask knocks out drop shadow
-    };
-
-    //----
-
-    struct InnerShadow
-    {
-      InnerShadow ()
-        : active (false)
-        , mode (BlendMode::modeNormal)
-        , colour (Colours::black)
-        , angle (0)
-        , distance (1)
-        , choke (0)
-        , size (1)
-      {
-      }
-
-      bool      active;
-      BlendMode::Type mode;
-      double    opacity;
-      Colour    colour;                 // can have alpha
-      double    angle;                  // radians
-      int       distance;               // [0, 30000]
-      double    choke;                  // [0, 1]
-      int       size;                   // in pixels
-    };
-
-    //----
-
-    General       general;
-    Fill          fill;
-    DropShadow    dropShadow;
-    InnerShadow   innerShadow;
-
-    OuterGlowStyle::Options         outerGlow;
+    General                         general;
+    FillStyle                       fill;
+    DropShadowStyle                 dropShadow;
+    InnerShadowStyle                innerShadow;
+    OuterGlowStyle                  outerGlow;
+    InnerGlowStyle                  innerGlow;
     BevelEmbossStyle::Options       bevelEmboss;
     GradientOverlayStyle::Options   gradientOverlay;
-    StrokeStyle::Options            stroke;
+    StrokeStyle                     stroke;
   };
 
 public:
@@ -181,8 +111,6 @@ private:
   void applyDropShadow (Image& destImage);
 
   void applyInnerShadow (Image& destImage);
-
-  void applyFill ();
 
 private:
   Options m_options;

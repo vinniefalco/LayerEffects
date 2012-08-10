@@ -74,11 +74,13 @@ private:
   int m_radiusMinusOneSquared;
 };
 
-void StrokeStyle::render (
-  Pixels destPixels, Pixels maskPixels, Options const& options)
+void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
 {
+  if (!active)
+    return;
+
   DistanceTransform::WangTan::calculate (
-    RenderStroke (Pixels::Map2D (destPixels), options.colour, options.size),
+    RenderStroke (Pixels::Map2D (destPixels), colour, size),
     DistanceTransform::AlphaTest (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),

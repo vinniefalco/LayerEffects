@@ -470,6 +470,7 @@ using namespace juce;
 #include "memory/vf_StaticObject.h"
 
 #include "threads/vf_Semaphore.h"
+#include "threads/vf_SerialFor.h"
 #include "threads/vf_SpinDelay.h"
 #include "threads/vf_InterruptibleThread.h"
 

@@ -66,6 +66,13 @@
               file="../../Source/gui/CImageDropTarget.cpp"/>
         <FILE id="P93slq" name="CImageDropTarget.h" compile="0" resource="0"
               file="../../Source/gui/CImageDropTarget.h"/>
+        <FILE id="or14Pi" name="CInnerGlowTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CInnerGlowTab.cpp"/>
+        <FILE id="SMilAH" name="CInnerGlowTab.h" compile="0" resource="0" file="../../Source/gui/CInnerGlowTab.h"/>
+        <FILE id="XzWVUC" name="CInnerShadowTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CInnerShadowTab.cpp"/>
+        <FILE id="GVPZnC" name="CInnerShadowTab.h" compile="0" resource="0"
+              file="../../Source/gui/CInnerShadowTab.h"/>
         <FILE id="BT2FJZ" name="CLayerGraphicsPreview.cpp" compile="0" resource="0"
               file="../../Source/gui/CLayerGraphicsPreview.cpp"/>
         <FILE id="F0iJSK" name="CLayerGraphicsPreview.h" compile="0" resource="0"
@@ -74,8 +81,6 @@
         <FILE id="m2W4Bh" name="CMainPanel.h" compile="0" resource="0" file="../../Source/gui/CMainPanel.h"/>
         <FILE id="LeDTYD" name="CMainWindow.cpp" compile="0" resource="0" file="../../Source/gui/CMainWindow.cpp"/>
         <FILE id="mBvX9G" name="CMainWindow.h" compile="0" resource="0" file="../../Source/gui/CMainWindow.h"/>
-        <FILE id="XjJHEC" name="Controls.cpp" compile="0" resource="0" file="../../Source/gui/Controls.cpp"/>
-        <FILE id="AKKzE2" name="Controls.h" compile="0" resource="0" file="../../Source/gui/Controls.h"/>
         <FILE id="W0nlpb" name="COptionsPanel.cpp" compile="0" resource="0"
               file="../../Source/gui/COptionsPanel.cpp"/>
         <FILE id="kt6e4L" name="COptionsPanel.h" compile="0" resource="0" file="../../Source/gui/COptionsPanel.h"/>
@@ -96,7 +101,6 @@
               file="../../Source/gui/CustomLookAndFeel.h"/>
         <FILE id="KnCdLZ" name="MainApp.cpp" compile="0" resource="0" file="../../Source/gui/MainApp.cpp"/>
         <FILE id="Qs1b9K" name="MainApp.h" compile="0" resource="0" file="../../Source/gui/MainApp.h"/>
-        <FILE id="avK6sV" name="Options.cpp" compile="0" resource="0" file="../../Source/gui/Options.cpp"/>
         <FILE id="Sk5hyV" name="Options.h" compile="0" resource="0" file="../../Source/gui/Options.h"/>
       </GROUP>
       <FILE id="OwhNkh" name="source.cpp" compile="1" resource="0" file="../../Source/source.cpp"/>

@@ -30,64 +30,52 @@
 */
 /*============================================================================*/
 
-/** Include this to get the @ref vf_unfinished module.
-
-    @file vf_unfinished.h
-    @ingroup vf_unfinished
-*/
-
-#ifndef VF_UNFINISHED_VFHEADER
-#define VF_UNFINISHED_VFHEADER
-
-/*============================================================================*/
-/**
-  Work in progress.
-
-  This module contains unfinished code.
-
-  @defgroup vf_unfinished vf_unfinished
-*/
-
-#include "modules/juce_audio_basics/juce_audio_basics.h"
-#include "modules/juce_audio_devices/juce_audio_devices.h"
-#include "modules/juce_gui_basics/juce_gui_basics.h"
-
-#include "../vf_core/vf_core.h"
-#include "../vf_concurrent/vf_concurrent.h"
-#include "../vf_gui/vf_gui.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
-//#pragma warning (disable: 4355) // 'this' : used in base member initializer list
-#endif
-
-namespace vf
+void DropShadowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
+  if (!active)
+    return;
 
-#include "graphics/vf_BlendMode.h"
-#include "graphics/vf_BlendProc.h"
-#include "graphics/vf_Pixels.h"
-#include "graphics/vf_DistanceTransform.h"
-#include "graphics/vf_LightingTransform.h"
-#include "graphics/vf_GradientColours.h"
-#include "graphics/vf_BevelEmbossStyle.h"
-#include "graphics/vf_DropShadowStyle.h"
-#include "graphics/vf_FillStyle.h"
-#include "graphics/vf_GradientOverlayStyle.h"
-#include "graphics/vf_InnerGlowStyle.h"
-#include "graphics/vf_InnerShadowStyle.h"
-#include "graphics/vf_OuterGlowStyle.h"
-#include "graphics/vf_StrokeStyle.h"
-#include "graphics/vf_LayerGraphics.h"
+#if 0
+  Options::DropShadow& dropShadow = m_options.dropShadow;
 
-#include "midi/vf_MidiInput.h"
-#include "midi/vf_MidiDevices.h"
+  if (!dropShadow.active)
+    return;
 
+#if 0
+  int const dx = static_cast <int> (
+    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
+  
+  int const dy = static_cast <int> (
+    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
+#endif
+
+  // Get the layer mask as an individual channel.
+  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
+  
+  RadialImageConvolutionKernel k (dropShadow.size + 1);
+  k.createGaussianBlur ();
+
+  // Compute the shadow mask.
+  Image shadow = k.createConvolvedImageFull (mask);
+
+  // Optionally subtract layer mask from shadow mask.
+  if (dropShadow.knockout)
+    copyImage (
+      shadow,
+      //Point <int> (dropShadow.size + dx, dropShadow.size + dy),
+      Point <int> (0, 0),
+      mask,
+      mask.getBounds (),
+      BlendMode::modeSubtract,
+      1);
+
+  // Fill the shadow mask.
+  fillImage (workImage,
+             Point <int> (0, 0),
+             shadow,
+             shadow.getBounds (),
+             dropShadow.mode,
+             dropShadow.opacity,
+             dropShadow.colour);
+#endif
 }
-
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
-
-#endif

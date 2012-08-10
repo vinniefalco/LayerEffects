@@ -30,8 +30,7 @@
 */
 //------------------------------------------------------------------------------
 
-COuterGlowTab::COuterGlowTab ()
-  : COptionsTab ("Outer Glow")
+CInnerGlowTab::CInnerGlowTab () : COptionsTab ("Inner Glow")
 {
   m_activeButton = createToggleButton ("Active", m_options.active);
 
@@ -41,19 +40,21 @@ COuterGlowTab::COuterGlowTab ()
 
   m_preciseButton = createToggleButton ("Precise", m_options.precise);
 
-  m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
+  m_reverseButton = createToggleButton ("Reverse", m_options.reverse);
+
+  m_chokeSlider = createPercentSlider ("Choke", m_options.choke);
 
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
 
   m_rangeSlider = createPercentSlider ("Range", m_options.range);
 }
 
-COuterGlowTab::~COuterGlowTab ()
+CInnerGlowTab::~CInnerGlowTab ()
 {
   deleteAllChildren ();
 }
 
-void COuterGlowTab::buttonClicked (Button* button)
+void CInnerGlowTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
   {
@@ -63,29 +64,33 @@ void COuterGlowTab::buttonClicked (Button* button)
   {
     m_options.precise = button->getToggleState ();
   }
+  else if (button == m_reverseButton)
+  {
+    m_options.reverse = button->getToggleState ();
+  }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerGlow, m_options);
 }
 
-void COuterGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+void CInnerGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
   if (comboBoxThatHasChanged == m_modeComboBox)
   {
     m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
   }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerGlow, m_options);
 }
 
-void COuterGlowTab::sliderValueChanged (Slider* slider)
+void CInnerGlowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
   {
     m_options.opacity = slider->getValue () / 100;
   }
-  else if (slider == m_spreadSlider)
+  else if (slider == m_chokeSlider)
   {
-    m_options.spread = slider->getValue ()/ 100;
+    m_options.choke = slider->getValue ()/ 100;
   }
   else if (slider == m_sizeSlider)
   {
@@ -96,5 +101,5 @@ void COuterGlowTab::sliderValueChanged (Slider* slider)
     m_options.range = slider->getValue () / 100;
   }
 
-  vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerGlow, m_options);
 }

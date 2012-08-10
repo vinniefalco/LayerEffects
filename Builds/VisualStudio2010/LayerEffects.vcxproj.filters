@@ -52,6 +52,12 @@
     <ClCompile Include="..\..\Source\gui\CImageDropTarget.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CInnerGlowTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CInnerShadowTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CLayerGraphicsPreview.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -59,9 +65,6 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CMainWindow.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\Controls.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsPanel.cpp">
@@ -83,9 +86,6 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\Options.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\source.cpp">
@@ -141,6 +141,12 @@
     <ClInclude Include="..\..\Source\gui\CImageDropTarget.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CInnerGlowTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CInnerShadowTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\CLayerGraphicsPreview.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
@@ -148,9 +154,6 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CMainWindow.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\gui\Controls.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsPanel.h">

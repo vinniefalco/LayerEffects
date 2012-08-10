@@ -30,3 +30,34 @@
 */
 //------------------------------------------------------------------------------
 
+#ifndef LAYEREFFECTS_CINNERGLOWTAB_HEADER
+#define LAYEREFFECTS_CINNERGLOWTAB_HEADER
+
+/** Inner Glow options.
+*/
+class CInnerGlowTab : public COptionsTab
+{
+public:
+  CInnerGlowTab ();
+  ~CInnerGlowTab ();
+
+  void buttonClicked (Button* button);
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
+
+private:
+  Options::InnerGlow m_options;
+
+  ToggleButton* m_activeButton;
+  ComboBox* m_modeComboBox;
+  Slider* m_opacitySlider;
+  //CGradientPicker* m_gradientPicker;
+  ToggleButton* m_preciseButton;
+  ToggleButton* m_reverseButton;
+  Slider* m_chokeSlider;
+  Slider* m_sizeSlider;
+  //CContourPicker* m_contourPicker;
+  Slider* m_rangeSlider;
+};
+
+#endif

@@ -39,25 +39,18 @@
 */
 struct OuterGlowStyle
 {
-  struct Options
+  bool            active;
+  BlendMode::Type mode;
+  double          opacity;  // [0, 1]
+  GradientColours colours;
+  bool            precise;
+  double          spread;   // [0, 1]
+  int             size;     // [0, 250]
+  double          range;    // [0, 1]
+
+  OuterGlowStyle () : active (false)
   {
-    Options ()
-      : active (false)
-    {
-    }
-
-    bool            active;
-
-    BlendMode::Type mode;
-    double          opacity;
-    GradientColours colours;
-    bool            precise;
-    double          spread;         // [0, 1]
-    int             size;           // [0, 250]
-    double          range;          // [0, 1]
-  };
-
-  static void render (Pixels destPixels, Pixels maskPixels, Options const& options);
+  }
 };
 
 #endif

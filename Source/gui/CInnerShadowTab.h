@@ -30,23 +30,23 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-#define LAYEREFFECTS_CDROPSHADOWTAB_HEADER
+#ifndef LAYEREFFECTS_CINNERSHADOWTAB_HEADER
+#define LAYEREFFECTS_CINNERSHADOWTAB_HEADER
 
-/** Drop Shadow options.
+/** Inner Shadow options.
 */
-class CDropShadowTab : public COptionsTab
+class CInnerShadowTab : public COptionsTab
 {
 public:
-  CDropShadowTab ();
-  ~CDropShadowTab ();
+  CInnerShadowTab ();
+  ~CInnerShadowTab ();
 
   void buttonClicked (Button* button);
   void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
 
 private:
-  vf::DropShadowStyle m_options;
+  vf::InnerShadowStyle m_options;
 
   ToggleButton* m_activeButton;
   ComboBox* m_modeComboBox;
@@ -54,9 +54,8 @@ private:
   Slider* m_opacitySlider;
   Slider* m_angleSlider;
   Slider* m_distanceSlider;
-  Slider* m_spreadSlider;
+  Slider* m_chokeSlider;
   Slider* m_sizeSlider;
-  ToggleButton* m_knockoutButton;
 };
 
 #endif

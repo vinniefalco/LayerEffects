@@ -35,20 +35,20 @@ COptionsPanel::COptionsPanel ()
 {
   setSize (240, 560);
 
-  m_panels.add (new CGeneralTab);  // 1
-  m_panels.add (new CFillTab);     // 2
+  m_panels.add (new CGeneralTab);         // 1
+  m_panels.add (new CFillTab);            // 2
   m_panels.add (new CDropShadowTab);      // 3
-  m_panels.add (new CBackgroundPanel);    // 4
+  m_panels.add (new CInnerShadowTab);     // 4
   m_panels.add (new COuterGlowTab);       // 5
-  m_panels.add (new CBackgroundPanel);    // 6
+  m_panels.add (new CInnerGlowTab);       // 6
   m_panels.add (new CBevelEmbossTab);     // 7
-  m_panels.add (new CBackgroundPanel);    // 8
-  m_panels.add (new CBackgroundPanel);    // 9
+  m_panels.add (new Component ("Satin"));           // 8
+  m_panels.add (new Component ("Colour Overlay"));  // 9
   m_panels.add (new CGradientOverlayTab); // 10
-  m_panels.add (new CBackgroundPanel);    // 11
+  m_panels.add (new Component ("Pattern Overlay")); // 11
   m_panels.add (new CStrokeTab);          // 12
-  m_panels.add (new CBackgroundPanel);    // 13
-  m_panels.add (new CBackgroundPanel);    // 14
+  m_panels.add (new Component ("Background"));      // 13
+  m_panels.add (new Component ("Foreground"));      // 14
 
   for (int i = 0; i < 14; ++i)
   {
@@ -59,24 +59,14 @@ COptionsPanel::COptionsPanel ()
 
   {
     ComboBox* c = new ComboBox;
-    c->addItem ("General", 1);
-    c->addItem ("Fill", 2);
-    c->addItem ("Drop Shadow", 3);
-    c->addItem ("Inner Shadow", 4);
-    c->addItem ("Outer Glow", 5);
-    c->addItem ("Inner Glow", 6);
-    c->addItem ("Bevel & Emboss", 7);
-    c->addItem ("Satin", 8);
-    c->addItem ("Colour Overlay", 9);
-    c->addItem ("Gradient Overlay", 10);
-    c->addItem ("Pattern Overlay", 11);
-    c->addItem ("Stroke", 12);
-    c->addSeparator ();
-    c->addItem ("Background", 13);
-    c->addItem ("Foreground", 14);
 
-    c->setItemEnabled (4, false);
-    c->setItemEnabled (6, false);
+    for (int i = 0; i < m_panels.size (); ++i)
+    {
+      if (i == 12)
+        c->addSeparator ();
+      c->addItem (m_panels [i]->getName (), i + 1);
+    }
+
     c->setItemEnabled (8, false);
     c->setItemEnabled (9, false);
     c->setItemEnabled (11, false);

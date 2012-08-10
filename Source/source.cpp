@@ -48,7 +48,6 @@
 
 using namespace juce;
 
-#include "gui/Controls.h"
 #include "gui/CustomLookAndFeel.h"
 #include "gui/Options.h"
 #include "gui/CSolidColourPicker.h"
@@ -61,6 +60,8 @@ using namespace juce;
 #include "gui/CFillTab.h"
 #include "gui/CGeneralTab.h"
 #include "gui/CGradientOverlayTab.h"
+#include "gui/CInnerGlowTab.h"
+#include "gui/CInnerShadowTab.h"
 #include "gui/COptionsPanel.h"
 #include "gui/COuterGlowTab.h"
 #include "gui/CLayerGraphicsPreview.h"
@@ -72,10 +73,8 @@ using namespace juce;
 
 //----------
 
-#include "gui/Controls.cpp"
 #include "gui/CustomLookAndFeel.cpp"
 #include "gui/MainApp.cpp"
-#include "gui/Options.cpp"
 #include "gui/CSolidColourPicker.cpp"
 
 #include "gui/CBackgroundPanel.cpp"
@@ -84,6 +83,8 @@ using namespace juce;
 #include "gui/CGeneralTab.cpp"
 #include "gui/CGradientOverlayTab.cpp"
 #include "gui/CImageDropTarget.cpp"
+#include "gui/CInnerGlowTab.cpp"
+#include "gui/CInnerShadowTab.cpp"
 #include "gui/CDropShadowTab.cpp"
 #include "gui/CLayerGraphicsPreview.cpp"
 #include "gui/CMainPanel.cpp"

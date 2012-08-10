@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 
 CBevelEmbossTab::CBevelEmbossTab ()
-  : COptionsTab ("Drop Shadow")
+  : COptionsTab ("Bevel and Emboss")
 {
   m_options.active = false;
   m_options.kind = vf::BevelEmbossStyle::kindOuterBevel;

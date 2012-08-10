@@ -29,13 +29,14 @@
 		E3E7D3A4C2D524442D8728EB = { isa = PBXBuildFile; fileRef = 29C198BEE359B8F1CAD99E21; };
 		96027985FBD72F7F64CD991E = { isa = PBXBuildFile; fileRef = 0DA0D120FEA9704FC9D14212; };
 		D6647F0B853F883081D02D97 = { isa = PBXBuildFile; fileRef = 87820BC27D77D7E037C953DF; };
-		082AD9FBCD76751095FD6F54 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Controls.cpp; path = ../../Source/gui/Controls.cpp; sourceTree = "SOURCE_ROOT"; };
+		08142CBE672096504DD1B24B = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CInnerGlowTab.h; path = ../../Source/gui/CInnerGlowTab.h; sourceTree = "SOURCE_ROOT"; };
 		0DA0D120FEA9704FC9D14212 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_gui_basics.mm"; path = "../../JUCE/modules/juce_gui_basics/juce_gui_basics.mm"; sourceTree = "SOURCE_ROOT"; };
 		10CBDEF040BB578DE544E951 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainApp.cpp; path = ../../Source/gui/MainApp.cpp; sourceTree = "SOURCE_ROOT"; };
 		1206F283DE4CFD3166A3F70A = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = COuterGlowTab.cpp; path = ../../Source/gui/COuterGlowTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		126B65611BFB343E7372A395 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = COptionsPanel.h; path = ../../Source/gui/COptionsPanel.h; sourceTree = "SOURCE_ROOT"; };
 		16A10F07045F4EC3A83340DB = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CImageDropTarget.cpp; path = ../../Source/gui/CImageDropTarget.cpp; sourceTree = "SOURCE_ROOT"; };
 		1E8A0743872E1351BE240897 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = COuterGlowTab.h; path = ../../Source/gui/COuterGlowTab.h; sourceTree = "SOURCE_ROOT"; };
+		1FAC104A4983346869AED3C1 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CInnerGlowTab.cpp; path = ../../Source/gui/CInnerGlowTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		25F23024AD16F6E64CCBADB1 = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2702AD79F632FC3702AD797F = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomLookAndFeel.h; path = ../../Source/gui/CustomLookAndFeel.h; sourceTree = "SOURCE_ROOT"; };
 		273FE1F01E92E910381DA6AC = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "vf_concurrent.cpp"; path = "../../VFLib/modules/vf_concurrent/vf_concurrent.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -46,7 +47,7 @@
 		3FF8B45AC097221E3AE7954D = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CBevelEmbossTab.cpp; path = ../../Source/gui/CBevelEmbossTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		4101D66E51C83F394B43DB84 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CBevelEmbossTab.h; path = ../../Source/gui/CBevelEmbossTab.h; sourceTree = "SOURCE_ROOT"; };
 		42043AD32AE01E4932CB9B89 = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		461AAE3A91B08D83B808FFFF = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Controls.h; path = ../../Source/gui/Controls.h; sourceTree = "SOURCE_ROOT"; };
+		494960AB2F1AB32CCDEDC54A = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CInnerShadowTab.cpp; path = ../../Source/gui/CInnerShadowTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		5BD66251BC6998E574E10B20 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = COptionsPanel.cpp; path = ../../Source/gui/COptionsPanel.cpp; sourceTree = "SOURCE_ROOT"; };
 		5EC17CEACCB9E23B723764AA = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Info.plist; sourceTree = "SOURCE_ROOT"; };
 		6077D07DFAD8010997F12ACE = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "vf_unfinished.cpp"; path = "../../VFLib/modules/vf_unfinished/vf_unfinished.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -54,7 +55,6 @@
 		659BF4398BB9229F7F598AA0 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_events.mm"; path = "../../JUCE/modules/juce_events/juce_events.mm"; sourceTree = "SOURCE_ROOT"; };
 		65E205DA928B9F907913B42A = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CDropShadowTab.cpp; path = ../../Source/gui/CDropShadowTab.cpp; sourceTree = "SOURCE_ROOT"; };
 		6E117DAB0F7F530F0FBF3748 = { isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
-		6FCC1FD160FF2C5130202039 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Options.cpp; path = ../../Source/gui/Options.cpp; sourceTree = "SOURCE_ROOT"; };
 		70654934B8C4757151E012C8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CustomLookAndFeel.cpp; path = ../../Source/gui/CustomLookAndFeel.cpp; sourceTree = "SOURCE_ROOT"; };
 		7114A5942109BA92C5429B45 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Options.h; path = ../../Source/gui/Options.h; sourceTree = "SOURCE_ROOT"; };
 		754E41397ECEDC62B027B9FD = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGradientOverlayTab.h; path = ../../Source/gui/CGradientOverlayTab.h; sourceTree = "SOURCE_ROOT"; };
@@ -79,6 +79,7 @@
 		5D25324B2322C4E207A96FFD = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerEffects.app; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		8FCF1AC4D02966435CFD7491 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CLayerGraphicsPreview.cpp; path = ../../Source/gui/CLayerGraphicsPreview.cpp; sourceTree = "SOURCE_ROOT"; };
 		9AB3C71D9395AA087B6E33A8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CMainPanel.cpp; path = ../../Source/gui/CMainPanel.cpp; sourceTree = "SOURCE_ROOT"; };
+		A23651B272B95EE44D4D0B5C = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CInnerShadowTab.h; path = ../../Source/gui/CInnerShadowTab.h; sourceTree = "SOURCE_ROOT"; };
 		A325E6D5481031C6C095640C = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CSolidColourPicker.h; path = ../../Source/gui/CSolidColourPicker.h; sourceTree = "SOURCE_ROOT"; };
 		B61B2591BF355DEF87D05AD4 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMainWindow.h; path = ../../Source/gui/CMainWindow.h; sourceTree = "SOURCE_ROOT"; };
 		B8357D8481797DCB9250BA91 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_core.mm"; path = "../../JUCE/modules/juce_core/juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -114,14 +115,16 @@
 				754E41397ECEDC62B027B9FD,
 				16A10F07045F4EC3A83340DB,
 				E249F7F9BB655C880B0E2469,
+				1FAC104A4983346869AED3C1,
+				08142CBE672096504DD1B24B,
+				494960AB2F1AB32CCDEDC54A,
+				A23651B272B95EE44D4D0B5C,
 				8FCF1AC4D02966435CFD7491,
 				846114B3DA126446E8F7356F,
 				9AB3C71D9395AA087B6E33A8,
 				DCB511134CDA79FC958F8BE3,
 				98FA327E99707D8581756330,
 				B61B2591BF355DEF87D05AD4,
-				082AD9FBCD76751095FD6F54,
-				461AAE3A91B08D83B808FFFF,
 				5BD66251BC6998E574E10B20,
 				126B65611BFB343E7372A395,
 				F726317A8E0023AD25923B43,
@@ -136,7 +139,6 @@
 				2702AD79F632FC3702AD797F,
 				10CBDEF040BB578DE544E951,
 				D2C893139EDFE0E5EFD3B0F3,
-				6FCC1FD160FF2C5130202039,
 				7114A5942109BA92C5429B45 ); name = gui; sourceTree = "<group>"; };
 		88539A9C461E59EB57C576AB = { isa = PBXGroup; children = (
 				136A43F4CECB0D29A67432F8,

@@ -46,23 +46,18 @@ struct StrokeStyle
     posCentre
   };
 
-  struct Options
+  StrokeStyle () : active (false)
   {
-    Options ()
-      : active (false)
-    {
-    }
+  }
 
-    bool            active;
+  bool            active;
+  Pos             pos;
+  int             size;           // [0, 250]
+  BlendMode::Type mode;
+  double          opacity;
+  Colour          colour;
 
-    Pos             pos;
-    int             size;           // [0, 250]
-    BlendMode::Type mode;
-    double          opacity;
-    Colour          colour;
-  };
-
-  static void render (Pixels destPixels, Pixels maskPixels, Options const& options);
+  void operator () (Pixels destPixels, Pixels maskPixels);
 };
 
 #endif

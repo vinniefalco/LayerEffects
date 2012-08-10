@@ -50,10 +50,6 @@ CMainPanel::CMainPanel ()
   addToLayout (c, anchorTopLeft, anchorBottomRight);
 
   setMinimumSize (4+240+4+120+4, 120);
-
-  m_options.dropShadow.size = 8;
-  m_options.dropShadow.angle = 135;
-  m_options.dropShadow.distance = 8;
 }
 
 CMainPanel::~CMainPanel()
@@ -86,9 +82,24 @@ void CMainPanel::onOptionsDropShadow (Options::DropShadow options)
 
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }
+
+void CMainPanel::onOptionsInnerShadow (Options::InnerShadow options)
+{
+  m_options.innerShadow = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
 void CMainPanel::onOptionsOuterGlow (Options::OuterGlow options)
 {
   m_options.outerGlow = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
+void CMainPanel::onOptionsInnerGlow (Options::InnerGlow options)
+{
+  m_options.innerGlow = options;
 
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }

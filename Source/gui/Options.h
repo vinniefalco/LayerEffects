@@ -38,28 +38,34 @@
 struct Options
 {
   typedef vf::LayerGraphics::Options::General General;
-  typedef vf::LayerGraphics::Options::Fill Fill;
-  typedef vf::LayerGraphics::Options::DropShadow DropShadow;
-  typedef vf::OuterGlowStyle::Options OuterGlow;
+  typedef vf::FillStyle           Fill;
+  typedef vf::DropShadowStyle     DropShadow;
+  typedef vf::InnerShadowStyle    InnerShadow;
+  typedef vf::OuterGlowStyle      OuterGlow;
+  typedef vf::InnerGlowStyle      InnerGlow;
   typedef vf::BevelEmbossStyle::Options BevelEmboss;
   typedef vf::GradientOverlayStyle::Options GradientOverlay;
-  typedef vf::StrokeStyle::Options Stroke;
+  typedef vf::StrokeStyle         Stroke;
 
   struct Listener
   {
-    virtual void onOptionsGeneral         (General general) { }
-    virtual void onOptionsFill            (Fill fill) { }
-    virtual void onOptionsDropShadow      (DropShadow dropShadow) { }
-    virtual void onOptionsOuterGlow       (OuterGlow outerGlow) { }
-    virtual void onOptionsBevelEmboss     (BevelEmboss bevelEmboss) { }
-    virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
-    virtual void onOptionsStroke          (Stroke gradientOverlay) { }
+    virtual void onOptionsGeneral         (General options) { }
+    virtual void onOptionsFill            (Fill options) { }
+    virtual void onOptionsDropShadow      (DropShadow options) { }
+    virtual void onOptionsInnerShadow     (InnerShadow options) { }
+    virtual void onOptionsOuterGlow       (OuterGlow options) { }
+    virtual void onOptionsInnerGlow       (InnerGlow options) { }
+    virtual void onOptionsBevelEmboss     (BevelEmboss options) { }
+    virtual void onOptionsGradientOverlay (GradientOverlay options) { }
+    virtual void onOptionsStroke          (Stroke options) { }
   };
 
   General         general;
   Fill            fill;
   DropShadow      dropShadow;
+  InnerShadow     innerShadow;
   OuterGlow       outerGlow;
+  InnerGlow       innerGlow;
   BevelEmboss     bevelEmboss;
   GradientOverlay gradientOverlay;
   Stroke          stroke;

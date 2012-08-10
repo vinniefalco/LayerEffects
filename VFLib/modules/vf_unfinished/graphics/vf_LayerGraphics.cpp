@@ -133,25 +133,22 @@ LayerGraphics::~LayerGraphics ()
     GradientOverlayStyle::render (fillPixels, m_options.gradientOverlay);
   }
 
-  //applyInnerShadow (m_work);
+  m_options.innerShadow (fillPixels, maskPixels);
 
   //
   // Apply effects to work image, bottom up.
   //
 
-  applyDropShadow (m_work);
+  m_options.dropShadow (workPixels, maskPixels);
 
-  applyFill ();
+  m_options.fill (m_work, m_fill);
 
   if (m_options.bevelEmboss.active)
   {
     BevelEmbossStyle::render (workPixels, maskPixels, m_options.bevelEmboss);
   }
 
-  if (m_options.stroke.active)
-  {
-    StrokeStyle::render (workPixels, maskPixels, m_options.stroke);
-  }
+  m_options.stroke (workPixels, maskPixels);
 
   // Copy the work image onto the background layer
   // using normal mode and the general opacity.
@@ -169,151 +166,4 @@ LayerGraphics::~LayerGraphics ()
 LayerGraphics::Options& LayerGraphics::getOptions ()
 {
   return m_options;
-}
-
-//------------------------------------------------------------------------------
-
-void LayerGraphics::applyDropShadow (Image& workImage)
-{
-  Options::DropShadow& dropShadow = m_options.dropShadow;
-
-  if (!dropShadow.active)
-    return;
-
-#if 0
-  int const dx = static_cast <int> (
-    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
-  
-  int const dy = static_cast <int> (
-    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
-#endif
-
-  // Get the layer mask as an individual channel.
-  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
-  
-  RadialImageConvolutionKernel k (dropShadow.size + 1);
-  k.createGaussianBlur ();
-
-  // Compute the shadow mask.
-  Image shadow = k.createConvolvedImageFull (mask);
-
-  // Optionally subtract layer mask from shadow mask.
-  if (dropShadow.knockout)
-    copyImage (
-      shadow,
-      //Point <int> (dropShadow.size + dx, dropShadow.size + dy),
-      Point <int> (0, 0),
-      mask,
-      mask.getBounds (),
-      BlendMode::modeSubtract,
-      1);
-
-  // Fill the shadow mask.
-  fillImage (workImage,
-             Point <int> (0, 0),
-             shadow,
-             shadow.getBounds (),
-             dropShadow.mode,
-             dropShadow.opacity,
-             dropShadow.colour);
-}
-
-//------------------------------------------------------------------------------
-
-#if 0
-static void InvertImage (Image image)
-{
-  switch (image.getFormat ())
-  {
-  case Image::SingleChannel:
-    {
-      Image::BitmapData bits (image, Image::BitmapData::readWrite);
-
-      uint8* dest = bits.getLinePointer (0);
-      int const rowBytes = bits.lineStride - bits.width * bits.pixelStride;
-
-      for (int y = bits.height; y--;)
-      {
-        for (int x = bits.width; x--;)
-        {
-          *dest = 255 - *dest;
-          dest += bits.pixelStride;
-        }
-
-        dest += rowBytes;
-      }
-    }
-    break;
-
-  default:
-    jassertfalse;
-    break;
-  }
-}
-#endif
-
-void LayerGraphics::applyInnerShadow (Image& workImage)
-{
-  Options::InnerShadow& innerShadow = m_options.innerShadow;
-
-  if (!innerShadow.active)
-    return;
-
-#if 0
-  int const dx = static_cast <int> (
-    - innerShadow.distance * std::cos (innerShadow.angle) + 0.5) - innerShadow.size;
-  
-  int const dy = static_cast <int> (
-    innerShadow.distance * std::sin (innerShadow.angle) + 0.5) - innerShadow.size;
-#endif
-
-  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
-  
-  RadialImageConvolutionKernel k (innerShadow.size + 1);
-  k.createGaussianBlur ();
-
-  Image shadow = k.createConvolvedImage (mask);
-
-  // Apply inner shadow using layer mask.
-  fillImage (workImage,
-             Point <int> (0, 0),
-             mask,
-             mask.getBounds (),
-             innerShadow.mode,
-             innerShadow.opacity,
-             innerShadow.colour);
-
-  //InvertImage (shadow);
-
-  // clip inverse shadow mask to interior of layer
-  copyImage (shadow,
-             Point <int> (0, 0),
-             mask,
-             mask.getBounds (),
-             BlendMode::modeDarken,
-             1);
-  // DO THIS CLIP FIRST so we have fewer pixels to process?
-  //shadow = shadow.getClippedImage (mask.m_bounds + Point <int> (dx, dy));
-
-  // Fill the shadow mask.
-  fillImage (workImage,
-             Point <int> (0, 0),
-             shadow,
-             shadow.getBounds (),
-             innerShadow.mode,
-             innerShadow.opacity,
-             innerShadow.colour);
-}
-
-//------------------------------------------------------------------------------
-
-void LayerGraphics::applyFill ()
-{
-  copyImage (
-    m_work,
-    Point <int> (0, 0),
-    m_fill,
-    m_fillBounds,
-    m_options.fill.mode,
-    m_options.fill.opacity);
 }
