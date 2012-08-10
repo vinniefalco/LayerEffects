@@ -110,8 +110,8 @@ GradientColours::GradientColours (int numColourStops, int numAlphaStops)
 GradientColours::GradientColours (Colour startColour, Colour endColour)
   : m_data (new Data (2, 2))
 {
-  m_data->getAlphaStop (0) = AlphaStop (1.f, 0.f, .5f);
-  m_data->getAlphaStop (1) = AlphaStop (1.f, 1.f, .5f);
+  m_data->getAlphaStop (0) = AlphaStop (1.f, startColour.getAlpha () / 255.f, .5f);
+  m_data->getAlphaStop (1) = AlphaStop (1.f, endColour.getAlpha () / 255.f, .5f);
   m_data->getColourStop (0) = ColourStop (startColour, 0.f, .5f);
   m_data->getColourStop (1) = ColourStop (endColour, 1.f, .5f);
 }

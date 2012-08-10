@@ -30,39 +30,33 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_OPTIONS_HEADER
-#define LAYEREFFECTS_OPTIONS_HEADER
-
-/** Holds the options for layer graphics.
-*/
-struct Options
+CFillTab::CFillTab () : COptionsTab ("Fill")
 {
-  typedef vf::LayerGraphics::Options::General General;
-  typedef vf::LayerGraphics::Options::Fill Fill;
-  typedef vf::LayerGraphics::Options::DropShadow DropShadow;
-  typedef vf::OuterGlowStyle::Options OuterGlow;
-  typedef vf::BevelEmbossStyle::Options BevelEmboss;
-  typedef vf::GradientOverlayStyle::Options GradientOverlay;
-  typedef vf::StrokeStyle::Options Stroke;
+  m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
 
-  struct Listener
+  m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
+}
+
+CFillTab::~CFillTab ()
+{
+}
+
+void CFillTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+  if (comboBoxThatHasChanged == m_modeComboBox)
   {
-    virtual void onOptionsGeneral         (General general) { }
-    virtual void onOptionsFill            (Fill fill) { }
-    virtual void onOptionsDropShadow      (DropShadow dropShadow) { }
-    virtual void onOptionsOuterGlow       (OuterGlow outerGlow) { }
-    virtual void onOptionsBevelEmboss     (BevelEmboss bevelEmboss) { }
-    virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
-    virtual void onOptionsStroke          (Stroke gradientOverlay) { }
-  };
+    m_options.mode = vf::BlendMode::Type (m_modeComboBox->getSelectedId ());
 
-  General         general;
-  Fill            fill;
-  DropShadow      dropShadow;
-  OuterGlow       outerGlow;
-  BevelEmboss     bevelEmboss;
-  GradientOverlay gradientOverlay;
-  Stroke          stroke;
-};
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsFill, m_options);
+  }
+}
 
-#endif
+void CFillTab::sliderValueChanged (Slider* slider)
+{
+  if (slider == m_opacitySlider)
+  {
+    m_options.opacity = slider->getValue () / 100;
+
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsFill, m_options);
+  }
+}

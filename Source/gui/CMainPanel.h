@@ -49,6 +49,7 @@ public:
   void onOptionsGeneral (Options::General options);
   void onOptionsFill (Options::Fill options);
   void onOptionsDropShadow (Options::DropShadow options);
+  void onOptionsOuterGlow (Options::OuterGlow options);
   void onOptionsBevelEmboss  (Options::BevelEmboss options);
   void onOptionsGradientOverlay (Options::GradientOverlay options);
   void onOptionsStroke (Options::Stroke options);

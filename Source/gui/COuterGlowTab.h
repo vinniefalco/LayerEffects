@@ -30,25 +30,33 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_COPTIONSFILLTAB_HEADER
-#define LAYEREFFECTS_COPTIONSFILLTAB_HEADER
+#ifndef LAYEREFFECTS_COUTERGLOWTAB_HEADER
+#define LAYEREFFECTS_COUTERGLOWTAB_HEADER
 
-/** Fill options.
+/** Outer Glow options.
 */
-class COptionsFillTab : public COptionsTab
+class COuterGlowTab : public COptionsTab
 {
 public:
-  COptionsFillTab ();
-  ~COptionsFillTab ();
-  
+  COuterGlowTab ();
+  ~COuterGlowTab ();
+
+  void buttonClicked (Button* button);
   void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
 
 private:
-  Options::Fill m_options;
+  Options::OuterGlow m_options;
 
+  ToggleButton* m_activeButton;
   ComboBox* m_modeComboBox;
   Slider* m_opacitySlider;
+  //CGradientPicker* m_gradientPicker;
+  ToggleButton* m_preciseButton;
+  Slider* m_spreadSlider;
+  Slider* m_sizeSlider;
+  //CContourPicker* m_contourPicker;
+  Slider* m_rangeSlider;
 };
 
 #endif

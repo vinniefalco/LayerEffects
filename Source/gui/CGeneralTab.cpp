@@ -30,7 +30,7 @@
 */
 //------------------------------------------------------------------------------
 
-COptionsGeneralTab::COptionsGeneralTab ()
+CGeneralTab::CGeneralTab ()
   : COptionsTab ("General")
 {
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
@@ -38,11 +38,11 @@ COptionsGeneralTab::COptionsGeneralTab ()
   m_groupButton = createToggleButton ("Group interior effects", m_options.groupInteriorEffects);
 }
 
-COptionsGeneralTab::~COptionsGeneralTab ()
+CGeneralTab::~CGeneralTab ()
 {
 }
 
-void COptionsGeneralTab::buttonClicked (Button* button)
+void CGeneralTab::buttonClicked (Button* button)
 {
   if (button == m_groupButton)
   {
@@ -52,7 +52,7 @@ void COptionsGeneralTab::buttonClicked (Button* button)
   }
 }
 
-void COptionsGeneralTab::sliderValueChanged (Slider* slider)
+void CGeneralTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
   {

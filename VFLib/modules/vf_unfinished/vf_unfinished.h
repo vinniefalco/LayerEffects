@@ -73,6 +73,7 @@ namespace vf
 #include "graphics/vf_GradientColours.h"
 #include "graphics/vf_BevelEmbossStyle.h"
 #include "graphics/vf_GradientOverlayStyle.h"
+#include "graphics/vf_OuterGlowStyle.h"
 #include "graphics/vf_StrokeStyle.h"
 #include "graphics/vf_LayerGraphics.h"
 

@@ -155,6 +155,36 @@ struct DistanceTransform
     int m_radiusSquared;
   };
 
+  //------------------------------------------------------------------------------
+
+  /** Distance output to a generic container.
+  */
+  template <class Map>
+  struct OutputInverseDistanceMap
+  {
+    typedef typename Map::Type Type;
+
+    OutputInverseDistanceMap (Map map, int radius)
+      : m_map (map)
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
+    {
+    }
+
+    void operator () (int const x, int const y, double distance)
+    {
+      if (distance <= m_radiusSquared && distance > 0)
+        m_map (x, y) = m_radius - Type (std::sqrt (distance));
+      else
+        m_map (x, y) = 0;
+    }
+
+  private:
+    Map m_map;
+    Type m_radius;
+    Type m_radiusSquared;
+  };
+
   //----------------------------------------------------------------------------
   // 
   // "A General Algorithm for Computing Distance Transforms in Linear Time"
@@ -413,7 +443,7 @@ struct DistanceTransform
     static int intersect (int ux, int vx, int du, int dv)
     {
       if (dv > du)
-        return (dv / du) / (2 * (vx - ux));
+        return (dv - du) / (2 * (vx - ux));
       else
         return -2;
     }
@@ -426,7 +456,7 @@ struct DistanceTransform
     template <class Functor, class BoolImage, class Metric>
     static void calculate (Functor f, BoolImage test, int const n, int const m, Metric)
     {
-      static int inf = 1+n*n+m*m;
+      int const inf = 1+n*n+m*m;
       Map2D <int> I (n, m);
 
       // stage 1
@@ -437,7 +467,7 @@ struct DistanceTransform
 
         for (int r = 0; r < m; ++r)
         {
-          if (test (r,c))
+          if (test (c,r))
           {
             if (mid > -1)
               mid = (r + mid) /2;
@@ -509,7 +539,7 @@ struct DistanceTransform
             return; // undefined!
 
           int c = 0;
-          for (int k = 0; k < p; ++k)
+          for (int k = 0; k <= p ; ++k)
           {
             int cx;
             if (k == p)
@@ -525,7 +555,7 @@ struct DistanceTransform
       // output
       for (int r = 0; r < m; ++r)
         for (int c = 0; c < n; ++c)
-          f (c, r, sqrt (double (I (c, r))));
+          f (c, r, I (c, r));
     }
   };
 };

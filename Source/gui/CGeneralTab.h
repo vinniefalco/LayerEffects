@@ -30,39 +30,26 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_OPTIONS_HEADER
-#define LAYEREFFECTS_OPTIONS_HEADER
+#ifndef LAYEREFFECTS_CGENERALTAB_HEADER
+#define LAYEREFFECTS_CGENERALTAB_HEADER
 
-/** Holds the options for layer graphics.
+/** General options.
 */
-struct Options
+class CGeneralTab : public COptionsTab
 {
-  typedef vf::LayerGraphics::Options::General General;
-  typedef vf::LayerGraphics::Options::Fill Fill;
-  typedef vf::LayerGraphics::Options::DropShadow DropShadow;
-  typedef vf::OuterGlowStyle::Options OuterGlow;
-  typedef vf::BevelEmbossStyle::Options BevelEmboss;
-  typedef vf::GradientOverlayStyle::Options GradientOverlay;
-  typedef vf::StrokeStyle::Options Stroke;
+public:
+  CGeneralTab ();
+  ~CGeneralTab ();
 
-  struct Listener
-  {
-    virtual void onOptionsGeneral         (General general) { }
-    virtual void onOptionsFill            (Fill fill) { }
-    virtual void onOptionsDropShadow      (DropShadow dropShadow) { }
-    virtual void onOptionsOuterGlow       (OuterGlow outerGlow) { }
-    virtual void onOptionsBevelEmboss     (BevelEmboss bevelEmboss) { }
-    virtual void onOptionsGradientOverlay (GradientOverlay gradientOverlay) { }
-    virtual void onOptionsStroke          (Stroke gradientOverlay) { }
-  };
+  void buttonClicked (Button* button);
+  void sliderValueChanged (Slider* slider);
 
-  General         general;
-  Fill            fill;
-  DropShadow      dropShadow;
-  OuterGlow       outerGlow;
-  BevelEmboss     bevelEmboss;
-  GradientOverlay gradientOverlay;
-  Stroke          stroke;
+private:
+  Options::General m_options;
+
+  Slider* m_opacitySlider;
+  ToggleButton* m_groupButton;
+
 };
 
 #endif

@@ -35,11 +35,11 @@ COptionsPanel::COptionsPanel ()
 {
   setSize (240, 560);
 
-  m_panels.add (new COptionsGeneralTab);  // 1
-  m_panels.add (new COptionsFillTab);     // 2
+  m_panels.add (new CGeneralTab);  // 1
+  m_panels.add (new CFillTab);     // 2
   m_panels.add (new CDropShadowTab);      // 3
   m_panels.add (new CBackgroundPanel);    // 4
-  m_panels.add (new CBackgroundPanel);    // 5
+  m_panels.add (new COuterGlowTab);       // 5
   m_panels.add (new CBackgroundPanel);    // 6
   m_panels.add (new CBevelEmbossTab);     // 7
   m_panels.add (new CBackgroundPanel);    // 8
@@ -76,7 +76,6 @@ COptionsPanel::COptionsPanel ()
     c->addItem ("Foreground", 14);
 
     c->setItemEnabled (4, false);
-    c->setItemEnabled (5, false);
     c->setItemEnabled (6, false);
     c->setItemEnabled (8, false);
     c->setItemEnabled (9, false);

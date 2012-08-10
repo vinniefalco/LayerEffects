@@ -30,57 +30,34 @@
 */
 /*============================================================================*/
 
-struct RenderStroke
+#ifndef VF_OUTERGLOWSTYLE_VFHEADER
+#define VF_OUTERGLOWSTYLE_VFHEADER
+
+/** Provides the Outer Glow layer style.
+
+    @ingroup vf_gui
+*/
+struct OuterGlowStyle
 {
-  RenderStroke (Pixels::Map2D dest, Colour colour, int radius)
-    : m_dest (dest)
-    , m_src (colour.getPixelARGB ())
-    , m_radius (radius)
-    , m_radiusSquared (radius * radius)
-    , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
+  struct Options
   {
-  }
-
-  void operator() (int x, int y, double distance)
-  {
-    PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
-
-#if 1
-    if (distance > 0)
+    Options ()
+      : active (false)
     {
-      if (distance <= m_radiusMinusOneSquared)
-      {
-        dest.blend (m_src);
-      }
-      else if (distance < m_radiusSquared)
-      {
-        distance = sqrt (distance) - (m_radius - 1);
-        uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
-
-        dest.blend (m_src, alpha);
-      }
     }
-#else
-    uint8 const d = int(sqrt (distance)+0.5) % 256;
-    dest.set (Colour (d,d,d).getPixelARGB ());
-#endif
-  }
 
-private:
-  Pixels::Map2D m_dest;
-  PixelARGB m_src;
-  int m_radius;
-  int m_radiusSquared;
-  int m_radiusMinusOneSquared;
+    bool            active;
+
+    BlendMode::Type mode;
+    double          opacity;
+    GradientColours colours;
+    bool            precise;
+    double          spread;         // [0, 1]
+    int             size;           // [0, 250]
+    double          range;          // [0, 1]
+  };
+
+  static void render (Pixels destPixels, Pixels maskPixels, Options const& options);
 };
 
-void StrokeStyle::render (
-  Pixels destPixels, Pixels maskPixels, Options const& options)
-{
-  DistanceTransform::WangTan::calculate (
-    RenderStroke (Pixels::Map2D (destPixels), options.colour, options.size),
-    DistanceTransform::AlphaTest (maskPixels),
-    maskPixels.getWidth (),
-    maskPixels.getHeight (),
-    DistanceTransform::Meijster::EuclideanMetric ());
-}
+#endif

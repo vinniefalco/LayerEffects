@@ -30,26 +30,25 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_COPTIONSGENERALTAB_HEADER
-#define LAYEREFFECTS_COPTIONSGENERALTAB_HEADER
+#ifndef LAYEREFFECTS_CFILLTAB_HEADER
+#define LAYEREFFECTS_CFILLTAB_HEADER
 
-/** General options.
+/** Fill options.
 */
-class COptionsGeneralTab : public COptionsTab
+class CFillTab : public COptionsTab
 {
 public:
-  COptionsGeneralTab ();
-  ~COptionsGeneralTab ();
-
-  void buttonClicked (Button* button);
+  CFillTab ();
+  ~CFillTab ();
+  
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
 
 private:
-  Options::General m_options;
+  Options::Fill m_options;
 
+  ComboBox* m_modeComboBox;
   Slider* m_opacitySlider;
-  ToggleButton* m_groupButton;
-
 };
 
 #endif

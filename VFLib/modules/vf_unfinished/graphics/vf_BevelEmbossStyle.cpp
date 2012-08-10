@@ -44,7 +44,7 @@ void BevelEmbossStyle::render (
   {
   case kindOuterBevel:
     DistanceTransform::Meijster::calculate (
-      DistanceTransform::OutputDistanceMap <Map2D <T> > (distMap, options.size),
+      DistanceTransform::OutputInverseDistanceMap <Map2D <T> > (distMap, options.size),
       DistanceTransform::BlackTest (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),

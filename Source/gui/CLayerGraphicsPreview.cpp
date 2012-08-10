@@ -62,6 +62,7 @@ void CLayerGraphicsPreview::paint (Graphics& g)
   lc.getOptions ().general = m_options.general;
   lc.getOptions ().fill = m_options.fill;
   lc.getOptions ().dropShadow = m_options.dropShadow;
+  lc.getOptions ().outerGlow = m_options.outerGlow;
   lc.getOptions ().bevelEmboss = m_options.bevelEmboss;
   lc.getOptions ().gradientOverlay = m_options.gradientOverlay;
   lc.getOptions ().stroke = m_options.stroke;
@@ -104,12 +105,20 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
     getLocalBounds ().getCentreY (),
     1, 1);
 
-#else
+#elif 0
   // square
   g.setColour (Colours::grey);
   int const x = getLocalBounds ().getWidth () / 4;
   int const y = getLocalBounds ().getHeight () / 4;
   g.fillRect (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
+
+#elif 1
+  // ellipse
+  g.setColour (Colours::grey);
+  int const x = getLocalBounds ().getWidth () / 4;
+  int const y = getLocalBounds ().getHeight () / 4;
+  g.fillEllipse (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
+
 #endif
 }
 

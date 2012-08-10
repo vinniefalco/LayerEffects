@@ -86,6 +86,12 @@ void CMainPanel::onOptionsDropShadow (Options::DropShadow options)
 
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }
+void CMainPanel::onOptionsOuterGlow (Options::OuterGlow options)
+{
+  m_options.outerGlow = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
 
 void CMainPanel::onOptionsBevelEmboss (Options::BevelEmboss options)
 {

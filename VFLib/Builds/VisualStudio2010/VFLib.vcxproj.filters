@@ -495,6 +495,9 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\vf_db\api\backend.h">
@@ -954,6 +957,9 @@
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
   </ItemGroup>

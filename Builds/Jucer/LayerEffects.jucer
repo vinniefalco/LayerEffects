@@ -54,6 +54,10 @@
               file="../../Source/gui/CDropShadowTab.cpp"/>
         <FILE id="FLrlxU" name="CDropShadowTab.h" compile="0" resource="0"
               file="../../Source/gui/CDropShadowTab.h"/>
+        <FILE id="M1eVOC" name="CFillTab.cpp" compile="0" resource="0" file="../../Source/gui/CFillTab.cpp"/>
+        <FILE id="lNzKP7" name="CFillTab.h" compile="0" resource="0" file="../../Source/gui/CFillTab.h"/>
+        <FILE id="UFFJun" name="CGeneralTab.cpp" compile="0" resource="0" file="../../Source/gui/CGeneralTab.cpp"/>
+        <FILE id="e69g40" name="CGeneralTab.h" compile="0" resource="0" file="../../Source/gui/CGeneralTab.h"/>
         <FILE id="OLTDv7" name="CGradientOverlayTab.cpp" compile="0" resource="0"
               file="../../Source/gui/CGradientOverlayTab.cpp"/>
         <FILE id="vNJIg6" name="CGradientOverlayTab.h" compile="0" resource="0"
@@ -72,19 +76,14 @@
         <FILE id="mBvX9G" name="CMainWindow.h" compile="0" resource="0" file="../../Source/gui/CMainWindow.h"/>
         <FILE id="XjJHEC" name="Controls.cpp" compile="0" resource="0" file="../../Source/gui/Controls.cpp"/>
         <FILE id="AKKzE2" name="Controls.h" compile="0" resource="0" file="../../Source/gui/Controls.h"/>
-        <FILE id="M1eVOC" name="COptionsFillTab.cpp" compile="0" resource="0"
-              file="../../Source/gui/COptionsFillTab.cpp"/>
-        <FILE id="lNzKP7" name="COptionsFillTab.h" compile="0" resource="0"
-              file="../../Source/gui/COptionsFillTab.h"/>
-        <FILE id="UFFJun" name="COptionsGeneralTab.cpp" compile="0" resource="0"
-              file="../../Source/gui/COptionsGeneralTab.cpp"/>
-        <FILE id="e69g40" name="COptionsGeneralTab.h" compile="0" resource="0"
-              file="../../Source/gui/COptionsGeneralTab.h"/>
         <FILE id="W0nlpb" name="COptionsPanel.cpp" compile="0" resource="0"
               file="../../Source/gui/COptionsPanel.cpp"/>
         <FILE id="kt6e4L" name="COptionsPanel.h" compile="0" resource="0" file="../../Source/gui/COptionsPanel.h"/>
         <FILE id="niI07D" name="COptionsTab.cpp" compile="0" resource="0" file="../../Source/gui/COptionsTab.cpp"/>
         <FILE id="J4XQ7b" name="COptionsTab.h" compile="0" resource="0" file="../../Source/gui/COptionsTab.h"/>
+        <FILE id="My9ql2" name="COuterGlowTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/COuterGlowTab.cpp"/>
+        <FILE id="qDXumR" name="COuterGlowTab.h" compile="0" resource="0" file="../../Source/gui/COuterGlowTab.h"/>
         <FILE id="xyMavP" name="CSolidColourPicker.cpp" compile="0" resource="0"
               file="../../Source/gui/CSolidColourPicker.cpp"/>
         <FILE id="APthKO" name="CSolidColourPicker.h" compile="0" resource="0"

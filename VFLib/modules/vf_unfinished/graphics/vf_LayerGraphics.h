@@ -158,6 +158,7 @@ public:
     DropShadow    dropShadow;
     InnerShadow   innerShadow;
 
+    OuterGlowStyle::Options         outerGlow;
     BevelEmbossStyle::Options       bevelEmboss;
     GradientOverlayStyle::Options   gradientOverlay;
     StrokeStyle::Options            stroke;

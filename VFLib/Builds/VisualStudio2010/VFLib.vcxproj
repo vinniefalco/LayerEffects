@@ -432,6 +432,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -603,6 +607,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />

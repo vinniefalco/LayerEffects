@@ -40,6 +40,12 @@
     <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CFillTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CGeneralTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CGradientOverlayTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -58,16 +64,13 @@
     <ClCompile Include="..\..\Source\gui\Controls.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\COptionsFillTab.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\gui\COptionsGeneralTab.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsPanel.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COptionsTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\COuterGlowTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
@@ -126,6 +129,12 @@
     <ClInclude Include="..\..\Source\gui\CDropShadowTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CFillTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CGeneralTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
@@ -144,16 +153,13 @@
     <ClInclude Include="..\..\Source\gui\Controls.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\gui\COptionsFillTab.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\gui\COptionsGeneralTab.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsPanel.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\COptionsTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\COuterGlowTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h">
