@@ -49,8 +49,10 @@ public:
   /** Creates a gradient with the specified numbers of stops.
 
       The colour and alpha stops are uninitialized.
+
+      If numAlphaStops is -1 then two alpha stops will be set automatically.
   */
-  GradientColours (int numColourStops, int numAlphaStops);
+  GradientColours (int numColourStops, int numAlphaStops = -1);
 
   /** Create a simple two colour gradient.
   */
@@ -143,6 +145,14 @@ public:
     float center;         // [0.05, 0.95], 0.5 = linear, ignored for last stop.
   };
 
+  /** Return the number of alpha stops in this gradient.
+  */
+  int getNumAlphaStops () const noexcept;
+
+  /** Get a reference to an alpha stop.
+  */
+  AlphaStop& getAlphaStop (int index) const noexcept;
+
   struct ColourStop
   {
     ColourStop ()
@@ -159,16 +169,12 @@ public:
     float center;         // [0.05, 0.95], 0.5 = linear, ignored for last stop.
   };
 
-  /** Return the number of alpha stops in this gradient.
-  */
-  int getNumAlphaStops () const noexcept;
-
   /** Return the number of colour stops in this gradient.
   */
   int getNumColourStops () const noexcept;
 
-  AlphaStop& getAlphaStop (int index) const noexcept;
-
+  /** Get a reference to a colourstop.
+  */
   ColourStop& getColourStop (int index) const noexcept;
 
   /** Accurately interpolate a colour.
@@ -201,6 +207,15 @@ private:
   explicit GradientColours (Data* data);
 
   ReferenceCountedObjectPtr <Data> m_data;
+};
+
+/** A nice set of builtin gradient colours.
+*/
+struct GradientPresets
+{
+  GradientPresets ();
+
+  GradientColours spectrum;
 };
 
 #endif

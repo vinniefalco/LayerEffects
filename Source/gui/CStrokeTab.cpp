@@ -38,16 +38,17 @@ CStrokeTab::CStrokeTab ()
   m_options.size = 1;
   m_options.mode = vf::BlendMode::modeNormal;
   m_options.opacity = 1;
-  m_options.colour = Colours::black;
+  m_options.colour = Colours::yellow;
 
   m_activeButton = createToggleButton ("Active", m_options.active);
 
   m_posComboBox = createEmptyComboBox ("Pos");
-  m_posComboBox->addItem ("Outer Bevel", 1);
-  m_posComboBox->addItem ("Inner Bevel", 2);
-  m_posComboBox->addItem ("Emboss", 3);
+  m_posComboBox->addItem ("Outside", vf::StrokeStyle::posOuter);
+  m_posComboBox->addItem ("Inside",  vf::StrokeStyle::posInner);
+  m_posComboBox->addItem ("Center",  vf::StrokeStyle::posCentre);
+  m_posComboBox->setSelectedId (m_options.pos);
 
-  m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
+  m_sizeSlider = createIntegerSlider ("Size", 1, 250, m_options.size);
 
   m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
 

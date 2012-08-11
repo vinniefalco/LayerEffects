@@ -54,6 +54,63 @@ struct InnerGlowStyle
   }
 
   void operator() (Pixels destPixels, Pixels maskPixels);
+
+  struct RenderPixel
+  {
+    RenderPixel (Pixels dest,
+                 double opacity,
+                 double choke,
+                 int size,
+                 SharedTable <Colour> colourTable)
+      : m_dest (dest)
+      , m_alpha (uint8 (255 * opacity + 0.5))
+      , m_choke (int (choke * size + 0.5))
+      , m_size (size)
+      , m_table (colourTable)
+    {
+      jassert (dest.isRGB ());
+    }
+
+    void operator () (int x, int y, int distanceSquared)
+    {
+      if (distanceSquared > 0)
+      {
+        int index;
+
+        double dist = sqrt (double (distanceSquared));
+
+        if (dist < m_choke)
+        {
+          index = 0;
+        }
+        else
+        {
+          int const last = m_table.getNumEntries () - 1;
+
+          if (dist >= m_size)
+          {
+            index = last;
+          }
+          else
+          {
+            index = int (last * (dist - m_choke) / (m_size - m_choke));
+          }
+        }
+
+        PixelARGB const& src (m_table [index].getPixelARGB ());
+        PixelRGB& dest (*((PixelRGB*)m_dest.getPixelPointer (x, y)));
+
+        dest.blend (src, m_alpha);
+      }
+    }
+
+  private:
+    Pixels m_dest;
+    uint8 m_alpha;
+    int m_choke;
+    int m_size;
+    SharedTable <Colour> m_table;
+  };
 };
 
 #endif

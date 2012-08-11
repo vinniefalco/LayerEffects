@@ -143,10 +143,17 @@ struct DistanceTransform
 
     void operator () (int const x, int const y, double distance)
     {
-      if (distance <= m_radiusSquared && distance > 0)
-        m_map (x, y) = Type (std::sqrt (distance));
+      if (distance > 0)
+      {
+        if (distance < m_radiusSquared)
+          m_map (x, y) = Type (std::sqrt (distance));
+        else
+          m_map (x, y) = Type (m_radius);
+      }
       else
+      {
         m_map (x, y) = 0;
+      }
     }
 
   private:
@@ -194,12 +201,14 @@ struct DistanceTransform
   {
     struct EuclideanMetric
     {
-      static inline int f (int x_i, int gi) noexcept
+      template <class T>
+      static inline T f (T x_i, T gi) noexcept
       {
         return (x_i*x_i)+gi*gi;
       }
 
-      static inline int sep (int i, int u, int gi, int gu, int) noexcept
+      template <class T>
+      static inline T sep (T i, T u, T gi, T gu, T) noexcept
       {
         return (u*u - i*i + gu*gu - gi*gi) / (2*(u-i));
       }
@@ -207,12 +216,14 @@ struct DistanceTransform
 
     struct ManhattanMetric
     {
-      static inline int f (int x_i, int gi) noexcept
+      template <class T>
+      static inline T f (T x_i, T gi) noexcept
       {
         return abs (x_i) + gi;
       }
 
-      static inline int sep (int i, int u, int gi, int gu, int inf) noexcept
+      template <class T>
+      static inline int sep (T i, T u, T gi, T gu, T inf) noexcept
       {
         if (gu >= gi + u - i)
           return inf;
@@ -225,12 +236,14 @@ struct DistanceTransform
 
     struct ChessMetric
     {
-      static inline int f (int x_i, int gi) noexcept
+      template <class T>
+      static inline T f (T x_i, T gi) noexcept
       {
         return jmax (abs (x_i), gi);
       }
 
-      static inline int sep (int i, int u, int gi, int gu, int) noexcept
+      template <class T>
+      static inline int sep (T i, T u, T gi, T gu, T inf) noexcept
       {
         if (gi < gu)
           return jmax (i+gu, (i+u)/2);
@@ -310,9 +323,109 @@ struct DistanceTransform
           // scan 4
           for (int u = m-1; u >= 0; --u)
           {
-            int const d = metric.f (u-s[q], g[s[q]+ym]) / 1;
+            int const d = metric.f (u-s[q], g[s[q]+ym]);
             f (u, y, d);
             if (u == t[q])
+              --q;
+          }
+        }
+      }
+    }
+
+    template <class Functor, class Mask, class Metric>
+    static void calculateAntiAliased (Functor f, Mask mask, int const m, int const n, Metric metric)
+    {
+      int64 const scale = 256;
+
+      std::vector <int64> g (m * n);
+
+      int64 const inf = scale * (m + n);
+
+      // phase 1
+      {
+        for (int x = 0; x < m; ++x)
+        {
+          int a;
+
+          a = mask (x, 0);
+          if (a == 0)
+            g [x] = inf;
+          else if (a == 255) // point of interest
+            g [x] = 0;
+          else
+            g [x] = (scale-1-a);
+
+          // scan 1
+          for (int y = 1; y < n; ++y)
+          {
+            int const ym = y*m;
+
+            a = mask (x, y);
+            if (a == 0)
+              g [x+ym] = scale + g [x+ym-m];
+            else if (a == 255) // point of interest
+              g [x+ym] = 0;
+            else
+              g [x+ym] = (scale-1-a);
+          }
+
+          // scan 2
+          for (int y = n-2; y >=0; --y)
+          {
+            int const ym = y*m;
+            int64 const d = scale + g [x+ym+m];
+            if (g [x+ym] > d)
+              g [x+ym] = d;
+          }
+        }
+      }
+
+      // phase 2
+      {
+        std::vector <int64> s (jmax (m, n));
+        std::vector <int64> t (jmax (m, n)); // scaled
+
+        for (int y = 0; y < n; ++y)
+        {
+          int q = 0;
+          s [0] = 0;
+          t [0] = 0;
+
+          int const ym = y*m;
+
+          // scan 3
+          for (int u = 1; u < m; ++u)
+          {
+            while (q >= 0 && metric.f (t[q] - scale*s[q], g[s[q]+ym]) >
+                             metric.f (t[q] - scale*u, g[u+ym]))
+            {
+              q--;
+            }
+
+            if (q < 0)
+            {
+              q = 0;
+              s [0] = u;
+            }
+            else
+            {
+              int64 const w = scale + metric.sep (scale*s[q], scale*u, g[s[q]+ym], g[u+ym], inf);
+
+              if (w < scale * m)
+              {
+                ++q;
+                s[q] = u;
+                t[q] = w;
+              }
+            }
+          }
+
+          // scan 4
+          for (int u = m-1; u >= 0; --u)
+          {
+            int64 const d = metric.f (scale*(u-s[q]), g[s[q]+ym]);
+            f (u, y, d);
+            if (u == t[q]/scale)
               --q;
           }
         }

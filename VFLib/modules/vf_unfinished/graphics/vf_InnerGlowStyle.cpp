@@ -30,3 +30,22 @@
 */
 /*============================================================================*/
 
+void InnerGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
+{
+  if (!active)
+    return;
+
+  SharedTable <Colour> colourTable = colours.createLookupTable ();
+
+  DistanceTransform::WangTan::calculate (
+    RenderPixel (
+      destPixels,
+      opacity,
+      choke,
+      size,
+      colours.createLookupTable ()),
+    DistanceTransform::WhiteTest (maskPixels),
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    DistanceTransform::Meijster::EuclideanMetric ());
+}

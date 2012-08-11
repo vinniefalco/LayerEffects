@@ -41,6 +41,8 @@ COuterGlowTab::COuterGlowTab () : COptionsTab ("Outer Glow")
   m_options.size = 5;
   m_options.range = .5;
 
+  //vf::GradientPresets p; m_options.colours = p.spectrum;
+
   m_activeButton  = createToggleButton ("Active", m_options.active);
   m_modeComboBox  = createModeComboBox ("Mode", m_options.mode);
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);

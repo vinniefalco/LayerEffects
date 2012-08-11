@@ -103,15 +103,20 @@ GradientColours::GradientColours ()
 }
 
 GradientColours::GradientColours (int numColourStops, int numAlphaStops)
-  : m_data (new Data (numColourStops, numAlphaStops))
+  : m_data (new Data (numColourStops, numAlphaStops == -1 ? 2 : numAlphaStops))
 {
+  if (numAlphaStops == -1)
+  {
+    getAlphaStop (0) = AlphaStop (1, 0., 0.5f);
+    getAlphaStop (1) = AlphaStop (1, 1., 0.5f);
+  }
 }
 
 GradientColours::GradientColours (Colour startColour, Colour endColour)
   : m_data (new Data (2, 2))
 {
-  m_data->getAlphaStop (0) = AlphaStop (1.f, startColour.getAlpha () / 255.f, .5f);
-  m_data->getAlphaStop (1) = AlphaStop (1.f, endColour.getAlpha () / 255.f, .5f);
+  m_data->getAlphaStop (0) = AlphaStop (startColour.getAlpha () / 255.f, 0., .5f);
+  m_data->getAlphaStop (1) = AlphaStop (endColour.getAlpha () / 255.f, 1., .5f);
   m_data->getColourStop (0) = ColourStop (startColour, 0.f, .5f);
   m_data->getColourStop (1) = ColourStop (endColour, 1.f, .5f);
 }
@@ -180,14 +185,14 @@ int GradientColours::getNumAlphaStops () const noexcept
   return m_data->getNumAlphaStops ();
 }
 
-int GradientColours::getNumColourStops () const noexcept
-{
-  return m_data->getNumColourStops ();
-}
-
 GradientColours::AlphaStop& GradientColours::getAlphaStop (int index) const noexcept
 {
   return m_data->getAlphaStop (index);
+}
+
+int GradientColours::getNumColourStops () const noexcept
+{
+  return m_data->getNumColourStops ();
 }
 
 GradientColours::ColourStop& GradientColours::getColourStop (int index) const noexcept
@@ -380,4 +385,16 @@ SharedTable <Colour> GradientColours::createLookupTable (int maxEntries) const
   }
 
   return table;
+}
+
+GradientPresets::GradientPresets ()
+{
+  spectrum = GradientColours (7);
+  spectrum.getColourStop (0) = GradientColours::ColourStop (Colour::fromRGB (255, 0, 0), 0);
+  spectrum.getColourStop (1) = GradientColours::ColourStop (Colour::fromRGB (255, 0, 255), .15);
+  spectrum.getColourStop (2) = GradientColours::ColourStop (Colour::fromRGB (0, 0, 255), .33);
+  spectrum.getColourStop (3) = GradientColours::ColourStop (Colour::fromRGB (0, 255, 255), .49);
+  spectrum.getColourStop (4) = GradientColours::ColourStop (Colour::fromRGB (0, 255, 0), .67);
+  spectrum.getColourStop (5) = GradientColours::ColourStop (Colour::fromRGB (255, 255, 0), .84);
+  spectrum.getColourStop (6) = GradientColours::ColourStop (Colour::fromRGB (255, 0, 0), 1.);
 }

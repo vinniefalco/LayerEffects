@@ -140,6 +140,10 @@ LayerGraphics::~LayerGraphics ()
 
   m_options.fill (m_work, m_fill);
 
+  m_options.outerGlow (workPixels, maskPixels);
+
+  m_options.innerGlow (workPixels, maskPixels);
+
   m_options.bevelEmboss (workPixels, maskPixels);
 
   m_options.stroke (workPixels, maskPixels);

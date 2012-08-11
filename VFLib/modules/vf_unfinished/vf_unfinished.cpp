@@ -57,6 +57,7 @@ namespace vf
 #include "graphics/vf_FillStyle.cpp"
 #include "graphics/vf_GradientColours.cpp"
 #include "graphics/vf_GradientOverlayStyle.cpp"
+#include "graphics/vf_InnerGlowStyle.cpp"
 #include "graphics/vf_InnerShadowStyle.cpp"
 #include "graphics/vf_OuterGlowStyle.cpp"
 #include "graphics/vf_StrokeStyle.cpp"

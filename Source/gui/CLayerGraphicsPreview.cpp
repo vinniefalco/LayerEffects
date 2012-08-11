@@ -89,39 +89,46 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
 {
   Rectangle <int> const b (getLocalBounds ());
 
+  if (m_image.isValid ())
+  {
+    g.drawImageAt (m_image, 0, 0);
+  }
+  else
+  {
 #if 1
-  // test
-  g.setGradientFill (ColourGradient (
-    Colours::red, float (b.getX ()), float (b.getY ()),
-    Colours::yellow, float (b.getRight ()), float (b.getBottom ()),
-    false));
+    // test
+    g.setGradientFill (ColourGradient (
+      Colours::red, float (b.getX ()), float (b.getY ()),
+      Colours::yellow, float (b.getRight ()), float (b.getBottom ()),
+      false));
 
-  g.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
-  g.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
-
-#elif 0
-  // dot
-  g.setColour (Colours::black);
-  g.fillRect (
-    getLocalBounds ().getCentreX (),
-    getLocalBounds ().getCentreY (),
-    1, 1);
+    g.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
+    g.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
 
 #elif 0
-  // square
-  g.setColour (Colours::grey);
-  int const x = getLocalBounds ().getWidth () / 4;
-  int const y = getLocalBounds ().getHeight () / 4;
-  g.fillRect (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
+    // dot
+    g.setColour (Colours::black);
+    g.fillRect (
+      getLocalBounds ().getCentreX (),
+      getLocalBounds ().getCentreY (),
+      1, 1);
+
+#elif 0
+    // square
+    g.setColour (Colours::grey);
+    int const x = getLocalBounds ().getWidth () / 4;
+    int const y = getLocalBounds ().getHeight () / 4;
+    g.fillRect (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
 
 #elif 1
-  // ellipse
-  g.setColour (Colours::grey);
-  int const x = getLocalBounds ().getWidth () / 4;
-  int const y = getLocalBounds ().getHeight () / 4;
-  g.fillEllipse (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
+    // ellipse
+    g.setColour (Colours::grey);
+    int const x = getLocalBounds ().getWidth () / 4;
+    int const y = getLocalBounds ().getHeight () / 4;
+    g.fillEllipse (getLocalBounds ().getX () + x, getLocalBounds ().getY () + y, 2*x, 2*y);
 
 #endif
+  }
 }
 
 void CLayerGraphicsPreview::timerCallback ()
@@ -133,3 +140,40 @@ void CLayerGraphicsPreview::timerCallback ()
   repaint ();
 }
 
+bool CLayerGraphicsPreview::isInterestedInFileDrag (const StringArray& files)
+{
+  bool isInterested = false;
+
+  if (files.size () == 1)
+  {
+    isInterested = true;
+  }
+
+  return isInterested;
+}
+
+void CLayerGraphicsPreview::fileDragEnter (const StringArray& files, int x, int y)
+{
+//  setFocused (true);
+}
+
+void CLayerGraphicsPreview::fileDragExit (const StringArray& files)
+{
+//  setFocused (false);
+}
+
+void CLayerGraphicsPreview::filesDropped (const StringArray& files, int x, int y)
+{
+  if (files.size () == 1)
+  {
+    Image image = ImageFileFormat::loadFrom (File (files [0]));
+
+    if (image.isValid ())
+    {
+      m_image = image;
+      repaint ();
+    }
+  }
+
+//  setFocused (false);
+}

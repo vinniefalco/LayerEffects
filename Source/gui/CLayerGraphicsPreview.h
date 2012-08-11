@@ -38,6 +38,7 @@
 class CLayerGraphicsPreview
   : public Component
   , public Timer
+  , public FileDragAndDropTarget
 {
 public:
   CLayerGraphicsPreview ();
@@ -52,9 +53,15 @@ public:
 
   void timerCallback ();
 
+  bool isInterestedInFileDrag (const StringArray& files);
+  void fileDragEnter (const StringArray& files, int x, int y);
+  void fileDragExit (const StringArray& files);
+  void filesDropped (const StringArray& files, int x, int y);
+
 private:
   Options m_options;
   Options m_newOptions;
+  Image m_image;
 };
 
 #endif

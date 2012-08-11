@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 
 CGradientOverlayTab::CGradientOverlayTab ()
-  : COptionsTab ("Drop Shadow")
+  : COptionsTab ("Gradient Overlay")
 {
   m_options.active = false;
   m_options.mode = vf::BlendMode::modeNormal;

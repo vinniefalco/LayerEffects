@@ -30,41 +30,6 @@
 */
 /*============================================================================*/
 
-namespace BlendProc
-{
-  /** Blend a colour table entry into a premultiplied ARGB pixel.
-  */
-  struct CopyTable
-  {
-    explicit CopyTable (SharedTable <Colour> table)
-      : m_table (table)
-    {
-    }
-
-    // v = v0 + t * (v1 - v0)
-    static inline int div255 (int v) noexcept
-    {
-      v += 128;
-      return (v + (v >> 8)) >> 8;
-    }
-
-    template <class ModeType>
-    inline void operator () (ModeType mode, uint8* dest, int value) const
-    {
-      Colour const& c = m_table [value];
-      PixelARGB& d (*((PixelARGB*)dest));
-      int const alpha = c.getAlpha ();
-      
-      d.getRed ()   += uint8 (div255 (alpha * (mode (c.getRed (),   d.getRed ())   - d.getRed ())   + 128));
-      d.getGreen () += uint8 (div255 (alpha * (mode (c.getGreen (), d.getGreen ()) - d.getGreen ()) + 128));
-      d.getBlue ()  += uint8 (div255 (alpha * (mode (c.getBlue (),  d.getBlue ())  - d.getBlue ())  + 128));
-    }
-
-  private:
-    SharedTable <Colour> m_table;
-  };
-}
-
 void GradientOverlayStyle::operator () (Pixels destPixels)
 {
   jassert (destPixels.isARGB ());
@@ -88,7 +53,7 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
     BlendMode::apply (
       mode,
       AngleGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
-      BlendProc::CopyTable (table));
+      BlendProc::ARGB::CopyTable (table));
     break;
 
   case kindReflected:
@@ -99,7 +64,7 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
     BlendMode::apply (
       mode,
       DiamondGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
-      BlendProc::CopyTable (table));
+      BlendProc::ARGB::CopyTable (table));
     break;
 
   default:
