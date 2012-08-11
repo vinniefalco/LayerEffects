@@ -80,7 +80,7 @@ public:
       }
 
       double    opacity;                // [0, 1] of fill
-      bool      groupInteriorEffects;   // Blend Inner Glow, Stain, and Overlays with
+      bool      groupInteriorEffects;   // Blend Inner Glow, Satin, and Overlays with
                                         // fill before compositing.
     };
 

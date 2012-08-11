@@ -32,7 +32,7 @@
 
 void PatternOverlayStyle::operator () (Pixels destPixels)
 {
-  jassert (destPixels.isARGB ());
+  jassert (destPixels.isRGB ());
 
   if (!active)
     return;

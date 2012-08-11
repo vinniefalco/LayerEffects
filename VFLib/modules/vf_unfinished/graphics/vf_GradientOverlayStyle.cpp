@@ -32,7 +32,7 @@
 
 void GradientOverlayStyle::operator () (Pixels destPixels)
 {
-  jassert (destPixels.isARGB ());
+//  jassert (destPixels.isARGB ());
 
   if (!active)
     return;

@@ -120,36 +120,34 @@ LayerGraphics::~LayerGraphics ()
 
   // Obtain bitmap data for mask and fill.
   //
-  Pixels fillPixels (m_fill);
+  Pixels fillPixels (fillImage);
   Pixels maskPixels (maskImage);
   Pixels workPixels (m_work);
 
-  //
-  // Apply overlays to fill image, bottom up.
-  //
-
-  m_options.colourOverlay (fillPixels);
-
-  m_options.gradientOverlay (fillPixels);
-
-  m_options.patternOverlay (fillPixels);
-
   m_options.innerShadow (fillPixels, maskPixels);
-
-  //
-  // Apply effects to work image, bottom up.
-  //
 
   m_options.dropShadow (workPixels, maskPixels);
 
-  m_options.fill (m_work, m_fill);
+  if (m_options.general.groupInteriorEffects)
+  {
+    // satin
+    m_options.colourOverlay (fillPixels);
+    m_options.gradientOverlay (fillPixels);
+    m_options.patternOverlay (fillPixels);
+    m_options.innerGlow (fillPixels, maskPixels);
+    m_options.fill (m_work, m_fill);
+  }
+  else
+  {
+    m_options.fill (m_work, m_fill);
+    m_options.colourOverlay (workPixels);
+    m_options.gradientOverlay (workPixels);
+    m_options.patternOverlay (workPixels);
+    m_options.innerGlow (workPixels, maskPixels);
+  }
 
   m_options.outerGlow (workPixels, maskPixels);
-
-  m_options.innerGlow (workPixels, maskPixels);
-
   m_options.bevelEmboss (workPixels, maskPixels);
-
   m_options.stroke (workPixels, maskPixels);
 
   // Copy the work image onto the background layer
