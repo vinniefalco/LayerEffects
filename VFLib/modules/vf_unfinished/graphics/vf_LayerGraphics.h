@@ -80,7 +80,8 @@ public:
       }
 
       double    opacity;                // [0, 1] of fill
-      bool      groupInteriorEffects;
+      bool      groupInteriorEffects;   // Blend Inner Glow, Stain, and Overlays with
+                                        // fill before compositing.
     };
 
     General               general;
@@ -90,7 +91,9 @@ public:
     OuterGlowStyle        outerGlow;
     InnerGlowStyle        innerGlow;
     BevelEmbossStyle      bevelEmboss;
+    ColourOverlayStyle    colourOverlay;
     GradientOverlayStyle  gradientOverlay;
+    PatternOverlayStyle   patternOverlay;
     StrokeStyle           stroke;
   };
 
@@ -106,11 +109,6 @@ public:
   ~LayerGraphics ();
 
   Options& getOptions ();
-
-private:
-  void applyDropShadow (Image& destImage);
-
-  void applyInnerShadow (Image& destImage);
 
 private:
   Options m_options;

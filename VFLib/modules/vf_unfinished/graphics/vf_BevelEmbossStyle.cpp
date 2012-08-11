@@ -134,13 +134,13 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
   BlendMode::apply (
     hilightMode,
     Pixels::Iterate2 (destPixels, hiPixels),
-    BlendProc::RGB::Fill (hilightColour, hilightOpacity));
+    BlendProc::RGB::MaskFill (hilightColour, hilightOpacity));
 
   // Render shadows.
   //
   BlendMode::apply (
     shadowMode,
     Pixels::Iterate2 (destPixels, loPixels),
-    BlendProc::RGB::Fill (shadowColour, shadowOpacity));
+    BlendProc::RGB::MaskFill (shadowColour, shadowOpacity));
 }
 

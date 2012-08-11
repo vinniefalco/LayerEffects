@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="jYvoRk" name="LayerEffects" projectType="guiapp" version="1.0.0"
-              jucerVersion="3.0.0">
+              jucerVersion="3.0.0" bundleIdentifier="com.yourcompany.LayerEffects">
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="../MacOSX" juceFolder="../../JUCE/modules">
       <CONFIGURATIONS>
@@ -50,6 +50,10 @@
               file="../../Source/gui/CBevelEmbossTab.cpp"/>
         <FILE id="ZPpvL7" name="CBevelEmbossTab.h" compile="0" resource="0"
               file="../../Source/gui/CBevelEmbossTab.h"/>
+        <FILE id="ELc7DS" name="CColourOverlayTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CColourOverlayTab.cpp"/>
+        <FILE id="o39uBT" name="CColourOverlayTab.h" compile="0" resource="0"
+              file="../../Source/gui/CColourOverlayTab.h"/>
         <FILE id="YamNmp" name="CDropShadowTab.cpp" compile="0" resource="0"
               file="../../Source/gui/CDropShadowTab.cpp"/>
         <FILE id="FLrlxU" name="CDropShadowTab.h" compile="0" resource="0"
@@ -89,6 +93,10 @@
         <FILE id="My9ql2" name="COuterGlowTab.cpp" compile="0" resource="0"
               file="../../Source/gui/COuterGlowTab.cpp"/>
         <FILE id="qDXumR" name="COuterGlowTab.h" compile="0" resource="0" file="../../Source/gui/COuterGlowTab.h"/>
+        <FILE id="hpPYt5" name="CPatternOverlayTab.cpp" compile="0" resource="0"
+              file="../../Source/gui/CPatternOverlayTab.cpp"/>
+        <FILE id="Dmt3ls" name="CPatternOverlayTab.h" compile="0" resource="0"
+              file="../../Source/gui/CPatternOverlayTab.h"/>
         <FILE id="xyMavP" name="CSolidColourPicker.cpp" compile="0" resource="0"
               file="../../Source/gui/CSolidColourPicker.cpp"/>
         <FILE id="APthKO" name="CSolidColourPicker.h" compile="0" resource="0"

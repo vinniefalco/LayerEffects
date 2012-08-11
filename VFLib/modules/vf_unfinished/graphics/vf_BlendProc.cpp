@@ -63,7 +63,7 @@ void fillImage (Image dest,
     BlendMode::apply (
       mode,
       Pixels::Iterate2 (destPixels, maskPixels),
-      BlendProc::RGB::Fill (colour, opacity));
+      BlendProc::RGB::MaskFill (colour, opacity));
     break;
 
   default:

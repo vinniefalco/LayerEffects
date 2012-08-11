@@ -44,7 +44,9 @@ struct Options
   typedef vf::OuterGlowStyle        OuterGlow;
   typedef vf::InnerGlowStyle        InnerGlow;
   typedef vf::BevelEmbossStyle      BevelEmboss;
+  typedef vf::ColourOverlayStyle    ColourOverlay;
   typedef vf::GradientOverlayStyle  GradientOverlay;
+  typedef vf::PatternOverlayStyle   PatternOverlay;
   typedef vf::StrokeStyle           Stroke;
 
   struct Listener
@@ -56,7 +58,9 @@ struct Options
     virtual void onOptionsOuterGlow       (OuterGlow options) { }
     virtual void onOptionsInnerGlow       (InnerGlow options) { }
     virtual void onOptionsBevelEmboss     (BevelEmboss options) { }
+    virtual void onOptionsColourOverlay   (ColourOverlay options) { }
     virtual void onOptionsGradientOverlay (GradientOverlay options) { }
+    virtual void onOptionsPatternOverlay  (PatternOverlay options) { }
     virtual void onOptionsStroke          (Stroke options) { }
   };
 
@@ -67,7 +71,9 @@ struct Options
   OuterGlow       outerGlow;
   InnerGlow       innerGlow;
   BevelEmboss     bevelEmboss;
+  ColourOverlay   colourOverlay;
   GradientOverlay gradientOverlay;
+  PatternOverlay  patternOverlay;
   Stroke          stroke;
 };
 

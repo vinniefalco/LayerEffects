@@ -37,6 +37,9 @@
     <ClCompile Include="..\..\Source\gui\CBevelEmbossTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CColourOverlayTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -74,6 +77,9 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\COuterGlowTab.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CPatternOverlayTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
@@ -126,6 +132,9 @@
     <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CColourOverlayTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\CDropShadowTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
@@ -163,6 +172,9 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\COuterGlowTab.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\CPatternOverlayTab.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h">

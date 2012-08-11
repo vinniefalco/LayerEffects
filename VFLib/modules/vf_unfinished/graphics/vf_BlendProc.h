@@ -84,9 +84,9 @@ namespace BlendProc
 
   struct RGB
   {
-    struct Fill
+    struct MaskFill
     {
-      Fill (Colour const& colour, double opacity)
+      MaskFill (Colour const& colour, double opacity)
         : m_alpha (int (257 * opacity + 0.5))
       {
         m_src [0] = colour.getRed ();
@@ -106,9 +106,34 @@ namespace BlendProc
       }
 
     private:
-      Fill& operator= (Fill const&);
+      int m_alpha;
+      uint8 m_src[3];
+    };
 
-      int const m_alpha;
+    //---
+
+    struct Fill
+    {
+      Fill (Colour const& colour, double opacity)
+        : m_alpha (int (256 * opacity + 0.5))
+      {
+        m_src [0] = colour.getRed ();
+        m_src [1] = colour.getGreen ();
+        m_src [2] = colour.getBlue ();
+      }
+
+      template <class ModeType>
+      inline void operator () (ModeType mode, uint8* dest) const noexcept
+      {
+        PixelRGB& d (*((PixelRGB*)dest));
+
+        d.getRed ()   = uint8 (d.getRed ()   + ((m_alpha * (mode (m_src [0], d.getRed ())   - d.getRed ())   + 128) >> 8));
+        d.getGreen () = uint8 (d.getGreen () + ((m_alpha * (mode (m_src [1], d.getGreen ()) - d.getGreen ()) + 128) >> 8));
+        d.getBlue ()  = uint8 (d.getBlue ()  + ((m_alpha * (mode (m_src [2], d.getBlue ())  - d.getBlue ())  + 128) >> 8));
+      }
+
+    private:
+      int m_alpha;
       uint8 m_src[3];
     };
 

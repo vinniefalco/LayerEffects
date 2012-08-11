@@ -420,6 +420,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -449,6 +453,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -619,6 +627,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h" />
@@ -629,6 +638,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />

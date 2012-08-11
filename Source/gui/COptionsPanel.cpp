@@ -42,10 +42,10 @@ COptionsPanel::COptionsPanel ()
   m_panels.add (new COuterGlowTab);       // 5
   m_panels.add (new CInnerGlowTab);       // 6
   m_panels.add (new CBevelEmbossTab);     // 7
-  m_panels.add (new Component ("Satin"));           // 8
-  m_panels.add (new Component ("Colour Overlay"));  // 9
+  m_panels.add (new Component ("Satin")); // 8
+  m_panels.add (new CColourOverlayTab);   // 9
   m_panels.add (new CGradientOverlayTab); // 10
-  m_panels.add (new Component ("Pattern Overlay")); // 11
+  m_panels.add (new CPatternOverlayTab);  // 11
   m_panels.add (new CStrokeTab);          // 12
   m_panels.add (new Component ("Background"));      // 13
   m_panels.add (new Component ("Foreground"));      // 14
@@ -67,9 +67,11 @@ COptionsPanel::COptionsPanel ()
       c->addItem (m_panels [i]->getName (), i + 1);
     }
 
+    c->setItemEnabled (3, false);
+    c->setItemEnabled (4, false);
     c->setItemEnabled (8, false);
-    c->setItemEnabled (9, false);
     c->setItemEnabled (11, false);
+
     c->setItemEnabled (13, false);
     c->setItemEnabled (14, false);
 

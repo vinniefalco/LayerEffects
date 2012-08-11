@@ -128,7 +128,11 @@ LayerGraphics::~LayerGraphics ()
   // Apply overlays to fill image, bottom up.
   //
 
+  m_options.colourOverlay (fillPixels);
+
   m_options.gradientOverlay (fillPixels);
+
+  m_options.patternOverlay (fillPixels);
 
   m_options.innerShadow (fillPixels, maskPixels);
 

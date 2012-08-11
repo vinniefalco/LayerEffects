@@ -66,7 +66,9 @@ void CLayerGraphicsPreview::paint (Graphics& g)
   lc.getOptions ().outerGlow        = m_options.outerGlow;
   lc.getOptions ().innerGlow        = m_options.innerGlow;
   lc.getOptions ().bevelEmboss      = m_options.bevelEmboss;
+  lc.getOptions ().colourOverlay    = m_options.colourOverlay;
   lc.getOptions ().gradientOverlay  = m_options.gradientOverlay;
+  lc.getOptions ().patternOverlay   = m_options.patternOverlay;
   lc.getOptions ().stroke           = m_options.stroke;
 
   paintForeground (lc);

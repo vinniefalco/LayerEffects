@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string></string>
+    <string>com.yourcompany.LayerEffects</string>
     <key>CFBundleName</key>
     <string>LayerEffects</string>
     <key>CFBundlePackageType</key>

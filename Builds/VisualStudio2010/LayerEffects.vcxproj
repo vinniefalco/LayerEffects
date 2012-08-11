@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -14,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B606DE60-45A3-06FE-0A7D-5E84DF0CF6B3}</ProjectGuid>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
@@ -25,13 +24,12 @@
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
-  <ImportGroup Label="ExtensionSettings"/>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-            Label="LocalAppDataPlatform"/>
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros"/>
+  <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
@@ -49,7 +47,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName/>
+      <HeaderFileName />
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -58,7 +56,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2010_2B5CCFA2=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader/>
+      <PrecompiledHeader />
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
@@ -89,7 +87,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName/>
+      <HeaderFileName />
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -97,13 +95,14 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2010_2B5CCFA2=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader/>
+      <PrecompiledHeader />
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -125,14 +124,17 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\VFLib\modules\vf_concurrent\vf_concurrent.cpp"/>
-    <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp"/>
-    <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp"/>
-    <ClCompile Include="..\..\VFLib\modules\vf_unfinished\vf_unfinished.cpp"/>
+    <ClCompile Include="..\..\VFLib\modules\vf_concurrent\vf_concurrent.cpp" />
+    <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp" />
+    <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp" />
+    <ClCompile Include="..\..\VFLib\modules\vf_unfinished\vf_unfinished.cpp" />
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CBevelEmbossTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CColourOverlayTab.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CDropShadowTab.cpp">
@@ -174,6 +176,9 @@
     <ClCompile Include="..\..\Source\gui\COuterGlowTab.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\CPatternOverlayTab.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -186,44 +191,46 @@
     <ClCompile Include="..\..\Source\gui\MainApp.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\source.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_core\juce_core.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_events\juce_events.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_graphics\juce_graphics.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
+    <ClCompile Include="..\..\Source\source.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_core\juce_core.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_events\juce_events.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_graphics\juce_graphics.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp" />
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h"/>
-    <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CFillTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CGeneralTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CImageDropTarget.h"/>
-    <ClInclude Include="..\..\Source\gui\CInnerGlowTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CInnerShadowTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CLayerGraphicsPreview.h"/>
-    <ClInclude Include="..\..\Source\gui\CMainPanel.h"/>
-    <ClInclude Include="..\..\Source\gui\CMainWindow.h"/>
-    <ClInclude Include="..\..\Source\gui\COptionsPanel.h"/>
-    <ClInclude Include="..\..\Source\gui\COptionsTab.h"/>
-    <ClInclude Include="..\..\Source\gui\COuterGlowTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h"/>
-    <ClInclude Include="..\..\Source\gui\CStrokeTab.h"/>
-    <ClInclude Include="..\..\Source\gui\CustomLookAndFeel.h"/>
-    <ClInclude Include="..\..\Source\gui\MainApp.h"/>
-    <ClInclude Include="..\..\Source\gui\Options.h"/>
-    <ClInclude Include="..\Jucer\JuceLibraryCode\AppConfig.h"/>
-    <ClInclude Include="..\Jucer\JuceLibraryCode\JuceHeader.h"/>
+    <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h" />
+    <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h" />
+    <ClInclude Include="..\..\Source\gui\CColourOverlayTab.h" />
+    <ClInclude Include="..\..\Source\gui\CDropShadowTab.h" />
+    <ClInclude Include="..\..\Source\gui\CFillTab.h" />
+    <ClInclude Include="..\..\Source\gui\CGeneralTab.h" />
+    <ClInclude Include="..\..\Source\gui\CGradientOverlayTab.h" />
+    <ClInclude Include="..\..\Source\gui\CImageDropTarget.h" />
+    <ClInclude Include="..\..\Source\gui\CInnerGlowTab.h" />
+    <ClInclude Include="..\..\Source\gui\CInnerShadowTab.h" />
+    <ClInclude Include="..\..\Source\gui\CLayerGraphicsPreview.h" />
+    <ClInclude Include="..\..\Source\gui\CMainPanel.h" />
+    <ClInclude Include="..\..\Source\gui\CMainWindow.h" />
+    <ClInclude Include="..\..\Source\gui\COptionsPanel.h" />
+    <ClInclude Include="..\..\Source\gui\COptionsTab.h" />
+    <ClInclude Include="..\..\Source\gui\COuterGlowTab.h" />
+    <ClInclude Include="..\..\Source\gui\CPatternOverlayTab.h" />
+    <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h" />
+    <ClInclude Include="..\..\Source\gui\CStrokeTab.h" />
+    <ClInclude Include="..\..\Source\gui\CustomLookAndFeel.h" />
+    <ClInclude Include="..\..\Source\gui\MainApp.h" />
+    <ClInclude Include="..\..\Source\gui\Options.h" />
+    <ClInclude Include="..\Jucer\JuceLibraryCode\AppConfig.h" />
+    <ClInclude Include="..\Jucer\JuceLibraryCode\JuceHeader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include=".\resources.rc"/>
+    <ResourceCompile Include=".\resources.rc" />
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
-  <ImportGroup Label="ExtensionTargets"/>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

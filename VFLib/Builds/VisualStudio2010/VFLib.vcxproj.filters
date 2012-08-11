@@ -510,6 +510,12 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\vf_db\api\backend.h">
@@ -987,6 +993,12 @@
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
   </ItemGroup>

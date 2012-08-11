@@ -30,86 +30,54 @@
 */
 //------------------------------------------------------------------------------
 
-CSolidColourPicker::CSolidColourPicker ()
-  : m_colour (Colours::black)
+CColourOverlayTab::CColourOverlayTab ()
+  : COptionsTab ("Colour Overlay")
 {
-}
-  
-CSolidColourPicker::~CSolidColourPicker ()
-{
+  m_options.active = false;
+  m_options.mode = vf::BlendMode::modeNormal;
+  m_options.opacity = 1;
+  m_options.colour = Colours::green;
+
+  m_activeButton = createToggleButton ("Active", m_options.active);
+
+  m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
+
+  m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
+
+  m_colourPicker = createColourPicker ("Colour", m_options.colour);
 }
 
-void CSolidColourPicker::addListener (Listener* listener)
+CColourOverlayTab::~CColourOverlayTab ()
 {
-  m_listeners.add (listener);
+  deleteAllChildren ();
 }
 
-void CSolidColourPicker::removeListener (Listener* listener)
+void CColourOverlayTab::buttonClicked (Button* button)
 {
-  m_listeners.remove (listener);
-}
-
-void CSolidColourPicker::setValue (Colour const& colour, bool sendChangeNotification)
-{
-  if (m_colour != colour)
+  if (button == m_activeButton)
   {
-    m_colour = colour;
-
-    if (sendChangeNotification)
-    {
-      m_listeners.call (&Listener::onSolidColourChanged, this);
-    }
-  }
-}
-
-Colour CSolidColourPicker::getValue () const
-{
-  return m_colour;
-}
-
-void CSolidColourPicker::paint (Graphics& g)
-{
-  Rectangle <int> b (getLocalBounds ());
-
-  g.setColour (Colours::black);
-  g.drawRect (b);
-
-  g.setColour (Colours::white);
-  g.drawRect (b.reduced (1));
-
-  g.setColour (m_colour);
-  g.fillRect (b.reduced (2));
-}
-
-class ColourSelectorWindow
-  : public DocumentWindow
-{
-public:
-  ColourSelectorWindow ()
-    : DocumentWindow ("Select Colour", Colours::grey, DocumentWindow::closeButton, true)
-  {
-    ColourSelector* c = new ColourSelector (
-      ColourSelector::showColourAtTop | ColourSelector::showSliders | ColourSelector::showColourspace);
-
-    c->setSize (400, 300);
-
-    setContentOwned (c, true);
-
-    centreWithSize (getWidth(), getHeight());
-    setVisible (true);
+    m_options.active = button->getToggleState ();
   }
 
-  void closeButtonPressed ()
-  {
-    exitModalState (0);
-  }
-};
-
-void CSolidColourPicker::mouseDown (const MouseEvent& e)
-{
-  ColourSelectorWindow* w = new ColourSelectorWindow;
-
-  w->enterModalState (true, nullptr, true);
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsColourOverlay, m_options);
 }
 
+void CColourOverlayTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+  if (comboBoxThatHasChanged == m_modeComboBox)
+  {
+    m_options.mode = vf::BlendMode::Type (comboBoxThatHasChanged->getSelectedId ());
+  }
 
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsColourOverlay, m_options);
+}
+
+void CColourOverlayTab::sliderValueChanged (Slider* slider)
+{
+  if (slider == m_opacitySlider)
+  {
+    m_options.opacity = slider->getValue () / 100.;
+  }
+
+  vf::componentNotifyParent (this, &Options::Listener::onOptionsColourOverlay, m_options);
+}

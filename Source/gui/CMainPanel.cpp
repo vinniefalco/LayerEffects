@@ -111,9 +111,23 @@ void CMainPanel::onOptionsBevelEmboss (Options::BevelEmboss options)
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }
 
+void CMainPanel::onOptionsColourOverlay (Options::ColourOverlay options)
+{
+  m_options.colourOverlay = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
 void CMainPanel::onOptionsGradientOverlay (Options::GradientOverlay options)
 {
   m_options.gradientOverlay = options;
+
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+}
+
+void CMainPanel::onOptionsPatternOverlay (Options::PatternOverlay options)
+{
+  m_options.patternOverlay = options;
 
   vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
 }

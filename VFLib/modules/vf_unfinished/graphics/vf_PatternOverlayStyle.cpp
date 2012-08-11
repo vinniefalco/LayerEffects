@@ -30,47 +30,17 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_unfinished module.
-
-    @file vf_unfinished.cpp
-    @ingroup vf_unfinished
-*/
-
-#include "AppConfig.h"
-
-#include "vf_unfinished.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-//#pragma warning (disable: 4100) // unreferenced formal parmaeter
-//#pragma warning (disable: 4355) // 'this' used in base member
-#endif
-
-namespace vf
+void PatternOverlayStyle::operator () (Pixels destPixels)
 {
+  jassert (destPixels.isARGB ());
 
-#include "graphics/vf_BevelEmbossStyle.cpp"
-#include "graphics/vf_BlendMode.cpp"
-#include "graphics/vf_BlendProc.cpp"
-#include "graphics/vf_DistanceTransform.cpp"
-#include "graphics/vf_ColourOverlayStyle.cpp"
-#include "graphics/vf_DropShadowStyle.cpp"
-#include "graphics/vf_FillStyle.cpp"
-#include "graphics/vf_GradientColours.cpp"
-#include "graphics/vf_GradientOverlayStyle.cpp"
-#include "graphics/vf_InnerGlowStyle.cpp"
-#include "graphics/vf_InnerShadowStyle.cpp"
-#include "graphics/vf_OuterGlowStyle.cpp"
-#include "graphics/vf_PatternOverlayStyle.cpp"
-#include "graphics/vf_StrokeStyle.cpp"
-#include "graphics/vf_LayerGraphics.cpp"
-#include "graphics/vf_Pixels.cpp"
+  if (!active)
+    return;
 
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
-}
-
-#if JUCE_MSVC
-#pragma warning (pop)
+#if 0
+  BlendMode::apply (
+    mode,
+    DiamondGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
+    BlendProc::ARGB::CopyTable (table));
 #endif
+}

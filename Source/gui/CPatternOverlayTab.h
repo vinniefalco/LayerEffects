@@ -30,41 +30,28 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CMAINPANEL_HEADER
-#define LAYEREFFECTS_CMAINPANEL_HEADER
+#ifndef LAYEREFFECTS_CPATTERNOVERLAY_HEADER
+#define LAYEREFFECTS_CPATTERNOVERLAY_HEADER
 
-class CMainPanel
-  : public Component
-  , public MenuBarModel
-  , public vf::ResizableLayout
-  , public vf::TopLevelConstrainer
-  , public Options::Listener
+/** Pattern Overlay options.
+*/
+class CPatternOverlayTab : public COptionsTab
 {
 public:
-  CMainPanel ();
-  ~CMainPanel ();
+  CPatternOverlayTab ();
+  ~CPatternOverlayTab ();
 
-  void paint (Graphics& g);
-
-  void onOptionsGeneral         (Options::General options);
-  void onOptionsFill            (Options::Fill options);
-  void onOptionsDropShadow      (Options::DropShadow options);
-  void onOptionsInnerShadow     (Options::InnerShadow options);
-  void onOptionsOuterGlow       (Options::OuterGlow options);
-  void onOptionsInnerGlow       (Options::InnerGlow options);
-  void onOptionsBevelEmboss     (Options::BevelEmboss options);
-  void onOptionsColourOverlay   (Options::ColourOverlay options);
-  void onOptionsGradientOverlay (Options::GradientOverlay options);
-  void onOptionsPatternOverlay  (Options::PatternOverlay options);
-  void onOptionsStroke          (Options::Stroke options);
-
-  StringArray getMenuBarNames();
-  PopupMenu getMenuForIndex (int topLevelMenuIndex, const String& menuName);
-  void menuItemSelected (int menuItemID, int topLevelMenuIndex);
+  void buttonClicked (Button* button);
+  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+  void sliderValueChanged (Slider* slider);
 
 private:
-  Options m_options;
+  Options::PatternOverlay m_options;
+
+  ToggleButton* m_activeButton;
+  ComboBox* m_modeComboBox;
+  Slider* m_opacitySlider;
+  // Pattern
 };
 
 #endif
-

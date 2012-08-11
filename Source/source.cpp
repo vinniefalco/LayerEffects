@@ -54,19 +54,23 @@ using namespace juce;
 
 #include "gui/CBackgroundPanel.h"
 #include "gui/CImageDropTarget.h"
+
+#include "gui/CLayerGraphicsPreview.h"
+
 #include "gui/COptionsTab.h"
 #include "gui/CBevelEmbossTab.h"
+#include "gui/CColourOverlayTab.h"
 #include "gui/CDropShadowTab.h"
 #include "gui/CFillTab.h"
 #include "gui/CGeneralTab.h"
 #include "gui/CGradientOverlayTab.h"
 #include "gui/CInnerGlowTab.h"
 #include "gui/CInnerShadowTab.h"
-#include "gui/COptionsPanel.h"
-#include "gui/COuterGlowTab.h"
-#include "gui/CLayerGraphicsPreview.h"
 #include "gui/CMainPanel.h"
 #include "gui/CMainWindow.h"
+#include "gui/COptionsPanel.h"
+#include "gui/COuterGlowTab.h"
+#include "gui/CPatternOverlayTab.h"
 #include "gui/CStrokeTab.h"
 
 #include "gui/MainApp.h"
@@ -79,6 +83,7 @@ using namespace juce;
 
 #include "gui/CBackgroundPanel.cpp"
 #include "gui/CBevelEmbossTab.cpp"
+#include "gui/CColourOverlayTab.cpp"
 #include "gui/CFillTab.cpp"
 #include "gui/CGeneralTab.cpp"
 #include "gui/CGradientOverlayTab.cpp"
@@ -92,6 +97,7 @@ using namespace juce;
 #include "gui/COptionsPanel.cpp"
 #include "gui/COptionsTab.cpp"
 #include "gui/COuterGlowTab.cpp"
+#include "gui/CPatternOverlayTab.cpp"
 #include "gui/CStrokeTab.cpp"
 
 #ifdef _MSC_VER
