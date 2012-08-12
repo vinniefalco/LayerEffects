@@ -68,7 +68,7 @@ struct LightingTransform
       for (int x = 1; x < map.getCols () - 1; ++x)
       {
         // Calculate normal from height map.
-#if 1
+#if 0
         Vec3 <T> n (
           T(map(x,y)) - .25*(2 * T(map(x+1,y)) + T(map(x+1,y-1)) + T(map(x+1,y+1))),
           T(map(x,y)) - .25*(2 * T(map(x,y+1)) + T(map(x-1,y+1)) + T(map(x+1,y+1))),

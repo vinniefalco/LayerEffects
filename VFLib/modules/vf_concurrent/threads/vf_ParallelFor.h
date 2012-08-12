@@ -261,7 +261,11 @@ public:
       @param pool The ThreadGroup to use. If this is omitted then a singleton
                   ThreadGroup is used which contains one thread per CPU.
   */
-  explicit ParallelFor2 (ThreadGroup& pool = *GlobalThreadGroup::getInstance ());
+  explicit ParallelFor2 (ThreadGroup& pool = *GlobalThreadGroup::getInstance ())
+    : m_pool (pool)
+    , m_finishedEvent (false) // auto-reset
+  {
+  }
 
   /** Determine the number of threads in the group.
 
@@ -272,23 +276,11 @@ public:
     return m_pool.getNumberOfThreads ();
   }
 
-  template <class F, class T1>
-  struct New1
+
+  template <class F, class T1, class T2, class T3, class T4>
+  void operator() (int numberOfIterations, T1 t1, T2 t2, T3 t3, T4 t4)
   {
-    explicit New1 (T1 t1) : m_t1 (t1)
-    {
-    }
-
-    F* operator() () { return new F (m_t1); }
-
-  private:
-    T1 m_t1;
-  };
-
-  template <class F, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
-  void operator() (int numberOfIterations, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
-  {
-    Factory8 <F> factory (t1, t2, t3, t4, t5, t6, t7, t8);
+    Factory4 <F, T1, T2, T3, T4> f (t1, t2, t3, t4);
     doLoop (numberOfIterations, f);
   }
 
@@ -327,19 +319,19 @@ private:
     virtual Iterator* operator () (AllocatorType& allocator) = 0;
   };
 
-  template <class F, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
-  struct Factory8
+  template <class F, class T1, class T2, class T3, class T4>
+  struct Factory4 : Factory
   {
-    Factory8 (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
-      : m_t1 (t1), m_t2 (t2), m_t3 (t3), m_t4 (t4), m_t5 (t5), m_t6 (t6), m_t7 (t7), m_t8 (t8) { }
+    Factory4 (T1 t1, T2 t2, T3 t3, T4 t4)
+      : m_t1 (t1), m_t2 (t2), m_t3 (t3), m_t4 (t4) { }
 
-    F* operator() (AllocatorType& allocator)
+    Iterator* operator() (AllocatorType& allocator)
     {
-      return new (allocator) F (t1, t2, t3, t4, t5, t6, t7, t8);
+      return new (allocator) IteratorType <F> (m_t1, m_t2, m_t3, m_t4);
     }
   
   private:
-    T1 m_t1; T2 m_t2; T3 m_t3; T4 m_t4; T5 m_t5; T6 m_t6; T7 m_t7; T8 m_t8;
+    T1 m_t1; T2 m_t2; T3 m_t3; T4 m_t4;
   };
 
 private:

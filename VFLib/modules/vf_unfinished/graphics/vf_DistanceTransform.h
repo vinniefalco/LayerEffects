@@ -125,73 +125,6 @@ struct DistanceTransform
     int m_radiusSquared;
   };
 
-  //------------------------------------------------------------------------------
-
-  /** Distance output to a generic container.
-  */
-  template <class Map>
-  struct OutputDistanceMap
-  {
-    typedef typename Map::Type Type;
-
-    OutputDistanceMap (Map map, int radius)
-      : m_map (map)
-      , m_radius (radius)
-      , m_radiusSquared (radius * radius)
-    {
-    }
-
-    void operator () (int const x, int const y, double distance)
-    {
-      if (distance > 0)
-      {
-        if (distance < m_radiusSquared)
-          m_map (x, y) = Type (std::sqrt (distance));
-        else
-          m_map (x, y) = Type (m_radius);
-      }
-      else
-      {
-        m_map (x, y) = 0;
-      }
-    }
-
-  private:
-    Map m_map;
-    int m_radius;
-    int m_radiusSquared;
-  };
-
-  //------------------------------------------------------------------------------
-
-  /** Distance output to a generic container.
-  */
-  template <class Map>
-  struct OutputInverseDistanceMap
-  {
-    typedef typename Map::Type Type;
-
-    OutputInverseDistanceMap (Map map, int radius)
-      : m_map (map)
-      , m_radius (radius)
-      , m_radiusSquared (radius * radius)
-    {
-    }
-
-    void operator () (int const x, int const y, double distance)
-    {
-      if (distance <= m_radiusSquared && distance > 0)
-        m_map (x, y) = m_radius - Type (std::sqrt (distance));
-      else
-        m_map (x, y) = 0;
-    }
-
-  private:
-    Map m_map;
-    Type m_radius;
-    Type m_radiusSquared;
-  };
-
   //----------------------------------------------------------------------------
   // 
   // "A General Algorithm for Computing Distance Transforms in Linear Time"
@@ -397,6 +330,171 @@ struct DistanceTransform
               g [idx] = d;
           }
         }
+      }
+
+      // phase 2
+      {
+        std::vector <int> s (jmax (m, n));
+        std::vector <int64> t (jmax (m, n)); // scaled
+
+        for (int y = 0; y < n; ++y)
+        {
+          int q = 0;
+          s [0] = 0;
+          t [0] = 0;
+
+          int const ym = y*m;
+
+          // scan 3
+          for (int u = 1; u < m; ++u)
+          {
+            while (q >= 0 && metric.f (floor_fixed8(t[q]) - scale*s[q], g[s[q]+ym]) >
+                             metric.f (floor_fixed8(t[q]) - scale*u, g[u+ym]))
+            {
+              q--;
+            }
+
+            if (q < 0)
+            {
+              q = 0;
+              s [0] = u;
+            }
+            else
+            {
+              int64 const w = scale + metric.sep (scale*s[q], scale*u, g[s[q]+ym], g[u+ym], inf);
+
+              if (w < scale * m)
+              {
+                ++q;
+                s[q] = u;
+                t[q] = w;
+              }
+            }
+          }
+
+          // scan 4
+          for (int u = m-1; u >= 0; --u)
+          {
+            int64 const d = metric.f (scale*(u-s[q]), g[s[q]+ym]);
+            f (u, y, d);
+            if (u == t[q]/scale)
+              --q;
+          }
+        }
+      }
+    }
+
+    //--------------------------------------------------------------------------
+    
+    template <class Mask>
+    struct Phase1
+    {
+      Phase1 (int m_, int n_, int64* g_, Mask mask_)
+        : m (m_), n (n_), g (g_), mask (mask_)
+      {
+      }
+
+      inline void operator() (int x) noexcept
+      {
+        int64 const inf = 256 * (m + n);
+  
+        int a;
+
+        a = mask (x, 0);
+
+        if (a == 0)
+          g [x] = 0;
+        else if (a == 255)
+          g [x] = inf;
+        else
+          g [x] = a;
+
+        // scan 1
+        for (int y = 1; y < n; ++y)
+        {
+          int const idx = x+y*m;
+
+          a = mask (x, y);
+          if (a == 0)
+            g [idx] = 0;
+          else if (a == 255)
+            g [idx] = 256 + g [idx-m];
+          else
+            g [idx] = a;
+        }
+
+        // scan 2
+        for (int y = n-2; y >=0; --y)
+        {
+          int const idx = x+y*m;
+          int64 const d = 256 + g [idx+m];
+          if (g [idx] > d)
+            g [idx] = d;
+        }
+      }
+    
+    private:
+      int m;
+      int n;
+      int64* g;
+      Mask mask;
+    };
+
+    template <class Functor, class Mask, class Metric>
+    static void calculateAntiAliasedLoop (
+      Functor f, Mask mask, int const m, int const n, Metric metric)
+    {
+      int64 const scale = 256;
+
+      std::vector <int64> g (m * n);
+
+      int64 const inf = scale * (m + n);
+
+      // phase 1
+      {
+        Phase1 <Mask> p (m, n, &g[0], mask);
+        for (int x = 0; x < m; ++x)
+          p (x);
+        //loop.operator() <Phase1 <Mask> > (m, m, n, &g[0], mask);
+
+#if 0
+        for (int x = 0; x < m; ++x)
+        {
+          int a;
+
+          a = mask (x, 0);
+
+          if (a == 0)
+            g [x] = 0;
+          else if (a == 255)
+            g [x] = inf;
+          else
+            g [x] = a;
+
+          // scan 1
+          for (int y = 1; y < n; ++y)
+          {
+            int const idx = x+y*m;
+
+            a = mask (x, y);
+            if (a == 0)
+              g [idx] = 0;
+            else if (a == 255)
+              g [idx] = scale + g [idx-m];
+            else
+              g [idx] = a;
+          }
+
+          // scan 2
+          for (int y = n-2; y >=0; --y)
+          {
+            int const idx = x+y*m;
+            int64 const d = scale + g [idx+m];
+            if (g [idx] > d)
+              g [idx] = d;
+          }
+        }
+#endif
       }
 
       // phase 2

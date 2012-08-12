@@ -38,7 +38,8 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   SharedTable <Colour> table = colours.createLookupTable ();
 
 #if 1
-  DistanceTransform::Meijster::calculateAntiAliased (
+  //ParallelFor2 loop;
+  DistanceTransform::Meijster::calculateAntiAliasedLoop (
     RenderPixelAntiAliased (
       destPixels,
       opacity,
@@ -48,7 +49,8 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
     GetMask (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),
-    DistanceTransform::Meijster::EuclideanMetric ());
+    DistanceTransform::Meijster::EuclideanMetric ()
+    );//,loop);
 #else
   DistanceTransform::Meijster::calculate (
     RenderPixel (

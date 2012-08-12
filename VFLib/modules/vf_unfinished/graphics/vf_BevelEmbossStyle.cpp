@@ -45,18 +45,27 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
   switch (kind)
   {
   case kindOuterBevel:
-    DistanceTransform::Meijster::calculate (
-      DistanceTransform::OutputInverseDistanceMap <Map2D <T> > (distMap, size),
-      DistanceTransform::BlackTest (maskPixels),
+#if 1
+    DistanceTransform::Meijster::calculateAntiAliased (
+      AntiAliased::OutputOuter <Map2D <T> > (distMap, size),
+      AntiAliased::GetMaskOuter (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
+#else
+    DistanceTransform::Meijster::calculate (
+      Normal::OutputOuter <Map2D <T> > (distMap, size),
+      Normal::GetOuter (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+#endif
     break;
 
   case kindInnerBevel:
     DistanceTransform::Meijster::calculate (
-      DistanceTransform::OutputDistanceMap <Map2D <T> > (distMap, size),
-      DistanceTransform::WhiteTest (maskPixels),
+      Normal::OutputInner <Map2D <T> > (distMap, size),
+      Normal::GetInner (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
@@ -70,6 +79,24 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
     break;
   }
 
+#if 0
+  {
+    for (int y = 0; y < destPixels.getWidth (); ++y)
+    {
+      for (int x = 0; x < destPixels.getHeight (); ++x)
+      {
+        PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
+
+        T t = distMap (x, y) * 255 / size;
+        uint8 v = uint8 (t + 0.5);
+        
+        dest.getRed () = v;
+        dest.getGreen () = v;
+        dest.getBlue () = v;
+      }
+    }
+  }
+#else
   // Apply a softening to the transform.
   //
 #if 0
@@ -142,5 +169,6 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
     shadowMode,
     Pixels::Iterate2 (destPixels, loPixels),
     BlendProc::RGB::MaskFill (shadowColour, shadowOpacity));
+#endif
 }
 
