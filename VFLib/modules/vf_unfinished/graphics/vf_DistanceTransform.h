@@ -214,6 +214,8 @@ struct DistanceTransform
       }
     };
 
+    //--------------------------------------------------------------------------
+
     struct ManhattanMetric
     {
       template <class T>
@@ -225,14 +227,18 @@ struct DistanceTransform
       template <class T>
       static inline int sep (T i, T u, T gi, T gu, T inf) noexcept
       {
-        if (gu >= gi + u - i)
+        T const u_i = u - i;
+
+        if (gu >= gi + u_i)
           return inf;
-        else if (gi > gu + u - i)
+        else if (gi > gu + u_i)
           return -inf;
         else
           return (gu - gi + u + i) / 2;
       }
     };
+
+    //--------------------------------------------------------------------------
 
     struct ChessMetric
     {
@@ -243,14 +249,16 @@ struct DistanceTransform
       }
 
       template <class T>
-      static inline int sep (T i, T u, T gi, T gu, T inf) noexcept
+      static inline int sep (T i, T u, T gi, T gu, T) noexcept
       {
-        if (gi < gu)
+        if (gi <= gu)
           return jmax (i+gu, (i+u)/2);
         else
           return jmin (u-gi, (i+u)/2);
       }
     };
+
+    //--------------------------------------------------------------------------
 
     template <class Functor, class BoolImage, class Metric>
     static void calculate (Functor f, BoolImage test, int const m, int const n, Metric metric)
@@ -332,6 +340,117 @@ struct DistanceTransform
       }
     }
 
+    //--------------------------------------------------------------------------
+
+    // Mask: 0 = point of interest
+    //
+    template <class Functor, class Mask, class Metric>
+    static void calculateAntiAliasedSaved (Functor f, Mask mask, int const m, int const n, Metric metric)
+    {
+      int64 const scale = 256;
+
+      std::vector <int64> g (m * n);
+
+      int64 const inf = scale * (m + n);
+
+      // phase 1
+      {
+        for (int x = 0; x < m; ++x)
+        {
+          int a;
+
+          a = mask (x, 0);
+
+          if (a == 0)
+            g [x] = 0;
+          else if (a == 255)
+            g [x] = inf;
+          else
+            g [x] = a;
+
+          // scan 1
+          for (int y = 1; y < n; ++y)
+          {
+            int const idx = x+y*m;
+
+            a = mask (x, y);
+            if (a == 0)
+              g [idx] = 0;
+            else if (a == 255)
+              g [idx] = scale + g [idx-m];
+            else
+              g [idx] = a;
+          }
+
+          // scan 2
+          for (int y = n-2; y >=0; --y)
+          {
+            int const idx = x+y*m;
+            int64 const d = scale + g [idx+m];
+            if (g [idx] > d)
+              g [idx] = d;
+          }
+        }
+      }
+
+      // phase 2
+      {
+        std::vector <int> s (jmax (m, n));
+        std::vector <int64> t (jmax (m, n)); // scaled
+
+        for (int y = 0; y < n; ++y)
+        {
+          int q = 0;
+          s [0] = 0;
+          t [0] = 0;
+
+          int const ym = y*m;
+
+          // scan 3
+          for (int u = 1; u < m; ++u)
+          {
+            while (q >= 0 && metric.f (t[q] - scale*s[q], g[s[q]+ym]) >
+                             metric.f (t[q] - scale*u, g[u+ym]))
+            {
+              q--;
+            }
+
+            if (q < 0)
+            {
+              q = 0;
+              s [0] = u;
+            }
+            else
+            {
+              int64 const w = scale + metric.sep (scale*s[q], scale*u, g[s[q]+ym], g[u+ym], inf);
+
+              if (w < scale * m)
+              {
+                ++q;
+                s[q] = u;
+                t[q] = w;
+              }
+            }
+          }
+
+          // scan 4
+          for (int u = m-1; u >= 0; --u)
+          {
+            int64 const d = metric.f (scale*(u-s[q]), g[s[q]+ym]);
+            f (u, y, d);
+            if (u == t[q]/scale)
+              --q;
+          }
+        }
+      }
+    }
+
+    template <class T>
+    static T floor_fixed8 (T x)
+    {
+      return x & (~T(0xff));
+    }
+
     template <class Functor, class Mask, class Metric>
     static void calculateAntiAliased (Functor f, Mask mask, int const m, int const n, Metric metric)
     {
@@ -348,41 +467,42 @@ struct DistanceTransform
           int a;
 
           a = mask (x, 0);
+
           if (a == 0)
-            g [x] = inf;
-          else if (a == 255) // point of interest
             g [x] = 0;
+          else if (a == 255)
+            g [x] = inf;
           else
-            g [x] = (scale-1-a);
+            g [x] = a;
 
           // scan 1
           for (int y = 1; y < n; ++y)
           {
-            int const ym = y*m;
+            int const idx = x+y*m;
 
             a = mask (x, y);
             if (a == 0)
-              g [x+ym] = scale + g [x+ym-m];
-            else if (a == 255) // point of interest
-              g [x+ym] = 0;
+              g [idx] = 0;
+            else if (a == 255)
+              g [idx] = scale + g [idx-m];
             else
-              g [x+ym] = (scale-1-a);
+              g [idx] = a;
           }
 
           // scan 2
           for (int y = n-2; y >=0; --y)
           {
-            int const ym = y*m;
-            int64 const d = scale + g [x+ym+m];
-            if (g [x+ym] > d)
-              g [x+ym] = d;
+            int const idx = x+y*m;
+            int64 const d = scale + g [idx+m];
+            if (g [idx] > d)
+              g [idx] = d;
           }
         }
       }
 
       // phase 2
       {
-        std::vector <int64> s (jmax (m, n));
+        std::vector <int> s (jmax (m, n));
         std::vector <int64> t (jmax (m, n)); // scaled
 
         for (int y = 0; y < n; ++y)
@@ -396,8 +516,8 @@ struct DistanceTransform
           // scan 3
           for (int u = 1; u < m; ++u)
           {
-            while (q >= 0 && metric.f (t[q] - scale*s[q], g[s[q]+ym]) >
-                             metric.f (t[q] - scale*u, g[u+ym]))
+            while (q >= 0 && metric.f (floor_fixed8(t[q]) - scale*s[q], g[s[q]+ym]) >
+                             metric.f (floor_fixed8(t[q]) - scale*u, g[u+ym]))
             {
               q--;
             }
@@ -553,7 +673,8 @@ struct DistanceTransform
   //
   struct WangTan
   {
-    static int intersect (int ux, int vx, int du, int dv)
+    template <class T>
+    static T intersect (T ux, T vx, T du, T dv)
     {
       if (dv > du)
         return (dv - du) / (2 * (vx - ux));
@@ -561,10 +682,15 @@ struct DistanceTransform
         return -2;
     }
 
-    static int distance (int ux, int vx, int dv)
+    //--------------------------------------------------------------------------
+
+    template <class T>
+    static T distance (T ux, T vx, T dv)
     {
       return ux * (ux - vx * 2) + dv;
     }
+
+    //--------------------------------------------------------------------------
 
     template <class Functor, class BoolImage, class Metric>
     static void calculate (Functor f, BoolImage test, int const n, int const m, Metric)
@@ -586,7 +712,7 @@ struct DistanceTransform
               mid = (r + mid) /2;
             for (int r_ = mid + 1; r_ <= r; ++r_)
               I (c, r_) = (r_-r)*(r_-r) + cc;
-            mid = r; // was x
+            mid = r;
           }
           else
           {
@@ -661,6 +787,115 @@ struct DistanceTransform
               cx = stack_cx [k+1];
             for (;c <= cx; ++c)
               I (c, r) = distance (c, stack_c [k], stack_g [k]);
+          }
+        }
+      }
+
+      // output
+      for (int r = 0; r < m; ++r)
+        for (int c = 0; c < n; ++c)
+          f (c, r, I (c, r));
+    }
+
+    //--------------------------------------------------------------------------
+
+    template <class Functor, class Map, class Metric>
+    static void calculateAntiAliased (Functor f, Map map, int const n, int const m, Metric)
+    {
+      int64 const inf = 1+65536L*n*n+m*m;
+      Map2D <int64> I (n, m);
+
+      // stage 1
+      for (int c = 0; c < n; ++c)
+      {
+        int mid = -1;
+        int64 const cc = 65536L*c*c;
+
+        for (int r = 0; r < m; ++r)
+        {
+          int const a = map (c, r);
+
+          if (a == 0)
+          {
+            if (mid > -1)
+              mid = (r + mid) /2;
+            for (int r_ = mid + 1; r_ <= r; ++r_)
+              I (c, r_) = 65536L*(r_-r)*(r_-r) + cc;
+            mid = r;
+          }
+          else
+          {
+            if (mid == -1)
+              I (c, r) = inf;
+            else
+              I (c, r) = 65536L*(r-mid)*(r-mid) + cc;
+          }
+        }
+      }
+
+      // stage 2
+      {
+        std::vector <int64> stack_c  (n);
+        std::vector <int64> stack_cx (n);
+        std::vector <int64> stack_g  (n);
+
+        for (int r = 0; r < m; ++r)
+        {
+          int p = -1;
+
+          for (int c = 0; c < n; ++c)
+          {
+            if (I (c, r) < inf)
+            {
+              for (;;)
+              {
+                int64 cx;
+
+                if (p >= 0)
+                {
+                  cx = intersect <int64> (stack_c [p], 256 * c, stack_g [p], abs (I (c, r)));
+
+                  if (cx == stack_cx [p])
+                  {
+                    --p;
+                  }
+                  else if (cx < stack_cx [p])
+                  {
+                    --p;
+                    continue;
+                  }
+                  else if (cx >= 256 * (n - 1))
+                  {
+                    break;
+                  }
+                }
+                else
+                {
+                  cx = -1;
+                }
+
+                ++p;
+                stack_c  [p] = 256 * c;
+                stack_cx [p] = cx;
+                stack_g  [p] = I (c, r);
+                break;
+              }
+            }
+          }
+
+          if (p < 0)
+            return; // undefined!
+
+          int c = 0;
+          for (int k = 0; k <= p ; ++k)
+          {
+            int64 cx;
+            if (k == p)
+              cx = n-1;
+            else
+              cx = stack_cx [k+1];
+            for (;c <= cx; ++c)
+              I (c, r) = distance <int64> (256 * c, stack_c [k], stack_g [k]);
           }
         }
       }

@@ -180,6 +180,29 @@ void GradientColours::duplicateIfShared ()
     m_data = m_data->clone ();
 }
 
+GradientColours GradientColours::withReversedStops () const
+{
+  GradientColours result (m_data->getNumColourStops (), m_data->getNumAlphaStops ());
+
+  for (int i = 0; i < result.getNumAlphaStops (); ++i)
+  {
+    result.getAlphaStop ((getNumAlphaStops ()-1)-i) = AlphaStop (
+      getAlphaStop (i).alpha,
+      1 - getAlphaStop (i).position,
+      1 - getAlphaStop (i).center);
+  }
+
+  for (int i = 0; i < result.getNumColourStops (); ++i)
+  {
+    result.getColourStop ((getNumColourStops ()-1)-i) = ColourStop (
+      getColourStop (i).colour,
+      1 - getColourStop (i).position,
+      1 - getColourStop (i).center);
+  }
+
+  return result;
+}
+
 int GradientColours::getNumAlphaStops () const noexcept
 {
   return m_data->getNumAlphaStops ();

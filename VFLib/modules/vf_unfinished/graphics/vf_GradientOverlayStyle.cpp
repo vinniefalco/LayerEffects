@@ -37,7 +37,12 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
   if (!active)
     return;
 
-  SharedTable <Colour> table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
+  SharedTable <Colour> table;
+
+  if (reverse)
+    table = colours.withMultipliedAlpha (float (opacity)).withReversedStops().createLookupTable ();
+  else
+    table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
 
   switch (kind)
   {

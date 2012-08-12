@@ -139,9 +139,13 @@ public:
   { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8, vf::_1)); }
   /** @} */
 
-private:
-  class LoopState;
+  // up to 8 ctor args
+  template <class Functor, class T1, class T2>
+  void run (T1 t1, T2 t2)
+  {
+  }
 
+private:
   class Iteration
   {
   public:
@@ -163,6 +167,75 @@ private:
 
   private:
     Functor m_f;
+  };
+
+private:
+  class LoopState
+    : public AllocatedBy <ThreadGroup::AllocatorType>
+    , Uncopyable
+  {
+  private:
+    Iteration& m_iteration;
+    WaitableEvent& m_finishedEvent;
+    int const m_numberOfIterations;
+    Atomic <int> m_loopIndex;
+    Atomic <int> m_iterationsRemaining;
+    Atomic <int> m_numberOfParallelInstances;
+
+  public:
+    LoopState (Iteration& iteration,
+               WaitableEvent& finishedEvent,
+               int numberOfIterations,
+               int numberOfParallelInstances)
+      : m_iteration (iteration)
+      , m_finishedEvent (finishedEvent)
+      , m_numberOfIterations (numberOfIterations)
+      , m_loopIndex (-1)
+      , m_iterationsRemaining (numberOfIterations)
+      , m_numberOfParallelInstances (numberOfParallelInstances)
+    {
+    }
+
+    ~LoopState ()
+    {
+    }
+
+    void forLoopBody ()
+    {
+      for (;;)
+      {
+        // Request a loop index to process.
+        int const loopIndex = ++m_loopIndex;
+
+        // Is it in range?
+        if (loopIndex < m_numberOfIterations)
+        {
+          // Yes, so process it.
+          m_iteration (loopIndex);
+
+          // Was this the last work item to complete?
+          if (--m_iterationsRemaining == 0)
+          {
+            // Yes, signal.
+            m_finishedEvent.signal ();
+            break;
+          }
+        }
+        else
+        {
+          // Out of range, all work is complete or assigned.
+          break;
+        }
+      }
+
+      release ();
+    }
+
+    void release ()
+    {
+      if (--m_numberOfParallelInstances == 0)
+        delete this;
+    }
   };
 
 private:

@@ -35,17 +35,40 @@ void InnerGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   if (!active)
     return;
 
-  SharedTable <Colour> colourTable = colours.createLookupTable ();
+  SharedTable <Colour> table;
+  
+  if (reverse)
+    table = colours.withReversedStops().createLookupTable ();
+  else
+    table = colours.createLookupTable ();
 
-  DistanceTransform::WangTan::calculate (
+#if 1
+  // Anti-Aliased
+  //
+  DistanceTransform::Meijster::calculateAntiAliased (
+    RenderPixelAntiAliased (
+      destPixels,
+      opacity,
+      choke,
+      size,
+      table),
+    GetMask (maskPixels),
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    DistanceTransform::Meijster::EuclideanMetric ());
+#else
+  // Regular
+  //
+  DistanceTransform::Meijster::calculate (
     RenderPixel (
       destPixels,
       opacity,
       choke,
       size,
-      colours.createLookupTable ()),
-    DistanceTransform::WhiteTest (maskPixels),
+      table),
+    TestMask (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),
     DistanceTransform::Meijster::EuclideanMetric ());
+#endif
 }

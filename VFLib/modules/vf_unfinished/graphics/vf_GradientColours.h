@@ -119,6 +119,10 @@ public:
   */
   void duplicateIfShared ();
 
+  /** Returns a new gradient with the stops reversed.
+  */
+  GradientColours withReversedStops () const;
+
   /** Create a lookup table of colours from the gradient.
 
       The number of entries will be calculated to be as small as possible
@@ -135,8 +139,8 @@ public:
     {
     }
 
-    AlphaStop (float alpha_, float position_, float center_ = 0.5f)
-      : alpha (alpha_), position (position_), center (center_)
+    AlphaStop (double alpha_, double position_, double center_ = 0.5)
+      : alpha (float(alpha_)), position (float(position_)), center (float(center_))
     {
     }
 
@@ -159,8 +163,8 @@ public:
     {
     }
 
-    ColourStop (Colour colour_, float position_, float center_ = 0.5f)
-      : colour (colour_), position (position_), center (center_)
+    ColourStop (Colour colour_, double position_, double center_ = 0.5f)
+      : colour (colour_), position (float(position_)), center (float(center_))
     {
     }
 

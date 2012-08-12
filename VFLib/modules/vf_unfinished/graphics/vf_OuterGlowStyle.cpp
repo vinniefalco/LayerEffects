@@ -35,31 +35,31 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   if (!active)
     return;
 
-  SharedTable <Colour> colourTable = colours.createLookupTable ();
+  SharedTable <Colour> table = colours.createLookupTable ();
 
-#if 0
+#if 1
   DistanceTransform::Meijster::calculateAntiAliased (
     RenderPixelAntiAliased (
       destPixels,
       opacity,
       spread,
       size,
-      colours.createLookupTable ()),
+      table),
     DistanceMaskOutside (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),
     DistanceTransform::Meijster::EuclideanMetric ());
 #else
-  DistanceTransform::WangTan::calculate (
+  DistanceTransform::Meijster::calculate (
     RenderPixel (
       destPixels,
       opacity,
       spread,
       size,
-      colours.createLookupTable ()),
+      table),
     DistanceTransform::BlackTest (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),
-    DistanceTransform::Meijster::EuclideanMetric ());
+    DistanceTransform::Meijster::ChessMetric ());
 #endif
 }

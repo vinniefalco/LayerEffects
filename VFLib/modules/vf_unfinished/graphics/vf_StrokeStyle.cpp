@@ -38,7 +38,7 @@ struct DistanceMaskOutside
 
   int operator() (int x, int y) const noexcept
   {
-    return *m_mask.getPixelPointer (x, y);
+    return 255 - *m_mask.getPixelPointer (x, y);
   }
 
 public:
@@ -53,7 +53,7 @@ struct DistanceMaskInside
 
   int operator() (int x, int y) const noexcept
   {
-    return 255 - *m_mask.getPixelPointer (x, y);
+    return *m_mask.getPixelPointer (x, y);
   }
 
 public:
@@ -114,13 +114,14 @@ struct RenderStrokeAntiAliased
   {
   }
 
-  void operator() (int x, int y, double distance)
+  template <class T>
+  void operator() (int x, int y, T distance)
   {
     PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
 
     if (distance > 0)
     {
-      distance = sqrt (distance / 65536);
+      distance = T (sqrt (distance / 65536.));
 
 #if 0
       if (distance < 1)

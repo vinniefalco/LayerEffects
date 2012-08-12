@@ -48,17 +48,8 @@ class SerialFor : Uncopyable
 {
 public:
   /** Create a serial for loop.
-
-      Any passed argument is ignored.
   */
-  template <class T>
-  explicit SerialFor (T)
-  {
-  }
-
-  /** Create a serial for loop.
-  */
-  SerialFor ()
+  inline SerialFor ()
   {
   }
 
@@ -71,50 +62,22 @@ public:
     return 1;
   }
 
-  template <class Functor>
-  inline void loop (int numberOfIterations, Functor f)
+  template <class F>
+  inline void operator() (int numberOfIterations)
   {
+    F f;
     for (int i = 0; i < numberOfIterations; ++i)
       f (i);
   }
 
-  /** @{ */
-  template <class Fn>
-  void operator () (int n, Fn f)
-  { loop (n, vf::bind (f, vf::_1)); }
-
-  template <class Fn, class T1>
-  void operator() (int n, Fn f, T1 t1)
-  { loop (n, vf::bind (f, t1, vf::_1)); }
-
-  template <class Fn, class T1, class T2>
-  void operator() (int n, Fn f, T1 t1, T2 t2)
-  { loop (n, vf::bind (f, t1, t2, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3)
-  { loop (n, vf::bind (f, t1, t2, t3, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3, class T4>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4)
-  { loop (n, vf::bind (f, t1, t2, t3, t4, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3, class T4, class T5>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)
-  { loop (n, vf::bind (f, t1, t2, t3, t4, t5, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)
-  { loop (n, vf::bind (f, t1, t2, t3, t4, t5, t6, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7)
-  { loop (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, vf::_1)); }
-
-  template <class Fn, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
-  void operator() (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
-  { loop (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8, vf::_1)); }
-  /** @} */
+  template <class F, class T1>
+  inline void operator () (int numberOfIterations,
+    T1 t1)
+  {
+    F f (t1);
+    for (int i = 0; i < numberOfIterations; ++i)
+      f (i);
+  }
 };
 
 #endif
