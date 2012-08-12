@@ -342,115 +342,14 @@ struct DistanceTransform
 
     //--------------------------------------------------------------------------
 
-    // Mask: 0 = point of interest
-    //
-    template <class Functor, class Mask, class Metric>
-    static void calculateAntiAliasedSaved (Functor f, Mask mask, int const m, int const n, Metric metric)
-    {
-      int64 const scale = 256;
-
-      std::vector <int64> g (m * n);
-
-      int64 const inf = scale * (m + n);
-
-      // phase 1
-      {
-        for (int x = 0; x < m; ++x)
-        {
-          int a;
-
-          a = mask (x, 0);
-
-          if (a == 0)
-            g [x] = 0;
-          else if (a == 255)
-            g [x] = inf;
-          else
-            g [x] = a;
-
-          // scan 1
-          for (int y = 1; y < n; ++y)
-          {
-            int const idx = x+y*m;
-
-            a = mask (x, y);
-            if (a == 0)
-              g [idx] = 0;
-            else if (a == 255)
-              g [idx] = scale + g [idx-m];
-            else
-              g [idx] = a;
-          }
-
-          // scan 2
-          for (int y = n-2; y >=0; --y)
-          {
-            int const idx = x+y*m;
-            int64 const d = scale + g [idx+m];
-            if (g [idx] > d)
-              g [idx] = d;
-          }
-        }
-      }
-
-      // phase 2
-      {
-        std::vector <int> s (jmax (m, n));
-        std::vector <int64> t (jmax (m, n)); // scaled
-
-        for (int y = 0; y < n; ++y)
-        {
-          int q = 0;
-          s [0] = 0;
-          t [0] = 0;
-
-          int const ym = y*m;
-
-          // scan 3
-          for (int u = 1; u < m; ++u)
-          {
-            while (q >= 0 && metric.f (t[q] - scale*s[q], g[s[q]+ym]) >
-                             metric.f (t[q] - scale*u, g[u+ym]))
-            {
-              q--;
-            }
-
-            if (q < 0)
-            {
-              q = 0;
-              s [0] = u;
-            }
-            else
-            {
-              int64 const w = scale + metric.sep (scale*s[q], scale*u, g[s[q]+ym], g[u+ym], inf);
-
-              if (w < scale * m)
-              {
-                ++q;
-                s[q] = u;
-                t[q] = w;
-              }
-            }
-          }
-
-          // scan 4
-          for (int u = m-1; u >= 0; --u)
-          {
-            int64 const d = metric.f (scale*(u-s[q]), g[s[q]+ym]);
-            f (u, y, d);
-            if (u == t[q]/scale)
-              --q;
-          }
-        }
-      }
-    }
-
     template <class T>
     static T floor_fixed8 (T x)
     {
       return x & (~T(0xff));
     }
 
+    // Mask: 0 = point of interest
+    //
     template <class Functor, class Mask, class Metric>
     static void calculateAntiAliased (Functor f, Mask mask, int const m, int const n, Metric metric)
     {

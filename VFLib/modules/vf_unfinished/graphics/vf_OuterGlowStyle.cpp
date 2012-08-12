@@ -45,7 +45,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
       spread,
       size,
       table),
-    DistanceMaskOutside (maskPixels),
+    GetMask (maskPixels),
     maskPixels.getWidth (),
     maskPixels.getHeight (),
     DistanceTransform::Meijster::EuclideanMetric ());

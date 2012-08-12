@@ -113,15 +113,21 @@ struct OuterGlowStyle
 
   //----------------------------------------------------------------------------
 
-  struct DistanceMaskOutside
+  struct GetMask
   {
-    explicit DistanceMaskOutside (Pixels mask) : m_mask (mask)
+    explicit GetMask (Pixels mask) : m_mask (mask)
     {
     }
 
+    // Return distance from point of interest.
+    //
+    // 0      = point of interest
+    // 1..254 = fractional distance to point of interest
+    // 255    = not a point of interest
+    //
     int operator() (int x, int y) const noexcept
     {
-      return *m_mask.getPixelPointer (x, y);
+      return 255-*m_mask.getPixelPointer (x, y);
     }
 
   public:
@@ -144,7 +150,8 @@ struct OuterGlowStyle
       jassert (dest.isRGB ());
     }
 
-    void operator () (int x, int y, int distanceSquared)
+    template <class T>
+    void operator () (int x, int y, T distanceSquared)
     {
       double dist = sqrt (double (distanceSquared) / 65536);
 

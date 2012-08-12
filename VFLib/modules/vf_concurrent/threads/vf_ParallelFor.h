@@ -84,6 +84,11 @@ public:
   */
   int getNumberOfThreads () const;
 
+  template <class F, class T1>
+  void operator() (int numberOfIterations, T1 t1)
+  {
+  }
+
   /** Execute parallel for loop.
 
       Functor is called once for each value in the range
@@ -138,12 +143,6 @@ public:
   void loop (int n, Fn f, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
   { loopf (n, vf::bind (f, t1, t2, t3, t4, t5, t6, t7, t8, vf::_1)); }
   /** @} */
-
-  // up to 8 ctor args
-  template <class Functor, class T1, class T2>
-  void run (T1 t1, T2 t2)
-  {
-  }
 
 private:
   class Iteration
@@ -240,6 +239,225 @@ private:
 
 private:
   void doLoop (int numberOfIterations, Iteration& iteration);
+
+private:
+  ThreadGroup& m_pool;
+  WaitableEvent m_finishedEvent;
+  Atomic <int> m_currentIndex;
+  Atomic <int> m_numberOfInstances;
+  int m_numberOfIterations;
+};
+
+//------------------------------------------------------------------------------
+
+class ParallelFor2 : Uncopyable
+{
+public:
+  /** Create a parallel for loop.
+
+      It is best to keep this object around instead of creating and destroying
+      it every time you need to run a loop.
+
+      @param pool The ThreadGroup to use. If this is omitted then a singleton
+                  ThreadGroup is used which contains one thread per CPU.
+  */
+  explicit ParallelFor2 (ThreadGroup& pool = *GlobalThreadGroup::getInstance ());
+
+  /** Determine the number of threads in the group.
+
+      @return The number of threads in the group.
+  */
+  int getNumberOfThreads () const
+  {
+    return m_pool.getNumberOfThreads ();
+  }
+
+  template <class F, class T1>
+  struct New1
+  {
+    explicit New1 (T1 t1) : m_t1 (t1)
+    {
+    }
+
+    F* operator() () { return new F (m_t1); }
+
+  private:
+    T1 m_t1;
+  };
+
+  template <class F, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+  void operator() (int numberOfIterations, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
+  {
+    Factory8 <F> factory (t1, t2, t3, t4, t5, t6, t7, t8);
+    doLoop (numberOfIterations, f);
+  }
+
+private:
+  typedef ThreadGroup::AllocatorType AllocatorType;
+
+  //---
+
+  struct Iterator : public AllocatedBy <AllocatorType>
+  {
+    virtual void operator () (int loopIndex) = 0;
+  };
+
+  //---
+
+  template <class Functor>
+  struct IteratorType : public Iterator, Uncopyable
+  {
+    explicit IteratorType (Functor f) : m_f (f)
+    {
+    }
+
+    void operator () (int loopIndex)
+    {
+      m_f (loopIndex);
+    }
+
+  private:
+    Functor m_f;
+  };
+
+  //---
+
+  struct Factory
+  {
+    virtual Iterator* operator () (AllocatorType& allocator) = 0;
+  };
+
+  template <class F, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
+  struct Factory8
+  {
+    Factory8 (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8)
+      : m_t1 (t1), m_t2 (t2), m_t3 (t3), m_t4 (t4), m_t5 (t5), m_t6 (t6), m_t7 (t7), m_t8 (t8) { }
+
+    F* operator() (AllocatorType& allocator)
+    {
+      return new (allocator) F (t1, t2, t3, t4, t5, t6, t7, t8);
+    }
+  
+  private:
+    T1 m_t1; T2 m_t2; T3 m_t3; T4 m_t4; T5 m_t5; T6 m_t6; T7 m_t7; T8 m_t8;
+  };
+
+private:
+  class LoopState
+    : public AllocatedBy <AllocatorType>
+    , Uncopyable
+  {
+  private:
+    Factory& m_factory;
+    WaitableEvent& m_finishedEvent;
+    int const m_numberOfIterations;
+    Atomic <int> m_loopIndex;
+    Atomic <int> m_iterationsRemaining;
+    Atomic <int> m_numberOfParallelInstances;
+    AllocatorType& m_allocator;
+
+  public:
+    LoopState (Factory& factory,
+               WaitableEvent& finishedEvent,
+               int numberOfIterations,
+               int numberOfParallelInstances,
+               AllocatorType& allocator)
+      : m_factory (factory)
+      , m_finishedEvent (finishedEvent)
+      , m_numberOfIterations (numberOfIterations)
+      , m_loopIndex (-1)
+      , m_iterationsRemaining (numberOfIterations)
+      , m_numberOfParallelInstances (numberOfParallelInstances)
+      , m_allocator (allocator)
+    {
+    }
+
+    ~LoopState ()
+    {
+    }
+
+    void forLoopBody ()
+    {
+      Iterator* iterator = m_factory (m_allocator);
+
+      for (;;)
+      {
+        // Request a loop index to process.
+        int const loopIndex = ++m_loopIndex;
+
+        // Is it in range?
+        if (loopIndex < m_numberOfIterations)
+        {
+          // Yes, so process it.
+          (*iterator) (loopIndex);
+
+          // Was this the last work item to complete?
+          if (--m_iterationsRemaining == 0)
+          {
+            // Yes, signal.
+            m_finishedEvent.signal ();
+            break;
+          }
+        }
+        else
+        {
+          // Out of range, all work is complete or assigned.
+          break;
+        }
+      }
+
+      release ();
+
+      delete iterator;
+    }
+
+    void release ()
+    {
+      if (--m_numberOfParallelInstances == 0)
+        delete this;
+    }
+  };
+
+private:
+  void doLoop (int numberOfIterations, Factory& factory)
+  {
+    if (numberOfIterations > 1)
+    {
+      int const numberOfThreads = m_pool.getNumberOfThreads ();
+
+      // The largest number of pool threads we need is one less than the number
+      // of iterations, because we also run the loop body on the caller's thread.
+      //
+      int const maxThreads = numberOfIterations - 1;
+
+      // Calculate the number of parallel instances as the smaller of the number
+      // of threads available (including the caller's) and the number of iterations.
+      //
+      int const numberOfParallelInstances = std::min (
+        numberOfThreads + 1, numberOfIterations);
+
+      LoopState* loopState (new (m_pool.getAllocator ()) LoopState (
+        factory,
+        m_finishedEvent,
+        numberOfIterations,
+        numberOfParallelInstances,
+        m_pool.getAllocator ()));
+
+      m_pool.call (maxThreads, &LoopState::forLoopBody, loopState);
+
+      // Also use the caller's thread to run the loop body.
+      loopState->forLoopBody ();
+
+      m_finishedEvent.wait ();
+    }
+    else if (numberOfIterations == 1)
+    {
+      // Just one iteration, so do it.
+      Iterator* iter = factory (m_pool.getAllocator ());
+      (*iter)(0);
+      delete iter;
+    }
+  }
 
 private:
   ThreadGroup& m_pool;
