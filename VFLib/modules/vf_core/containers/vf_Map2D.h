@@ -41,7 +41,7 @@ template <class T>
 class Map2D : Uncopyable
 {
 public:
-  typedef typename T Type;
+  typedef T Type;
 
   /** Creates a null map.
   */
@@ -73,13 +73,13 @@ public:
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
   Map2D (Map2D&& other) noexcept
-    : m_data (static_cast <Data::Ptr&&> (other.m_data))
+    : m_data (static_cast <typename Data::Ptr&&> (other.m_data))
   {
   }
 
   Map2D& operator= (Map2D&& other) noexcept
   {
-      m_data = static_cast <Data::Ptr&&> (other.m_data);
+      m_data = static_cast <typename Data::Ptr&&> (other.m_data);
       return *this;
   }
 #endif
@@ -109,14 +109,16 @@ public:
   template <class U>
   void reset (U u = U ()) const noexcept
   {
-     std::fill (data->getData (), data->getData () + rows * cols, u);
+     std::fill (
+      m_data->getData (),
+      m_data->getData () + m_data->getRows () * m_data->getCols (), u);
   }
 
   /** Get a pointer to the start of the data.
   */
   inline T* getData () const noexcept
   {
-    return m_vec.getData ();
+    return m_data.getData ();
   }
 
   /** Conversion to T*.

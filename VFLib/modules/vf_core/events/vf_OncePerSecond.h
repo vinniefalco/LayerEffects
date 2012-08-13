@@ -49,7 +49,7 @@ class OncePerSecond : Uncopyable
 {
 public:
   OncePerSecond ();
-  ~OncePerSecond ();
+  virtual ~OncePerSecond ();
 
   /** Begin receiving notifications. */
   void startOncePerSecond ();

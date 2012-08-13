@@ -40,6 +40,8 @@ class ResizableChild
 public:
   ResizableChild() : m_minW(0), m_maxW(0x3fffffff), m_minH(0), m_maxH(0x3fffffff) { }
 
+  virtual ~ResizableChild () { }
+
   void setMinimumWidth (int minimumWidth) { m_minW = minimumWidth; }
   void setMaximumWidth (int maximumWidth) { m_maxW = maximumWidth; }
   void setMinimumHeight (int minimumHeight) { m_minH = minimumHeight; }

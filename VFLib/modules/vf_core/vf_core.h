@@ -307,7 +307,7 @@
 #  include <tr1/functional>
 # endif
 #elif JUCE_MAC
-# include <functional>
+# include <tr1/functional>
 #else
 # include <bind>
 # include <functional>
@@ -422,15 +422,8 @@ namespace vf
 
 using namespace juce;
 
+// This group must come first since other files need it
 #include "memory/vf_Uncopyable.h"
-
-#include "containers/vf_List.h"
-#include "containers/vf_LockFreeStack.h"
-#include "containers/vf_LockFreeQueue.h"
-#include "containers/vf_Map2D.h"
-#include "containers/vf_SharedTable.h"
-#include "containers/vf_SortedLookupTable.h"
-
 #include "diagnostic/vf_CatchAny.h"
 #include "diagnostic/vf_Debug.h"
 #include "diagnostic/vf_Error.h"
@@ -438,6 +431,13 @@ using namespace juce;
 #include "diagnostic/vf_LeakChecked.h"
 #include "diagnostic/vf_SafeBool.h"
 #include "diagnostic/vf_Throw.h"
+
+#include "containers/vf_List.h"
+#include "containers/vf_LockFreeStack.h"
+#include "containers/vf_LockFreeQueue.h"
+#include "containers/vf_Map2D.h"
+#include "containers/vf_SharedTable.h"
+#include "containers/vf_SortedLookupTable.h"
 
 #include "events/vf_OncePerSecond.h"
 #include "events/vf_PerformedAtExit.h"

@@ -191,7 +191,7 @@ public:
       @note It is customary to call close() on the CallQueue early in the
             shutdown process to catch functors going into the queue late.
   */
-  ~CallQueue ();
+  virtual ~CallQueue ();
 
   //============================================================================
 

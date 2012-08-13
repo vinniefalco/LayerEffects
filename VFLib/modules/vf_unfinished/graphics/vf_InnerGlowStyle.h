@@ -74,36 +74,6 @@ struct InnerGlowStyle
 
   //----------------------------------------------------------------------------
 
-  /** Fixed point square root function.
-
-      @tparam count The number of fractional bits of precision.
-  */
-  template <int count>
-  static unsigned int isqrtf (unsigned int x)
-  {
-    unsigned long root = 0;
-    unsigned long remHi = 0;
-    unsigned long remLo = x;
-    unsigned long testDiv;
-
-    for (int i = count; i--;)
-    {
-      remHi = (remHi<<2) | (remLo>>30); remLo <<= 2;
-      root <<= 1;
-      unsigned long testDiv = (root << 1) + 1;
-    
-      if (remHi >= testDiv)
-      {
-        remHi -= testDiv;
-        root++;
-      }
-    }
-
-    return root;
-  }
-
-  //----------------------------------------------------------------------------
-
   struct RenderPixel
   {
     RenderPixel (Pixels dest,

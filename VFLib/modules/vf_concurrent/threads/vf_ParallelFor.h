@@ -148,6 +148,7 @@ private:
   class Iteration
   {
   public:
+    virtual ~Iteration () { }
     virtual void operator () (int loopIndex) = 0;
   };
 
@@ -291,6 +292,7 @@ private:
 
   struct Iterator : public AllocatedBy <AllocatorType>
   {
+    virtual ~Iterator () { }
     virtual void operator () (int loopIndex) = 0;
   };
 
@@ -316,6 +318,7 @@ private:
 
   struct Factory
   {
+    virtual ~Factory () { }
     virtual Iterator* operator () (AllocatorType& allocator) = 0;
   };
 

@@ -52,6 +52,7 @@ public:
   class Device
   {
   public:
+    virtual ~Device () { }
     virtual String getName () const = 0;
   };
 

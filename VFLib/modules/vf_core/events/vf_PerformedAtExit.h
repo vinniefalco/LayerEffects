@@ -49,6 +49,7 @@ class PerformedAtExit : public LockFreeStack <PerformedAtExit>::Node
 {
 protected:
   PerformedAtExit ();
+  virtual ~PerformedAtExit () { }
 
 protected:
   /** Called at program exit.

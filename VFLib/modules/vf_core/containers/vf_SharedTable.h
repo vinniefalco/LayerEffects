@@ -45,7 +45,7 @@ template <class ElementType>
 class SharedTable
 {
 public:
-  typedef typename ElementType Entry;
+  typedef ElementType Entry;
 
   static SharedTable <ElementType> const null;
 
@@ -85,13 +85,13 @@ public:
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
   SharedTable (SharedTable&& other) noexcept
-      : m_data (static_cast <Data::Ptr&&> (other.m_data))
+      : m_data (static_cast <typename Data::Ptr&&> (other.m_data))
   {
   }
 
   SharedTable& operator= (SharedTable&& other) noexcept
   {
-      m_data = static_cast <Data::Ptr&&> (other.m_data);
+      m_data = static_cast <typename Data::Ptr&&> (other.m_data);
       return *this;
   }
 #endif
@@ -180,7 +180,7 @@ private:
     {
     }
 
-    inline Data* Data::clone () const
+    inline Data* clone () const
     {
       Data* data = new Data (m_numEntries);
 
