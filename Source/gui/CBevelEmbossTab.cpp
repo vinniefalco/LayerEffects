@@ -37,9 +37,10 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_options.kind = vf::BevelEmbossStyle::kindInnerBevel;
   m_options.technique = vf::BevelEmbossStyle::techniqueSmooth;
   m_options.depth = 1.;
+  m_options.reverse = false;
   m_options.size = 5;
   m_options.soften = 0;
-  m_options.lightAngle = vf::degreesToRadians <double> (135);
+  m_options.lightAngle = vf::degreesToRadians <double> (-45);
   m_options.lightElevation = vf::degreesToRadians <double> (30);
   m_options.hilightMode = vf::BlendMode::modeScreen;
   m_options.hilightOpacity = .75f;
@@ -65,6 +66,7 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_techniqueComboBox->setSelectedId (m_options.technique);
 
   m_depthSlider = createPercentSlider ("Depth", m_options.depth, 1000);
+  m_reverseSlider = createToggleButton ("Reverse", m_options.reverse);
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
   m_softenSlider = createIntegerSlider ("Soften", 0, 16, m_options.soften);
   m_angleSlider = createIntegerSlider ("Angle", 0, 359, vf::radiansToDegrees <int> (m_options.lightAngle));
@@ -85,6 +87,9 @@ void CBevelEmbossTab::buttonClicked (Button* button)
 {
   if (button == m_activeButton)
     m_options.active = button->getToggleState ();
+
+  else if (button == m_reverseSlider)
+    m_options.reverse = button->getToggleState ();
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsBevelEmboss, m_options);
 }

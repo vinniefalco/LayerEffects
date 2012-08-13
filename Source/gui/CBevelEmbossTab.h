@@ -52,6 +52,7 @@ private:
   ComboBox* m_kindComboBox;
   ComboBox* m_techniqueComboBox;
   Slider* m_depthSlider;
+  ToggleButton* m_reverseSlider;
   Slider* m_sizeSlider;
   Slider* m_softenSlider;
   Slider* m_angleSlider;

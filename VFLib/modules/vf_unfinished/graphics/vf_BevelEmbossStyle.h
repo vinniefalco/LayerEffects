@@ -59,6 +59,7 @@ struct BevelEmbossStyle
   Kind            kind;
   Technique       technique;
   double          depth;          // [0, 10], 1 = 100%
+  bool            reverse;        // reverse angle
   int             size;           // [0, 250]
   int             soften;         // [0, 16]
   double          lightAngle;     // radians
@@ -229,11 +230,11 @@ struct BevelEmbossStyle
     //--------------------------------------------------------------------------
 
     template <class Map>
-    struct OutputOuter
+    struct Output
     {
       typedef typename Map::Type Type;
 
-      OutputOuter (Map map, int radius)
+      Output (Map map, int radius)
         : m_map (map)
         , m_radius (radius)
         , m_radiusSquared (65536L * radius * radius)
@@ -243,14 +244,18 @@ struct BevelEmbossStyle
       template <class T>
       void operator () (int const x, int const y, T distanceSquared)
       {
-        if (distanceSquared > 0 && distanceSquared < m_radiusSquared)
+        if (distanceSquared == 0)
+        {
+          m_map (x, y) = 0;
+        }
+        else if (distanceSquared < m_radiusSquared)
         {
           double dist = std::sqrt (double (distanceSquared / 65536));
           m_map (x, y) = dist;
         }
         else
         {
-          m_map (x, y) = 0;
+          m_map (x, y) = m_radius;
         }
       }
 

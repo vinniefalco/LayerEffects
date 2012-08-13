@@ -47,7 +47,7 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
   case kindOuterBevel:
 #if 1
     DistanceTransform::Meijster::calculateAntiAliased (
-      AntiAliased::OutputOuter <Map2D <T> > (distMap, size),
+      AntiAliased::Output <Map2D <T> > (distMap, size),
       AntiAliased::GetMaskOuter (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
@@ -63,12 +63,21 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
     break;
 
   case kindInnerBevel:
+#if 1
+    DistanceTransform::Meijster::calculateAntiAliased (
+      AntiAliased::Output <Map2D <T> > (distMap, size),
+      AntiAliased::GetMaskInner (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+#else
     DistanceTransform::Meijster::calculate (
       Normal::OutputInner <Map2D <T> > (distMap, size),
       Normal::GetInner (maskPixels),
       maskPixels.getWidth (),
       maskPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
+#endif
     break;
 
   case kindEmboss:
