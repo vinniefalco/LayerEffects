@@ -33,9 +33,6 @@
 #ifndef VF_LIST_VFHEADER
 #define VF_LIST_VFHEADER
 
-#include "../diagnostic/vf_Error.h"
-#include "../diagnostic/vf_Throw.h"
-
 struct ListDefaultTag;
 
 /*============================================================================*/

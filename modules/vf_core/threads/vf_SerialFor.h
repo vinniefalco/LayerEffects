@@ -30,83 +30,54 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
+#ifndef VF_SERIALFOR_VFHEADER
+#define VF_SERIALFOR_VFHEADER
 
-/**
-  Midi input and output device manager.
+/*============================================================================*/
 
-  This wraps JUCE support for Midi devices, with the following features:
+/** Serial for loop.
 
-  - Add/remove notification.
+    Iterates a for loop sequentially. This is a drop in replacement for
+    ParallelFor.
 
-  - Midi input and output devices identified by a permanent handle.
+    @see ParallelFor
 
+    @ingroup vf_core
 */
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+class SerialFor : Uncopyable
 {
 public:
-  /**
-    Common Midi device characteristics.
+  /** Create a serial for loop.
   */
-  class Device
-  {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
-
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
-
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
-
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
-
-    /**
-      Called when the connection status of any devices changes.
-
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
+  inline SerialFor ()
   {
   }
 
-  static MidiDevices* createInstance ();
+  /** Determine the number of threads used to process loops.
+
+      @return Always 1.
+  */
+  inline int getNumberOfThreads () const
+  {
+    return 1;
+  }
+
+  template <class F>
+  inline void operator() (int numberOfIterations)
+  {
+    F f;
+    for (int i = 0; i < numberOfIterations; ++i)
+      f (i);
+  }
+
+  template <class F, class T1>
+  inline void operator () (int numberOfIterations,
+    T1 t1)
+  {
+    F f (t1);
+    for (int i = 0; i < numberOfIterations; ++i)
+      f (i);
+  }
 };
 
 #endif

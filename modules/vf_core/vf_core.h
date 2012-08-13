@@ -307,7 +307,7 @@
 #  include <tr1/functional>
 # endif
 #elif JUCE_MAC
-# include <functional>
+# include <tr1/functional>
 #else
 # include <bind>
 # include <functional>
@@ -422,13 +422,8 @@ namespace vf
 
 using namespace juce;
 
+// This group must come first since other files need it
 #include "memory/vf_Uncopyable.h"
-
-#include "containers/vf_List.h"
-#include "containers/vf_LockFreeStack.h"
-#include "containers/vf_LockFreeQueue.h"
-#include "containers/vf_SortedLookupTable.h"
-
 #include "diagnostic/vf_CatchAny.h"
 #include "diagnostic/vf_Debug.h"
 #include "diagnostic/vf_Error.h"
@@ -436,6 +431,13 @@ using namespace juce;
 #include "diagnostic/vf_LeakChecked.h"
 #include "diagnostic/vf_SafeBool.h"
 #include "diagnostic/vf_Throw.h"
+
+#include "containers/vf_List.h"
+#include "containers/vf_LockFreeStack.h"
+#include "containers/vf_LockFreeQueue.h"
+#include "containers/vf_Map2D.h"
+#include "containers/vf_SharedTable.h"
+#include "containers/vf_SortedLookupTable.h"
 
 #include "events/vf_OncePerSecond.h"
 #include "events/vf_PerformedAtExit.h"
@@ -446,6 +448,7 @@ using namespace juce;
 #include "math/vf_Interval.h"
 #include "math/vf_Math.h"
 #include "math/vf_MurmurHash.h"
+#include "math/vf_Vec3.h"
 
 #include "memory/vf_AtomicCounter.h"
 #include "memory/vf_AtomicFlag.h"
@@ -467,6 +470,7 @@ using namespace juce;
 #include "memory/vf_StaticObject.h"
 
 #include "threads/vf_Semaphore.h"
+#include "threads/vf_SerialFor.h"
 #include "threads/vf_SpinDelay.h"
 #include "threads/vf_InterruptibleThread.h"
 

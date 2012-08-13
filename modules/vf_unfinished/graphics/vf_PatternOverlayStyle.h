@@ -30,83 +30,25 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
+#ifndef VF_PATTERNOVERLAYSTYLE_VFHEADER
+#define VF_PATTERNOVERLAYSTYLE_VFHEADER
 
-/**
-  Midi input and output device manager.
+/** Pattern overlay style.
 
-  This wraps JUCE support for Midi devices, with the following features:
-
-  - Add/remove notification.
-
-  - Midi input and output devices identified by a permanent handle.
-
+    @ingroup vf_gui
 */
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+struct PatternOverlayStyle
 {
-public:
-  /**
-    Common Midi device characteristics.
-  */
-  class Device
-  {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
-
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
-
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
-
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
-
-    /**
-      Called when the connection status of any devices changes.
-
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
+  PatternOverlayStyle () : active (false)
   {
   }
 
-  static MidiDevices* createInstance ();
+  bool            active;
+  BlendMode::Type mode;
+  double          opacity;
+
+  void operator() (Pixels destPixels);
+
 };
 
 #endif

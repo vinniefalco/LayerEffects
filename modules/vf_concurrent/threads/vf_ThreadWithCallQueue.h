@@ -135,11 +135,11 @@ private:
   void run ();
 
 private:
+  InterruptibleThread m_thread;
   bool m_calledStart;
   bool m_calledStop;
   bool m_shouldStop;
   CriticalSection m_mutex;
-  InterruptibleThread m_thread;
   idle_t m_idle;
   init_t m_init;
   exit_t m_exit;

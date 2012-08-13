@@ -30,41 +30,30 @@
 */
 /*============================================================================*/
 
-ContextImageBase::ContextImageBase (Rectangle <int> const& imageBounds,
-                                    Image::PixelFormat pixelFormat)
-  : m_imageBounds (imageBounds)
-  , m_image (pixelFormat,
-             jmax (m_imageBounds.getWidth (), 1),
-             jmax (m_imageBounds.getHeight(), 1),
-             false)
-{
-}
+#ifndef VF_DROPSHADOWSTYLE_VFHEADER
+#define VF_DROPSHADOWSTYLE_VFHEADER
 
-Rectangle <int> ContextImageBase::getImageBounds () const
-{
-  return m_imageBounds;
-}
+/** Provides the Drop Shadow layer style.
 
-Image ContextImageBase::getImage () const
+    @ingroup vf_gui
+*/
+struct DropShadowStyle
 {
-  return m_image;
-}
+  bool            active;
+  BlendMode::Type mode;
+  Colour          colour;
+  double          opacity;    // [0, 1]
+  double          angle;
+  int             distance;
+  double          spread;     // [0, 1]
+  int             size;       // [0, 250]
+  bool            knockout;
 
-//------------------------------------------------------------------------------
+  DropShadowStyle () : active (false)
+  {
+  }
 
-BackgroundContext::BackgroundContext (Graphics& destinationContext,
-                                      Rectangle <int> const& drawBounds)
-  : ContextImageBase (drawBounds, Image::RGB)
-  , Graphics (getImage ())
-  , m_destinationContext (destinationContext)
-{
-  setOrigin (-getImageBounds ().getX (), -getImageBounds ().getY ());
-} 
+  void operator() (Pixels destPixels, Pixels maskPixels);
+};
 
-BackgroundContext::~BackgroundContext ()
-{
-  m_destinationContext.drawImageAt (
-    getImage (),
-    getImageBounds ().getX (),
-    getImageBounds ().getY ());
-}
+#endif

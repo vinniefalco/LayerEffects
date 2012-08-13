@@ -49,8 +49,21 @@
 namespace vf
 {
 
-#include "graphics/vf_BackgroundContext.cpp"
-#include "graphics/vf_LayerContext.cpp"
+#include "graphics/vf_BevelEmbossStyle.cpp"
+#include "graphics/vf_BlendMode.cpp"
+#include "graphics/vf_BlendProc.cpp"
+#include "graphics/vf_DistanceTransform.cpp"
+#include "graphics/vf_ColourOverlayStyle.cpp"
+#include "graphics/vf_DropShadowStyle.cpp"
+#include "graphics/vf_FillStyle.cpp"
+#include "graphics/vf_GradientColours.cpp"
+#include "graphics/vf_GradientOverlayStyle.cpp"
+#include "graphics/vf_InnerGlowStyle.cpp"
+#include "graphics/vf_InnerShadowStyle.cpp"
+#include "graphics/vf_OuterGlowStyle.cpp"
+#include "graphics/vf_PatternOverlayStyle.cpp"
+#include "graphics/vf_StrokeStyle.cpp"
+#include "graphics/vf_LayerGraphics.cpp"
 #include "graphics/vf_Pixels.cpp"
 
 #include "midi/vf_MidiDevices.cpp"

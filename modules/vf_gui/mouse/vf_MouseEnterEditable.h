@@ -80,7 +80,7 @@ public:
 
 public:
   explicit MouseEnterEditable (Component* component);
-  ~MouseEnterEditable ();
+  virtual ~MouseEnterEditable ();
 
   bool isInMouseEnterEditMode ();
   void exitMouseEnterEditMode ();

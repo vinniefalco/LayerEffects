@@ -99,7 +99,7 @@ protected:
   }
 
 private:
-  class Counter : private CounterBase
+  class Counter : public CounterBase
   {
   public:
     inline int increment ()

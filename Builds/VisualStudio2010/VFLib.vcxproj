@@ -408,7 +408,55 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_taglib\vf_taglib.cpp" />
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -416,7 +464,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -467,6 +519,8 @@
     <ClInclude Include="..\..\modules\vf_core\containers\vf_List.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeQueue.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeStack.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_Map2D.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_SharedTable.h" />
     <ClInclude Include="..\..\modules\vf_core\containers\vf_SortedLookupTable.h" />
     <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_CatchAny.h" />
     <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_Debug.h" />
@@ -482,6 +536,7 @@
     <ClInclude Include="..\..\modules\vf_core\math\vf_Interval.h" />
     <ClInclude Include="..\..\modules\vf_core\math\vf_Math.h" />
     <ClInclude Include="..\..\modules\vf_core\math\vf_MurmurHash.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicCounter.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicFlag.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicPointer.h" />
@@ -492,6 +547,7 @@
     <ClInclude Include="..\..\modules\vf_core\memory\vf_RefCountedSingleton.h" />
     <ClInclude Include="..\..\modules\vf_core\memory\vf_StaticObject.h" />
     <ClInclude Include="..\..\modules\vf_core\threads\vf_Semaphore.h" />
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_SerialFor.h" />
     <ClInclude Include="..\..\modules\vf_core\threads\vf_SpinDelay.h" />
     <ClInclude Include="..\..\modules\vf_core\threads\vf_InterruptibleThread.h" />
     <ClInclude Include="..\..\modules\vf_core\vf_core.h" />
@@ -568,9 +624,23 @@
     <ClInclude Include="..\..\modules\vf_sqlite\vf_sqlite.h" />
     <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
     <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h" />
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />

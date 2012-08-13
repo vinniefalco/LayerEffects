@@ -30,83 +30,45 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
-
-/**
-  Midi input and output device manager.
-
-  This wraps JUCE support for Midi devices, with the following features:
-
-  - Add/remove notification.
-
-  - Midi input and output devices identified by a permanent handle.
-
-*/
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+void InnerGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
-public:
-  /**
-    Common Midi device characteristics.
-  */
-  class Device
-  {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
+  if (!active)
+    return;
 
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
+  SharedTable <Colour> table;
+  
+  if (reverse)
+    table = colours.withReversedStops().createLookupTable ();
+  else
+    table = colours.createLookupTable ();
 
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
-
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
-
-    /**
-      Called when the connection status of any devices changes.
-
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
-  {
-  }
-
-  static MidiDevices* createInstance ();
-};
-
+#if 1
+  // Anti-Aliased
+  //
+  DistanceTransform::Meijster::calculateAntiAliased (
+    RenderPixelAntiAliased (
+      destPixels,
+      opacity,
+      choke,
+      size,
+      table),
+    GetMask (maskPixels),
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    DistanceTransform::Meijster::EuclideanMetric ());
+#else
+  // Regular
+  //
+  DistanceTransform::Meijster::calculate (
+    RenderPixel (
+      destPixels,
+      opacity,
+      choke,
+      size,
+      table),
+    TestMask (maskPixels),
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    DistanceTransform::Meijster::EuclideanMetric ());
 #endif
+}

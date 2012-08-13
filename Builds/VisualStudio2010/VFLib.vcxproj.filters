@@ -462,12 +462,6 @@
     <ClCompile Include="..\..\modules\vf_unfinished\vf_unfinished.cpp">
       <Filter>VF Modules\vf_unfinished</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.cpp">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.cpp">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.cpp">
       <Filter>VF Modules\vf_unfinished\midi</Filter>
     </ClCompile>
@@ -475,6 +469,51 @@
       <Filter>VF Modules\vf_unfinished\midi</Filter>
     </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.cpp">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -890,12 +929,6 @@
     <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h">
       <Filter>VF Modules\vf_unfinished</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BackgroundContext.h">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerContext.h">
-      <Filter>VF Modules\vf_unfinished\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
@@ -907,6 +940,66 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_core\memory\vf_RefCountedSingleton.h">
       <Filter>VF Modules\vf_core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_SharedTable.h">
+      <Filter>VF Modules\vf_core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_Map2D.h">
+      <Filter>VF Modules\vf_core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h">
+      <Filter>VF Modules\vf_core\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_SerialFor.h">
+      <Filter>VF Modules\vf_core\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

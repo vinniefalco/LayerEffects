@@ -30,83 +30,83 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
+#ifndef VF_VEC3_VFHEADER
+#define VF_VEC3_VFHEADER
 
-/**
-  Midi input and output device manager.
-
-  This wraps JUCE support for Midi devices, with the following features:
-
-  - Add/remove notification.
-
-  - Midi input and output devices identified by a permanent handle.
-
+/** A 3 dimensional vector.
 */
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+template <class T>
+struct Vec3
 {
-public:
-  /**
-    Common Midi device characteristics.
-  */
-  class Device
-  {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
-
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
-
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
-
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
-
-    /**
-      Called when the connection status of any devices changes.
-
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
+  Vec3 ()
   {
   }
 
-  static MidiDevices* createInstance ();
+  Vec3 (T x_, T y_, T z_) : x (x_), y (y_), z (z_)
+  {
+  }
+
+  T getNormal () const
+  {
+    return sqrt (x*x + y*y + z*z);
+  }
+
+  void normalize ()
+  {
+    T n = getNormal ();
+
+    if (n != 0)
+    {
+      n = 1 / n;
+      x *= n;
+      y *= n;
+      z *= n;
+    }
+  }
+
+  template <class U>
+  Vec3& operator+ (Vec3 <U> const& rhs)
+  {
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+    return *this;
+  }
+
+  template <class U>
+  Vec3& operator- (Vec3 <U> const& rhs)
+  {
+    x -= rhs.x;
+    y -= rhs.y;
+    z -= rhs.z;
+    return *this;
+  }
+
+  template <class U>
+  T getDotProduct (Vec3 <U> const& t) const
+  {
+    return x * t.x + y * t.y + z * t.z;
+  }
+
+  template <class U>
+  Vec3 <T> getCrossProduct (Vec3 <U> const& t) const
+  {
+    return Vec3 <T> (
+       y * t.z - z * t.y,
+      -x * t.z + z * t.x,
+       x * t.y - y * t.x);
+  }
+
+  template <class U>
+  T getCosAngle (Vec3 <U> const& t) const
+  {
+    return getDotProduct (t) / (getNormal () * t.getNormal ());
+  }
+
+  T x;
+  T y;
+  T z;
 };
 
 #endif
+

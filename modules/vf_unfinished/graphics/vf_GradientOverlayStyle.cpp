@@ -30,83 +30,50 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
-
-/**
-  Midi input and output device manager.
-
-  This wraps JUCE support for Midi devices, with the following features:
-
-  - Add/remove notification.
-
-  - Midi input and output devices identified by a permanent handle.
-
-*/
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+void GradientOverlayStyle::operator () (Pixels destPixels)
 {
-public:
-  /**
-    Common Midi device characteristics.
-  */
-  class Device
+//  jassert (destPixels.isARGB ());
+
+  if (!active)
+    return;
+
+  SharedTable <Colour> table;
+
+  if (reverse)
+    table = colours.withMultipliedAlpha (float (opacity)).withReversedStops().createLookupTable ();
+  else
+    table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
+
+  switch (kind)
   {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
+  case kindLinear:
+    jassertfalse;
+    break;
 
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
+  case kindRadial:
+    jassertfalse;
+    break;
 
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
+  case kindAngle:
+    BlendMode::apply (
+      mode,
+      AngleGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
+      BlendProc::ARGB::CopyTable (table));
+    break;
 
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
+  case kindReflected:
+    jassertfalse;
+    break;
 
-    /**
-      Called when the connection status of any devices changes.
+  case kindDiamond:
+    BlendMode::apply (
+      mode,
+      DiamondGradientIterator (destPixels, destPixels.getBounds().getCentre (), table.getNumEntries () - 1),
+      BlendProc::ARGB::CopyTable (table));
+    break;
 
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
-  {
+  default:
+    jassertfalse;
+    break;
   }
-
-  static MidiDevices* createInstance ();
-};
-
-#endif
+}

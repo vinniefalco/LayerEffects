@@ -59,4 +59,34 @@ inline Ty calc_bin_start (Ty value, int size)
   return calc_bin (value, size) * size;
 }
 
+template <class T>
+inline T pi () noexcept
+{
+  return 3.14159265358979;
+}
+
+template <class T>
+inline T twoPi () noexcept
+{
+  return 6.28318530717958;
+}
+
+template <class T>
+inline T oneOverTwoPi () noexcept
+{
+  return 0.1591549430918955;
+}
+
+template <class T, class U>
+inline T degreesToRadians (U degrees)
+{
+  return T (degrees * 0.0174532925199433);
+}
+
+template <class T, class U>
+inline T radiansToDegrees (U radians)
+{
+  return T (radians * 57.29577951308238);
+}
+
 #endif

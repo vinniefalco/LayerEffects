@@ -30,55 +30,25 @@
 */
 /*============================================================================*/
 
-#ifndef VF_BACKGROUNDCONTEXT_VFHEADER
-#define VF_BACKGROUNDCONTEXT_VFHEADER
+#ifndef VF_FILLSTYLE_VFHEADER
+#define VF_FILLSTYLE_VFHEADER
 
-//------------------------------------------------------------------------------
-
-/** Context Image container base.
-
-    This holds the image and bounding rectangle used for our custom
-    contexts, to resolve the order of construction issues.
-
-    @ingroup vf_gui
-
-    @internal
-*/
-class ContextImageBase : vf::Uncopyable
-{
-protected:
-  ContextImageBase (Rectangle <int> const& imageBounds,
-                    Image::PixelFormat pixelFormat);
-
-public:
-  Rectangle <int> getImageBounds () const;
-
-  Image getImage () const;
-
-private:
-  Rectangle <int> const m_imageBounds;
-  Image m_image;
-};
-
-//------------------------------------------------------------------------------
-
-/** Graphics context for image compositing.
-
-    This wraps a Graphics context with an image to provide a background
-    for compositing layers.
+/** Provides the Fill layer style.
 
     @ingroup vf_gui
 */
-class BackgroundContext : public ContextImageBase, public Graphics
+struct FillStyle
 {
-public:
-  BackgroundContext (Graphics& destinationContext,
-                     Rectangle <int> const& drawBounds);
+  BlendMode::Type mode;
+  double          opacity;    // [0, 1]
 
-  ~BackgroundContext ();
+  FillStyle ()
+    : mode (BlendMode::modeNormal)
+    , opacity (1)
+  {
+  }
 
-private:
-  Graphics& m_destinationContext;
+  void operator() (Image destImage, Image fillPixels);
 };
 
 #endif

@@ -30,83 +30,52 @@
 */
 /*============================================================================*/
 
-#ifndef VF_MIDIDEVICES_VFHEADER
-#define VF_MIDIDEVICES_VFHEADER
-
-/**
-  Midi input and output device manager.
-
-  This wraps JUCE support for Midi devices, with the following features:
-
-  - Add/remove notification.
-
-  - Midi input and output devices identified by a permanent handle.
-
-*/
-class MidiDevices : public RefCountedSingleton <MidiDevices>
+void DropShadowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
-public:
-  /**
-    Common Midi device characteristics.
-  */
-  class Device
-  {
-  public:
-    virtual ~Device () { }
-    virtual String getName () const = 0;
-  };
+  if (!active)
+    return;
 
-  /**
-    An input device.
-  */
-  class Input : public Device
-  {
-  public:
-  };
+#if 0
+  Options::DropShadow& dropShadow = m_options.dropShadow;
 
-  /**
-    An output device.
-  */
-  class Output : public Device
-  {
-  public:
-  };
+  if (!dropShadow.active)
+    return;
 
-public:
-  struct Listener
-  {
-    /**
-      Called when the connection status of a device changes.
-    */
-    virtual void onMidiDevicesStatus (Device* device, bool isConnected) { }
-
-    /**
-      Called when the connection status of any devices changes.
-
-      This is usually a good opportunity to rebuild user interface lists.
-    */
-    virtual void onMidiDevicesChanged () { }
-  };
-
-  /**
-    Add a device notification listener.
-  */
-  virtual void addListener (Listener* listener, CallQueue& thread) = 0;
-
-  /**
-    Remove a device notification listener.
-  */
-  virtual void removeListener (Listener* listener) = 0;
-
-protected:
-  friend class RefCountedSingleton <MidiDevices>;
-
-  MidiDevices () : RefCountedSingleton <MidiDevices> (
-    SingletonLifetime::persistAfterCreation)
-  {
-  }
-
-  static MidiDevices* createInstance ();
-};
-
+#if 0
+  int const dx = static_cast <int> (
+    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
+  
+  int const dy = static_cast <int> (
+    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
 #endif
+
+  // Get the layer mask as an individual channel.
+  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
+  
+  RadialImageConvolutionKernel k (dropShadow.size + 1);
+  k.createGaussianBlur ();
+
+  // Compute the shadow mask.
+  Image shadow = k.createConvolvedImageFull (mask);
+
+  // Optionally subtract layer mask from shadow mask.
+  if (dropShadow.knockout)
+    copyImage (
+      shadow,
+      //Point <int> (dropShadow.size + dx, dropShadow.size + dy),
+      Point <int> (0, 0),
+      mask,
+      mask.getBounds (),
+      BlendMode::modeSubtract,
+      1);
+
+  // Fill the shadow mask.
+  fillImage (workImage,
+             Point <int> (0, 0),
+             shadow,
+             shadow.getBounds (),
+             dropShadow.mode,
+             dropShadow.opacity,
+             dropShadow.colour);
+#endif
+}
