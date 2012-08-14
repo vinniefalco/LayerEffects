@@ -76,14 +76,14 @@ void CLayerGraphicsPreview::paint (Graphics& g)
 
 void CLayerGraphicsPreview::paintBackground (Graphics& g)
 {
-#if 1
+#if 0
   g.setGradientFill (ColourGradient (
     Colours::black, 0.f, 0.f,
     Colours::white, 0.f, float (getLocalBounds ().getHeight ()),
     false));
   g.fillRect (getLocalBounds ());
 #else
-  g.fillAll (Colours::white);
+  g.fillAll (Colours::black);
 #endif
 }
 
@@ -97,7 +97,7 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
   }
   else
   {
-#if 1
+#if 0
     // test
     g.setGradientFill (ColourGradient (
       Colours::red, float (b.getX ()), float (b.getY ()),
@@ -107,7 +107,7 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
     g.setFont (Font ("Impact", b.getHeight () / 3.f, Font::plain));
     g.drawFittedText ("Layer\nEffects", b, Justification::centred, 2);
 
-#elif 0
+#elif 1
     // dot
     g.setColour (Colours::black);
     g.fillRect (

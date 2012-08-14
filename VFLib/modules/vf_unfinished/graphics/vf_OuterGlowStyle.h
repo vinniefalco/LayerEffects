@@ -63,7 +63,7 @@ struct OuterGlowStyle
                  SharedTable <Colour> colourTable)
       : m_dest (dest)
       , m_alpha (uint8 (255 * opacity + 0.5))
-      , m_choke (int (choke * size + 0.5))
+      , m_spread (int (choke * size + 0.5))
       , m_size (size)
       , m_table (colourTable)
     {
@@ -78,7 +78,7 @@ struct OuterGlowStyle
 
         double dist = sqrt (double (distanceSquared));
 
-        if (dist < m_choke)
+        if (dist < m_spread)
         {
           index = 0;
         }
@@ -92,7 +92,7 @@ struct OuterGlowStyle
           }
           else
           {
-            index = int (last * (dist - m_choke) / (m_size - m_choke));
+            index = int (last * (dist - m_spread) / (m_size - m_spread));
           }
         }
 
@@ -106,7 +106,7 @@ struct OuterGlowStyle
   private:
     Pixels m_dest;
     uint8 m_alpha;
-    int m_choke;
+    int m_spread;
     int m_size;
     SharedTable <Colour> m_table;
   };
@@ -138,14 +138,16 @@ struct OuterGlowStyle
   {
     RenderPixelAntiAliased (Pixels dest,
                             double opacity,
-                            double choke,
+                            double spread,
                             int size,
                             SharedTable <Colour> colourTable)
       : m_dest (dest)
-      , m_alpha (uint8 (255 * opacity + 0.5))
-      , m_choke (int (choke * size + 0.5))
-      , m_size (size)
       , m_table (colourTable)
+      , m_alpha (uint8 (255 * opacity + 0.5))
+      , m_spread (int (spread * size + 0.5))
+      , m_fadeStart (int((.76 * m_size + 0.5)))
+      , m_fadeWidth (m_size - m_fadeStart)
+      , m_size (size + 1)
     {
       jassert (dest.isRGB ());
     }
@@ -155,28 +157,34 @@ struct OuterGlowStyle
     {
       double dist = sqrt (double (distanceSquared) / 65536);
 
-      if (dist > 0)
+      if (dist > 0 && dist < m_size)
       {
-        PixelRGB& dest (*((PixelRGB*)m_dest.getPixelPointer (x, y)));
+        int index;
 
-        if (dist <= m_size)
-        {
-          dest.blend (m_table [0].getPixelARGB ());
-        }
-        else if (dist < m_size + 1)
-        {
-          uint8 a = uint8(255*((m_size+1)-dist)+0.5);
-          dest.blend (m_table [0].getPixelARGB (), a);
-        }
+        index = int (dist * m_table.getNumEntries () / m_size);
+
+        int alpha;
+
+        if (dist < m_fadeStart)
+          alpha = m_alpha;
+        else
+          alpha = m_alpha * int (m_size - dist + 0.5) / m_fadeWidth;
+
+        PixelRGB& dest (*((PixelRGB*)m_dest.getPixelPointer (x, y)));
+        Colour& c (m_table [index]);
+
+        dest.blend (c.getPixelARGB (), alpha);
       }
     }
 
   private:
     Pixels m_dest;
-    uint8 m_alpha;
-    int m_choke;
-    int m_size;
     SharedTable <Colour> m_table;
+    int m_alpha;
+    int m_spread;
+    int m_size;
+    int m_fadeStart;
+    int m_fadeWidth;
   };
 
 };

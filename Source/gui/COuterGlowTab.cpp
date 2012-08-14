@@ -35,7 +35,8 @@ COuterGlowTab::COuterGlowTab () : COptionsTab ("Outer Glow")
   m_options.active = false;
   m_options.mode = vf::BlendMode::modeScreen;
   m_options.opacity = .75;
-  m_options.colours = vf::GradientColours (Colours::white, Colours::white.withAlpha (0.f));
+  //m_options.colours = vf::GradientColours (Colours::white, Colours::white.withAlpha (0.f));
+  m_options.colours = vf::GradientColours (Colours::white, Colours::white);
   m_options.precise = true;
   m_options.spread = 0;
   m_options.size = 5;
