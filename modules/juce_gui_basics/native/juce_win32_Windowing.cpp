@@ -1035,8 +1035,8 @@ public:
 
             if (SUCCEEDED (textData.error))
             {
-                ownerInfo->dragInfo.text = String (CharPointer_UTF16 ((LPCWCHAR) textData.data),
-                                                   CharPointer_UTF16 ((LPCWCHAR) addBytesToPointer (textData.data, textData.dataSize)));
+                ownerInfo->dragInfo.text = String (CharPointer_UTF16 ((const WCHAR*) textData.data),
+                                                   CharPointer_UTF16 ((const WCHAR*) addBytesToPointer (textData.data, textData.dataSize)));
             }
             else
             {
@@ -3193,7 +3193,8 @@ void* MouseCursor::createStandardMouseCursor (const MouseCursor::StandardCursorT
 
     switch (type)
     {
-        case NormalCursor:                  break;
+        case NormalCursor:
+        case ParentCursor:                  break;
         case NoCursor:                      return (void*) hiddenMouseCursorHandle;
         case WaitCursor:                    cursorName = IDC_WAIT; break;
         case IBeamCursor:                   cursorName = IDC_IBEAM; break;
