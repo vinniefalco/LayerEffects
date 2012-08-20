@@ -38,7 +38,7 @@ CStrokeTab::CStrokeTab ()
   m_options.size = 1;
   m_options.mode = vf::BlendMode::modeNormal;
   m_options.opacity = 1;
-  m_options.colour = Colours::yellow;
+  m_options.colour = Colours::black;
 
   m_activeButton = createToggleButton ("Active", m_options.active);
 

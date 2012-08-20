@@ -30,42 +30,31 @@
 */
 /*============================================================================*/
 
-void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
+#ifndef VF_GRADIENTFILL_VFHEADER
+#define VF_GRADIENTFILL_VFHEADER
+
+/** Specifies the parameters for drawing a gradient fill.
+
+    @ingroup vf_gui
+*/
+struct GradientFill
 {
-  if (!active)
-    return;
-
-  switch (pos)
+  enum Style
   {
-  case posInner:
-    {
-      DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
-        Inside (maskPixels),
-        maskPixels.getWidth (),
-        maskPixels.getHeight (),
-        DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
-
-  case posOuter:
-    {
-      DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
-        Outside (maskPixels),
-        maskPixels.getWidth (),
-        maskPixels.getHeight (),
-        DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
-
-  case posCentre:
-    {
-    }
-    break;
-
-  default:
-    jassertfalse;
-    break;
+    styleLinear = 1,
+    styleRadial,
+    styleAngle,
+    styleReflected,
+    styleDiamond,
+    styleShapeBurst
   };
-}
+
+  Style style;
+  GradientColours colours;
+  bool reverse;
+  double angle;
+  double scale;             // [0.1 ... 1.5]
+  Point <double> origin;
+};
+
+#endif

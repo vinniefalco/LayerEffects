@@ -35,17 +35,17 @@ CMainPanel::CMainPanel ()
   , TopLevelConstrainer (this)
 {
   setOpaque (true);
-  setSize (4 + 240 + 4 + 484 + 4, 4 + 360 + 4 + 120 + 4);
+  setSize (4 + 240 + 4 + 512 + 4, 4 + 512 + 4);
 
   Component* c;
 
   c = new COptionsPanel;
-  c->setBounds (4, 4, 240, 484);
+  c->setBounds (4, 4, 240, 512);
   addAndMakeVisible (c);
   addToLayout (c, anchorTopLeft, anchorBottomLeft);
 
   c = new CLayerGraphicsPreview;
-  c->setBounds (248, 4, 484, 484);
+  c->setBounds (248, 4, 512, 512);
   addAndMakeVisible (c);
   addToLayout (c, anchorTopLeft, anchorBottomRight);
 

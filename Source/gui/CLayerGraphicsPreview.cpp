@@ -83,7 +83,8 @@ void CLayerGraphicsPreview::paintBackground (Graphics& g)
     false));
   g.fillRect (getLocalBounds ());
 #else
-  g.fillAll (Colours::black);
+  //g.fillAll (Colours::black);
+  g.fillAll (Colours::white);
 #endif
 }
 

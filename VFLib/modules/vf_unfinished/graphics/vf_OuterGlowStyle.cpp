@@ -50,6 +50,8 @@ Experimental notes:
 
 - Fade extends 1 pixel past "size". 99% Spread at 250px yields fade at 251 distance
 
+- Range has no effect when the gradient is a single solid colour at both ends.
+
 Data
 
 Technique   Size    Spread    Fade (px)   (1-Spread)*Size   Fade%

@@ -46,6 +46,13 @@ struct StrokeStyle
     posCentre
   };
 
+  enum Kind
+  {
+    kindColour,
+    kindGradient,
+    kindPattern
+  };
+
   StrokeStyle () : active (false)
   {
   }
@@ -55,9 +62,140 @@ struct StrokeStyle
   int             size;           // [0, 250]
   BlendMode::Type mode;
   double          opacity;
+  Kind            kind;
   Colour          colour;
+  GradientFill    gradient;
+  PatternFill     pattern;
 
   void operator () (Pixels destPixels, Pixels maskPixels);
+
+  //----------------------------------------------------------------------------
+
+  struct Outside
+  {
+    explicit Outside (Pixels mask) : m_mask (mask)
+    {
+    }
+
+    int operator() (int x, int y) const noexcept
+    {
+      return 255 - *m_mask.getPixelPointer (x, y);
+    }
+
+  public:
+    Pixels m_mask;
+  };
+
+  //----------------------------------------------------------------------------
+
+  struct Inside
+  {
+    explicit Inside (Pixels mask) : m_mask (mask)
+    {
+    }
+
+    int operator() (int x, int y) const noexcept
+    {
+      return *m_mask.getPixelPointer (x, y);
+    }
+
+  public:
+    Pixels m_mask;
+  };
+
+  //----------------------------------------------------------------------------
+
+  struct RenderMask
+  {
+    RenderMask (Pixels::Map2D dest, Colour colour, int radius)
+      : m_dest (dest)
+      , m_src (colour.getPixelARGB ())
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
+      , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
+    {
+    }
+
+    template <class T>
+    void operator() (int const x, int const y, T const distanceSquared)
+    {
+      if (distanceSquared > 0)
+      {
+        PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
+  
+        double distance = sqrt (double (distanceSquared) / 65536.);
+
+        if (distance < m_radius)
+        {
+          dest.blend (m_src);
+        }
+        else
+        {
+          distance -= m_radius;
+
+          if (distance < 1)
+          {
+            uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
+            dest.blend (m_src, alpha);
+          }
+        }
+      }
+    }
+
+  private:
+    Pixels::Map2D m_dest;
+    PixelARGB m_src;
+    int m_radius;
+    int m_radiusSquared;
+    int m_radiusMinusOneSquared;
+  };
+
+  //----------------------------------------------------------------------------
+
+  struct RenderPixel
+  {
+    RenderPixel (Pixels::Map2D dest, Colour colour, int radius)
+      : m_dest (dest)
+      , m_src (colour.getPixelARGB ())
+      , m_radius (radius)
+      , m_radiusSquared (radius * radius)
+      , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
+    {
+    }
+
+    template <class T>
+    void operator() (int const x, int const y, T const distanceSquared)
+    {
+      if (distanceSquared > 0)
+      {
+        PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
+  
+        double distance = sqrt (double (distanceSquared) / 65536.);
+
+        if (distance < m_radius)
+        {
+          dest.blend (m_src);
+        }
+        else
+        {
+          distance -= m_radius;
+
+          if (distance < 1)
+          {
+            uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
+            dest.blend (m_src, alpha);
+          }
+        }
+      }
+    }
+
+  private:
+    Pixels::Map2D m_dest;
+    PixelARGB m_src;
+    int m_radius;
+    int m_radiusSquared;
+    int m_radiusMinusOneSquared;
+  };
 };
 
 #endif

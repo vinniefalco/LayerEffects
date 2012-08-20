@@ -30,42 +30,18 @@
 */
 /*============================================================================*/
 
-void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
+#ifndef VF_PATTERNFILL_VFHEADER
+#define VF_PATTERNFILL_VFHEADER
+
+/** Specifies the parameters for drawing a pattern fill.
+
+    @ingroup vf_gui
+*/
+struct PatternFill
 {
-  if (!active)
-    return;
+  Image image;              // [0.01 ... 10]
+  double scale;             // [0.1 ... 1.5]
+  Point <int> origin;       
+};
 
-  switch (pos)
-  {
-  case posInner:
-    {
-      DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
-        Inside (maskPixels),
-        maskPixels.getWidth (),
-        maskPixels.getHeight (),
-        DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
-
-  case posOuter:
-    {
-      DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
-        Outside (maskPixels),
-        maskPixels.getWidth (),
-        maskPixels.getHeight (),
-        DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
-
-  case posCentre:
-    {
-    }
-    break;
-
-  default:
-    jassertfalse;
-    break;
-  };
-}
+#endif

@@ -632,12 +632,14 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientFill.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternFill.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h" />
