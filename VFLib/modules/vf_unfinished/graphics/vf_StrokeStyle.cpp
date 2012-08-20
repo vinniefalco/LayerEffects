@@ -35,37 +35,102 @@ void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
   if (!active)
     return;
 
-  switch (pos)
+  if (type != typeGradient || gradient.style != GradientFill::styleShapeBurst)
   {
-  case posInner:
+    Image matteImage (
+      Image::SingleChannel,
+      maskPixels.getBounds ().getWidth (),
+      maskPixels.getBounds ().getHeight (),
+      false);
+
+    Pixels mattePixels (matteImage);
+
+    switch (pos)
     {
+    case posInner:
       DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
+        RenderMask (Pixels::Map2D (mattePixels), size),
         Inside (maskPixels),
         maskPixels.getWidth (),
         maskPixels.getHeight (),
         DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
+      break;
 
-  case posOuter:
-    {
+    case posOuter:
       DistanceTransform::Meijster::calculateAntiAliased (
-        RenderPixel (Pixels::Map2D (destPixels), colour, size),
+        RenderMask (Pixels::Map2D (mattePixels), size),
         Outside (maskPixels),
         maskPixels.getWidth (),
         maskPixels.getHeight (),
         DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
+      break;
 
-  case posCentre:
+    case posCentre:
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+
+    switch (type)
     {
-    }
-    break;
+    case typeColour:
+      BlendMode::apply (
+        mode,
+        Pixels::Iterate2 (destPixels, mattePixels),
+        BlendProc::RGB::MaskFill (colour, opacity));
+      break;
 
-  default:
-    jassertfalse;
-    break;
-  };
+    case typeGradient:
+      break;
+
+    case typePattern:
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+  }
+  else
+  {
+    //
+    // Special case for shape burst gradients
+    //
+
+    switch (pos)
+    {
+    case posInner:
+      {
+        DistanceTransform::Meijster::calculateAntiAliased (
+          RenderPixel (Pixels::Map2D (destPixels), colour, size),
+          Inside (maskPixels),
+          maskPixels.getWidth (),
+          maskPixels.getHeight (),
+          DistanceTransform::Meijster::EuclideanMetric ());
+      }
+      break;
+
+    case posOuter:
+      {
+        DistanceTransform::Meijster::calculateAntiAliased (
+          RenderPixel (Pixels::Map2D (destPixels), colour, size),
+          Outside (maskPixels),
+          maskPixels.getWidth (),
+          maskPixels.getHeight (),
+          DistanceTransform::Meijster::EuclideanMetric ());
+      }
+      break;
+
+    case posCentre:
+      {
+      }
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+  }
 }

@@ -48,37 +48,62 @@ public:
 
   /** Creates a null pixel data.
   */
-  Pixels ();
+  Pixels ()
+  {
+  }
 
   /** Creates pixel data from an image.
   */
   explicit Pixels (
     Image image,
-    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite);
+    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite)
+    : m_data (new Data (image, image.getBounds (), access))
+  {
+  }
 
   /** Creates pixel data from a portion of an image.
   */
   Pixels (
-    Image,
+    Image image,
     Rectangle <int> const& bounds,
-    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite);
+    Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite)
+    : m_data (new Data (image, bounds, access))
+  {
+  }
 
   /** Creates a shared reference to another pixel data.
   */
-  Pixels (Pixels const& other);
+  Pixels (Pixels const& other)
+    : m_data (other.m_data)
+  {
+  }
 
   /** Make this pixel data refer to another pixel data.
   */
-  Pixels& operator= (Pixels const& other);
+  Pixels& operator= (Pixels const& other)
+  {
+    m_data = other.m_data;
+    return *this;
+  }
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
-  Pixels (Pixels&& other) noexcept;
-  Pixels& operator= (Pixels&& other) noexcept;
+  Pixels (Pixels&& other) noexcept
+    : m_data (static_cast <Data::Ptr&&> (other.m_data))
+  {
+  }
+
+  Pixels& operator= (Pixels&& other) noexcept
+  {
+      m_data = static_cast <Data::Ptr&&> (other.m_data);
+      return *this;
+  }
 #endif
 
   /** Destructor.
   */
-  ~Pixels ();
+  ~Pixels ()
+  {
+  }
 
   /** Returns true if this shares the same @ref Image::BitmapData.
   */

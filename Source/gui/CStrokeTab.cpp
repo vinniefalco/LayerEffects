@@ -38,7 +38,8 @@ CStrokeTab::CStrokeTab ()
   m_options.size = 1;
   m_options.mode = vf::BlendMode::modeNormal;
   m_options.opacity = 1;
-  m_options.colour = Colours::black;
+  m_options.type = vf::StrokeStyle::typeColour;
+  m_options.colour = Colours::blue;
 
   m_activeButton = createToggleButton ("Active", m_options.active);
 
@@ -53,6 +54,12 @@ CStrokeTab::CStrokeTab ()
   m_modeComboBox = createModeComboBox ("Mode", m_options.mode);
 
   m_opacitySlider = createPercentSlider ("Opacity", m_options.opacity);
+
+  m_typeComboBox = createEmptyComboBox ("Type");
+  m_typeComboBox->addItem ("Colour", vf::StrokeStyle::typeColour);
+  m_typeComboBox->addItem ("Gradient",  vf::StrokeStyle::typeGradient);
+  m_typeComboBox->addItem ("Pattern",  vf::StrokeStyle::typePattern);
+  m_typeComboBox->setSelectedId (m_options.type);
 }
 
 CStrokeTab::~CStrokeTab ()
@@ -79,6 +86,10 @@ void CStrokeTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
   else if (comboBoxThatHasChanged == m_modeComboBox)
   {
     m_options.mode = vf::BlendMode::Type (comboBoxThatHasChanged->getSelectedId ());
+  }
+  else if (comboBoxThatHasChanged == m_typeComboBox)
+  {
+    m_options.type = vf::StrokeStyle::Type (comboBoxThatHasChanged->getSelectedId ());
   }
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsStroke, m_options);

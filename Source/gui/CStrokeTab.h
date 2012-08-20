@@ -53,6 +53,7 @@ private:
   Slider* m_sizeSlider;
   ComboBox* m_modeComboBox;
   Slider* m_opacitySlider;
+  ComboBox* m_typeComboBox;
   // Colour
 };
 
