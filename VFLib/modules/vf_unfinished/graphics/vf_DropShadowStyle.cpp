@@ -30,52 +30,29 @@
 */
 /*============================================================================*/
 
-void DropShadowStyle::operator() (Pixels destPixels, Pixels maskPixels)
+void DropShadowStyle::operator() (Image destImage, Image maskImage)
 {
   if (!active)
     return;
 
-#if 0
-  Options::DropShadow& dropShadow = m_options.dropShadow;
-
-  if (!dropShadow.active)
-    return;
-
-#if 0
-  int const dx = static_cast <int> (
-    - dropShadow.distance * std::cos (dropShadow.angle) + 0.5) - dropShadow.size;
-  
-  int const dy = static_cast <int> (
-    dropShadow.distance * std::sin (dropShadow.angle) + 0.5) - dropShadow.size;
-#endif
-
-  // Get the layer mask as an individual channel.
-  Image mask = ChannelImageType::fromImage (m_fill, PixelARGB::indexA);
-  
-  RadialImageConvolutionKernel k (dropShadow.size + 1);
+  RadialImageConvolutionKernel k (size + 1);
   k.createGaussianBlur ();
+  //k.createGaussianInverse ();
+  Image matteImage = k.createConvolvedImage (maskImage);
 
-  // Compute the shadow mask.
-  Image shadow = k.createConvolvedImageFull (mask);
-
-  // Optionally subtract layer mask from shadow mask.
-  if (dropShadow.knockout)
+  /*
+  if (knockout)
     copyImage (
       shadow,
-      //Point <int> (dropShadow.size + dx, dropShadow.size + dy),
       Point <int> (0, 0),
       mask,
       mask.getBounds (),
       BlendMode::modeSubtract,
       1);
+  */
 
-  // Fill the shadow mask.
-  fillImage (workImage,
-             Point <int> (0, 0),
-             shadow,
-             shadow.getBounds (),
-             dropShadow.mode,
-             dropShadow.opacity,
-             dropShadow.colour);
-#endif
+  BlendMode::apply (
+    mode,
+    Pixels::Iterate2 (destImage, matteImage),
+    BlendProc::RGB::MaskFill (colour, opacity));
 }

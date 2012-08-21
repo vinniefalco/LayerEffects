@@ -40,6 +40,7 @@ CStrokeTab::CStrokeTab ()
   m_options.opacity = 1;
   m_options.type = vf::StrokeStyle::typeColour;
   m_options.colour = Colours::blue;
+  m_options.gradient.colours = vf::GradientColours (Colours::black, Colours::white);
 
   m_activeButton = createToggleButton ("Active", m_options.active);
 

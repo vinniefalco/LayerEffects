@@ -54,7 +54,7 @@ public:
 
   /** Creates pixel data from an image.
   */
-  explicit Pixels (
+  Pixels (
     Image image,
     Image::BitmapData::ReadWriteMode access = Image::BitmapData::readWrite)
     : m_data (new Data (image, image.getBounds (), access))

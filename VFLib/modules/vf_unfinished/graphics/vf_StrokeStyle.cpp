@@ -35,8 +35,12 @@ void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
   if (!active)
     return;
 
-  if (type != typeGradient || gradient.style != GradientFill::styleShapeBurst)
+  if (type != typeGradient)// || gradient.style != GradientFill::styleShapeBurst)
   {
+    //
+    // Calculate mask using distance transform
+    //
+
     Image matteImage (
       Image::SingleChannel,
       maskPixels.getBounds ().getWidth (),
@@ -73,6 +77,10 @@ void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
       break;
     };
 
+    //
+    // Apply fill using mask
+    //
+
     switch (type)
     {
     case typeColour:
@@ -98,13 +106,14 @@ void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
     //
     // Special case for shape burst gradients
     //
+    SharedTable <Colour> colourTable = gradient.colours.createLookupTable ();
 
     switch (pos)
     {
     case posInner:
       {
         DistanceTransform::Meijster::calculateAntiAliased (
-          RenderPixel (Pixels::Map2D (destPixels), colour, size),
+          RenderShapeBurst (Pixels::Map2D (destPixels), size, colourTable),
           Inside (maskPixels),
           maskPixels.getWidth (),
           maskPixels.getHeight (),
@@ -115,7 +124,7 @@ void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
     case posOuter:
       {
         DistanceTransform::Meijster::calculateAntiAliased (
-          RenderPixel (Pixels::Map2D (destPixels), colour, size),
+          RenderShapeBurst (Pixels::Map2D (destPixels), size, colourTable),
           Outside (maskPixels),
           maskPixels.getWidth (),
           maskPixels.getHeight (),

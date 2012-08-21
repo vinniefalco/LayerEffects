@@ -53,7 +53,7 @@ struct DropShadowStyle
   {
   }
 
-  void operator() (Pixels destPixels, Pixels maskPixels);
+  void operator() (Image destImage, Image maskImage);
 };
 
 #endif

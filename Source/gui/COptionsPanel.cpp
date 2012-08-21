@@ -67,7 +67,6 @@ COptionsPanel::COptionsPanel ()
       c->addItem (m_panels [i]->getName (), i + 1);
     }
 
-    c->setItemEnabled (3, false);
     c->setItemEnabled (4, false);
     c->setItemEnabled (8, false);
     c->setItemEnabled (11, false);
