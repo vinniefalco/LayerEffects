@@ -65,7 +65,114 @@ struct GradientOverlayStyle
 
   void operator() (Pixels destPixels);
 
-  
+  //----------------------------------------------------------------------------
+
+  struct Render
+  {
+    explicit Render (Pixels dest) : m_dest (dest)
+    {
+    }
+
+    inline void operator() (int const x, int const y, int const t) const noexcept
+    {
+      PixelARGB& dest (*((PixelARGB*)m_dest.getPixelPointer (x, y)));
+      dest.getRed ()    = uint8 (t);
+      dest.getGreen ()  = uint8 (t);
+      dest.getBlue ()   = uint8 (t);
+    }
+
+  private:
+    Pixels m_dest;
+  };
+
+  //----------------------------------------------------------------------------
+
+  struct Linear
+  {
+    template <class Functor>
+    void operator() (
+      int rows,
+      int cols,
+      Point <int> p0,
+      Point <int> p1,
+      int const scale,
+      Functor f)
+    {
+      // 1/m'
+      float const m = float (p1.getY() - p0.getY()) / (p0.getX() - p1.getX());
+
+      for (int y = 0; y < rows; ++y)
+      {
+        int const x0 = int (m * (y - p0.getY()) + p0.getX());
+        int const x1 = int (m * (y - p1.getY()) + p1.getX());
+
+        for (int x = 0; x < x0; ++x)
+          f (x, y, 0);
+
+        int const mod = x1 - x0;
+        int const skip = scale / mod;
+        int const step = scale;
+        int value = 0;
+        int accum = 0;
+
+        for (int x = x0; x < x1; ++x)
+        {
+          f (x, y, value);
+
+          value += skip;
+          accum += step;
+
+          if (accum >= mod)
+          {
+            accum -= mod;
+            ++value;
+          }
+        }
+
+        for (int x = x1; x < cols; ++x)
+          f (x, y, scale);
+      }
+    }
+  };
+
+  //----------------------------------------------------------------------------
+
+  struct Linearf
+  {
+    template <class Functor>
+    void operator() (
+      int rows,
+      int cols,
+      Point <int> p0,
+      Point <int> p1,
+      int const scale,
+      Functor f)
+    {
+      // 1/m'
+      float const m = float (p1.getY() - p0.getY()) / (p0.getX() - p1.getX());
+
+      for (int y = 0; y < rows; ++y)
+      {
+        float const x0 = m * (y - p0.getY()) + p0.getX();
+        float const x1 = m * (y - p1.getY()) + p1.getX();
+
+        for (int x = 0; x < cols; ++x)
+        {
+          float t;
+          if (x < x0)
+            t = 0;
+          else if (x >= x1)
+            t = 1;
+          else
+            t = (x-x0)/(x1-x0);
+
+          f (x, y, 255 * t);
+        }
+      }
+    }
+  };
+
+  //----------------------------------------------------------------------------
 
   static inline float piFloat ()
   {
