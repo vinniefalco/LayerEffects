@@ -66,7 +66,7 @@ private:
   {
     CriticalSection::ScopedLockType lock (m_mutex);
 
-    for (List::iterator iter = m_list.begin(); iter != m_list.end();)
+    for (List <Elem>::iterator iter = m_list.begin(); iter != m_list.end();)
     {
       OncePerSecond* object = iter->object;
       ++iter;
@@ -97,7 +97,7 @@ public:
 private:
   InterruptibleThread m_thread;
   CriticalSection m_mutex;
-  List m_list;
+  List <Elem> m_list;
 };
 
 //------------------------------------------------------------------------------

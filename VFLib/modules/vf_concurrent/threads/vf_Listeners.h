@@ -278,10 +278,9 @@ private:
 
   private:
     struct Entry;
-    typedef List <Entry> List;
 
     CallQueue& m_fifo;
-    List m_list;
+    List <Entry> m_list;
     void* m_listener;
     CacheLine::Aligned <ReadWriteMutex> m_mutex;
   };

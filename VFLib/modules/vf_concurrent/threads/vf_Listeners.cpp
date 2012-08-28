@@ -139,7 +139,7 @@ struct ListenersBase::Proxy::Entry : Entries::Node,
 
 // A Group maintains a list of Entry.
 //
-struct ListenersBase::Group::Entry : List::Node,
+struct ListenersBase::Group::Entry : List <Entry>::Node,
                                      AllocatedBy <AllocatorType>
 {
   Entry (void* const l, const timestamp_t t)
@@ -213,7 +213,7 @@ bool ListenersBase::Group::remove (void* listener)
   // Should never be able to get here while in call()
   jassert (m_listener == 0);
 
-  for (List::iterator iter = m_list.begin(); iter != m_list.end(); ++iter)
+  for (List <Entry>::iterator iter = m_list.begin(); iter != m_list.end(); ++iter)
   {
     Entry* entry = &(*iter);
     if (entry->listener == listener)
@@ -233,7 +233,7 @@ bool ListenersBase::Group::remove (void* listener)
 //
 bool ListenersBase::Group::contains (void* const listener) /*const*/
 {
-  for (List::iterator iter = m_list.begin(); iter != m_list.end(); iter++)
+  for (List <Entry>::iterator iter = m_list.begin(); iter != m_list.end(); iter++)
     if (iter->listener == listener)
       return true;
   return false;
@@ -285,7 +285,7 @@ void ListenersBase::Group::do_call (Call* const c, const timestamp_t timestamp)
     // Therefore, we don't have to worry about listeners removing
     // themselves while iterating the list.
     //
-    for (List::iterator iter = m_list.begin(); iter != m_list.end();)
+    for (List <Entry>::iterator iter = m_list.begin(); iter != m_list.end();)
     {
       Entry* entry = &(*iter++);
 
@@ -326,7 +326,7 @@ void ListenersBase::Group::do_call1 (Call* const c, const timestamp_t timestamp,
     // Recursion not allowed.
     jassert (m_listener == 0);
 
-    for (List::iterator iter = m_list.begin(); iter != m_list.end();)
+    for (List <Entry>::iterator iter = m_list.begin(); iter != m_list.end();)
     {
       Entry* entry = &(*iter++);
 
