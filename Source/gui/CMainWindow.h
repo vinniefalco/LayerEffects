@@ -40,6 +40,9 @@ public:
   ~CMainWindow ();
 
   void closeButtonPressed ();
+  
+private:
+  CustomLookAndFeel m_lookAndFeel;
 };
 
 #endif

@@ -36,6 +36,8 @@ CMainWindow::CMainWindow ()
                     DocumentWindow::allButtons,
                     true)
 {
+  setLookAndFeel (&m_lookAndFeel);
+
   setResizable (true, false);
 
   CMainPanel* mainPanel = new CMainPanel;

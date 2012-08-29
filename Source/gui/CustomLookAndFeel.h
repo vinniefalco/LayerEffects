@@ -35,7 +35,7 @@
 
 /** Look and feel that forces the software renderer for contexts.
 */
-class CustomLookAndFeel : LookAndFeel
+class CustomLookAndFeel : public LookAndFeel
 {
 public:
   LowLevelGraphicsContext* createGraphicsContext (
