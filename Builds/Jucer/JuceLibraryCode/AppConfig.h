@@ -32,6 +32,7 @@
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics           1
 #define JUCE_MODULE_AVAILABLE_juce_gui_extra            1
 
+
 //==============================================================================
 // juce_audio_devices flags:
 
@@ -124,7 +125,7 @@
 #endif
 
 #ifndef    JUCE_USE_XSHM
- //#define JUCE_USE_XSHM
+#define    JUCE_USE_XSHM 0
 #endif
 
 #ifndef    JUCE_USE_XRENDER
