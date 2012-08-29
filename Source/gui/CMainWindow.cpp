@@ -45,6 +45,8 @@ CMainWindow::CMainWindow ()
   setMenuBar (mainPanel);
   setContentOwned (mainPanel, true);
 
+  setUsingNativeTitleBar (true);
+
   centreWithSize (getWidth(), getHeight());
   setVisible (true);
 
