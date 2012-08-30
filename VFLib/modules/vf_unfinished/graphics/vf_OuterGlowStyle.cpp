@@ -281,29 +281,38 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 
   SharedTable <Colour> table = colours.createLookupTable ();
 
-#if 1
-  DistanceTransform::Meijster::calculateAntiAliasedLoop (
-    RenderPixelAntiAliased (
-      destPixels,
-      opacity,
-      spread,
-      size,
-      table),
-    GetMask (maskPixels),
-    maskPixels.getWidth (),
-    maskPixels.getHeight (),
-    DistanceTransform::Meijster::EuclideanMetric ());
-#else
-  DistanceTransform::Meijster::calculate (
-    RenderPixel (
-      destPixels,
-      opacity,
-      spread,
-      size,
-      table),
-    DistanceTransform::BlackTest (maskPixels),
-    maskPixels.getWidth (),
-    maskPixels.getHeight (),
-    DistanceTransform::Meijster::ChessMetric ());
-#endif
+  if (precise)
+  {
+  #if 1
+    DistanceTransform::Meijster::calculateAntiAliasedLoop (
+      RenderPixelAntiAliased (
+        destPixels,
+        opacity,
+        spread,
+        size,
+        table),
+      GetMask (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+  #else
+    DistanceTransform::Meijster::calculate (
+      RenderPixel (
+        destPixels,
+        opacity,
+        spread,
+        size,
+        table),
+      DistanceTransform::BlackTest (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::ChessMetric ());
+  #endif
+  }
+  else
+  {
+    // "Softer"
+
+    // code here
+  }
 }
