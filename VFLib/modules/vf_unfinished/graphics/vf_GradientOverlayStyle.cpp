@@ -48,18 +48,25 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
   {
   case kindLinear:
     {
-    Linearf() (
+    Linear() (
       destPixels.getRows (),
       destPixels.getCols (),
-      Point <int> (int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3)),
-      Point <int> (int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35)),
+      int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3),
+      int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35),
       255,
       Render (destPixels));
     }
     break;
 
   case kindRadial:
-    jassertfalse;
+    Linearf() (
+      destPixels.getRows (),
+      destPixels.getCols (),
+      int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3),
+      int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35),
+      255,
+      Render (destPixels));
+    //jassertfalse;
     break;
 
   case kindAngle:

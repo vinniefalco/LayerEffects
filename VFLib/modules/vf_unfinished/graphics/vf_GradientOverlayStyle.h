@@ -73,7 +73,8 @@ struct GradientOverlayStyle
     {
     }
 
-    inline void operator() (int const x, int const y, int const t) const noexcept
+    template <class T>
+    inline void operator() (int const x, int const y, T const t) const noexcept
     {
       PixelARGB& dest (*((PixelARGB*)m_dest.getPixelPointer (x, y)));
       dest.getRed ()    = uint8 (t);
@@ -87,37 +88,106 @@ struct GradientOverlayStyle
 
   //----------------------------------------------------------------------------
 
+  /** Digital Differential Analyzer
+  */
+  struct DDA
+  {
+    // x = input, y = output
+    DDA (int x0, int x1, int y0, int y1, int v0)
+    {
+      mod  = x1 - x0;
+      step = y1 - y0;
+      skip = step / mod;
+      value = v0;
+    }
+
+    inline int operator() ()
+    {
+      int const result = value;
+
+      value += skip;
+      accum += step;
+
+      if (accum >= mod)
+      {
+        accum -= mod;
+        ++value;
+      }
+
+      return result;
+    }
+
+    int mod;
+    int step;
+    int skip;
+    int accum;
+    int value;
+  };
+
+  //----------------------------------------------------------------------------
+
   struct Linear
   {
     template <class Functor>
     void operator() (
       int rows,
       int cols,
-      Point <int> p0,
-      Point <int> p1,
+      int x0, int y0,
+      int x1, int y1,
       int const scale,
       Functor f)
     {
       // 1/m'
-      float const m = float (p1.getY() - p0.getY()) / (p0.getX() - p1.getX());
+      float const m = float (y1 - y0) / (x0 - x1);
+
+      int const width = int (m * (y0 - y1) + x1 - x0 + 0.5);
 
       for (int y = 0; y < rows; ++y)
       {
-        int const x0 = int (m * (y - p0.getY()) + p0.getX());
-        int const x1 = int (m * (y - p1.getY()) + p1.getX());
+        int const p0 = int (m * (y - y0) + x0 + 0.5);
+        //int const p1 = int (m * (y - y1) + x1 + 0.5);
 
-        for (int x = 0; x < x0; ++x)
-          f (x, y, 0);
+#if 1
+        DDA dda (p0, p0 + width, 0, scale, -p0 * scale / width);
 
-        int const mod = x1 - x0;
+        for (int x = 0; x < cols; ++x)
+        {
+          int const value = dda ();
+          
+          if (value <= 0)
+          {
+            f (x, y, 0);
+          }
+          else if (value >= scale)
+          {
+            f (x, y, scale);
+          }
+          else
+          {
+            f (x, y, value);
+          }
+        }
+#else
+        int const mod = p1 - p0;
         int const skip = scale / mod;
         int const step = scale;
-        int value = 0;
+        int value = -p0 * scale / width;
         int accum = 0;
 
-        for (int x = x0; x < x1; ++x)
+        for (int x = 0; x < cols; ++x)
         {
-          f (x, y, value);
+          if (value <= 0)
+          {
+            f (x, y, 0);
+          }
+          else if (value >= scale)
+          {
+            f (x, y, scale);
+          }
+          else
+          {
+            f (x, y, value);
+          }
 
           value += skip;
           accum += step;
@@ -128,46 +198,59 @@ struct GradientOverlayStyle
             ++value;
           }
         }
-
-        for (int x = x1; x < cols; ++x)
-          f (x, y, scale);
+#endif
       }
     }
   };
 
   //----------------------------------------------------------------------------
 
+  /** Produce a linear gradient.
+
+      This implementation uses float values.
+  */
   struct Linearf
   {
     template <class Functor>
     void operator() (
       int rows,
       int cols,
-      Point <int> p0,
-      Point <int> p1,
+      int x0, int y0,
+      int x1, int y1,
       int const scale,
       Functor f)
     {
-      // 1/m'
-      float const m = float (p1.getY() - p0.getY()) / (p0.getX() - p1.getX());
-
-      for (int y = 0; y < rows; ++y)
+      if (x0 != x1)
       {
-        float const x0 = m * (y - p0.getY()) + p0.getX();
-        float const x1 = m * (y - p1.getY()) + p1.getX();
+        // 1/m'
+        float const m = float (y1 - y0) / (x0 - x1);
 
-        for (int x = 0; x < cols; ++x)
+        for (int y = 0; y < rows; ++y)
         {
-          float t;
-          if (x < x0)
-            t = 0;
-          else if (x >= x1)
-            t = 1;
-          else
-            t = (x-x0)/(x1-x0);
+          float const p0 = m * (y - y0) + x0;
+          float const p1 = m * (y - y1) + x1;
+          float const d = (scale + 0.9999f) / (p1 - p0);
 
-          f (x, y, 255 * t);
+          for (int x = 0; x < cols; ++x)
+          {
+            if (x < p0)
+            {
+              f (x, y, 0);
+            }
+            else if (x >= p1)
+            {
+              f (x, y, scale);
+            }
+            else
+            {
+              f (x, y, d * (x - p0));
+            }
+          }
         }
+      }
+      else
+      {
+        // Special case for horizontal lines.
       }
     }
   };
