@@ -67,6 +67,27 @@ struct GradientOverlayStyle
 
   //----------------------------------------------------------------------------
 
+  struct RenderDebug
+  {
+    explicit RenderDebug (Pixels dest) : m_dest (dest)
+    {
+    }
+
+    template <class T>
+    inline void operator() (int const x, int const y, T const t) const noexcept
+    {
+      PixelARGB& dest (*((PixelARGB*)m_dest.getPixelPointer (x, y)));
+      dest.getRed ()    = uint8 (t);
+      dest.getGreen ()  = uint8 (t);
+      dest.getBlue ()   = uint8 (t);
+    }
+
+  private:
+    Pixels m_dest;
+  };
+
+  //----------------------------------------------------------------------------
+
   struct Render
   {
     explicit Render (Pixels dest) : m_dest (dest)
@@ -90,32 +111,31 @@ struct GradientOverlayStyle
 
   struct DDA
   {
-    DDA (int rise, int run)
+    DDA (int rise, int run, int dir_ = 1)
       : mod (run)
       , step (rise % run)
       , skip (rise / run)
+      , dir (dir_)
     {
     }
 
     inline void advance (int steps)
     {
-      jassert (steps >= 0);
-
       if (mod)
       {
         if (steps >= 0)
         {
-          value += skip * steps;
-          frac += step * steps;
-          value += frac / mod;
-          frac = frac % mod;
+          value += dir * skip * steps;
+          frac  += step * steps;
+          value += dir * frac / mod;
+          frac   = frac % mod;
         }
         else
         {
-          value += skip * steps;
-          frac += step * steps;
-          value += frac / mod;
-          frac = frac % mod;
+          value += dir * skip * steps;
+          frac  += step * steps;
+          value += dir * (frac - (mod - 1)) / mod;
+          frac  = frac % mod;
           if (frac < 0)
             frac += mod;
         }
@@ -126,13 +146,13 @@ struct GradientOverlayStyle
     {
       int const result = value;
 
-      value += skip;
+      value += dir * skip;
       frac += step;
 
       if (frac >= mod)
       {
         frac -= mod;
-        ++value;
+        value += dir;
       }
 
       return result;
@@ -141,6 +161,7 @@ struct GradientOverlayStyle
     int mod;
     int step;
     int skip;
+    int dir;
 
     int frac;
     int value;
@@ -161,48 +182,144 @@ struct GradientOverlayStyle
       int const scale,
       Functor f)
     {
-      // line slope     m  = (y1 - y0) / (x1 - x0)
-      //
-      // gradient slope m' = (x0 - x1) / (y1 - y0)
-      //
-      // width  = floor (m  * (y1 - y0)) + x1 - x0
-      //
-      // height = floor (m' * (x0 - x1)) + y1 - y0
-      //
-      int const w = x1 - x0 + ((y1 - y0) * (y1 - y0)) / (x1 - x0);
-      int const h = y1 - y0 + ((x0 - x1) * (x0 - x1)) / (y1 - y0);
+      int v0;
+      int v1;
+      int dir;
 
-      DDA ddx (scale, w);
-
-      DDA ddy (scale, h);
-      ddy.frac = 0;
-      ddy.value = 0;
-      ddy.advance (-y0);
-
-      for (int y = 0; y < rows; ++y)
+      if (x0 != x1)
       {
-        ddx.frac = (ddy.frac * ddx.mod) / ddy.mod;
-        ddx.value = ddy.value;
-        ddx.advance (-x0);
- 
-        ddy ();
-
-        for (int x = 0; x < cols; ++x)
+        // normalize coordinates
+        if (x0 <= x1)
         {
-          int const value = ddx ();
+          v0 = 0;
+          v1 = scale;
+          dir = 1;
+        }
+        else
+        {
+          v0 = scale;
+          v1 = 0;
+          dir = - 1;
+
+          std::swap (x0, x1);
+          std::swap (y0, y1);
+        }
+
+        if (y0 != y1)
+        {
+          // line slope     m  = (y1 - y0) / (x1 - x0)
+          //
+          // gradient slope m' = (x0 - x1) / (y1 - y0)
+          //
+          // width  = floor (m  * (y1 - y0)) + x1 - x0
+          //
+          // height = floor (m' * (x0 - x1)) + y1 - y0
+          //
+          int const w = x1 - x0 + ((y1 - y0) * (y1 - y0)) / (x1 - x0);
+          int const h = y1 - y0 + ((x0 - x1) * (x0 - x1)) / (y1 - y0);
+
+          DDA ddx (scale, w, dir);
+
+          DDA ddy (scale, h, dir);
+          ddy.frac = 0;
+          ddy.value = v0;
+          ddy.advance (-y0);
+
+          for (int y = 0; y < rows; ++y)
+          {
+            ddx.frac = (ddy.frac * ddx.mod) / ddy.mod;
+            ddx.value = ddy.value;
+            ddx.advance (-x0);
+ 
+            ddy ();
+
+            for (int x = 0; x < cols; ++x)
+            {
+              int const value = ddx ();
+          
+              if (value < 0)
+              {
+                f (x, y, 0);
+              }
+              else if (value > scale)
+              {
+                f (x, y, scale);
+              }
+              else
+              {
+                f (x, y, value);
+              }
+            }
+          }
+        }
+        else
+        {
+          // Special case for horizontal blend
+          int const w = x1 - x0;
+
+          for (int y = 0; y < rows; ++y)
+          {
+            DDA ddx (scale, w, dir);
+            ddx.frac = ddx.mod / 2;
+            ddx.value = v0;
+            ddx.advance (-x0);
+
+            for (int x = 0; x < cols; ++x)
+            {
+              int const value = ddx ();
+          
+              if (value < 0)
+              {
+                f (x, y, 0);
+              }
+              else if (value > scale)
+              {
+                f (x, y, scale);
+              }
+              else
+              {
+                f (x, y, value);
+              }
+            }
+          }
+        }
+      }
+      else
+      {
+        // Special case for vertical blend
+        if (y0 <= y1)
+        {
+          v0 = 0;
+          v1 = scale;
+          dir = 1;
+        }
+        else
+        {
+          v0 = scale;
+          v1 = 0;
+          dir = -1;
+
+          std::swap (y0, y1);
+        }
+
+        int const h = y1 - y0;
+
+        DDA ddy (scale, h, dir);
+        ddy.frac = 0;
+        ddy.value = v0;
+        ddy.advance (-y0);
+
+        for (int y = 0; y < rows; ++y)
+        {
+          int value = ddy ();
           
           if (value < 0)
-          {
-            f (x, y, 0);
-          }
+            value = 0;
           else if (value > scale)
-          {
-            f (x, y, scale);
-          }
-          else
-          {
+            value = scale;
+
+          for (int x = 0; x < cols; ++x)
             f (x, y, value);
-          }
         }
       }
     }
@@ -291,18 +408,31 @@ struct GradientOverlayStyle
       float y0 = float (y0_);
       float y1 = float (y1_);
 
+      int v0;
+      int v1;
+      
+      if (x0 <= x1)
+      {
+        v0 = 0;
+        v1 = scale;
+      }
+      else
+      {
+        v0 = scale;
+        v1 = 0;
+      }
+
       if (x0 != x1)
       {
         // 1/m'
         float const m = (y1 - y0) / (x0 - x1);
-        float const w = x1 - x0 - m * (y1 - y0);
+        float const w =  floor (x1 - x0 - m * (y1 - y0));
 
         for (int y = 0; y < rows; ++y)
         {
           float const p0 = m * (y - y0) + x0;
-          //float const p1 = m * (y - y1) + x1;
           float const p1 = p0 + w;
-          float const d = (scale + 0.9999f) / w;
+          float const d = scale / w;
 
           for (int x = 0; x < cols; ++x)
           {
@@ -316,7 +446,7 @@ struct GradientOverlayStyle
             }
             else
             {
-              f (x, y, d * (x - p0));
+              f (x, y, d * (x - p0) + 0.5f);
             }
           }
         }
