@@ -88,17 +88,38 @@ struct GradientOverlayStyle
 
   //----------------------------------------------------------------------------
 
-  /** Digital Differential Analyzer
-  */
   struct DDA
   {
-    // x = input, y = output
-    DDA (int x0, int x1, int y0, int y1, int v0)
+    DDA (int rise, int run)
+      : mod (run)
+      , step (rise % run)
+      , skip (rise / run)
     {
-      mod  = x1 - x0;
-      step = y1 - y0;
-      skip = step / mod;
-      value = v0;
+    }
+
+    inline void advance (int steps)
+    {
+      jassert (steps >= 0);
+
+      if (mod)
+      {
+        if (steps >= 0)
+        {
+          value += skip * steps;
+          frac += step * steps;
+          value += frac / mod;
+          frac = frac % mod;
+        }
+        else
+        {
+          value += skip * steps;
+          frac += step * steps;
+          value += frac / mod;
+          frac = frac % mod;
+          if (frac < 0)
+            frac += mod;
+        }
+      }
     }
 
     inline int operator() ()
@@ -106,11 +127,11 @@ struct GradientOverlayStyle
       int const result = value;
 
       value += skip;
-      accum += step;
+      frac += step;
 
-      if (accum >= mod)
+      if (frac >= mod)
       {
-        accum -= mod;
+        frac -= mod;
         ++value;
       }
 
@@ -120,45 +141,61 @@ struct GradientOverlayStyle
     int mod;
     int step;
     int skip;
-    int accum;
+
+    int frac;
     int value;
   };
 
-  //----------------------------------------------------------------------------
+  /** Linear gradient calculator.
 
+      Uses an all-integer digital differential analyzer.
+  */
   struct Linear
   {
     template <class Functor>
     void operator() (
       int rows,
       int cols,
-      int x0, int y0,
-      int x1, int y1,
+      int x0, int y0, // normal start pt
+      int x1, int y1, // normal end pt
       int const scale,
       Functor f)
     {
-      // 1/m'
-      float const m = float (y1 - y0) / (x0 - x1);
+      // line slope     m  = (y1 - y0) / (x1 - x0)
+      //
+      // gradient slope m' = (x0 - x1) / (y1 - y0)
+      //
+      // width  = floor (m  * (y1 - y0)) + x1 - x0
+      //
+      // height = floor (m' * (x0 - x1)) + y1 - y0
+      //
+      int const w = x1 - x0 + ((y1 - y0) * (y1 - y0)) / (x1 - x0);
+      int const h = y1 - y0 + ((x0 - x1) * (x0 - x1)) / (y1 - y0);
 
-      int const width = int (m * (y0 - y1) + x1 - x0 + 0.5);
+      DDA ddx (scale, w);
+
+      DDA ddy (scale, h);
+      ddy.frac = 0;
+      ddy.value = 0;
+      ddy.advance (-y0);
 
       for (int y = 0; y < rows; ++y)
       {
-        int const p0 = int (m * (y - y0) + x0 + 0.5);
-        //int const p1 = int (m * (y - y1) + x1 + 0.5);
-
-#if 1
-        DDA dda (p0, p0 + width, 0, scale, -p0 * scale / width);
+        ddx.frac = (ddy.frac * ddx.mod) / ddy.mod;
+        ddx.value = ddy.value;
+        ddx.advance (-x0);
+ 
+        ddy ();
 
         for (int x = 0; x < cols; ++x)
         {
-          int const value = dda ();
+          int const value = ddx ();
           
-          if (value <= 0)
+          if (value < 0)
           {
             f (x, y, 0);
           }
-          else if (value >= scale)
+          else if (value > scale)
           {
             f (x, y, scale);
           }
@@ -167,20 +204,59 @@ struct GradientOverlayStyle
             f (x, y, value);
           }
         }
-#else
-        int const mod = p1 - p0;
-        int const skip = scale / mod;
-        int const step = scale;
-        int value = -p0 * scale / width;
-        int accum = 0;
+      }
+    }
+  };
+
+  //----------------------------------------------------------------------------
+
+  /** Linear gradient calculator.
+
+      This uses fixed point arithmetic.
+  */
+  struct LinearFixed
+  {
+    template <class Functor>
+    void operator() (
+      int rows,
+      int cols,
+      int x0, int y0, // normal start pt
+      int x1, int y1, // normal end pt
+      int const scale,
+      Functor f)
+    {
+      struct FDDA
+      {
+        int value;
+        int step;
+      };
+
+      int const w = 1 * (x1 - x0) + (1 * (y1 - y0) * (y1 - y0)) / (x1 - x0);
+      int const h = 1 * (y1 - y0) + (1 * (x0 - x1) * (x0 - x1)) / (y1 - y0);
+
+      FDDA ddx;
+      ddx.step = 65536 * scale / w;
+      ddx.value = 0;
+
+      FDDA ddy;
+      ddy.step = 65536 * scale / h;
+      ddy.value = - ddy.step * y0;
+
+      for (int y = 0; y < rows; ++y)
+      {
+        ddx.value = ddy.value - ddx.step * x0;
+        ddy.value += ddy.step;
 
         for (int x = 0; x < cols; ++x)
         {
-          if (value <= 0)
+          int const value = ddx.value >> 16;
+          ddx.value += ddx.step;
+          
+          if (value < 0)
           {
             f (x, y, 0);
           }
-          else if (value >= scale)
+          else if (value > scale)
           {
             f (x, y, scale);
           }
@@ -188,17 +264,7 @@ struct GradientOverlayStyle
           {
             f (x, y, value);
           }
-
-          value += skip;
-          accum += step;
-
-          if (accum >= mod)
-          {
-            accum -= mod;
-            ++value;
-          }
         }
-#endif
       }
     }
   };
@@ -209,31 +275,38 @@ struct GradientOverlayStyle
 
       This implementation uses float values.
   */
-  struct Linearf
+  struct LinearFloat
   {
     template <class Functor>
     void operator() (
       int rows,
       int cols,
-      int x0, int y0,
-      int x1, int y1,
+      int x0_, int y0_,
+      int x1_, int y1_,
       int const scale,
       Functor f)
     {
+      float x0 = float (x0_);
+      float x1 = float (x1_);
+      float y0 = float (y0_);
+      float y1 = float (y1_);
+
       if (x0 != x1)
       {
         // 1/m'
-        float const m = float (y1 - y0) / (x0 - x1);
+        float const m = (y1 - y0) / (x0 - x1);
+        float const w = x1 - x0 - m * (y1 - y0);
 
         for (int y = 0; y < rows; ++y)
         {
           float const p0 = m * (y - y0) + x0;
-          float const p1 = m * (y - y1) + x1;
-          float const d = (scale + 0.9999f) / (p1 - p0);
+          //float const p1 = m * (y - y1) + x1;
+          float const p1 = p0 + w;
+          float const d = (scale + 0.9999f) / w;
 
           for (int x = 0; x < cols; ++x)
           {
-            if (x < p0)
+            if (x <= p0)
             {
               f (x, y, 0);
             }

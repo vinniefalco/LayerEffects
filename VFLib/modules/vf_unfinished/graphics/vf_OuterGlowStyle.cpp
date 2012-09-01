@@ -52,6 +52,9 @@ Experimental notes:
 
 - Range has no effect when the gradient is a single solid colour at both ends.
 
+- Varying the Size when Spread = 0% is very fast. It gets slower as spread tends
+  towards 100%.
+
 Data
 
 Technique   Size    Spread    Fade (px)   (1-Spread)*Size   Fade%

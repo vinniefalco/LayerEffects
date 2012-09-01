@@ -38,7 +38,7 @@ CGradientOverlayTab::CGradientOverlayTab ()
   m_options.opacity = 1;
   m_options.colours = vf::GradientColours (Colours::black, Colours::white);
   m_options.reverse = false;
-  m_options.kind = vf::GradientOverlayStyle::kindAngle;
+  m_options.kind = vf::GradientOverlayStyle::kindLinear;
   m_options.angle = vf::degreesToRadians <double> (90);
   m_options.scale = 1;
   m_options.startPoint = Point <int> (0, 0);

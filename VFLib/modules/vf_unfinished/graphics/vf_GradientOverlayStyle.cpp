@@ -44,6 +44,14 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
   else
     table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
 
+#if 1
+  Point <int> p0 (int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3));
+  Point <int> p1 (int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35));
+#else
+  Point <int> p0 (0, 0);
+  Point <int> p1 (200, 40);
+#endif
+
   switch (kind)
   {
   case kindLinear:
@@ -51,19 +59,18 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
     Linear() (
       destPixels.getRows (),
       destPixels.getCols (),
-      int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3),
-      int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35),
+      p0.getX(), p0.getY(), p1.getX(), p1.getY (),
       255,
       Render (destPixels));
     }
     break;
 
   case kindRadial:
-    Linearf() (
+    // TEMPORARY, for testing purposes
+    LinearFloat() (
       destPixels.getRows (),
       destPixels.getCols (),
-      int (destPixels.getWidth () * .2), int (destPixels.getHeight () * .3),
-      int (destPixels.getWidth () * .3), int (destPixels.getHeight () * .35),
+      p0.getX(), p0.getY(), p1.getX(), p1.getY (),
       255,
       Render (destPixels));
     //jassertfalse;
