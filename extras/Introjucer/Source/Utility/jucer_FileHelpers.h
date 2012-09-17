@@ -41,6 +41,7 @@ namespace FileHelpers
 
     String unixStylePath (const String& path);
     String windowsStylePath (const String& path);
+    String currentOSStylePath (const String& path);
 
     bool shouldPathsBeRelative (String path1, String path2);
     bool isAbsolutePath (const String& path);
@@ -53,8 +54,8 @@ namespace FileHelpers
 class FileModificationDetector
 {
 public:
-    FileModificationDetector (const File& file_)
-        : file (file_)
+    FileModificationDetector (const File& f)
+        : file (f)
     {
     }
 

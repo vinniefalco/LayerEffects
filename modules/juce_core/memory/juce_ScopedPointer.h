@@ -127,7 +127,7 @@ public:
         If this ScopedPointer already points to an object, that object
         will first be deleted.
 
-        The pointer that you pass is may be null.
+        The pointer that you pass in may be a nullptr.
     */
     ScopedPointer& operator= (ObjectType* const newObjectToTakePossessionOf)
     {
@@ -168,7 +168,7 @@ public:
     {
         // Two ScopedPointers should never be able to refer to the same object - if
         // this happens, you must have done something dodgy!
-        jassert (object != other.object);
+        jassert (object != other.object || this == other.getAddress());
 
         std::swap (object, other.object);
     }

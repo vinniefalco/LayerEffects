@@ -35,6 +35,7 @@ class JucerTreeViewBase   : public TreeViewItem
 {
 public:
     JucerTreeViewBase();
+    ~JucerTreeViewBase();
 
     int getItemWidth() const                                { return -1; }
     int getItemHeight() const                               { return 20; }
@@ -63,11 +64,11 @@ public:
     virtual void deleteItem();
     virtual void deleteAllSelectedItems();
     virtual void showDocument();
-    virtual void showPopupMenu();
     virtual void showMultiSelectionPopupMenu();
     virtual void showRenameBox();
 
     void launchPopupMenu (PopupMenu&); // runs asynchronously, and produces a callback to handlePopupMenuResult().
+    virtual void showPopupMenu();
     virtual void handlePopupMenuResult (int resultCode);
 
     //==============================================================================
@@ -101,6 +102,9 @@ private:
     class ItemSelectionTimer;
     friend class ItemSelectionTimer;
     ScopedPointer<Timer> delayedSelectionTimer;
+
+    WeakReference<JucerTreeViewBase>::Master masterReference;
+    friend class WeakReference<JucerTreeViewBase>;
 
     void invokeShowDocument();
 };
@@ -180,7 +184,7 @@ private:
 class TreeItemComponent   : public Component
 {
 public:
-    TreeItemComponent (JucerTreeViewBase& item_)  : item (item_)
+    TreeItemComponent (JucerTreeViewBase& i)  : item (i)
     {
         setInterceptsMouseClicks (false, true);
     }

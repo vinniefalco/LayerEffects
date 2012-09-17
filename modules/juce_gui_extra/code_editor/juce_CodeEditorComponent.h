@@ -37,11 +37,7 @@ class CodeTokeniser;
     files.
 */
 class JUCE_API  CodeEditorComponent   : public Component,
-                                        public TextInputTarget,
-                                        private Timer,
-                                        private ScrollBar::Listener,
-                                        private CodeDocument::Listener,
-                                        private AsyncUpdater
+                                        public TextInputTarget
 {
 public:
     //==============================================================================
@@ -138,6 +134,7 @@ public:
     bool undo();
     bool redo();
 
+    void selectRegion (const CodeDocument::Position& start, const CodeDocument::Position& end);
     bool selectAll();
     void deselectAll();
 
@@ -145,6 +142,7 @@ public:
     void scrollBy (int deltaLines);
     void scrollToColumn (int newFirstColumnOnScreen);
     void scrollToKeepCaretOnScreen();
+    void scrollToKeepLinesOnScreen (const Range<int>& linesToShow);
 
     void insertTextAtCaret (const String& textToInsert);
     void insertTabAtCaret();
@@ -154,6 +152,7 @@ public:
 
     //==============================================================================
     Range<int> getHighlightedRegion() const;
+    bool isHighlightActive() const noexcept;
     void setHighlightedRegion (const Range<int>& newRange);
     String getTextInRange (const Range<int>& range) const;
 
@@ -339,11 +338,15 @@ private:
     bool useSpacesForTabs, showLineNumbers;
     double xOffset;
 
-    CodeDocument::Position caretPos;
-    CodeDocument::Position selectionStart, selectionEnd;
+    CodeDocument::Position caretPos, selectionStart, selectionEnd;
 
     ScopedPointer<CaretComponent> caret;
     ScrollBar verticalScrollBar, horizontalScrollBar;
+
+    class Pimpl;
+    friend class Pimpl;
+    friend class ScopedPointer<Pimpl>;
+    ScopedPointer<Pimpl> pimpl;
 
     class GutterComponent;
     friend class GutterComponent;
@@ -366,19 +369,13 @@ private:
     class CodeEditorLine;
     OwnedArray <CodeEditorLine> lines;
     void rebuildLineTokens();
+    void rebuildLineTokensAsync();
+    void codeDocumentChanged (int start, int end);
 
     OwnedArray <CodeDocument::Iterator> cachedIterators;
     void clearCachedIterators (int firstLineToBeInvalid);
     void updateCachedIterators (int maxLineNum);
     void getIteratorForPosition (int position, CodeDocument::Iterator& result);
-
-    void timerCallback();
-    void scrollBarMoved (ScrollBar*, double);
-    void handleAsyncUpdate();
-
-    void codeDocumentTextInserted (const String& newText, int insertIndex);
-    void codeDocumentTextDeleted (int startIndex, int endIndex);
-    void codeDocumentChanged (int startIndex, int endIndex);
 
     void moveLineDelta (int delta, bool selecting);
     int getGutterSize() const noexcept;

@@ -67,9 +67,9 @@ void CriticalSection::exit() const noexcept
 class WaitableEventImpl
 {
 public:
-    WaitableEventImpl (const bool manualReset_)
+    WaitableEventImpl (const bool useManualReset)
         : triggered (false),
-          manualReset (manualReset_)
+          manualReset (useManualReset)
     {
         pthread_cond_init (&condition, 0);
 
@@ -573,10 +573,16 @@ MemoryMappedFile::~MemoryMappedFile()
 }
 
 //==============================================================================
+#if JUCE_PROJUCER_LIVE_BUILD
+extern "C" const char* juce_getCurrentExecutablePath();
+#endif
+
 File juce_getExecutableFile();
 File juce_getExecutableFile()
 {
-   #if JUCE_ANDROID
+   #if JUCE_PROJUCER_LIVE_BUILD
+    return File (juce_getCurrentExecutablePath());
+   #elif JUCE_ANDROID
     return File (android.appFile);
    #else
     struct DLAddrReader
@@ -773,8 +779,7 @@ public:
     int handle, refCount;
 };
 
-InterProcessLock::InterProcessLock (const String& name_)
-    : name (name_)
+InterProcessLock::InterProcessLock (const String& nm)  : name (nm)
 {
 }
 
@@ -1027,7 +1032,7 @@ public:
         {
             int childState;
             const int pid = waitpid (childPID, &childState, WNOHANG);
-            return pid > 0 && ! (WIFEXITED (childState) || WIFSIGNALED (childState));
+            return pid == 0 || ! (WIFEXITED (childState) || WIFSIGNALED (childState));
         }
 
         return false;

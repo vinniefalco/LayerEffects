@@ -109,20 +109,6 @@ File ModuleList::getDefaultModulesFolder (Project* project)
 {
     if (project != nullptr)
     {
-        {
-            // Try the platform default exporter first..
-            ScopedPointer <ProjectExporter> exp (ProjectExporter::createPlatformDefaultExporter (*project));
-
-            if (exp != nullptr)
-            {
-                const File f (getModulesFolderForExporter (*exp));
-
-                if (ModuleList::isModulesFolder (f))
-                    return f;
-            }
-        }
-
-        // If that didn't work, try all the other exporters..
         for (Project::ExporterIterator exporter (*project); exporter.next();)
         {
             const File f (getModulesFolderForExporter (*exporter));
@@ -153,11 +139,6 @@ File ModuleList::getLocalModulesFolder (Project* project)
         f = defaultJuceFolder;
 
     return f;
-}
-
-File ModuleList::getModuleFolder (const String& uid) const
-{
-    return getModulesFolder().getChildFile (uid);
 }
 
 void ModuleList::setLocalModulesFolder (const File& file)
@@ -196,7 +177,8 @@ void ModuleList::rescan (const File& newModulesFolder)
 
         while (iter.next())
         {
-            const File moduleDef (iter.getFile().getChildFile (LibraryModule::getInfoFileName()));
+            const File moduleDef (iter.getFile().getLinkedTarget()
+                                    .getChildFile (LibraryModule::getInfoFileName()));
 
             if (moduleDef.exists())
             {
@@ -382,11 +364,6 @@ bool LibraryModule::isPluginClient() const                          { return get
 bool LibraryModule::isAUPluginHost (const Project& project) const   { return getID() == "juce_audio_processors" && project.isConfigFlagEnabled ("JUCE_PLUGINHOST_AU"); }
 bool LibraryModule::isVSTPluginHost (const Project& project) const  { return getID() == "juce_audio_processors" && project.isConfigFlagEnabled ("JUCE_PLUGINHOST_VST"); }
 
-File LibraryModule::getLocalIncludeFolder (ProjectSaver& projectSaver) const
-{
-    return projectSaver.getGeneratedCodeFolder().getChildFile ("modules").getChildFile (getID());
-}
-
 File LibraryModule::getInclude (const File& folder) const
 {
     return folder.getChildFile (moduleInfo ["include"]);
@@ -412,12 +389,12 @@ RelativePath LibraryModule::getModuleOrLocalCopyRelativeToProject (ProjectExport
 //==============================================================================
 void LibraryModule::writeIncludes (ProjectSaver& projectSaver, OutputStream& out)
 {
-    const File localModuleFolder (getLocalIncludeFolder (projectSaver));
+    const File localModuleFolder (projectSaver.getLocalModuleFolder (*this));
     const File localHeader (getInclude (localModuleFolder));
 
     if (projectSaver.getProject().shouldCopyModuleFilesLocally (getID()).getValue())
     {
-        moduleFolder.copyDirectoryTo (localModuleFolder);
+        projectSaver.copyFolder (moduleFolder, localModuleFolder);
     }
     else
     {
@@ -495,13 +472,21 @@ void LibraryModule::createLocalHeaderWrapper (ProjectSaver& projectSaver, const 
 }
 
 //==============================================================================
+File LibraryModule::getLocalFolderFor (Project& project) const
+{
+    if (project.shouldCopyModuleFilesLocally (getID()).getValue())
+        return project.getGeneratedCodeFolder().getChildFile ("modules").getChildFile (getID());
+    else
+        return moduleFolder;
+}
+
 void LibraryModule::prepareExporter (ProjectExporter& exporter, ProjectSaver& projectSaver) const
 {
     Project& project = exporter.getProject();
 
     File localFolder (moduleFolder);
     if (project.shouldCopyModuleFilesLocally (getID()).getValue())
-        localFolder = getLocalIncludeFolder (projectSaver);
+        localFolder = projectSaver.getLocalModuleFolder (*this);
 
     {
         Array<File> compiled;
@@ -672,7 +657,7 @@ void LibraryModule::findAndAddCompiledCode (ProjectExporter& exporter, ProjectSa
     }
 }
 
-void LibraryModule::getLocalCompiledFiles (Array<File>& result) const
+void LibraryModule::getLocalCompiledFiles (const File& localModuleFolder, Array<File>& result) const
 {
     const var compileArray (moduleInfo ["compile"]); // careful to keep this alive while the array is in use!
     const Array<var>* const files = compileArray.getArray();
@@ -694,8 +679,7 @@ void LibraryModule::getLocalCompiledFiles (Array<File>& result) const
                   #endif
                 )
             {
-                const File compiledFile (moduleFolder.getChildFile (filename));
-                result.add (compiledFile);
+                result.add (localModuleFolder.getChildFile (filename));
             }
         }
     }

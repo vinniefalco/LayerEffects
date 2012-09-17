@@ -102,14 +102,16 @@ namespace FileHelpers
         return false;
     }
 
-    String unixStylePath (const String& path)
-    {
-        return path.replaceCharacter ('\\', '/');
-    }
+    String unixStylePath (const String& path)       { return path.replaceCharacter ('\\', '/'); }
+    String windowsStylePath (const String& path)    { return path.replaceCharacter ('/', '\\'); }
 
-    String windowsStylePath (const String& path)
+    String currentOSStylePath (const String& path)
     {
-        return path.replaceCharacter ('/', '\\');
+       #if JUCE_WINDOWS
+        return windowsStylePath (path);
+       #else
+        return unixStylePath (path);
+       #endif
     }
 
     bool isAbsolutePath (const String& path)
@@ -125,13 +127,13 @@ namespace FileHelpers
     String appendPath (const String& path, const String& subpath)
     {
         if (isAbsolutePath (subpath))
-            return subpath.replaceCharacter ('\\', '/');
+            return unixStylePath (subpath);
 
-        String path1 (path.replaceCharacter ('\\', '/'));
+        String path1 (unixStylePath (path));
         if (! path1.endsWithChar ('/'))
             path1 << '/';
 
-        return path1 + subpath.replaceCharacter ('\\', '/');
+        return path1 + unixStylePath (subpath);
     }
 
     bool shouldPathsBeRelative (String path1, String path2)

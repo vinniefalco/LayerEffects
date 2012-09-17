@@ -66,7 +66,7 @@ Project::Project (const File& file_)
 Project::~Project()
 {
     projectRoot.removeListener (this);
-    JucerApplication::getApp().openDocumentManager.closeAllDocumentsUsingProject (*this, false);
+    IntrojucerApp::getApp().openDocumentManager.closeAllDocumentsUsingProject (*this, false);
 }
 
 //==============================================================================
@@ -126,6 +126,8 @@ void Project::setMissingDefaultValues()
 
     if (getBundleIdentifier().toString().isEmpty())
         getBundleIdentifier() = getDefaultBundleIdentifier();
+
+    IntrojucerApp::getApp().updateNewlyOpenedProject (*this);
 }
 
 void Project::updateOldStyleConfigList()
@@ -293,13 +295,12 @@ File Project::resolveFilename (String filename) const
     if (filename.isEmpty())
         return File::nonexistent;
 
-    filename = replacePreprocessorDefs (getPreprocessorDefs(), filename)
-                .replaceCharacter ('\\', '/');
+    filename = replacePreprocessorDefs (getPreprocessorDefs(), filename);
 
     if (FileHelpers::isAbsolutePath (filename))
-        return File::createFileWithoutCheckingPath (filename); // (avoid assertions for windows-style paths)
+        return File::createFileWithoutCheckingPath (FileHelpers::currentOSStylePath (filename)); // (avoid assertions for windows-style paths)
 
-    return getFile().getSiblingFile (filename);
+    return getFile().getSiblingFile (FileHelpers::currentOSStylePath (filename));
 }
 
 String Project::getRelativePathForFile (const File& file) const
@@ -375,6 +376,9 @@ void Project::createPropertyEditors (PropertyListBuilder& props)
 
     props.add (new TextPropertyComponent (getProjectPreprocessorDefs(), "Preprocessor definitions", 32768, false),
                "Extra preprocessor definitions. Use the form \"NAME1=value NAME2=value\", using whitespace or commas to separate the items - to include a space or comma in a definition, precede it with a backslash.");
+
+    props.add (new TextPropertyComponent (getProjectUserNotes(), "Notes", 32768, true),
+               "Extra comments: This field is not used for code or project generation, it's just a space where you can express your thoughts.");
 }
 
 String Project::getVersionAsHex() const
@@ -541,7 +545,7 @@ bool Project::Item::renameFile (const File& newFile)
          || (newFile.exists() && ! oldFile.exists()))
     {
         setFile (newFile);
-        JucerApplication::getApp().openDocumentManager.fileHasBeenRenamed (oldFile, newFile);
+        IntrojucerApp::getApp().openDocumentManager.fileHasBeenRenamed (oldFile, newFile);
         return true;
     }
 

@@ -62,8 +62,7 @@ namespace CodeHelpers
         else
             s = s.replaceCharacters (".,;/@", "_____");
 
-        int i;
-        for (i = s.length(); --i > 0;)
+        for (int i = s.length(); --i > 0;)
             if (CharacterFunctions::isLetter (s[i])
                  && CharacterFunctions::isLetter (s[i - 1])
                  && CharacterFunctions::isUpperCase (s[i])
@@ -86,7 +85,7 @@ namespace CodeHelpers
         if (capitalise)
             n = n.toLowerCase();
 
-        for (i = 1; i < words.size(); ++i)
+        for (int i = 1; i < words.size(); ++i)
         {
             if (capitalise && words[i].length() > 1)
                 n << words[i].substring (0, 1).toUpperCase()
@@ -416,5 +415,64 @@ namespace CodeHelpers
 
         out << indent << "    default: break;" << newLine
             << indent << "}" << newLine << newLine;
+    }
+
+    String getLeadingWhitespace (String line)
+    {
+        line = line.removeCharacters ("\r\n");
+        const String::CharPointerType endOfLeadingWS (line.getCharPointer().findEndOfWhitespace());
+        return String (line.getCharPointer(), endOfLeadingWS);
+    }
+
+    int getBraceCount (String::CharPointerType line)
+    {
+        int braces = 0;
+
+        for (;;)
+        {
+            const juce_wchar c = line.getAndAdvance();
+
+            if (c == 0)                         break;
+            else if (c == '{')                  ++braces;
+            else if (c == '}')                  --braces;
+            else if (c == '/')                  { if (*line == '/') break; }
+            else if (c == '"' || c == '\'')     { while (! (line.isEmpty() || line.getAndAdvance() == c)) {} }
+        }
+
+        return braces;
+    }
+
+    bool getIndentForCurrentBlock (CodeDocument::Position pos, const String& tab,
+                                   String& blockIndent, String& lastLineIndent)
+    {
+        int braceCount = 0;
+        bool indentFound = false;
+
+        while (pos.getLineNumber() > 0)
+        {
+            pos = pos.movedByLines (-1);
+
+            const String line (pos.getLineText());
+            const String trimmedLine (line.trimStart());
+
+            braceCount += getBraceCount (trimmedLine.getCharPointer());
+
+            if (braceCount > 0)
+            {
+                blockIndent = getLeadingWhitespace (line);
+                if (! indentFound)
+                    lastLineIndent = blockIndent + tab;
+
+                return true;
+            }
+
+            if ((! indentFound) && trimmedLine.isNotEmpty())
+            {
+                indentFound = true;
+                lastLineIndent = getLeadingWhitespace (line);
+            }
+        }
+
+        return false;
     }
 }

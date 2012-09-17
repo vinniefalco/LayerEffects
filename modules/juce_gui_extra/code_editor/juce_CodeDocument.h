@@ -43,8 +43,7 @@ class CodeDocumentLine;
 class JUCE_API  CodeDocument
 {
 public:
-    /** Creates a new, empty document.
-    */
+    /** Creates a new, empty document. */
     CodeDocument();
 
     /** Destructor. */
@@ -223,12 +222,22 @@ public:
     */
     void insertText (int insertIndex, const String& text);
 
+    /** Replaces a section of the text with a new string.
+        This operation is undoable.
+    */
+    void replaceSection (int startIndex, int endIndex, const String& newText);
+
     /** Clears the document and replaces it with some new text.
 
         This operation is undoable - if you're trying to completely reset the document, you
         might want to also call clearUndoHistory() and setSavePoint() after using this method.
     */
     void replaceAllContent (const String& newContent);
+
+    /** Analyses the changes between the current content and some new text, and applies
+        those changes.
+    */
+    void applyChanges (const String& newContent);
 
     /** Replaces the editor's contents with the contents of a stream.
         This will also reset the undo history and save point marker.
@@ -300,9 +309,12 @@ public:
     //==============================================================================
     /** Searches for a word-break. */
     Position findWordBreakAfter (const Position& position) const noexcept;
-
     /** Searches for a word-break. */
     Position findWordBreakBefore (const Position& position) const noexcept;
+    /** Finds the token that contains the given position. */
+    void findTokenContaining (const Position& pos, Position& start, Position& end) const noexcept;
+    /** Finds the line that contains the given position. */
+    void findLineContaining  (const Position& pos, Position& start, Position& end) const noexcept;
 
     //==============================================================================
     /** An object that receives callbacks from the CodeDocument when its text changes.

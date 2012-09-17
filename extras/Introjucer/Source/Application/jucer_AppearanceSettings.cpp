@@ -187,7 +187,7 @@ StringArray AppearanceSettings::getColourNames() const
 void AppearanceSettings::updateColourScheme()
 {
     applyToLookAndFeel (LookAndFeel::getDefaultLookAndFeel());
-    JucerApplication::getApp().mainWindowList.sendLookAndFeelChange();
+    IntrojucerApp::getApp().mainWindowList.sendLookAndFeelChange();
 }
 
 void AppearanceSettings::applyToLookAndFeel (LookAndFeel& lf) const
@@ -206,7 +206,7 @@ void AppearanceSettings::applyToLookAndFeel (LookAndFeel& lf) const
     }
 
     lf.setColour (ScrollBar::thumbColourId,
-                  getScrollbarColourForBackground (lf.findColour (mainBackgroundColourId)));
+                  IntrojucerLookAndFeel::getScrollbarColourForBackground (lf.findColour (mainBackgroundColourId)));
 }
 
 void AppearanceSettings::applyToCodeEditor (CodeEditorComponent& editor) const
@@ -233,7 +233,7 @@ void AppearanceSettings::applyToCodeEditor (CodeEditorComponent& editor) const
     }
 
     editor.setColour (ScrollBar::thumbColourId,
-                      getScrollbarColourForBackground (editor.findColour (CodeEditorComponent::backgroundColourId)));
+                      IntrojucerLookAndFeel::getScrollbarColourForBackground (editor.findColour (CodeEditorComponent::backgroundColourId)));
 }
 
 Font AppearanceSettings::getCodeFont() const
@@ -276,11 +276,6 @@ bool AppearanceSettings::getColour (const String& name, Colour& result) const
     }
 
     return false;
-}
-
-Colour AppearanceSettings::getScrollbarColourForBackground (const Colour& background)
-{
-    return background.contrasting().withAlpha (0.13f);
 }
 
 //==============================================================================
@@ -358,8 +353,8 @@ struct AppearanceEditor
             rebuildProperties();
             addAndMakeVisible (&panel);
 
-            loadButton.setColour (TextButton::buttonColourId, Colours::darkgrey.withAlpha (0.5f));
-            saveButton.setColour (TextButton::buttonColourId, Colours::darkgrey.withAlpha (0.5f));
+            loadButton.setColour (TextButton::buttonColourId, Colours::lightgrey.withAlpha (0.5f));
+            saveButton.setColour (TextButton::buttonColourId, Colours::lightgrey.withAlpha (0.5f));
             loadButton.setColour (TextButton::textColourOffId, Colours::white);
             saveButton.setColour (TextButton::textColourOffId, Colours::white);
 
@@ -533,6 +528,15 @@ IntrojucerLookAndFeel::IntrojucerLookAndFeel()
 {
     setColour (mainBackgroundColourId, Colour::greyLevel (0.8f));
     setColour (treeviewHighlightColourId, Colour (0x401111ee));
+    setColour (TextButton::buttonColourId, Colour (0xffeeeeff));
+
+    setColour (ScrollBar::thumbColourId,
+               getScrollbarColourForBackground (findColour (mainBackgroundColourId)));
+}
+
+Colour IntrojucerLookAndFeel::getScrollbarColourForBackground (const Colour& background)
+{
+    return background.contrasting().withAlpha (0.13f);
 }
 
 Rectangle<int> IntrojucerLookAndFeel::getPropertyComponentContentPosition (PropertyComponent& component)
@@ -701,8 +705,8 @@ void IntrojucerLookAndFeel::drawConcertinaPanelHeader (Graphics& g, const Rectan
 {
     const Colour bkg (findColour (mainBackgroundColourId));
 
-    g.setGradientFill (ColourGradient (Colours::white.withAlpha (isMouseOver ? 0.4f : 0.2f), 0, area.getY(),
-                                       Colours::darkgrey.withAlpha (0.2f), 0, area.getBottom(), false));
+    g.setGradientFill (ColourGradient (Colours::white.withAlpha (isMouseOver ? 0.4f : 0.2f), 0, (float) area.getY(),
+                                       Colours::darkgrey.withAlpha (0.2f), 0, (float) area.getBottom(), false));
 
     g.fillAll();
     g.setColour (bkg.contrasting().withAlpha (0.04f));
@@ -712,4 +716,53 @@ void IntrojucerLookAndFeel::drawConcertinaPanelHeader (Graphics& g, const Rectan
     g.setColour (bkg.contrasting());
     g.setFont (Font (area.getHeight() * 0.6f).boldened());
     g.drawFittedText (panel.getName(), 4, 0, area.getWidth() - 6, area.getHeight(), Justification::centredLeft, 1);
+}
+
+void IntrojucerLookAndFeel::drawButtonBackground (Graphics& g,
+                                                  Button& button,
+                                                  const Colour& backgroundColour,
+                                                  bool isMouseOverButton,
+                                                  bool isButtonDown)
+{
+    const bool flatOnLeft   = button.isConnectedOnLeft();
+    const bool flatOnRight  = button.isConnectedOnRight();
+    const bool flatOnTop    = button.isConnectedOnTop();
+    const bool flatOnBottom = button.isConnectedOnBottom();
+
+    const float width  = (float) button.getWidth();
+    const float height = (float) button.getHeight();
+
+    const float x = 0.5f;
+    const float y = 0.5f;
+    const float w = width  - 1.0f;
+    const float h = height - 1.0f;
+    const float cornerSize = 4.0f;
+
+    Colour baseColour (backgroundColour.withMultipliedSaturation (button.hasKeyboardFocus (true)
+                                                                      ? 1.3f : 0.9f)
+                                       .withMultipliedAlpha (button.isEnabled() ? 0.9f : 0.5f));
+
+    if (isButtonDown)           baseColour = baseColour.contrasting (0.2f);
+    else if (isMouseOverButton) baseColour = baseColour.contrasting (0.1f);
+
+    const float mainBrightness = baseColour.getBrightness();
+    const float mainAlpha = baseColour.getFloatAlpha();
+
+    Path outline;
+    outline.addRoundedRectangle (x, y, w, h, cornerSize, cornerSize,
+                                 ! (flatOnLeft  || flatOnTop),
+                                 ! (flatOnRight || flatOnTop),
+                                 ! (flatOnLeft  || flatOnBottom),
+                                 ! (flatOnRight || flatOnBottom));
+
+    g.setGradientFill (ColourGradient (baseColour.brighter (0.2f), 0.0f, 0.0f,
+                                       baseColour.darker (0.25f), 0.0f, height, false));
+    g.fillPath (outline);
+
+    g.setColour (Colours::white.withAlpha (0.4f * mainAlpha * mainBrightness * mainBrightness));
+    g.strokePath (outline, PathStrokeType (1.0f), AffineTransform::translation (0.0f, 1.0f)
+                                                        .scaled (1.0f, (h - 1.6f) / h));
+
+    g.setColour (Colours::black.withAlpha (0.4f * mainAlpha));
+    g.strokePath (outline, PathStrokeType (1.0f));
 }

@@ -62,7 +62,7 @@ void SourceCodeDocument::reloadInternal()
 {
     jassert (codeDoc != nullptr);
     modDetector.updateHash();
-    codeDoc->replaceAllContent (modDetector.getFile().loadFileAsString());
+    codeDoc->applyChanges (modDetector.getFile().loadFileAsString());
     codeDoc->setSavePoint();
 }
 
@@ -115,7 +115,7 @@ SourceCodeEditor::~SourceCodeEditor()
 void SourceCodeEditor::createEditor (CodeDocument& codeDocument)
 {
     if (document->getFile().hasFileExtension (sourceOrHeaderFileExtensions))
-        setEditor (new CppCodeEditorComponent (codeDocument));
+        setEditor (new CppCodeEditorComponent (document->getFile(), codeDocument));
     else
         setEditor (new CodeEditorComponent (codeDocument, nullptr));
 }
@@ -131,16 +131,28 @@ void SourceCodeEditor::setEditor (CodeEditorComponent* newEditor)
     getAppSettings().appearance.settings.addListener (this);
 }
 
-void SourceCodeEditor::highlightLine (int lineNum, int characterIndex)
+void SourceCodeEditor::scrollToKeepRangeOnScreen (const Range<int>& range)
 {
-    if (lineNum <= editor->getFirstLineOnScreen()
-         || lineNum >= editor->getFirstLineOnScreen() + editor->getNumLinesOnScreen() - 1)
-    {
-        editor->scrollToLine (jmax (0, jmin (lineNum - editor->getNumLinesOnScreen() / 3,
-                                             editor->getDocument().getNumLines() - editor->getNumLinesOnScreen())));
-    }
+    const int space = jmin (10, editor->getNumLinesOnScreen() / 3);
+    const CodeDocument::Position start (editor->getDocument(), range.getStart());
+    const CodeDocument::Position end   (editor->getDocument(), range.getEnd());
 
-    editor->moveCaretTo (CodeDocument::Position (editor->getDocument(), lineNum - 1, characterIndex), false);
+    editor->scrollToKeepLinesOnScreen (Range<int> (start.getLineNumber() - space, end.getLineNumber() + space));
+}
+
+void SourceCodeEditor::highlight (const Range<int>& range, bool cursorAtStart)
+{
+    scrollToKeepRangeOnScreen (range);
+
+    if (cursorAtStart)
+    {
+        editor->moveCaretTo (CodeDocument::Position (editor->getDocument(), range.getEnd()),   false);
+        editor->moveCaretTo (CodeDocument::Position (editor->getDocument(), range.getStart()), true);
+    }
+    else
+    {
+        editor->setHighlightedRegion (range);
+    }
 }
 
 void SourceCodeEditor::resized()
@@ -159,65 +171,10 @@ void SourceCodeEditor::valueTreeRedirected (ValueTree&)                         
 
 
 //==============================================================================
-namespace CppUtils
-{
-    static CPlusPlusCodeTokeniser* getCppTokeniser()
-    {
-        static CPlusPlusCodeTokeniser cppTokeniser;
-        return &cppTokeniser;
-    }
+static CPlusPlusCodeTokeniser cppTokeniser;
 
-    static String getLeadingWhitespace (String line)
-    {
-        line = line.removeCharacters ("\r\n");
-        const String::CharPointerType endOfLeadingWS (line.getCharPointer().findEndOfWhitespace());
-        return String (line.getCharPointer(), endOfLeadingWS);
-    }
-
-    static int getBraceCount (String::CharPointerType line)
-    {
-        int braces = 0;
-
-        for (;;)
-        {
-            const juce_wchar c = line.getAndAdvance();
-
-            if (c == 0)                         break;
-            else if (c == '{')                  ++braces;
-            else if (c == '}')                  --braces;
-            else if (c == '/')                  { if (*line == '/') break; }
-            else if (c == '"' || c == '\'')     { while (! (line.isEmpty() || line.getAndAdvance() == c)) {} }
-        }
-
-        return braces;
-    }
-
-    static bool getIndentForCurrentBlock (CodeDocument::Position pos, String& whitespace)
-    {
-        int braceCount = 0;
-
-        while (pos.getLineNumber() > 0)
-        {
-            pos = pos.movedByLines (-1);
-
-            const String line (pos.getLineText());
-            const String trimmedLine (line.trimStart());
-
-            braceCount += getBraceCount (trimmedLine.getCharPointer());
-
-            if (braceCount > 0)
-            {
-                whitespace = getLeadingWhitespace (line);
-                return true;
-            }
-        }
-
-        return false;
-    }
-}
-
-CppCodeEditorComponent::CppCodeEditorComponent (CodeDocument& codeDocument)
-    : CodeEditorComponent (codeDocument, CppUtils::getCppTokeniser())
+CppCodeEditorComponent::CppCodeEditorComponent (const File& f, CodeDocument& codeDocument)
+    : CodeEditorComponent (codeDocument, &cppTokeniser), file (f)
 {
 }
 
@@ -227,34 +184,32 @@ void CppCodeEditorComponent::handleReturnKey()
 
     CodeDocument::Position pos (getCaretPos());
 
-    if (pos.getLineNumber() > 0 && pos.getLineText().trim().isEmpty())
+    String blockIndent, lastLineIndent;
+    CodeHelpers::getIndentForCurrentBlock (pos, getTabString (getTabSize()), blockIndent, lastLineIndent);
+
+    const String remainderOfBrokenLine (pos.getLineText());
+    const int numLeadingWSChars = CodeHelpers::getLeadingWhitespace (remainderOfBrokenLine).length();
+
+    if (numLeadingWSChars > 0)
+        getDocument().deleteSection (pos, pos.movedBy (numLeadingWSChars));
+
+    if (remainderOfBrokenLine.trimStart().startsWithChar ('}'))
+        insertTextAtCaret (blockIndent);
+    else
+        insertTextAtCaret (lastLineIndent);
+
+    const String previousLine (pos.movedByLines (-1).getLineText());
+    const String trimmedPreviousLine (previousLine.trim());
+
+    if ((trimmedPreviousLine.startsWith ("if ")
+          || trimmedPreviousLine.startsWith ("if(")
+          || trimmedPreviousLine.startsWith ("for ")
+          || trimmedPreviousLine.startsWith ("for(")
+          || trimmedPreviousLine.startsWith ("while(")
+          || trimmedPreviousLine.startsWith ("while "))
+         && trimmedPreviousLine.endsWithChar (')'))
     {
-        const String previousLine (pos.movedByLines (-1).getLineText());
-        const String trimmedPreviousLine (previousLine.trim());
-
-        if (trimmedPreviousLine.endsWithChar ('{')
-             || ((trimmedPreviousLine.startsWith ("if ")
-                  || trimmedPreviousLine.startsWith ("for ")
-                  || trimmedPreviousLine.startsWith ("while "))
-                  && trimmedPreviousLine.endsWithChar (')')))
-        {
-            const String leadingWhitespace (CppUtils::getLeadingWhitespace (previousLine));
-            insertTextAtCaret (leadingWhitespace);
-            insertTabAtCaret();
-        }
-        else
-        {
-            while (pos.getLineNumber() > 0)
-            {
-                pos = pos.movedByLines (-1);
-
-                if (pos.getLineText().trimStart().isNotEmpty())
-                {
-                    insertTextAtCaret (CppUtils::getLeadingWhitespace (pos.getLineText()));
-                    break;
-                }
-            }
-        }
+        insertTabAtCaret();
     }
 }
 
@@ -270,35 +225,39 @@ void CppCodeEditorComponent::insertTextAtCaret (const String& newText)
         {
             moveCaretToStartOfLine (true);
 
-            String whitespace;
-            if (CppUtils::getIndentForCurrentBlock (pos, whitespace))
+            String blockIndent, lastLineIndent;
+            if (CodeHelpers::getIndentForCurrentBlock (pos, getTabString (getTabSize()), blockIndent, lastLineIndent))
             {
-                CodeEditorComponent::insertTextAtCaret (whitespace);
+                CodeEditorComponent::insertTextAtCaret (blockIndent);
 
                 if (newText == "{")
                     insertTabAtCaret();
             }
         }
-        else if (newText == getDocument().getNewLineCharacters()
-                  && pos.getLineNumber() > 0)
-        {
-            const String remainderOfLine (pos.getLineText().substring (pos.getIndexInLine()));
-
-            if (remainderOfLine.startsWithChar ('{') || remainderOfLine.startsWithChar ('}'))
-            {
-                String whitespace;
-                if (CppUtils::getIndentForCurrentBlock (pos, whitespace))
-                {
-                    CodeEditorComponent::insertTextAtCaret (newText + whitespace);
-
-                    if (remainderOfLine.startsWithChar ('{'))
-                        insertTabAtCaret();
-
-                    return;
-                }
-            }
-        }
     }
 
     CodeEditorComponent::insertTextAtCaret (newText);
+}
+
+enum { showInFinderID = 0x2fe821e3 };
+
+void CppCodeEditorComponent::addPopupMenuItems (PopupMenu& menu, const MouseEvent* e)
+{
+    menu.addItem (showInFinderID,
+                 #if JUCE_MAC
+                  "Reveal " + file.getFileName() + " in Finder");
+                 #else
+                  "Reveal " + file.getFileName() + " in Explorer");
+                 #endif
+    menu.addSeparator();
+
+    CodeEditorComponent::addPopupMenuItems (menu, e);
+}
+
+void CppCodeEditorComponent::performPopupMenuAction (int menuItemID)
+{
+    if (menuItemID == showInFinderID)
+        file.revealToUser();
+    else
+        CodeEditorComponent::performPopupMenuAction (menuItemID);
 }

@@ -76,10 +76,10 @@ public:
         r.removeFromBottom (6);
 
         if (saveAndOpenButton.isVisible())
-            saveAndOpenButton.setBounds (r.removeFromBottom (28).reduced (20, 3));
+            saveAndOpenButton.setBounds (r.removeFromBottom (30).reduced (16, 4));
 
         if (openProjectButton.isVisible())
-            openProjectButton.setBounds (r.removeFromBottom (28).reduced (20, 3));
+            openProjectButton.setBounds (r.removeFromBottom (30).reduced (16, 4));
 
         tree.setBounds (r);
     }
@@ -122,12 +122,12 @@ ProjectContentComponent::ProjectContentComponent()
     treeViewTabs.setOutline (0);
     treeViewTabs.getTabbedButtonBar().setMinimumTabScaleFactor (0.3);
 
-    JucerApplication::getApp().openDocumentManager.addListener (this);
+    IntrojucerApp::getApp().openDocumentManager.addListener (this);
 }
 
 ProjectContentComponent::~ProjectContentComponent()
 {
-    JucerApplication::getApp().openDocumentManager.removeListener (this);
+    IntrojucerApp::getApp().openDocumentManager.removeListener (this);
 
     logo = nullptr;
     setProject (nullptr);
@@ -146,7 +146,7 @@ void ProjectContentComponent::paintOverChildren (Graphics& g)
     if (resizerBar != nullptr)
     {
         const int shadowSize = 15;
-        const int x = resizerBar->getRight();
+        const int x = resizerBar->getX();
 
         ColourGradient cg (Colours::black.withAlpha (0.25f), (float) x, 0,
                            Colours::transparentBlack,        (float) (x - shadowSize), 0, false);
@@ -166,7 +166,7 @@ void ProjectContentComponent::resized()
         treeViewTabs.setBounds (r.removeFromLeft (treeViewTabs.getWidth()));
 
     if (resizerBar != nullptr)
-        resizerBar->setBounds (r.removeFromLeft (4));
+        resizerBar->setBounds (r.withWidth (4));
 
     if (contentView != nullptr)
         contentView->setBounds (r);
@@ -195,55 +195,52 @@ void ProjectContentComponent::setProject (Project* newProject)
         contentView = nullptr;
         resizerBar = nullptr;
 
-        if (project != nullptr && treeViewTabs.isShowing())
-        {
-            PropertiesFile& settings = project->getStoredProperties();
-
-            if (treeViewTabs.getWidth() > 0)
-                settings.setValue ("projectPanelWidth", treeViewTabs.getWidth());
-
-            settings.setValue ("lastTab", treeViewTabs.getCurrentTabName());
-        }
-
-        treeViewTabs.clearTabs();
+        deleteProjectTabs();
         project = newProject;
-
-        if (project != nullptr)
-        {
-            addAndMakeVisible (&treeViewTabs);
-
-            createProjectTabs();
-
-            PropertiesFile& settings = project->getStoredProperties();
-
-            const String lastTabName (settings.getValue ("lastTab"));
-            int lastTabIndex = treeViewTabs.getTabNames().indexOf (lastTabName);
-
-            if (lastTabIndex < 0 || lastTabIndex > treeViewTabs.getNumTabs())
-                lastTabIndex = 1;
-
-            treeViewTabs.setCurrentTabIndex (lastTabIndex);
-
-            int lastTreeWidth = settings.getValue ("projectPanelWidth").getIntValue();
-            if (lastTreeWidth < 150)
-                lastTreeWidth = 240;
-
-            treeViewTabs.setBounds (0, 0, lastTreeWidth, getHeight());
-
-            addAndMakeVisible (resizerBar = new ResizableEdgeComponent (&treeViewTabs, &treeSizeConstrainer,
-                                                                        ResizableEdgeComponent::rightEdge));
-
-            project->addChangeListener (this);
-
-            updateMissingFileStatuses();
-        }
-        else
-        {
-            treeViewTabs.setVisible (false);
-        }
-
-        resized();
+        rebuildProjectTabs();
     }
+}
+
+void ProjectContentComponent::rebuildProjectTabs()
+{
+    deleteProjectTabs();
+
+    if (project != nullptr)
+    {
+        addAndMakeVisible (&treeViewTabs);
+
+        createProjectTabs();
+
+        PropertiesFile& settings = project->getStoredProperties();
+
+        const String lastTabName (settings.getValue ("lastTab"));
+        int lastTabIndex = treeViewTabs.getTabNames().indexOf (lastTabName);
+
+        if (lastTabIndex < 0 || lastTabIndex > treeViewTabs.getNumTabs())
+            lastTabIndex = 1;
+
+        treeViewTabs.setCurrentTabIndex (lastTabIndex);
+
+        int lastTreeWidth = settings.getValue ("projectPanelWidth").getIntValue();
+        if (lastTreeWidth < 150)
+            lastTreeWidth = 240;
+
+        treeViewTabs.setBounds (0, 0, lastTreeWidth, getHeight());
+
+        addAndMakeVisible (resizerBar = new ResizableEdgeComponent (&treeViewTabs, &treeSizeConstrainer,
+                                                                    ResizableEdgeComponent::rightEdge));
+        resizerBar->setAlwaysOnTop (true);
+
+        project->addChangeListener (this);
+
+        updateMissingFileStatuses();
+    }
+    else
+    {
+        treeViewTabs.setVisible (false);
+    }
+
+    resized();
 }
 
 void ProjectContentComponent::createProjectTabs()
@@ -253,6 +250,22 @@ void ProjectContentComponent::createProjectTabs()
 
     treeViewTabs.addTab ("Files",  tabColour, new FileTreeTab (*project), true);
     treeViewTabs.addTab ("Config", tabColour, new ConfigTreeTab (*project), true);
+}
+
+void ProjectContentComponent::deleteProjectTabs()
+{
+    if (project != nullptr && treeViewTabs.isShowing())
+    {
+        PropertiesFile& settings = project->getStoredProperties();
+
+        if (treeViewTabs.getWidth() > 0)
+            settings.setValue ("projectPanelWidth", treeViewTabs.getWidth());
+
+        if (treeViewTabs.getNumTabs() > 0)
+            settings.setValue ("lastTab", treeViewTabs.getCurrentTabName());
+    }
+
+    treeViewTabs.clearTabs();
 }
 
 TreeView* ProjectContentComponent::getFilesTreeView() const
@@ -324,7 +337,7 @@ void ProjectContentComponent::updateMissingFileStatuses()
 bool ProjectContentComponent::showEditorForFile (const File& f, bool grabFocus)
 {
     return getCurrentFile() == f
-            || showDocument (JucerApplication::getApp().openDocumentManager.openFile (project, f), grabFocus);
+            || showDocument (IntrojucerApp::getApp().openDocumentManager.openFile (project, f), grabFocus);
 }
 
 File ProjectContentComponent::getCurrentFile() const
@@ -405,7 +418,7 @@ bool ProjectContentComponent::setEditorComponent (Component* editor,
 void ProjectContentComponent::closeDocument()
 {
     if (currentDocument != nullptr)
-        JucerApplication::getApp().openDocumentManager.closeDocument (currentDocument, true);
+        IntrojucerApp::getApp().openDocumentManager.closeDocument (currentDocument, true);
     else if (contentView != nullptr)
         if (! goToPreviousFile())
             hideEditor();
@@ -434,6 +447,25 @@ bool ProjectContentComponent::goToNextFile()
     return showDocument (recentDocumentList.getNext(), true);
 }
 
+bool ProjectContentComponent::canGoToCounterpart() const
+{
+    return currentDocument != nullptr
+            && currentDocument->getCounterpartFile().exists();
+}
+
+bool ProjectContentComponent::goToCounterpart()
+{
+    if (currentDocument != nullptr)
+    {
+        const File file (currentDocument->getCounterpartFile());
+
+        if (file.exists())
+            return showEditorForFile (file, true);
+    }
+
+    return false;
+}
+
 bool ProjectContentComponent::saveProject()
 {
     return project != nullptr
@@ -452,10 +484,9 @@ void ProjectContentComponent::openInIDE()
 {
     if (project != nullptr)
     {
-        ScopedPointer <ProjectExporter> exporter (ProjectExporter::createPlatformDefaultExporter (*project));
-
-        if (exporter != nullptr)
-            exporter->launchProject();
+        for (Project::ExporterIterator exporter (*project); exporter.next();)
+            if (exporter->launchProject())
+                break;
     }
 }
 
@@ -503,6 +534,7 @@ void ProjectContentComponent::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::showConfigPanel,
                               CommandIDs::goToPreviousDoc,
                               CommandIDs::goToNextDoc,
+                              CommandIDs::goToCounterpart,
                               StandardApplicationCommandIDs::del };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -567,6 +599,16 @@ void ProjectContentComponent::getCommandInfo (const CommandID commandID, Applica
         result.defaultKeypresses.add (KeyPress (KeyPress::rightKey, ModifierKeys::commandModifier | ModifierKeys::ctrlModifier, 0));
        #else
         result.defaultKeypresses.add (KeyPress (KeyPress::rightKey, ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0));
+       #endif
+        break;
+
+    case CommandIDs::goToCounterpart:
+        result.setInfo ("Open corresponding header or cpp file", "Open counterpart file", CommandCategories::general, 0);
+        result.setActive (canGoToCounterpart());
+       #if JUCE_MAC
+        result.defaultKeypresses.add (KeyPress (KeyPress::upKey, ModifierKeys::commandModifier | ModifierKeys::ctrlModifier, 0));
+       #else
+        result.defaultKeypresses.add (KeyPress (KeyPress::upKey, ModifierKeys::ctrlModifier | ModifierKeys::shiftModifier, 0));
        #endif
         break;
 
@@ -640,6 +682,7 @@ bool ProjectContentComponent::perform (const InvocationInfo& info)
         case CommandIDs::closeDocument:
         case CommandIDs::goToPreviousDoc:
         case CommandIDs::goToNextDoc:
+        case CommandIDs::goToCounterpart:
         case CommandIDs::saveAndOpenInIDE:
             if (reinvokeCommandAfterCancellingModalComps (info))
             {
@@ -662,6 +705,7 @@ bool ProjectContentComponent::perform (const InvocationInfo& info)
         case CommandIDs::closeDocument:             closeDocument(); break;
         case CommandIDs::goToPreviousDoc:           goToPreviousFile(); break;
         case CommandIDs::goToNextDoc:               goToNextFile(); break;
+        case CommandIDs::goToCounterpart:           goToCounterpart(); break;
 
         case CommandIDs::showFilePanel:             treeViewTabs.setCurrentTabIndex (0); break;
         case CommandIDs::showConfigPanel:           treeViewTabs.setCurrentTabIndex (1); break;

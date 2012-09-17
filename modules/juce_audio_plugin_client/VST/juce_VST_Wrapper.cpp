@@ -460,15 +460,14 @@ public:
         const int numOut = numOutChans;
 
         AudioSampleBuffer temp (numIn, numSamples);
-        int i;
-        for (i = numIn; --i >= 0;)
+        for (int i = numIn; --i >= 0;)
             memcpy (temp.getSampleData (i), outputs[i], sizeof (float) * numSamples);
 
         processReplacing (inputs, outputs, numSamples);
 
         AudioSampleBuffer dest (outputs, numOut, numSamples);
 
-        for (i = jmin (numIn, numOut); --i >= 0;)
+        for (int i = jmin (numIn, numOut); --i >= 0;)
             dest.addFrom (i, 0, temp, i, 0, numSamples);
     }
 
@@ -682,6 +681,7 @@ public:
             info.timeSigDenominator = 4;
         }
 
+        info.timeInSamples = (int64) ti->samplePos;
         info.timeInSeconds = ti->samplePos / ti->sampleRate;
         info.ppqPosition = (ti->flags & kVstPpqPosValid) != 0 ? ti->ppqPos : 0.0;
         info.ppqPositionOfLastBarStart = (ti->flags & kVstBarsValid) != 0 ? ti->barStartPos : 0.0;
