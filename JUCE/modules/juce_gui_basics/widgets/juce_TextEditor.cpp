@@ -32,8 +32,8 @@ struct TextAtom
     int numChars;
 
     //==============================================================================
-    bool isWhitespace() const       { return CharacterFunctions::isWhitespace (atomText[0]); }
-    bool isNewLine() const          { return atomText[0] == '\r' || atomText[0] == '\n'; }
+    bool isWhitespace() const noexcept       { return CharacterFunctions::isWhitespace (atomText[0]); }
+    bool isNewLine() const noexcept          { return atomText[0] == '\r' || atomText[0] == '\n'; }
 
     String getText (const juce_wchar passwordCharacter) const
     {
@@ -60,20 +60,14 @@ struct TextAtom
 class TextEditor::UniformTextSection
 {
 public:
-    //==============================================================================
-    UniformTextSection (const String& text,
-                        const Font& font_,
-                        const Colour& colour_,
-                        const juce_wchar passwordCharacter)
-      : font (font_),
-        colour (colour_)
+    UniformTextSection (const String& text, const Font& f, const Colour& col, const juce_wchar passwordChar)
+        : font (f), colour (col)
     {
-        initialiseAtoms (text, passwordCharacter);
+        initialiseAtoms (text, passwordChar);
     }
 
     UniformTextSection (const UniformTextSection& other)
-      : font (other.font),
-        colour (other.colour)
+      : font (other.font), colour (other.colour)
     {
         atoms.ensureStorageAllocated (other.atoms.size());
 
@@ -81,10 +75,7 @@ public:
             atoms.add (new TextAtom (*other.atoms.getUnchecked(i)));
     }
 
-    ~UniformTextSection()
-    {
-        // (no need to delete the atoms, as they're explicitly deleted by the caller)
-    }
+    ~UniformTextSection() {}  // (no need to delete the atoms, as they're explicitly deleted by the caller)
 
     void clear()
     {
@@ -154,11 +145,10 @@ public:
 
             if (index == indexToBreakAt)
             {
-                int j;
-                for (j = i; j < atoms.size(); ++j)
+                for (int j = i; j < atoms.size(); ++j)
                     section2->atoms.add (getAtom (j));
 
-                for (j = atoms.size(); --j >= i;)
+                for (int j = atoms.size(); --j >= i;)
                     atoms.remove (j);
 
                 break;
@@ -177,11 +167,10 @@ public:
                 atom->width = font.getStringWidthFloat (atom->getText (passwordCharacter));
                 atom->numChars = (uint16) (indexToBreakAt - index);
 
-                int j;
-                for (j = i + 1; j < atoms.size(); ++j)
+                for (int j = i + 1; j < atoms.size(); ++j)
                     section2->atoms.add (getAtom (j));
 
-                for (j = atoms.size(); --j > i;)
+                for (int j = atoms.size(); --j > i;)
                     atoms.remove (j);
 
                 break;
@@ -321,10 +310,9 @@ private:
 class TextEditor::Iterator
 {
 public:
-    //==============================================================================
-    Iterator (const Array <UniformTextSection*>& sections_,
-              const float wordWrapWidth_,
-              const juce_wchar passwordCharacter_)
+    Iterator (const Array <UniformTextSection*>& sectionList,
+              const float wrapWidth,
+              const juce_wchar passwordChar)
       : indexInText (0),
         lineY (0),
         lineHeight (0),
@@ -333,13 +321,13 @@ public:
         atomRight (0),
         atom (0),
         currentSection (nullptr),
-        sections (sections_),
+        sections (sectionList),
         sectionIndex (0),
         atomIndex (0),
-        wordWrapWidth (wordWrapWidth_),
-        passwordCharacter (passwordCharacter_)
+        wordWrapWidth (wrapWidth),
+        passwordCharacter (passwordChar)
     {
-        jassert (wordWrapWidth_ > 0);
+        jassert (wordWrapWidth > 0);
 
         if (sections.size() > 0)
         {
@@ -689,7 +677,7 @@ public:
     }
 
     //==============================================================================
-    bool getCharPosition (const int index, float& cx, float& cy, float& lineHeight_)
+    bool getCharPosition (const int index, float& cx, float& cy, float& lineHeightFound)
     {
         while (next())
         {
@@ -697,14 +685,14 @@ public:
             {
                 cx = indexToX (index);
                 cy = lineY;
-                lineHeight_ = lineHeight;
+                lineHeightFound = lineHeight;
                 return true;
             }
         }
 
         cx = atomX;
         cy = lineY;
-        lineHeight_ = lineHeight;
+        lineHeightFound = lineHeight;
         return false;
     }
 
@@ -751,20 +739,20 @@ private:
 class TextEditor::InsertAction  : public UndoableAction
 {
 public:
-    InsertAction (TextEditor& owner_,
-                  const String& text_,
-                  const int insertIndex_,
-                  const Font& font_,
-                  const Colour& colour_,
-                  const int oldCaretPos_,
-                  const int newCaretPos_)
-        : owner (owner_),
-          text (text_),
-          insertIndex (insertIndex_),
-          oldCaretPos (oldCaretPos_),
-          newCaretPos (newCaretPos_),
-          font (font_),
-          colour (colour_)
+    InsertAction (TextEditor& ed,
+                  const String& newText,
+                  const int insertPos,
+                  const Font& newFont,
+                  const Colour& newColour,
+                  const int oldCaret,
+                  const int newCaret)
+        : owner (ed),
+          text (newText),
+          insertIndex (insertPos),
+          oldCaretPos (oldCaret),
+          newCaretPos (newCaret),
+          font (newFont),
+          colour (newColour)
     {
     }
 
@@ -799,16 +787,16 @@ private:
 class TextEditor::RemoveAction  : public UndoableAction
 {
 public:
-    RemoveAction (TextEditor& owner_,
-                  const Range<int> range_,
-                  const int oldCaretPos_,
-                  const int newCaretPos_,
-                  const Array <UniformTextSection*>& removedSections_)
-        : owner (owner_),
-          range (range_),
-          oldCaretPos (oldCaretPos_),
-          newCaretPos (newCaretPos_),
-          removedSections (removedSections_)
+    RemoveAction (TextEditor& ed,
+                  const Range<int> rangeToRemove,
+                  const int oldCaret,
+                  const int newCaret,
+                  const Array <UniformTextSection*>& oldSections)
+        : owner (ed),
+          range (rangeToRemove),
+          oldCaretPos (oldCaret),
+          newCaretPos (newCaret),
+          removedSections (oldSections)
     {
     }
 
@@ -816,9 +804,8 @@ public:
     {
         for (int i = removedSections.size(); --i >= 0;)
         {
-            UniformTextSection* const section = removedSections.getUnchecked (i);
+            ScopedPointer<UniformTextSection> section (removedSections.getUnchecked (i));
             section->clear();
-            delete section;
         }
     }
 
@@ -860,8 +847,7 @@ class TextEditor::TextHolderComponent  : public Component,
                                          private ValueListener
 {
 public:
-    TextHolderComponent (TextEditor& owner_)
-        : owner (owner_)
+    TextHolderComponent (TextEditor& ed)  : owner (ed)
     {
         setWantsKeyboardFocus (false);
         setInterceptsMouseClicks (false, true);
@@ -905,8 +891,8 @@ private:
 class TextEditorViewport  : public Viewport
 {
 public:
-    TextEditorViewport (TextEditor& owner_)
-        : owner (owner_), lastWordWrapWidth (0), rentrant (false)
+    TextEditorViewport (TextEditor& ed)
+        : owner (ed), lastWordWrapWidth (0), rentrant (false)
     {
     }
 
@@ -955,7 +941,7 @@ namespace TextEditorDefs
 
 //==============================================================================
 TextEditor::TextEditor (const String& name,
-                        const juce_wchar passwordCharacter_)
+                        const juce_wchar passwordChar)
     : Component (name),
       borderSize (1, 1, 1, 3),
       readOnly (false),
@@ -970,6 +956,7 @@ TextEditor::TextEditor (const String& name,
       tabKeyUsed (false),
       menuActive (false),
       valueTextNeedsUpdating (false),
+      consumeEscAndReturnKeys (true),
       maxTextLength (0),
       leftIndent (4),
       topIndent (4),
@@ -977,7 +964,7 @@ TextEditor::TextEditor (const String& name,
       currentFont (14.0f),
       totalNumChars (0),
       caretPosition (0),
-      passwordCharacter (passwordCharacter_),
+      passwordCharacter (passwordChar),
       dragType (notDragging)
 {
     setOpaque (true);
@@ -1566,16 +1553,15 @@ void TextEditor::moveCaretTo (const int newPosition,
     }
 }
 
-int TextEditor::getTextIndexAt (const int x,
-                                const int y)
+int TextEditor::getTextIndexAt (const int x, const int y)
 {
     return indexAtPosition ((float) (x + viewport->getViewPositionX() - leftIndent),
                             (float) (y + viewport->getViewPositionY() - topIndent));
 }
 
-void TextEditor::insertTextAtCaret (const String& newText_)
+void TextEditor::insertTextAtCaret (const String& t)
 {
-    String newText (newText_);
+    String newText (t);
 
     if (allowedCharacters.isNotEmpty())
         newText = newText.retainCharacters (allowedCharacters);
@@ -2062,6 +2048,11 @@ bool TextEditor::selectAll()
 }
 
 //==============================================================================
+void TextEditor::setEscapeAndReturnKeysConsumed (bool shouldBeConsumed) noexcept
+{
+    consumeEscAndReturnKeys = shouldBeConsumed;
+}
+
 bool TextEditor::keyPressed (const KeyPress& key)
 {
     if (isReadOnly() && key != KeyPress ('c', ModifierKeys::commandModifier, 0))
@@ -2076,13 +2067,17 @@ bool TextEditor::keyPressed (const KeyPress& key)
             if (returnKeyStartsNewLine)
                 insertTextAtCaret ("\n");
             else
+            {
                 returnPressed();
+                return consumeEscAndReturnKeys;
+            }
         }
         else if (key.isKeyCode (KeyPress::escapeKey))
         {
             newTransaction();
             moveCaretTo (getCaretPosition(), false);
             escapePressed();
+            return consumeEscAndReturnKeys;
         }
         else if (key.getTextCharacter() >= ' '
                   || (tabKeyUsed && (key.getTextCharacter() == '\t')))
@@ -2109,6 +2104,11 @@ bool TextEditor::keyStateChanged (const bool isKeyDown)
     if (KeyPress (KeyPress::F4Key, ModifierKeys::altModifier, 0).isCurrentlyDown())
         return false;  // We need to explicitly allow alt-F4 to pass through on Windows
    #endif
+
+    if ((! consumeEscAndReturnKeys)
+         && (KeyPress (KeyPress::escapeKey).isCurrentlyDown()
+          || KeyPress (KeyPress::returnKey).isCurrentlyDown()))
+        return false;
 
     // (overridden to avoid forwarding key events to the parent)
     return ! ModifierKeys::getCurrentModifiers().isCommandDown();
@@ -2213,7 +2213,7 @@ void TextEditor::setTemporaryUnderlining (const Array <Range<int> >& newUnderlin
 //==============================================================================
 UndoManager* TextEditor::getUndoManager() noexcept
 {
-    return isReadOnly() ? 0 : &undoManager;
+    return readOnly ? nullptr : &undoManager;
 }
 
 void TextEditor::clearInternal (UndoManager* const um)
@@ -2252,17 +2252,13 @@ void TextEditor::insert (const String& text,
 
                 if (insertIndex == index)
                 {
-                    sections.insert (i, new UniformTextSection (text,
-                                                                font, colour,
-                                                                passwordCharacter));
+                    sections.insert (i, new UniformTextSection (text, font, colour, passwordCharacter));
                     break;
                 }
                 else if (insertIndex > index && insertIndex < nextIndex)
                 {
                     splitSection (i, insertIndex - index);
-                    sections.insert (i + 1, new UniformTextSection (text,
-                                                                    font, colour,
-                                                                    passwordCharacter));
+                    sections.insert (i + 1, new UniformTextSection (text, font, colour, passwordCharacter));
                     break;
                 }
 
@@ -2270,9 +2266,7 @@ void TextEditor::insert (const String& text,
             }
 
             if (nextIndex == insertIndex)
-                sections.add (new UniformTextSection (text,
-                                                      font, colour,
-                                                      passwordCharacter));
+                sections.add (new UniformTextSection (text, font, colour, passwordCharacter));
 
             coalesceSimilarSections();
             totalNumChars = -1;

@@ -65,16 +65,24 @@ void AudioProcessor::removeListener (AudioProcessorListener* const listenerToRem
     listeners.removeFirstMatchingValue (listenerToRemove);
 }
 
-void AudioProcessor::setPlayConfigDetails (const int numIns,
-                                           const int numOuts,
-                                           const double sampleRate_,
-                                           const int blockSize_) noexcept
+void AudioProcessor::setPlayConfigDetails (const int newNumIns,
+                                           const int newNumOuts,
+                                           const double newSampleRate,
+                                           const int newBlockSize) noexcept
 {
-    numInputChannels = numIns;
-    numOutputChannels = numOuts;
-    sampleRate = sampleRate_;
-    blockSize = blockSize_;
+    sampleRate = newSampleRate;
+    blockSize  = newBlockSize;
+
+    if (numInputChannels != newNumIns || numOutputChannels != newNumOuts)
+    {
+        numInputChannels  = newNumIns;
+        numOutputChannels = newNumOuts;
+
+        numChannelsChanged();
+    }
 }
+
+void AudioProcessor::numChannelsChanged() {}
 
 void AudioProcessor::setSpeakerArrangement (const String& inputs, const String& outputs)
 {
@@ -82,9 +90,9 @@ void AudioProcessor::setSpeakerArrangement (const String& inputs, const String& 
     outputSpeakerArrangement = outputs;
 }
 
-void AudioProcessor::setNonRealtime (const bool nonRealtime_) noexcept
+void AudioProcessor::setNonRealtime (const bool newNonRealtime) noexcept
 {
-    nonRealtime = nonRealtime_;
+    nonRealtime = newNonRealtime;
 }
 
 void AudioProcessor::setLatencySamples (const int newLatency)
@@ -291,7 +299,7 @@ void AudioProcessorListener::audioProcessorParameterChangeGestureEnd (AudioProce
 //==============================================================================
 bool AudioPlayHead::CurrentPositionInfo::operator== (const CurrentPositionInfo& other) const noexcept
 {
-    return timeInSeconds == other.timeInSeconds
+    return timeInSamples == other.timeInSamples
         && ppqPosition == other.ppqPosition
         && editOriginTime == other.editOriginTime
         && ppqPositionOfLastBarStart == other.ppqPositionOfLastBarStart

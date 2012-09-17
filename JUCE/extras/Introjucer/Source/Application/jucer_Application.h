@@ -34,12 +34,12 @@
 
 
 //==============================================================================
-class JucerApplication   : public JUCEApplication
+class IntrojucerApp   : public JUCEApplication
 {
 public:
     //==============================================================================
-    JucerApplication() {}
-    ~JucerApplication() {}
+    IntrojucerApp() {}
+    ~IntrojucerApp() {}
 
     //==============================================================================
     void initialise (const String& commandLine)
@@ -115,14 +115,20 @@ public:
     //==============================================================================
     void systemRequestedQuit()
     {
+        if ((! triggerAsyncQuitIfModalCompsActive())
+             && mainWindowList.askAllWindowsToClose())
+            quit();
+    }
+
+    bool triggerAsyncQuitIfModalCompsActive()
+    {
         if (cancelAnyModalComponents())
         {
             new AsyncQuitRetrier();
-            return;
+            return true;
         }
 
-        if (mainWindowList.askAllWindowsToClose())
-            quit();
+        return false;
     }
 
     //==============================================================================
@@ -146,9 +152,9 @@ public:
         openFile (commandLine.unquoted());
     }
 
-    static JucerApplication& getApp()
+    static IntrojucerApp& getApp()
     {
-        JucerApplication* const app = dynamic_cast<JucerApplication*> (JUCEApplication::getInstance());
+        IntrojucerApp* const app = dynamic_cast<IntrojucerApp*> (JUCEApplication::getInstance());
         jassert (app != nullptr);
         return *app;
     }
@@ -297,6 +303,7 @@ public:
 
         menu.addCommandItem (commandManager, CommandIDs::goToPreviousDoc);
         menu.addCommandItem (commandManager, CommandIDs::goToNextDoc);
+        menu.addCommandItem (commandManager, CommandIDs::goToCounterpart);
         menu.addSeparator();
 
         const int numDocs = jmin (50, getApp().openDocumentManager.getNumOpenDocuments());
@@ -304,7 +311,6 @@ public:
         for (int i = 0; i < numDocs; ++i)
         {
             OpenDocumentManager::Document* doc = getApp().openDocumentManager.getOpenDocument(i);
-
             menu.addItem (activeDocumentsBaseID + i, doc->getName());
         }
 
@@ -415,6 +421,8 @@ public:
             mainWindowList.avoidSuperimposedWindows (mw);
         }
     }
+
+    virtual void updateNewlyOpenedProject (Project&) {}
 
     void askUserToOpenFile()
     {
