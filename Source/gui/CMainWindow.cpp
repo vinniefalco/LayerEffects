@@ -38,6 +38,9 @@ CMainWindow::CMainWindow ()
 {
   setLookAndFeel (&m_lookAndFeel);
 
+  // This must come early before JUCE tries to draw
+  getPeer()->setCurrentRenderingEngine (0); // force software renderer
+
   setResizable (true, false);
 
   CMainPanel* mainPanel = new CMainPanel;
@@ -51,6 +54,7 @@ CMainWindow::CMainWindow ()
   setVisible (true);
 
   mainPanel->setAsConstrainerFor (this);
+  
 }
 
 CMainWindow::~CMainWindow()
