@@ -69,7 +69,8 @@ struct GradientOverlayStyle
 
   struct RenderDebug
   {
-    explicit RenderDebug (Pixels dest) : m_dest (dest)
+    explicit RenderDebug (Pixels dest, SharedTable <Colour>)
+      : m_dest (dest)
     {
     }
 
@@ -90,21 +91,23 @@ struct GradientOverlayStyle
 
   struct Render
   {
-    explicit Render (Pixels dest) : m_dest (dest)
+    explicit Render (Pixels dest, SharedTable <Colour> table)
+      : m_dest (dest)
+      , m_table (table)
     {
     }
 
     template <class T>
     inline void operator() (int const x, int const y, T const t) const noexcept
     {
-      PixelARGB& dest (*((PixelARGB*)m_dest.getPixelPointer (x, y)));
-      dest.getRed ()    = uint8 (t);
-      dest.getGreen ()  = uint8 (t);
-      dest.getBlue ()   = uint8 (t);
+      PixelRGB& dest (*((PixelRGB*)m_dest.getPixelPointer (x, y)));
+
+      dest.blend (m_table [int (t)].getPixelARGB ());
     }
 
   private:
     Pixels m_dest;
+    SharedTable <Colour> m_table;
   };
 
   //----------------------------------------------------------------------------

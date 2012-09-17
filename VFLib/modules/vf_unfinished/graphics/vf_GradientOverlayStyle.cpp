@@ -32,7 +32,7 @@
 
 void GradientOverlayStyle::operator () (Pixels destPixels)
 {
-//  jassert (destPixels.isARGB ());
+  jassert (destPixels.isRGB ());
 
   if (!active)
     return;
@@ -65,8 +65,8 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
       destPixels.getRows (),
       destPixels.getCols (),
       p0.getX(), p0.getY(), p1.getX(), p1.getY (),
-      255,
-      Render (destPixels));
+      table.getNumEntries () - 1,
+      Render (destPixels, table));
     }
     break;
 
@@ -76,8 +76,8 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
       destPixels.getRows (),
       destPixels.getCols (),
       p0.getX(), p0.getY(), p1.getX(), p1.getY (),
-      255,
-      Render (destPixels));
+      table.getNumEntries () - 1,
+      Render (destPixels, table));
     //jassertfalse;
     break;
 
