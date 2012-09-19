@@ -71,7 +71,11 @@ LayerGraphicsBase::LayerGraphicsBase (
 
   jassert (m_base.getBounds ().contains (workBounds));
 
-  m_work = Image (Image::RGB, workBounds.getWidth (), workBounds.getHeight(), false);
+  m_work = Image (Image::RGB,
+                  workBounds.getWidth (),
+                  workBounds.getHeight(),
+                  false,
+                  SoftwareImageType ());
 
   m_workOrigin = workBounds.getTopLeft ();
 

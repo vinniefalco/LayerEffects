@@ -111,6 +111,7 @@ void copyImage (Image dest,
     };
     break;
 
+  case Image::ARGB: // HACK! For Mac OS
   case Image::RGB:
     switch (source.getFormat ())
     {
