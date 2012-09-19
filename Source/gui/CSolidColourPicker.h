@@ -40,6 +40,7 @@ class CSolidColourPicker : public Component
 public:
   struct Listener
   {
+    virtual ~Listener () { }
     virtual void onSolidColourChanged (CSolidColourPicker* picker) { }
   };
 

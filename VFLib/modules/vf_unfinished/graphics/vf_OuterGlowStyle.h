@@ -145,9 +145,9 @@ struct OuterGlowStyle
       , m_table (colourTable)
       , m_alpha (uint8 (255 * opacity + 0.5))
       , m_spread (int (spread * size + 0.5))
-      , m_fadeStart (int((.76 * m_size + 0.5)))
-      , m_fadeWidth (m_size - m_fadeStart)
       , m_size (size + 1)
+      , m_fadeStart (int((.76 * size + 1 + 0.5)))
+      , m_fadeWidth (size + 1 - m_fadeStart)
     {
       jassert (dest.isRGB ());
     }

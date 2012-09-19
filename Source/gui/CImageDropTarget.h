@@ -42,6 +42,7 @@ class CImageDropTarget
 public:
   struct Listener
   {
+    virtual ~Listener () { }
     virtual void onImageDropTargetDrop (int id, Image image) = 0;
   };
 

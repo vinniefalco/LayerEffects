@@ -51,6 +51,7 @@ struct Options
 
   struct Listener
   {
+    virtual ~Listener () { }
     virtual void onOptionsGeneral         (General options) { }
     virtual void onOptionsFill            (Fill options) { }
     virtual void onOptionsDropShadow      (DropShadow options) { }
