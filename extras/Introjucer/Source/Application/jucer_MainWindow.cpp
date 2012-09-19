@@ -71,6 +71,8 @@ MainWindow::MainWindow()
 
     //getPeer()->setCurrentRenderingEngine (0);
     getLookAndFeel().setColour (ColourSelector::backgroundColourId, Colours::transparentBlack);
+
+    setResizeLimits (600, 500, 32000, 32000);
 }
 
 MainWindow::~MainWindow()
@@ -259,7 +261,7 @@ void MainWindow::showNewProjectWizard()
 //==============================================================================
 ApplicationCommandTarget* MainWindow::getNextCommandTarget()
 {
-    return 0;
+    return nullptr;
 }
 
 void MainWindow::getAllCommands (Array <CommandID>& commands)

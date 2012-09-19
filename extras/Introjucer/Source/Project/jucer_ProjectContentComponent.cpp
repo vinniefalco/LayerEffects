@@ -535,7 +535,7 @@ void ProjectContentComponent::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::goToPreviousDoc,
                               CommandIDs::goToNextDoc,
                               CommandIDs::goToCounterpart,
-                              StandardApplicationCommandIDs::del };
+                              CommandIDs::deleteSelectedItem };
 
     commands.addArray (ids, numElementsInArray (ids));
 }
@@ -636,7 +636,7 @@ void ProjectContentComponent::getCommandInfo (const CommandID commandID, Applica
                         "Saves the project and launches it in an external IDE",
                         CommandCategories::general, 0);
         result.setActive (ProjectExporter::canProjectBeLaunched (project));
-        result.defaultKeypresses.add (KeyPress ('l', ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add (KeyPress ('l', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
 
     case CommandIDs::showFilePanel:
@@ -655,7 +655,7 @@ void ProjectContentComponent::getCommandInfo (const CommandID commandID, Applica
         result.defaultKeypresses.add (KeyPress ('i', ModifierKeys::commandModifier, 0));
         break;
 
-    case StandardApplicationCommandIDs::del:
+    case CommandIDs::deleteSelectedItem:
         result.setInfo ("Delete Selected File", String::empty, CommandCategories::general, 0);
         result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
         result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
@@ -712,7 +712,7 @@ bool ProjectContentComponent::perform (const InvocationInfo& info)
 
         case CommandIDs::openInIDE:                 openInIDE(); break;
 
-        case StandardApplicationCommandIDs::del:    deleteSelectedTreeItems(); break;
+        case CommandIDs::deleteSelectedItem:        deleteSelectedTreeItems(); break;
 
         case CommandIDs::saveAndOpenInIDE:
             if (saveProject())
