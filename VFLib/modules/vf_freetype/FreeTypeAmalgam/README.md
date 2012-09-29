@@ -1,4 +1,4 @@
-# FreeType Amalgamation
+# FreeType 2.4.10 Amalgamation
 
 A distribution of the [FreeType][1] library in amalgamated source code form.
 
@@ -23,7 +23,7 @@ many other products as well.
 Add FreeTypeAmalgam.c to your existing project, include FreeTypeAmalgam.h
 in the source files where you want to use FreeType, and that's it!
 
-The [FreeType Amalgmation][4] was built using the [JUCE Amalgamation Template][3].
+The [FreeType Amalgmation][4] was built using the [Amalgamate Templates][3].
 
 ## License
 
@@ -32,5 +32,5 @@ FreeType is distributed under a dual license, see the file LICENSE.txt for detai
 
 [1]: http://www.freetype.org "The FreeType Library"
 [2]: http://rawmaterialsoftware.com/jucelicense.php "JUCE Commercial Licensing"
-[3]: https://github.com/vinniefalco/FreeTypeAmalgamTemplate/ "FreeType Amalgamation Template"
+[3]: https://github.com/vinniefalco/Amalgams/ "Amalgamate Templates"
 [4]: https://github.com/vinniefalco/FreeTypeAmalgam/ "FreeType Amalgamation"

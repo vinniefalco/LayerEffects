@@ -1,3 +1,17 @@
+320613eeb83d0cd704de3e6adfb13dce787861bb 2012-06-15 * Version 2.4.10 released. ==========================
+cea9d7a6820bf7cca8d79d813908ce085a3d3d5d 2012-06-15 * src/base/ftsynth.c (FT_GlyphSlot_Embolden): Improve spacing.
+a03cb019aa1d0c73c4be9a4e79f5f21c89ca6a44 2012-06-14 * builds/exports.mk: Add CCexe_CFLAGS and CCexe_LDFLAGS.
+2d67e9b5556f34111ed5fbd3894c482099d16df3 2012-06-14 * docs/CHANGES: Updated.
+6c7c3de197be9bf8352d2a744f2ddda5d6b4403b 2012-06-14 [truetype] Add new versions of NEC FA family to tricky font list.
+fc61b5f211c76ce320a44a1b3e873b977103bc63 2012-06-12 Fix Savannah bug #36634.
+495bd3cc4f54f5f4604709391a716fcd0c033277 2012-06-06 [ftraster] Fix rounding issue causing visual artifacts.
+5715ff4606edf5813bdff38a47a5d4922a8c324a 2012-05-29 configure.raw: Doc improvement.
+2bdd0949762acea68b4335f7c73ae14c5a34a2cc 2012-05-28 * src/base/ftoutln.c (FT_Outline_Get_Orientation): Simplify.
+aa6895c1769afeb8855b0fa664b2e09cf0e72dd8 2012-05-28 * docs/CHANGES: Updated.
+f875fc71179b1e742d6f782b8c99b0cc031c9467 2012-05-28 New function FT_Outline_EmboldenXY.
+8be5d3ac0d220870e78ed4e635dc38cd3b17c569 2012-05-24 Improve documentation w.r.t. stroking and advance widths.
+8dc17bb47b205f08bd3020ed93793d04db02627a 2012-05-07 [type1] Fix Savannah bug #36386.
+448d128ec5821ec8147d58950860de0d70d0f42f 2012-04-24 Document that the auto-hinter needs a valid cmap.
 447f0773ee0b45a88c75ea825a5b2da0a99bebd8 2012-04-07 Minor documentation improvement.
 9c6d1ac39c417dcd0e0c7389e9afd09f5104bc0a 2012-04-07 Remove compiler warning.
 8be32d2f4a8f731c2b62ac9cbe68df999499a13c 2012-03-28 [autofit] Properly copy scaler flags to script metrics object.

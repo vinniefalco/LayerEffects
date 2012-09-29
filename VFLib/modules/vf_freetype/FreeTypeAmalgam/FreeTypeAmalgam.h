@@ -5262,6 +5262,10 @@ FT_BEGIN_HEADER
   /*    If not disabled with @FT_LOAD_NO_HINTING, the values represent     */
   /*    dimensions of the hinted glyph (in case hinting is applicable).    */
   /*                                                                       */
+  /*    Stroking a glyph with an outside border does not increase          */
+  /*    `horiAdvance' or `vertAdvance'; you have to manually adjust these  */
+  /*    values to account for the added width and height.                  */
+  /*                                                                       */
   typedef struct  FT_Glyph_Metrics_
   {
 	FT_Pos  width;
@@ -7473,6 +7477,13 @@ FT_BEGIN_HEADER
    *   Besides deciding which hinter to use, you can also decide which
    *   hinting algorithm to use.  See @FT_LOAD_TARGET_XXX for details.
    *
+   *   Note that the auto-hinter needs a valid Unicode cmap (either a native
+   *   one or synthesized by FreeType) for producing correct results.  If a
+   *   font provides an incorrect mapping (for example, assigning the
+   *   character code U+005A, LATIN CAPITAL LETTER Z, to a glyph depicting a
+   *   mathematical integral sign), the auto-hinter might produce useless
+   *   results.
+   *
    */
 #define FT_LOAD_DEFAULT                      0x0
 #define FT_LOAD_NO_SCALE                     ( 1L << 0 )
@@ -8030,9 +8041,15 @@ FT_BEGIN_HEADER
   /* <Note>                                                                */
   /*    If you use FreeType to manipulate the contents of font files       */
   /*    directly, be aware that the glyph index returned by this function  */
-  /*    doesn't always correspond to the internal indices used within      */
-  /*    the file.  This is done to ensure that value~0 always corresponds  */
-  /*    to the `missing glyph'.                                            */
+  /*    doesn't always correspond to the internal indices used within the  */
+  /*    file.  This is done to ensure that value~0 always corresponds to   */
+  /*    the `missing glyph'.  If the first glyph is not named `.notdef',   */
+  /*    then for Type~1 and Type~42 fonts, `.notdef' will be moved into    */
+  /*    the glyph ID~0 position, and whatever was there will be moved to   */
+  /*    the position `.notdef' had.  For Type~1 fonts, if there is no      */
+  /*    `.notdef' glyph at all, then one will be created at index~0 and    */
+  /*    whatever was there will be moved to the last index -- Type~42      */
+  /*    fonts are considered invalid under this condition.                 */
   /*                                                                       */
   FT_EXPORT( FT_UInt )
   FT_Get_Char_Index( FT_Face   face,
@@ -8760,7 +8777,7 @@ FT_BEGIN_HEADER
    */
 #define FREETYPE_MAJOR  2
 #define FREETYPE_MINOR  4
-#define FREETYPE_PATCH  9
+#define FREETYPE_PATCH  10
 
   /*************************************************************************/
   /*                                                                       */
@@ -9647,6 +9664,7 @@ FT_BEGIN_HEADER
   /*    FT_Outline_Translate                                               */
   /*    FT_Outline_Transform                                               */
   /*    FT_Outline_Embolden                                                */
+  /*    FT_Outline_EmboldenXY                                              */
   /*    FT_Outline_Reverse                                                 */
   /*    FT_Outline_Check                                                   */
   /*                                                                       */
@@ -9925,6 +9943,22 @@ FT_BEGIN_HEADER
   FT_EXPORT( FT_Error )
   FT_Outline_Embolden( FT_Outline*  outline,
 					   FT_Pos       strength );
+
+  /*************************************************************************/
+  /*                                                                       */
+  /* <Function>                                                            */
+  /*    FT_Outline_EmboldenXY                                              */
+  /*                                                                       */
+  /* <Description>                                                         */
+  /*    Embolden an outline.  The new outline will be `xstrength' pixels   */
+  /*    wider and `ystrength' pixels higher.  Otherwise, it is similar to  */
+  /*    @FT_Outline_Embolden, which uses the same strength in both         */
+  /*    directions.                                                        */
+  /*                                                                       */
+  FT_EXPORT( FT_Error )
+  FT_Outline_EmboldenXY( FT_Outline*  outline,
+						 FT_Pos       xstrength,
+						 FT_Pos       ystrength );
 
   /*************************************************************************/
   /*                                                                       */
