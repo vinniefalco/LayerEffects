@@ -32,7 +32,7 @@
 
 void GradientOverlayStyle::operator () (Pixels destPixels)
 {
-//  jassert (destPixels.isARGB ());
+  jassert (destPixels.isRGB ());
 
   if (!active)
     return;
@@ -44,14 +44,41 @@ void GradientOverlayStyle::operator () (Pixels destPixels)
   else
     table = colours.withMultipliedAlpha (float (opacity)).createLookupTable ();
 
+#if 1
+  Point <int> p0 (int (destPixels.getWidth () * .4), int (destPixels.getHeight () * .4));
+  Point <int> p1 (int (destPixels.getWidth () * .5), int (destPixels.getHeight () * .55));
+#else
+  Point <int> p0 (0, 0);
+  Point <int> p1 (200, 40);
+#endif
+
+  if (reverse)
+  {
+    std::swap (p0, p1);
+  }
+
   switch (kind)
   {
   case kindLinear:
-    jassertfalse;
+    {
+    Linear() (
+      destPixels.getRows (),
+      destPixels.getCols (),
+      p0.getX(), p0.getY(), p1.getX(), p1.getY (),
+      table.getNumEntries () - 1,
+      Render (destPixels, table));
+    }
     break;
 
   case kindRadial:
-    jassertfalse;
+    // TEMPORARY, for testing purposes
+    LinearFloat() (
+      destPixels.getRows (),
+      destPixels.getCols (),
+      p0.getX(), p0.getY(), p1.getX(), p1.getY (),
+      table.getNumEntries () - 1,
+      Render (destPixels, table));
+    //jassertfalse;
     break;
 
   case kindAngle:

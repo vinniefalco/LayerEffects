@@ -55,6 +55,8 @@ protected:
   public:
     CounterBase ();
 
+    virtual ~CounterBase () { }
+  
     static void detectAllLeaks ();
 
   private:

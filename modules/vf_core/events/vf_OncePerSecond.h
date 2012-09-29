@@ -65,9 +65,7 @@ private:
   class TimerSingleton;
   typedef ReferenceCountedObjectPtr <TimerSingleton> TimerPtr;
 
-  struct Elem;
-  typedef List <Elem> List;
-  struct Elem : List::Node
+  struct Elem : List <Elem>::Node
   {
     TimerPtr instance;
     OncePerSecond* object;

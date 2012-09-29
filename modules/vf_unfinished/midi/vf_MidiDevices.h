@@ -75,6 +75,8 @@ public:
 public:
   struct Listener
   {
+    virtual ~Listener () { }
+    
     /**
       Called when the connection status of a device changes.
     */

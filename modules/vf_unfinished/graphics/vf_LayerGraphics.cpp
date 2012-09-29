@@ -71,7 +71,11 @@ LayerGraphicsBase::LayerGraphicsBase (
 
   jassert (m_base.getBounds ().contains (workBounds));
 
-  m_work = Image (Image::RGB, workBounds.getWidth (), workBounds.getHeight(), false);
+  m_work = Image (Image::RGB,
+                  workBounds.getWidth (),
+                  workBounds.getHeight(),
+                  false,
+                  SoftwareImageType ());
 
   m_workOrigin = workBounds.getTopLeft ();
 
@@ -126,7 +130,7 @@ LayerGraphics::~LayerGraphics ()
 
   m_options.innerShadow (fillPixels, maskPixels);
 
-  m_options.dropShadow (workPixels, maskPixels);
+  m_options.dropShadow (m_work, maskImage);
 
   if (m_options.general.groupInteriorEffects)
   {

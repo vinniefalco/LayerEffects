@@ -30,30 +30,18 @@
 */
 /*============================================================================*/
 
-#ifndef VF_DROPSHADOWSTYLE_VFHEADER
-#define VF_DROPSHADOWSTYLE_VFHEADER
+#ifndef VF_PATTERNFILL_VFHEADER
+#define VF_PATTERNFILL_VFHEADER
 
-/** Provides the Drop Shadow layer style.
+/** Specifies the parameters for drawing a pattern fill.
 
     @ingroup vf_gui
 */
-struct DropShadowStyle
+struct PatternFill
 {
-  bool            active;
-  BlendMode::Type mode;
-  Colour          colour;
-  double          opacity;    // [0, 1]
-  double          angle;
-  int             distance;
-  double          spread;     // [0, 1]
-  int             size;       // [0, 250]
-  bool            knockout;
-
-  DropShadowStyle () : active (false)
-  {
-  }
-
-  void operator() (Image destImage, Image maskImage);
+  Image image;              // [0.01 ... 10]
+  double scale;             // [0.1 ... 1.5]
+  Point <int> origin;       
 };
 
 #endif

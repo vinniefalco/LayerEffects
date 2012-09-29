@@ -308,9 +308,10 @@
 # endif
 #elif JUCE_MAC
 # include <tr1/functional>
+#elif JUCE_LINUX
+# include <tr1/functional>
 #else
-# include <bind>
-# include <functional>
+# error Unnkown platform!
 #endif
 
 #include <algorithm>

@@ -30,172 +30,116 @@
 */
 /*============================================================================*/
 
-struct DistanceMaskOutside
-{
-  explicit DistanceMaskOutside (Pixels mask) : m_mask (mask)
-  {
-  }
-
-  int operator() (int x, int y) const noexcept
-  {
-    return 255 - *m_mask.getPixelPointer (x, y);
-  }
-
-public:
-  Pixels m_mask;
-};
-
-struct DistanceMaskInside
-{
-  explicit DistanceMaskInside (Pixels mask) : m_mask (mask)
-  {
-  }
-
-  int operator() (int x, int y) const noexcept
-  {
-    return *m_mask.getPixelPointer (x, y);
-  }
-
-public:
-  Pixels m_mask;
-};
-
-//------------------------------------------------------------------------------
-
-struct RenderStroke
-{
-  RenderStroke (Pixels::Map2D dest, Colour colour, int radius)
-    : m_dest (dest)
-    , m_src (colour.getPixelARGB ())
-    , m_radius (radius)
-    , m_radiusSquared (radius * radius)
-    , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
-  {
-  }
-
-  void operator() (int x, int y, double distance)
-  {
-    PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
-
-    if (distance > 0)
-    {
-      if (distance <= m_radiusMinusOneSquared)
-      {
-        dest.blend (m_src);
-      }
-      else if (distance < m_radiusSquared)
-      {
-        distance = sqrt (distance) - (m_radius - 1);
-        uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
-
-        dest.blend (m_src, alpha);
-      }
-    }
-  }
-
-private:
-  Pixels::Map2D m_dest;
-  PixelARGB m_src;
-  int m_radius;
-  int m_radiusSquared;
-  int m_radiusMinusOneSquared;
-};
-
-//------------------------------------------------------------------------------
-
-struct RenderStrokeAntiAliased
-{
-  RenderStrokeAntiAliased (Pixels::Map2D dest, Colour colour, int radius)
-    : m_dest (dest)
-    , m_src (colour.getPixelARGB ())
-    , m_radius (radius)
-    , m_radiusSquared (radius * radius)
-    , m_radiusMinusOneSquared ((radius - 1) * (radius - 1))
-  {
-  }
-
-  template <class T>
-  void operator() (int x, int y, T distance)
-  {
-    PixelRGB& dest = *((PixelRGB *)&m_dest (x, y));
-
-    if (distance > 0)
-    {
-      distance = T (sqrt (distance / 65536.));
-
-#if 0
-      if (distance < 1)
-      {
-        uint8 const alpha = uint8 (255 * distance + 0.5);
-        dest.blend (m_src, alpha);
-      }
-      else if (distance < (m_radius - 2))
-      {
-        dest.blend (m_src);
-      }
-      else if (distance == m_radius)
-      {
-        distance = distance - (m_radius - 1);
-        uint8 const alpha = 255 - uint8 (255 * distance + 0.5);
-        dest.blend (m_src, alpha);
-      }
-#else
-      if (distance < m_radius)
-      {
-        //uint8 const alpha = uint8 (255 * distance + 0.5);
-        //dest.blend (m_src, alpha);
-        dest.blend (m_src);
-      }
-#endif
-    }
-  }
-
-private:
-  Pixels::Map2D m_dest;
-  PixelARGB m_src;
-  int m_radius;
-  int m_radiusSquared;
-  int m_radiusMinusOneSquared;
-};
-
-//------------------------------------------------------------------------------
-
 void StrokeStyle::operator () (Pixels destPixels, Pixels maskPixels)
 {
   if (!active)
     return;
 
-  switch (pos)
+  if (type != typeGradient)// || gradient.style != GradientFill::styleShapeBurst)
   {
-  case posInner:
+    //
+    // Calculate mask using distance transform
+    //
+
+    Image matteImage (
+      Image::SingleChannel,
+      maskPixels.getBounds ().getWidth (),
+      maskPixels.getBounds ().getHeight (),
+      false);
+
+    Pixels mattePixels (matteImage);
+
+    switch (pos)
     {
+    case posInner:
       DistanceTransform::Meijster::calculateAntiAliased (
-        RenderStrokeAntiAliased (Pixels::Map2D (destPixels), colour, size),
-        DistanceMaskInside (maskPixels),
+        RenderMask (Pixels::Map2D (mattePixels), size),
+        Inside (maskPixels),
         maskPixels.getWidth (),
         maskPixels.getHeight (),
         DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
+      break;
 
-  case posOuter:
-    {
+    case posOuter:
       DistanceTransform::Meijster::calculateAntiAliased (
-        RenderStrokeAntiAliased (Pixels::Map2D (destPixels), colour, size),
-        DistanceMaskOutside (maskPixels),
+        RenderMask (Pixels::Map2D (mattePixels), size),
+        Outside (maskPixels),
         maskPixels.getWidth (),
         maskPixels.getHeight (),
         DistanceTransform::Meijster::EuclideanMetric ());
-    }
-    break;
+      break;
 
-  case posCentre:
+    case posCentre:
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+
+    //
+    // Apply fill using mask
+    //
+
+    switch (type)
     {
-    }
-    break;
+    case typeColour:
+      BlendMode::apply (
+        mode,
+        Pixels::Iterate2 (destPixels, mattePixels),
+        BlendProc::RGB::MaskFill (colour, opacity));
+      break;
 
-  default:
-    jassertfalse;
-    break;
-  };
+    case typeGradient:
+      break;
+
+    case typePattern:
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+  }
+  else
+  {
+    //
+    // Special case for shape burst gradients
+    //
+    SharedTable <Colour> colourTable = gradient.colours.createLookupTable ();
+
+    switch (pos)
+    {
+    case posInner:
+      {
+        DistanceTransform::Meijster::calculateAntiAliased (
+          RenderShapeBurst (Pixels::Map2D (destPixels), size, colourTable),
+          Inside (maskPixels),
+          maskPixels.getWidth (),
+          maskPixels.getHeight (),
+          DistanceTransform::Meijster::EuclideanMetric ());
+      }
+      break;
+
+    case posOuter:
+      {
+        DistanceTransform::Meijster::calculateAntiAliased (
+          RenderShapeBurst (Pixels::Map2D (destPixels), size, colourTable),
+          Outside (maskPixels),
+          maskPixels.getWidth (),
+          maskPixels.getHeight (),
+          DistanceTransform::Meijster::EuclideanMetric ());
+      }
+      break;
+
+    case posCentre:
+      {
+      }
+      break;
+
+    default:
+      jassertfalse;
+      break;
+    };
+  }
 }

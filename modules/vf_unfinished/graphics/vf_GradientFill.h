@@ -30,30 +30,31 @@
 */
 /*============================================================================*/
 
-#ifndef VF_DROPSHADOWSTYLE_VFHEADER
-#define VF_DROPSHADOWSTYLE_VFHEADER
+#ifndef VF_GRADIENTFILL_VFHEADER
+#define VF_GRADIENTFILL_VFHEADER
 
-/** Provides the Drop Shadow layer style.
+/** Specifies the parameters for drawing a gradient fill.
 
     @ingroup vf_gui
 */
-struct DropShadowStyle
+struct GradientFill
 {
-  bool            active;
-  BlendMode::Type mode;
-  Colour          colour;
-  double          opacity;    // [0, 1]
-  double          angle;
-  int             distance;
-  double          spread;     // [0, 1]
-  int             size;       // [0, 250]
-  bool            knockout;
-
-  DropShadowStyle () : active (false)
+  enum Style
   {
-  }
+    styleLinear = 1,
+    styleRadial,
+    styleAngle,
+    styleReflected,
+    styleDiamond,
+    styleShapeBurst
+  };
 
-  void operator() (Image destImage, Image maskImage);
+  Style style;
+  GradientColours colours;
+  bool reverse;
+  double angle;
+  double scale;             // [0.1 ... 1.5]
+  Point <double> origin;
 };
 
 #endif
