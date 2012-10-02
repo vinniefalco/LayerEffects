@@ -287,7 +287,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   if (precise)
   {
   #if 1
-    DistanceTransform::Meijster::calculateAntiAliasedLoop (
+    DistanceTransform::Meijster::calculateAntiAliased (
       RenderPixelAntiAliased (
         destPixels,
         opacity,
