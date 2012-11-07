@@ -62,6 +62,7 @@ namespace vf
 #include "threads/vf_MessageThread.cpp"
 #include "threads/vf_ParallelFor.cpp"
 #include "threads/vf_ReadWriteMutex.cpp"
+#include "threads/vf_SharedObject.cpp"
 #include "threads/vf_ThreadGroup.cpp"
 #include "threads/vf_ThreadWithCallQueue.cpp"
 

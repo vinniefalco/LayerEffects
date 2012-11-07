@@ -44,13 +44,14 @@ public:
 
   void detectAllLeaks ()
   {
-    CounterBase* counter = m_list.pop_front ();
-    
-    while (counter != nullptr)
+    for (;;)
     {
+      CounterBase* counter = m_list.pop_front ();
+
+      if (!counter)
+        break;
+    
       counter->detectLeaks ();
-      
-      counter = m_list.pop_front ();
     }
   }
 
@@ -75,6 +76,22 @@ LeakCheckedBase::CounterBase::CounterBase ()
 void LeakCheckedBase::CounterBase::detectAllLeaks ()
 {
   Singleton::getInstance().detectAllLeaks ();
+}
+
+void LeakCheckedBase::CounterBase::detectLeaks ()
+{
+  // If there's a runtime error from this line, it means there's
+  // an order of destruction problem between different translation units!
+  //
+  this->checkPureVirtual ();
+
+  int const count = m_count.get ();
+
+  if (count > 0)
+  {
+    jassertfalse;
+    DBG ("[LEAK] " << count << " of " << getClassName ());
+  }
 }
 
 //------------------------------------------------------------------------------

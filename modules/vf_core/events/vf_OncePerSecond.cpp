@@ -32,6 +32,7 @@
 
 class OncePerSecond::TimerSingleton
   : public RefCountedSingleton <OncePerSecond::TimerSingleton>
+  , private InterruptibleThread::EntryPoint
 {
 private:
   TimerSingleton ()
@@ -39,7 +40,7 @@ private:
 		SingletonLifetime::persistAfterCreation)
     , m_thread ("Once Per Second")
   {
-    m_thread.start (vf::bind (&TimerSingleton::run, this));
+    m_thread.start (this);
   }
 
   ~TimerSingleton ()
@@ -49,7 +50,7 @@ private:
     jassert (m_list.empty ());
   }
 
-  void run ()
+  void threadRun ()
   {
     for(;;)
     {

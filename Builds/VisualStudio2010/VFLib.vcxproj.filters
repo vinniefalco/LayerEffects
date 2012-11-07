@@ -516,6 +516,9 @@
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.cpp">
+      <Filter>VF Modules\vf_concurrent\threads</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\modules\vf_db\api\backend.h">
@@ -1006,6 +1009,9 @@
     </ClInclude>
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternFill.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.h">
+      <Filter>VF Modules\vf_concurrent\threads</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

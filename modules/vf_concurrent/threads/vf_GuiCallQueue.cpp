@@ -30,6 +30,9 @@
 */
 /*============================================================================*/
 
+// This thread is used so that we don't call triggerAsyncUpdate() from any
+// audio device I/O callback or other performance-sensitive threads.
+//
 GuiCallQueue::GuiCallQueue ()
   : CallQueue ("GuiCallQueue")
   , m_thread ("GuiCallQueue")
@@ -42,7 +45,7 @@ GuiCallQueue::GuiCallQueue ()
   //
   synchronize ();
 
-  m_thread.start ();
+  m_thread.start (this);
 }
 
 void GuiCallQueue::close ()

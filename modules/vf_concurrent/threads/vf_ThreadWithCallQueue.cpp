@@ -33,6 +33,7 @@
 ThreadWithCallQueue::ThreadWithCallQueue (String name)
   : CallQueue (name)
   , m_thread (name)
+  , m_entryPoints (nullptr)
   , m_calledStart (false)
   , m_calledStop (false)
   , m_shouldStop (false)
@@ -44,12 +45,11 @@ ThreadWithCallQueue::~ThreadWithCallQueue ()
   stop (true);
 }
 
-void ThreadWithCallQueue::start (idle_t worker_idle,
-  init_t worker_init,
-  exit_t worker_exit)
+void ThreadWithCallQueue::start (EntryPoints* const entryPoints)
 {
   {
-    // TODO: Atomic for this
+    // This is mostly for diagnostics
+    // TODO: Atomic flag for this whole thing
     CriticalSection::ScopedLockType lock (m_mutex);
 
     // start() MUST be called.
@@ -57,11 +57,9 @@ void ThreadWithCallQueue::start (idle_t worker_idle,
     m_calledStart = true;
   }
 
-  m_init = worker_init;
-  m_idle = worker_idle;
-  m_exit = worker_exit;
+  m_entryPoints = entryPoints;
 
-  m_thread.start (vf::bind (&ThreadWithCallQueue::run, this));
+  m_thread.start (this);
 }
 
 void ThreadWithCallQueue::stop (bool const wait)
@@ -83,7 +81,7 @@ void ThreadWithCallQueue::stop (bool const wait)
       {
         CriticalSection::ScopedUnlockType unlock (m_mutex); // getting fancy
 
-        call (&ThreadWithCallQueue::do_stop, this);
+        call (&ThreadWithCallQueue::doStop, this);
 
         // in theory something could slip in here
 
@@ -114,7 +112,12 @@ bool ThreadWithCallQueue::interruptionPoint ()
 // Interrupts the idle function by queueing a call that does nothing.
 void ThreadWithCallQueue::interrupt ()
 {
-  call (Function <void (void)>::None ());
+  call (&ThreadWithCallQueue::doNothing);
+}
+
+void ThreadWithCallQueue::doNothing ()
+{
+  // Intentionally empty
 }
 
 void ThreadWithCallQueue::signal ()
@@ -126,14 +129,14 @@ void ThreadWithCallQueue::reset ()
 {
 }
 
-void ThreadWithCallQueue::do_stop ()
+void ThreadWithCallQueue::doStop ()
 {
   m_shouldStop = true;
 }
 
-void ThreadWithCallQueue::run ()
+void ThreadWithCallQueue::threadRun ()
 {
-  m_init ();
+  m_entryPoints->threadInit ();
 
   for (;;)
   {
@@ -142,8 +145,7 @@ void ThreadWithCallQueue::run ()
     if (m_shouldStop)
       break;
 
-    // idle_t::None() must return false for this to work.
-    bool interrupted = m_idle ();
+    bool interrupted = m_entryPoints->threadIdle ();
 
     if (!interrupted)
       interrupted = interruptionPoint ();
@@ -152,5 +154,5 @@ void ThreadWithCallQueue::run ()
       m_thread.wait ();
   }
 
-  m_exit ();
+  m_entryPoints->threadExit ();
 }

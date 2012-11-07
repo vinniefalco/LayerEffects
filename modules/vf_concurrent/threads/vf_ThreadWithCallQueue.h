@@ -53,12 +53,29 @@
 
   @ingroup vf_concurrent
 */
-class ThreadWithCallQueue : public CallQueue
+class ThreadWithCallQueue
+  : public CallQueue
+  , private InterruptibleThread::EntryPoint
 {
 public:
-  typedef Function <bool (void)> idle_t;
-  typedef Function <void (void)> init_t;
-  typedef Function <void (void)> exit_t;
+  /** Entry points for a ThreadWithCallQueue.
+  */
+  class EntryPoints
+  {
+  public:
+    virtual ~EntryPoints () { }
+    
+    virtual void threadInit () { }
+    
+    virtual void threadExit () { }
+
+    virtual bool threadIdle ()
+    {
+      bool interrupted = false;
+
+      return interrupted;
+    }
+  };
 
   /** Create a thread.
 
@@ -75,18 +92,8 @@ public:
   ~ThreadWithCallQueue ();
 
   /** Start the thread.
-
-      All thread functions are invoked from the thread:
-
-      @param thread_idle The function to call when the thread is idle.
-
-      @param thread_init The function to call when the thread starts.
-
-      @param thread_exit The function to call when the thread stops.
   */
-  void start (idle_t thread_idle = idle_t::None(),
-              init_t thread_init = init_t::None(),
-              exit_t thread_exit = exit_t::None());
+  void start (EntryPoints* const entryPoints);
 
   /* Stop the thread.
 
@@ -128,21 +135,23 @@ public:
   void interrupt ();
 
 private:
+  static void doNothing ();
+
   void signal ();
+
   void reset ();
 
-  void do_stop ();
-  void run ();
+  void doStop ();
+
+  void threadRun ();
 
 private:
   InterruptibleThread m_thread;
+  EntryPoints* m_entryPoints;
   bool m_calledStart;
   bool m_calledStop;
   bool m_shouldStop;
   CriticalSection m_mutex;
-  idle_t m_idle;
-  init_t m_init;
-  exit_t m_exit;
 };
 
 #endif
