@@ -109,6 +109,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ThreadGroup.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -513,6 +517,7 @@
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ReadWriteMutex.h" />
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ConcurrentObject.h" />
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ConcurrentState.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.h" />
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ThreadGroup.h" />
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ThreadWithCallQueue.h" />
     <ClInclude Include="..\..\modules\vf_concurrent\vf_concurrent.h" />

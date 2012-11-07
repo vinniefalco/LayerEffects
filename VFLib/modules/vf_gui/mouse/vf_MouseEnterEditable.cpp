@@ -96,12 +96,12 @@ void MouseEnterEditable::Container::exitCurrentEditMode ()
 {
   if (m_currentEdit != nullptr)
   {
-    stopTimer ();
-
     MouseEnterEditable* editable = m_currentEdit;
     m_currentEdit = nullptr;
     editable->onMouseEnterEditMode (false);
   }
+
+  stopTimer ();
 }
 
 void MouseEnterEditable::Container::mouseEnterEditableActivity (

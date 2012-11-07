@@ -56,19 +56,40 @@ protected:
     CounterBase ();
 
     virtual ~CounterBase () { }
-  
+
+    inline int increment ()
+    {
+      return ++m_count;
+    }
+
+    inline int decrement ()
+    {
+      return --m_count;
+    }
+
+    virtual char const* getClassName () const = 0;
+
     static void detectAllLeaks ();
 
   private:
-    virtual void detectLeaks () = 0;
+    void detectLeaks ();
 
-  private:
+    virtual void checkPureVirtual () const = 0;
+
+  protected:
     class Singleton;
+
+    Atomic <int> m_count;
   };
 };
 
 //------------------------------------------------------------------------------
 
+/** Detects leaks at program exit.
+
+    To use this, derive your class from this template using CRTP (curiously
+    recurring template pattern).
+*/
 template <class Object>
 class LeakChecked : private LeakCheckedBase
 {
@@ -104,44 +125,38 @@ private:
   class Counter : public CounterBase
   {
   public:
-    inline int increment ()
+    Counter () noexcept
     {
-      return ++m_count;
-    }
-
-    inline int decrement ()
-    {
-      return --m_count;
     }
     
-    void detectLeaks ()
+    char const* getClassName () const
     {
-      const int count = m_count.get ();
-
-      if (count > 0)
-      {
-        DBG ("[LEAK] " << count << " of " << getLeakCheckedName());
-      }
+      return getLeakCheckedName ();
     }
 
-  private:
-    Atomic <int> m_count;
+    void checkPureVirtual () const { }
   };
 
+private:
+  /* Due to a bug in Visual Studio 10 and earlier, the string returned by
+     typeid().name() will appear to leak on exit. Therefore, we should
+     only call this function when there's an actual leak, or else there
+     will be spurious leak notices at exit.
+  */
   static const char* getLeakCheckedName ()
   {
     return typeid (Object).name ();
   }
 
-  static Counter& getLeakCheckedCounter() noexcept
+  static Counter& getLeakCheckedCounter () noexcept
   {
     static Counter* volatile s_instance;
     static Static::Initializer s_initializer;
 
     if (s_initializer.begin ())
     {
-      static Counter s_object;
-      s_instance = &s_object;
+      static char s_storage [sizeof (Counter)];
+      s_instance = new (s_storage) Counter;
       s_initializer.end ();
     }
 

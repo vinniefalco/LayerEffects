@@ -30,12 +30,12 @@
 */
 /*============================================================================*/
 
-class ConcurrentObject::Deleter
+class ConcurrentObject::Deleter : private ThreadWithCallQueue::EntryPoints
 {
 private:
   Deleter () : m_thread ("AsyncDeleter")
   {
-    m_thread.start ();
+    m_thread.start (this);
   }
 
   ~Deleter ()

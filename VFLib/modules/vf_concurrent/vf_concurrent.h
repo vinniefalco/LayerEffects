@@ -171,8 +171,8 @@ namespace vf
 #include "threads/vf_ThreadWithCallQueue.h"
 
 #include "threads/vf_GuiCallQueue.h"
-
 #include "threads/vf_MessageThread.h"
+#include "threads/vf_SharedObject.h"
 }
 
 #endif

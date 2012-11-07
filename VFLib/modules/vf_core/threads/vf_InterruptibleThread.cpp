@@ -51,6 +51,7 @@ void InterruptibleThread::ThreadHelper::run ()
 
 InterruptibleThread::InterruptibleThread (String name)
   : m_thread (name, this)
+  , m_entryPoint (nullptr)
   , m_state (stateRun)
 {
 }
@@ -62,13 +63,14 @@ InterruptibleThread::~InterruptibleThread ()
   join ();
 }
 
-void InterruptibleThread::start (const Function <void (void)>& f)
+void InterruptibleThread::start (EntryPoint* const entryPoint)
 {
-  m_function = f;
+  m_entryPoint = entryPoint;
 
   m_thread.startThread ();
 
-  // prevents data race with member variables
+  // Prevent data race with member variables
+  //
   m_runEvent.signal ();
 }
 
@@ -79,7 +81,8 @@ void InterruptibleThread::join ()
 
 bool InterruptibleThread::wait (int milliSeconds)
 {
-  // Can only be called from the current thread
+  // Can only be called from the corresponding thread of execution.
+  //
   jassert (isTheCurrentThread ());
 
   bool interrupted = false;
@@ -89,18 +92,19 @@ bool InterruptibleThread::wait (int milliSeconds)
     jassert (m_state != stateWait);
 
     // See if we are interrupted
+    //
     if (m_state.tryChangeState (stateInterrupt, stateRun))
     {
-      // We were interrupted, state is changed to Run.
-      // Caller must run now.
+      // We were interrupted, state is changed to Run. Caller must run now.
+      //
       interrupted = true;
       break;
     }
     else if (m_state.tryChangeState (stateRun, stateWait) ||
       m_state.tryChangeState (stateReturn, stateWait))
     {
-      // Transitioned to wait.
-      // Caller must wait now.
+      // Transitioned to wait. Caller must wait now.
+      //
       interrupted = false;
       break;
     }
@@ -135,10 +139,11 @@ void InterruptibleThread::interrupt ()
     int const state = m_state;
 
     if (state == stateInterrupt ||
-      state == stateReturn ||
-      m_state.tryChangeState (stateRun, stateInterrupt))
+        state == stateReturn ||
+        m_state.tryChangeState (stateRun, stateInterrupt))
     {
       // Thread will see this at next interruption point.
+      //
       break;
     }
     else if (m_state.tryChangeState (stateWait, stateRun))
@@ -151,24 +156,24 @@ void InterruptibleThread::interrupt ()
 
 bool InterruptibleThread::interruptionPoint ()
 {
-  // Can only be called from the current thread
+  // Can only be called from the thread of execution.
+  //
   jassert (isTheCurrentThread ());
 
   if (m_state == stateWait)
   {
-    // It is impossible for this function
-    // to be called while in the wait state.
+    // It is impossible for this function to be called while in the wait state.
+    //
     Throw (Error().fail (__FILE__, __LINE__));
   }
   else if (m_state == stateReturn)
   {
     // If this goes off it means the thread called the
     // interruption a second time after already getting interrupted.
+    //
     Throw (Error().fail (__FILE__, __LINE__));
   }
 
-  // Switch to Return state if we are interrupted
-  //bool const interrupted = m_state.tryChangeState (stateInterrupt, stateReturn);
   bool const interrupted = m_state.tryChangeState (stateInterrupt, stateRun);
 
   return interrupted;
@@ -191,16 +196,20 @@ void InterruptibleThread::setPriority (int priority)
 
 InterruptibleThread* InterruptibleThread::getCurrentThread ()
 {
+  InterruptibleThread* result = nullptr;
+
   Thread* const thread = Thread::getCurrentThread();
 
-  // This doesn't work for the message thread!
-  jassert (thread != nullptr);
+  if (thread != nullptr)
+  {
+    ThreadHelper* const helper = dynamic_cast <ThreadHelper*> (thread);
 
-  ThreadHelper* const helper = dynamic_cast <ThreadHelper*> (thread);
+    jassert (helper != nullptr);
 
-  jassert (helper != nullptr);
+    result = helper->getOwner ();
+  }
 
-  return helper->getOwner ();
+  return result;
 }
 
 void InterruptibleThread::run ()
@@ -209,7 +218,8 @@ void InterruptibleThread::run ()
 
   m_runEvent.wait ();
 
-  CatchAny (m_function);
+  //CatchAny (m_function);
+  m_entryPoint->threadRun ();
 }
 
 //------------------------------------------------------------------------------
@@ -218,35 +228,11 @@ bool CurrentInterruptibleThread::interruptionPoint ()
 {
   bool interrupted = false;
 
-#if 1
-  interrupted = InterruptibleThread::getCurrentThread ()->interruptionPoint ();
+  InterruptibleThread* const interruptibleThread (InterruptibleThread::getCurrentThread ());
 
-#else
-  Thread* const thread = Thread::getCurrentThread();
+  jassert (interruptibleThread != nullptr);
 
-  // Can't use interruption points on the message thread
-  jassert (thread != nullptr);
-
-  if (thread)
-  {
-    InterruptibleThread* const interruptibleThread = dynamic_cast <InterruptibleThread*> (thread);
-
-    jassert (interruptibleThread != nullptr);
-
-    if (interruptibleThread != nullptr)
-    {
-      interrupted = interruptibleThread->interruptionPoint ();
-    }
-    else
-    {
-      interrupted = false;
-    }
-  }
-  else
-  {
-    interrupted = false;
-  }
-#endif
+  interrupted = interruptibleThread->interruptionPoint ();
 
   return interrupted;
 }

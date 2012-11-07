@@ -53,6 +53,7 @@
 class GuiCallQueue
   : public CallQueue
   , private AsyncUpdater
+  , private ThreadWithCallQueue::EntryPoints
 {
 public:
   /** Create a GuiCallQueue.

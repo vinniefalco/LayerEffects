@@ -36,18 +36,32 @@
 #include "../diagnostic/vf_SafeBool.h"
 #include "../functor/vf_Function.h"
 
-/*============================================================================*/
+//==============================================================================
 /**
-  A thread with soft interruption support.
+    A thread with soft interruption support.
 
-  The thread must periodically call interruptionPoint(), which returns
-  true the first time an interruption has occurred since the last call to
-  interruptionPoint().
+    The thread must periodically call interruptionPoint(), which returns `true`
+    the first time an interruption has occurred since the last call to
+    interruptionPoint().
 
-  @ingroup vf_core
+    To create a thread, derive your class from InterruptibleThread::EntryPoint
+    and implement the threadRun() function. Then, call run() with your object.
+
+    @ingroup vf_core
 */
 class InterruptibleThread
 {
+public:
+  /** InterruptibleThread entry point.
+  */
+  class EntryPoint
+  {
+  public:
+    virtual ~EntryPoint () { }
+
+    virtual void threadRun () = 0;
+  };
+
 public:
   typedef Thread::ThreadID id;
 
@@ -67,7 +81,7 @@ public:
 
   /** Start the thread.
   */
-  void start (Function <void (void)> const& f);
+  void start (EntryPoint* const entryPoint);
 
   /** Wait for the thread to exit.
   */
@@ -97,13 +111,13 @@ public:
   /** Determine if an interruption is requested.
 
       After the function returns `true`, the interrupt status is cleared.
-    Subsequent calls will return `false` until another interrupt is requested.
+      Subsequent calls will return `false` until another interrupt is requested.
 
-    May only be called by the thread of execution.
+      May only be called by the thread of execution.
 
-    @see CurrentInterruptibleThread::interruptionPoint
+      @see CurrentInterruptibleThread::interruptionPoint
 
-    @return `true` if an interrupt was requested.
+      @return `true` if an interrupt was requested.
   */
   bool interruptionPoint ();
 
@@ -130,6 +144,9 @@ public:
   void setPriority (int priority);
 
   /** Get the InterruptibleThread for the thread of execution.
+
+      This will return `nullptr` when called from the message thread, or from
+      a thread of execution that is not an InterruptibleThread.
   */
   static InterruptibleThread* getCurrentThread ();
 
@@ -150,6 +167,7 @@ private:
   void run ();
 
   ThreadHelper m_thread;
+  EntryPoint* m_entryPoint;
   Function <void (void)> m_function;
   WaitableEvent m_runEvent;
   id m_threadId;
