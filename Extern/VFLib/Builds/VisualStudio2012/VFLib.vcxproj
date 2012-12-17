@@ -1,0 +1,757 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\modules\vf_audio\buffers\vf_AudioBufferPool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_Metronome.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_NoiseAudioSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_audio\vf_audio.cpp" />
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\blocksort.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\bzlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\compress.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\crctable.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\decompress.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\huffman.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\bzip2\randtable.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_bzip2\vf_bzip2.c" />
+    <ClCompile Include="..\..\modules\vf_concurrent\memory\vf_FifoFreeStoreWithoutTLS.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\memory\vf_FifoFreeStoreWithTLS.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\memory\vf_GlobalPagedFreeStore.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\memory\vf_PagedFreeStore.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_CallQueue.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_GuiCallQueue.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_Listeners.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ManualCallQueue.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_MessageThread.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ParallelFor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ReadWriteMutex.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ConcurrentObject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ThreadGroup.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\threads\vf_ThreadWithCallQueue.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_concurrent\vf_concurrent.cpp" />
+    <ClCompile Include="..\..\modules\vf_core\diagnostic\vf_CatchAny.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\diagnostic\vf_Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\diagnostic\vf_Error.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\diagnostic\vf_FPUFlags.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\diagnostic\vf_LeakChecked.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\events\vf_OncePerSecond.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\events\vf_PerformedAtExit.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\math\vf_MurmurHash.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\native\vf_posix_Threads.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\native\vf_win32_FPUFlags.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\native\vf_win32_Threads.cpp" />
+    <ClCompile Include="..\..\modules\vf_core\threads\vf_InterruptibleThread.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\threads\vf_Semaphore.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_core\vf_core.cpp" />
+    <ClCompile Include="..\..\modules\vf_db\source\blob.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\error_codes.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\into_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\once_temp_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\prepare_temp_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\ref_counted_prepare_info.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\ref_counted_statement.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\session.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\statement.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\statement_imp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\transaction.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\source\use_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_db\vf_db.cpp" />
+    <ClCompile Include="..\..\modules\vf_freetype\FreeTypeAmalgam\FreeTypeAmalgam.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_freetype\vf_freetype.c" />
+    <ClCompile Include="..\..\modules\vf_gui\components\vf_TransparentBorder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_LabColour.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_RadialImageConvolutionKernel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\graphics\vf_XYZColour.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\layout\vf_ResizableLayout.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\layout\vf_StackedLayout.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\mouse\vf_DragAndDropData.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\mouse\vf_MouseEnterEditable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_gui\vf_gui.cpp" />
+    <ClCompile Include="..\..\modules\vf_luabridge\vf_luabridge.cpp" />
+    <ClCompile Include="..\..\modules\vf_lua\lua\lapi.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lauxlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lbaselib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lbitlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lcode.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lcorolib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lctype.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ldblib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ldebug.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ldo.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ldump.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lfunc.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lgc.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\linit.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\liolib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\llex.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lmathlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lmem.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\loadlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lobject.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lopcodes.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\loslib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lparser.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lstate.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lstring.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lstrlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ltable.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level4</WarningLevel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ltablib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\ltm.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lundump.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lvm.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\lua\lzio.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_lua\vf_lua.cpp" />
+    <ClCompile Include="..\..\modules\vf_sqlite\sqlite\sqlite3.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_sqlite\sqlite\sqlite3async.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_sqlite\vf_sqlite.c" />
+    <ClCompile Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_taglib\vf_taglib.cpp" />
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\vf_unfinished.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AppConfigTemplate\AppConfig.h" />
+    <ClInclude Include="..\..\modules\vf_audio\buffers\vf_AudioBufferPool.h" />
+    <ClInclude Include="..\..\modules\vf_audio\buffers\vf_AudioSampleBufferArray.h" />
+    <ClInclude Include="..\..\modules\vf_audio\buffers\vf_ScopedAudioSampleBuffer.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_Metronome.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_NoiseAudioSource.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_SampleSource.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingAudioSource.h" />
+    <ClInclude Include="..\..\modules\vf_audio\sources\vf_SeekingSampleSource.h" />
+    <ClInclude Include="..\..\modules\vf_audio\vf_audio.h" />
+    <ClInclude Include="..\..\modules\vf_bzip2\bzip2\bzlib.h" />
+    <ClInclude Include="..\..\modules\vf_bzip2\bzip2\bzlib_private.h" />
+    <ClInclude Include="..\..\modules\vf_bzip2\vf_bzip2.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_AllocatedBy.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_FifoFreeStore.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_FifoFreeStoreWithoutTLS.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_FifoFreeStoreWithTLS.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_GlobalFifoFreeStore.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_GlobalPagedFreeStore.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\memory\vf_PagedFreeStore.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_CallQueue.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_GlobalThreadGroup.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_GuiCallQueue.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_Listeners.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ManualCallQueue.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_MessageThread.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ParallelFor.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ReadWriteMutex.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ConcurrentObject.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ConcurrentState.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ThreadGroup.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_ThreadWithCallQueue.h" />
+    <ClInclude Include="..\..\modules\vf_concurrent\vf_concurrent.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_List.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeQueue.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_LockFreeStack.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_Map2D.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_SharedTable.h" />
+    <ClInclude Include="..\..\modules\vf_core\containers\vf_SortedLookupTable.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_CatchAny.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_Debug.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_Error.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_FPUFlags.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_LeakChecked.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_SafeBool.h" />
+    <ClInclude Include="..\..\modules\vf_core\diagnostic\vf_Throw.h" />
+    <ClInclude Include="..\..\modules\vf_core\events\vf_OncePerSecond.h" />
+    <ClInclude Include="..\..\modules\vf_core\events\vf_PerformedAtExit.h" />
+    <ClInclude Include="..\..\modules\vf_core\functor\vf_Bind.h" />
+    <ClInclude Include="..\..\modules\vf_core\functor\vf_Function.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Interval.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Math.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_MurmurHash.h" />
+    <ClInclude Include="..\..\modules\vf_core\math\vf_Vec3.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicCounter.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicFlag.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicPointer.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_AtomicState.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_CacheLine.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_MemoryAlignment.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_Uncopyable.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_RefCountedSingleton.h" />
+    <ClInclude Include="..\..\modules\vf_core\memory\vf_StaticObject.h" />
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_Semaphore.h" />
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_SerialFor.h" />
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_SpinDelay.h" />
+    <ClInclude Include="..\..\modules\vf_core\threads\vf_InterruptibleThread.h" />
+    <ClInclude Include="..\..\modules\vf_core\vf_core.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\backend.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\blob.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\into.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\session.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\statement.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\transaction.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\type_conversion_traits.h" />
+    <ClInclude Include="..\..\modules\vf_db\api\use.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\error_codes.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\exchange_traits.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\into_type.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\once_temp_type.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\prepare_temp_type.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\ref_counted_prepare_info.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\ref_counted_statement.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\statement_imp.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\type_conversion.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\type_ptr.h" />
+    <ClInclude Include="..\..\modules\vf_db\detail\use_type.h" />
+    <ClInclude Include="..\..\modules\vf_db\vf_db.h" />
+    <ClInclude Include="..\..\modules\vf_freetype\FreeTypeAmalgam\FreeTypeAmalgam.h" />
+    <ClInclude Include="..\..\modules\vf_freetype\vf_freetype.h" />
+    <ClInclude Include="..\..\modules\vf_gui\components\vf_ComponentBroadcast.h" />
+    <ClInclude Include="..\..\modules\vf_gui\components\vf_ComponentNotifyParent.h" />
+    <ClInclude Include="..\..\modules\vf_gui\components\vf_TransparentBorder.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_ChannelImageType.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_FreeTypeFaces.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_LabColour.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_RadialImageConvolutionKernel.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_VerticalGradient.h" />
+    <ClInclude Include="..\..\modules\vf_gui\graphics\vf_XYZColour.h" />
+    <ClInclude Include="..\..\modules\vf_gui\layout\vf_ContentComponentConstrainer.h" />
+    <ClInclude Include="..\..\modules\vf_gui\layout\vf_ResizableLayout.h" />
+    <ClInclude Include="..\..\modules\vf_gui\layout\vf_StackedLayout.h" />
+    <ClInclude Include="..\..\modules\vf_gui\mouse\vf_DragAndDropData.h" />
+    <ClInclude Include="..\..\modules\vf_gui\mouse\vf_MouseEnterEditable.h" />
+    <ClInclude Include="..\..\modules\vf_gui\mouse\vf_MouseEnterGroup.h" />
+    <ClInclude Include="..\..\modules\vf_gui\vf_gui.h" />
+    <ClInclude Include="..\..\modules\vf_luabridge\LuaBridge\LuaBridge.h" />
+    <ClInclude Include="..\..\modules\vf_luabridge\LuaBridge\LuaBridgeExtras.h" />
+    <ClInclude Include="..\..\modules\vf_luabridge\vf_luabridge.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lapi.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lauxlib.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lcode.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lctype.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\ldebug.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\ldo.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lfunc.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lgc.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\llex.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\llimits.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lmem.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lobject.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lopcodes.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lparser.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lstate.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lstring.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\ltable.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\ltm.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lua.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lua.hpp" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\luaconf.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lualib.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lundump.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lvm.h" />
+    <ClInclude Include="..\..\modules\vf_lua\lua\lzio.h" />
+    <ClInclude Include="..\..\modules\vf_lua\vf_lua.h" />
+    <ClInclude Include="..\..\modules\vf_sqlite\sqlite\sqlite3.h" />
+    <ClInclude Include="..\..\modules\vf_sqlite\sqlite\sqlite3async.h" />
+    <ClInclude Include="..\..\modules\vf_sqlite\sqlite\sqlite3ext.h" />
+    <ClInclude Include="..\..\modules\vf_sqlite\vf_sqlite.h" />
+    <ClInclude Include="..\..\modules\vf_taglib\TagLibAmalgam\TagLibAmalgam.h" />
+    <ClInclude Include="..\..\modules\vf_taglib\vf_taglib.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BevelEmbossStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientColours.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientFill.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_GradientOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternFill.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_Pixels.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_StrokeStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiDevices.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\midi\vf_MidiInput.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\vf_unfinished.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\COPYRIGHT" />
+    <None Include="..\..\Doxyfile" />
+    <None Include="..\..\README.md" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6F6AC608-6440-4E8F-B15F-691C47180FA4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VFLib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Build\obj\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionDir)Build\obj\$(ProjectName)$(Platform)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)$(Platform)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Build\obj\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionDir)Build\obj\$(ProjectName)$(Platform)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)$(Platform)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\AppConfigTemplate;..\..\include;..\..\..\Juce;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <ExceptionHandling>SyncCThrow</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\AppConfigTemplate;..\..\include;..\..\..\Juce;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>SyncCThrow</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
