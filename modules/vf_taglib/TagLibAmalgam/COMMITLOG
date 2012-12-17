@@ -1,0 +1,921 @@
+a656bba2adffc3d8b1d4bbaca226a8665d006df5 2012-04-18 Fix warnings about double to integer conversion
+390cc8d74f2d4340035f7b31056a5055ed848e7e 2012-04-18 Fix warnings about integer conversion
+4510c2d144988b80389b8c76ff3d83b20a71cfc4 2012-04-18 Fix warnings about integer conversion
+f750c6f13d197d5a7da6c84c0ec2d795343ba3e2 2012-04-18 Fix warnings about integer conversion
+07cba4465fbfac8c0bd53e12d35568259052944d 2012-04-18 Fix warnings about unsafe stdlib functions
+3d33490b5168bdf1cdb1023db0b826e063ade36f 2012-04-18 Fix warnings about deprecated POSIX names
+57423b911028e1cb5e8daa8159fcaeeb64eef097 2012-04-18 Fix warnings about integer conversion
+84fedcdf3fc6ed2d810d5c04ccb69225709326c4 2012-04-18 Fix warnings about integer conversion
+655cadc9e89762b2a8c520e537a8bbdca8788986 2012-04-18 Fix warnings about integer conversion
+e4aa4f8740f43f2d7db36f05b81f05a7e1897fea 2012-04-18 Fix warning about integer conversion
+d5994c6ad2ce9f13ed2a980941363ba52bc84e81 2012-04-18 Fix warning about integer conversion
+243c55b1932394be526cf582292531b11d679966 2012-04-18 Fix warning about deprecated POSIX names
+685d18b600f99b823d611faf546d50fedc7a02fc 2012-04-18 Fix warning about constant comparison
+3f3207cbbce9c151e343941529df11615286a4a1 2012-04-18 Fix warning about uninitialized variable
+fa0e8f4d89834a256037d378cc4cc5ac69693d1c 2012-04-18 Fix warning about generating assignment operator
+d3c0c00223b7b7f8c020d64212cc20db33df4865 2012-04-18 Fix warning about generating assignment operator
+2c2a4863132c2c041df0b2adab471e0731f2dd26 2012-04-20 Merge branch 'stable'
+059f2243b315f9b8c31d491c8b58b192264c5f98 2012-04-20 Prepare 1.7.2 release
+cce6ad46c912c4137131c97f67136a3d11881726 2012-01-10 Reverse the version check, similarly to what mp4v2 does
+dafb3af742461dda7a1f2e6302a54273f1dfe416 2012-04-17 Remove 'using namespace std' in tmap.h
+089643f115bd32610e7456f7a3de673f7b062ca9 2012-04-17 Merge remote-tracking branch 'vinniefalco/rename_enums'
+26f458b87fe0c54e03e342cb926b60af79977f94 2012-04-15 Resolve scope resolution for APE::Footer definitions in apefooter.cpp
+c22791318c0aaa17ed8b347622a1fe379b469c2d 2012-04-15 Resolve ambiguous File symbol in apetag.cpp
+5081e3cf4f22b9cf3e81cdb07b41bd45c988e264 2012-04-15 Rename anonymous enumeration symbols to be unique trueaudiofile.cpp
+1bde4cea09dc8819c2da29fa60cfc66c1eca179d 2012-04-15 Rename anonymous enumeration symbols to be unique in wavpackfile.cpp
+0907e86a94df336b8ba3fa95b87c9da616960ee6 2012-04-15 Rename anonymous enumeration symbols to be unique in apefile.cpp
+742a3a1dbbe6e92478fa1a29429eafe592069e52 2012-04-15 Rename anonymous enumeration symbols to be unique in mpcfile.cpp
+04a4a6b8d42b23df3b26f5df24c18d69a2845328 2012-04-15 Rename anonymous enumeration symbols to be unique in flacfile.cpp
+b216b448c53dd5999930b214bbe35373dd8ff585 2012-04-12 Fix compilation
+4f8a6fdfaf1d9335f7e97d578929f46070240582 2012-04-12 Verify that an APE text item isn't empty before use
+32a4ac6599169ca84563b56bd081ef4c48ceb299 2012-04-10 Preserve source code backward compatibility
+ca26a9ad3e0ab9dc8341961cd8c990b951b07645 2012-04-10 Added support for APE tag binary items
+bd03e352cc1b2131e5295fd97e8be95bb30f1ace 2012-04-07 Allow tag items to be replaced
+69ac59f5f0b5a9cd546b1aea7b162df8289eb12f 2012-04-06 Added sampleFrames() to audio properties
+2297a6d531e3e1d347c394095ae14403a11bb6dd 2012-04-06 Added missing tmap.h
+2a4850f2113ecedd6e86697b024d29802d8e89e3 2012-03-18 Merge branch 'stable'
+288c6e4a3f90b8f0bf9e679d07bde70575434504 2012-03-18 Include <iostream> instead of <ostream> to fix compilation on Haiku
+606edf8171273de90bfdee6d0a4a9a35ecc19bf1 2012-03-17 Increment the version number
+3c7b05a9006a1d5367db2144168f664858005d9b 2012-03-17 Merge branch 'stable'
+009c43952f854bf3c086ca844c233c13189d4ff1 2012-03-17 Changelog
+9c1668f28b3cf764bbb86a1ea261db6416b5e1f8 2012-03-12 Fixed (huge) memory leak with ASF.
+8e67b40bdc21fac1d1f5f00d2ea1f1938d21134f 2012-03-17 Fix compilation errors
+76222cb1eb053d7f0046912be37c02f2e30faa76 2012-03-17 Merge branch 'master' of https://github.com/supermihi/taglib
+138dfca68248e237d908f9945c9706a9a933c657 2012-03-12 Additional change to previous fix.
+c4163a26e805bdec9a79b899bc0277d5501cb450 2012-03-12 Fixed memory leak of FrameFactory singleton.
+4496efe33bf5d58a402e6940160c619ac9021c4a 2012-03-12 Fixed (huge) memory leak with ASF.
+3a760b060c7d35e8380798ad32421980051d7ff3 2012-03-10 Merge branch 'stable'
+110cac8429bdf660e7749ced7054b0d1728df75c 2012-03-10 Avoid uint overflow in case the length + index is over UINT_MAX
+258ae751b5a40255699c170c57400b19006d1c8a 2012-03-04 Don't store the output of ByteVector::toUInt() in int, use uint instead
+df1d3e028e467014991cc154caa1f7a313bce969 2012-03-04 Make sure to not try dividing by zero
+23c86cf27d625d25318a1897029922302c9d21a8 2012-02-04 Check if the header is TTA1 before parsing
+f59c3b67aa4eb4a6a651a70d457211eddbf53b12 2011-10-08 Detect RIFF files with invalid chunk sizes
+294cb222414292a03a5dd69931d365f53a0356cf 2011-07-28 Don't crash when wav files have a 0 for bit per channel (sampleWidth) I've seen this in a wav that has an audio format of MP3 (0x55)
+b7ec0d26ab8e474f0ff77875b75158cb4345ed07 2011-06-09 Be more careful when parsing Vorbis Comments
+934ce51790046b2f18c2e0e57a1078f62c4f7920 2011-05-09 Don't lead the scanned blocks on save
+dcdf4fd954e3213c355746fa15b7480461972308 2012-03-10 Avoid uint overflow in case the length + index is over UINT_MAX
+ab8a0ee8937256311e649a88e8ddd7c7f870ad59 2012-03-04 Don't store the output of ByteVector::toUInt() in int, use uint instead
+77d61c6eca4d08b9b025738acf6b926cc750db23 2012-03-04 Make sure to not try dividing by zero
+f5a25182734ba0f15b698f8dc4cc29509df89293 2012-02-26 Fixed handling of UnknownFrames in ID3v2.
+6e6d823992fe53ede880889eb6e78709c84570e3 2012-02-26 Removed quodlibet special case handling
+f859fcf82ac9f29b7aeb399f13a9cab2610c64f6 2012-02-26 Add support for Unknown TXXX frames.
+37c87e0317fa1617ee7a10bc89d05c44ccce42b7 2012-02-26 Fixed identation
+0a3b998ca598ae7c36d719c613163ae634fd0555 2012-02-26 Fix USLT frame creation in Frame::createTextualFrame()
+fa0656e3c6f268e673e2806d57bad47ec48d91b1 2012-02-26 remove Tests/Examples build from CMakeLists
+b05c3161c7cbb1010a7f8c17fda29c4f2cb36b9d 2012-02-25 Added ID3v2 PropertyMap interface documentation.
+79670beca13514be767cf9e3e43d9da94498572d 2012-02-25 some cosmetic changes
+9fd22023cd7bd7dca57b20fe543831700d925340 2012-02-25 Merge remote-tracking branch 'official/master'
+b8d5246f8812a5d7aaf77827c49d7ca488782ba5 2012-02-25 Moved APE test to correct place; added MOD tag test.
+05b5e0692898e0904b4106b61882b459acda08e4 2012-02-25 added APE tag PropertyMap test
+d28cc83fb4aa0d8ab980187969fed348b8e896b4 2012-02-25 Added another test for ID3v2 PropertyMap interface; fixed various bugs
+495a028da3493e07dbc8049c82048b706eff1197 2012-02-19 removed debug messages
+23d303a8962fa61ffad71df65b569091908c98a0 2012-02-19 fixed bugs preventing tests from running
+6c054af3ed45e7d227c56844d1e1dfd4e81e77d9 2012-02-19 Added some functions, started to fix bugs.
+70c32642790d716d692eae197254c88bc2b869db 2012-02-15 fixed tests
+cfa5ac6569bb0f3c9ed31f8275cc3ccabcaefbea 2012-02-15 Fixed id3v2 test
+de51307de71d510356d1f845f1d5c37a55c1cdb1 2012-02-15 Added lots of missing includes
+140f4a57e24d1097190997bc5ace60425532fafa 2012-02-14 fixed lots of bugs found by 'make'
+8a8e9b702cf34b6d206c32b1226fbf71f1fd86ab 2012-02-14 Ported xm.
+d6215365a115fa42ff741737ce35a22e712a2917 2012-02-14 Ported wavpack.
+2185d52f561811582ae2c8b24ea04d7f4beca497 2012-02-14 Ported trueaudio.
+48aaaf8dc447655ec189e88caf45e6aa3d030b75 2012-02-14 Ported s3m; removed old id3v2dicttools.
+d2c43d71748cdb27e8b9f48a5c60dd71be11293d 2012-02-14 ID3 interface complete; vorbis done; wav done
+cdfb447042cb0676a19b476db18df5d363e2d688 2012-02-04 Add explicitly declared default constructor to StringHandler
+2d00b690de3ea480fe4d2368437bff6271bc71be 2012-02-04 Merge branch 'master' of https://github.com/poiru/taglib
+51675f3399e0ea8701686e3992a46a625303c112 2012-02-04 Added sampleFrames to FLACProperties
+fa662a23dbd33493d77b2fecfcaa436d9280ba3f 2012-02-04 Check if the header is TTA1 before parsing
+dc628204c06acf826ce522e6eab578bdd589edf8 2012-02-04 Added sampleFrames() for TTA files
+9564956a7fd5e10270d483a74cc7b508a492254a 2012-02-02 Removed space.
+1f2248d24b479c55908cd14b75dbc9b62147c037 2012-02-02 Additional change to previous fix.
+06424598bbfb45e20099e7faca1954911d214c90 2012-02-02 Fixed memory leak.
+7b3f279294737a18a6c4d760cd0f90484ba887ad 2012-01-30 Correctly handle non-integral bit depths
+a8632f710f6dca2d9eefb5fa98a8e37ee2f6490e 2012-01-22 More progress in ID3 ... setProperties() will get messy :(
+0c8e5bbec8143b340baaf54e7a252606f520de80 2012-01-22 Implemented asProperties() in all relevant textual frames.
+a5e45f196b472db5e01b92ec84bdf5d59ac0fc56 2012-01-21 Started to work on ID3v2.
+e4d955d6ef703be049f47df278b30e567ab27924 2012-01-21 Migration to new PropertyMap ... done ape to mod.
+18ae797df474f1703d36f6ba6a4497b98550dee0 2012-01-17 Add unsupportedData() to PropertyMap, simplified [] behavior.
+d11189b975d4062898881d3e4f163bacfb9ae5dc 2012-01-16 Basic implementation of a PropertyMap.
+67d896e6a7405b8c3d88c0e813c4476116cec057 2012-01-14 Implemented the most easy comments on the pull request.
+ea41cd8903fab1a200f757a09f0178cd519f95f6 2012-01-14 Merge remote-tracking branch 'official/master'
+d904281c6baaabaa79946c19e1ebcd205243cc60 2012-01-14 Make it possible to generate an XML report
+40bf52e70f6e913d7082fc675b2627eb2ce408f0 2012-01-10 Reverse the version check, similarly to what mp4v2 does
+b981b6dde7eb1e1ee86c64b01ed1099420d1d9fd 2012-01-08 Check also for the deprecated GIF type
+c237998983d4921ea5258bed1ee64466306e12c9 2012-01-08 Support non-UTF8 free-form atoms
+5ff810e98da768c5f71a32863d02568d33bb218a 2012-01-05 Support for ID3v2.2 frames used by iTunes (TCP, TS2, TSA, TSC, TSP, TST)
+7875d02a8fa8ca97787fc489ae388475e8de1c0a 2012-01-04 Merge remote-tracking branch 'official/master'
+baafb3e290ce4a1cbd33726ba06a19ccf27ab468 2012-01-01 Funny that there managed to be no operator!= for String for so long.
+c4cef551587e34b65163b19e525efa75089018b7 2012-01-01 Added tests and information about ignored id3 frames.
+0eaf3a3fbdca2f24e4a4277151edf7a66b7becaf 2011-11-02 Implemented dict interface for more formats.
+292a377d1ee430c5b67eac7745b7c331ae37afa3 2011-10-30 Merge remote-tracking branch 'official/master'
+6ea85993134c2ff4605845afdd0599f7c2d2fbde 2011-10-08 Detect RIFF files with invalid chunk sizes
+772bc9f7c4f3d0024bd7bc3b8f4ae4afcbd94337 2011-09-12 Further cleanup and simplification in id3v2dicttools
+0c2ca20ec2b2ca316ec379d92a904c310c0d6bf6 2011-09-11 Restructured and simplified ID3v2Tag::fromDict().
+2d310750477d2427622d6e18855cdbd1e71df4bc 2011-09-11 Splitted ID3v2Tag::toDict() into several functions.
+837c9ef288bda94bd56953b9a4d5fffc6c8c10b4 2011-09-09 Add cmake option for visibility=hidden
+0356249368828ae47c43c929336dd20d574e7669 2011-09-01 Merge remote-tracking branch 'official/master'
+5647b2e2935d6e4a06f9fe8b449055772e31c097 2011-08-28 Made im/export functions nonvirtual. Added similar functions to File and its subclasses. TagLib::File contains a bunch of dynamic_casts to call the correct specializations.
+686bcf55a9b2c9e75f2484f93a6918fa4c62e143 2011-08-28 Add support for iPhone ringtones
+fa8159a9d0a0f4d53fe11310ad9f9b35d425f960 2011-08-27 Added toDict and fromDict methods for APE tags.
+58db919e435f4656a4ef67c5fd2582668b6f6863 2011-08-27 More support for the unified dictionary interface.
+b262180857f080af6eb8b3f648f210fd149db2af 2011-08-26 Some preliminary work for unified dictionary tag interface support.
+bec3875b947970463ac4665e51e662cd0d572e74 2011-08-16 Added removePicture() to FLAC::File
+ce53d13af18a962bad8f036e9c0fd4796d354c19 2011-08-13 Add suport for more MP4 metadata atoms
+4868bb56906e36e6b1b72ed738301f55d2202e61 2011-08-06 ByteVector::replace: test shrinking
+7cc36db7606dfc85d2e344d35c4e26fe8f698bdc 2011-08-06 Use the default frame factory when it's necessary to parse ID3v2 tags in APE files
+028f8314175e3ad41e112d4d340c289510606265 2011-08-05 Basic tests for ByteVector::replace()
+303af305dbcf332e0a01a5139745f59465b97899 2011-08-05 Merge remote branch 'panzi/master'
+22b57f44636024839d34cdf7bd7e93705306d864 2011-08-05 Add taglib_free function to C binding
+11c993e9f0b29c5f3bf9df68d9f27b3dd1a21afe 2011-08-01 use DATA() macro
+3b14dc3e94d9dbade686563ceda5429e3ff84628 2011-08-01 ByteVector::replace: forgot detach() and opt. when pattern not found
+ad7645f8e9eb7c45a0ccb7f47eabfdde3728083e 2011-08-01 ByteVector::replace performance improvements
+fb2decb7deff9faf36f0cbc274498b0bf1f19baa 2011-07-28 Reformatting
+3a837e7fc7a81d885630335601a10a449bf6fbd9 2011-07-28 Reformatting
+0730076a0f15e802f5fb1168fc127b1092b4b5df 2011-07-28 Merge remote-tracking branch 'gperks/master'
+364a840d832cbf8ed88b38a38aa596f6cddfe868 2011-07-28 Merge remote-tracking branch 'setosha/ASFPicture_warning_fix'
+e9cd38313914cf2a6f44083d049a001c126a95ab 2011-07-28 Merge pull request #14 from sbooth/master
+a41b32bbb296fa5c2b22c531a502796e2552c221 2011-07-28 Don't crash when wav files have a 0 for bit per channel (sampleWidth) I've seen this in a wav that has an audio format of MP3 (0x55)
+98d6b9779852d5abfc34f9023b1a6c45385a394c 2011-07-27 Fix warning
+019fe4843f51b29b4fdc2a31fa917ecffd72ab46 2011-07-27 ByteVector works on chars, not unsigned chars, so there needs to be a cast before the comparison
+bb25953767b5fb590211417807bf742530bb0e44 2011-07-27 These methods can't be protected since they're called from IT::File
+4795831b4a219ba7e38a12f740a9bd3f635f25b5 2011-07-27 Fix spelling / formatting in comments.
+19484c059dc4ccbd99c16e740e1d9c0db6e65b1c 2011-07-27 Document ENABLE_STATIC_RUNTIME
+10ea76ff11f7b2bd8904fd1fc84b95cd90942313 2011-07-27 Add build option for Visual Studio to link with the static runtime (/MT vs /MD), pass -DENABLE_STATIC_RUNTIME=ON to cmake
+5f84bbf61a2aee64f4c96bf666f1957d91b3ed09 2011-07-27 Correction to OS X build; include basic Windows build instructions
+8b647e5fa71bbad8d244dbe1fac61e58ebedc93c 2011-07-26 Fix for VS2010 which had been throwing out "cannot access protected member declared in class 'TagLib::Mod::Properties'" errors.
+0341079b92c4578dded99b29490b08e4c822d644 2011-07-26 Misc typo corrections
+1a53bfd71af254ade524aea81f48e688018ad58c 2011-07-26 Example cmake for OS X to build a static library
+6aa41d8180207dc1ce058710dec4693ac50e8ea0 2011-07-25 Updated OS X build instructions
+101a624c46902ec196a71bcf14c9e0f9786576e6 2011-07-21 Merge branch 'master' of github.com:taglib/taglib
+3b4e4357e664321749bf2d680020ab583aa8dab6 2011-07-20 Only include config.h if HAVE_CONFIG_H is defined
+3baf0a413de90ccd282521e6bf98233b92229b24 2011-07-18 Missing const
+68c6a7da7ad637415e13c6a31f2962cdc22e2314 2011-07-01 ASFPicture fix warning class/struct thing
+2fd10b5fd5ed2185d77a4773c8e97a0f5de25a73 2011-06-28 corrected comments
+a50886c3c7b33fe79979408e6505eb4c2de336fa 2011-06-28 Merge branch 'master' of https://github.com/taglib/taglib
+2119494cd12920fa004e909515827f0ee06941f4 2011-06-26 added uninstall target
+843070ba1825b280fccb6f7e45cd3f3fa6531258 2011-06-26 Tabs be gone
+57bf96d169cf1ad00ffe2ae3833f240ebd7d3869 2011-06-26 Merge branch 'master' of https://github.com/taglib/taglib
+937d69f91d12615315b743a8da62adb825d97a8d 2011-06-25 Fix indentation
+f3447ae38dfdd17dd9ef6a200f5bbd92baf2a82e 2011-06-25 style fixes for enum value names
+89861cf77ad3611b5ef16bdd6c94180fe6bc0af5 2011-06-25 style fixes: { on same line with if/else/for
+a04d7d0bbca9bd330ac97307a00ae52672bc1bef 2011-06-24 Merge branch 'master' of https://github.com/taglib/taglib
+39e8cbbefb5e70d1ddc7f294bcfc56d184b301ad 2011-06-24 Added sampleFrames() to AIFFProperties and WAVProperties
+6b063862c38dce47b5d2abd2df782a88b0dc4955 2011-06-24 Remove the old qmake project file, you can use CMake to build a framework now
+aec8880592bb58439b3229a1a66cf30b9188c91d 2011-06-24 Update INSTALL to not mention the optional file formats and add info about building a framework
+dd846904cbc1ef3ee628d77f0c9df88ef8967816 2011-06-24 Remove the options to disable MP4/ASF support
+c7fd4cd2fcf15df3848cc6fa610655b4759104d3 2011-06-24 IT: the max. 8000 bytes msg. length have to include the NUL
+57526c6c377d84bf7dd0cbe97caf613d8ef7bef1 2011-06-24 IT: add term. NUL to messages
+af92db9dc0d9168c5055e2867f792bcfcda7141b 2011-06-24 IT: unit tests
+2d6274a36af8d20c02c2cfe9a707dccdab404c01 2011-06-24 Test FLAC: cleanup copied file
+9c27c45eb83453d8529bc139ed70647d6fffa624 2011-06-24 IT: strings require term. NUL. mod files: tableLength -> lengthInPatterns
+e71806b6dff3ce8ad6b6e09417793042bd170cab 2011-06-23 IT: volume is only a byte in size
+0b34d4f8ee037faab1daf5f045854da122bdb7a9 2011-06-23 Enable MP4/ASF by default
+26613473cf46dd955dcda1cb5741284b66ff267e 2011-06-23 forgot to remove debug code
+561cfdb0ec9328c3a700539fcf096748976ab895 2011-06-23 S3M: unit tests and bug fixes (NUL char. is not optional in S3M strings)
+e810f2f61f8fb3a7da8d60209cc035b3712478b5 2011-06-23 Merge branch 'master' of https://github.com/taglib/taglib
+7236ef4d0f978ca950b569cb5d5913a3e7b05a38 2011-06-23 S3M+IT: fix reading, IT: untested support for message writing
+b2517aa4a0cb119457e8dc02a4bf973643f1f4f5 2011-06-21 default constructor MP4::Tag::Tag()
+e202c658f059236a54f29f5c418056ec994b6adf 2011-06-20 Merge branch 'master' of https://github.com/taglib/taglib
+7448bb353b42356779f4d640f73c25cd4a893aeb 2011-06-20 Include of "tag_c.h" after system libraries.
+aeb528ade25a650f98a872949953fe9339ea85c5 2011-06-20 XM: forgot smaple count
+d1cb8ae09db9f2379168696b51ba165846bcf9f6 2011-06-20 IT: support channels property
+4b44f2504882f9c407a4c205112b0de53bece9c3 2011-06-20 comments++
+4b754b1bc6190b493195a9bb798fa89dea440662 2011-06-20 more correct IT parsing and property naming
+b3d44394bf176f46ad96b071f039f0b10f934d3a 2011-06-19 more correct S3M parsing and property naming
+5477ede3eabc37192181046d7c39462983ecbc5a 2011-06-19 updated comments
+03534170faee9f08b122859435627ff1069dee9e 2011-06-19 comments++
+b30b8c4ab57cceac8a5731359244a04020c864be 2011-06-19 IT: no longer allow wrong sample/instrument magic
+e09c2c5a19ae3a45eca5891cdf55c4350cc02300 2011-06-19 untested(!) comment write support for s3m and it files
+6afb7c04b3d95e68bae6f4c806ff5287f88c1640 2011-06-19 comment writing support and more tests for mod and xm
+0143c3ee6387dde32086b6dda329257e4c00995b 2011-06-18 comments++
+a31b0bcf8cf3cb394031fe5f91b512a04e904397 2011-06-18 xm: no \n too much in comment if there are no samples
+5ad69f6f2af252eb7b0841974dc83638fab3537d 2011-06-18 fixed mod property names and added unit test for xm
+b63508ec3ec8278fba96acd760a01d3f11aac98c 2011-06-15 We still need these includes
+fe356c31b4a71e99309696c0717b03fcc6f17f0f 2011-06-17 added unit test for one flavour of .mod files
+eec5e33e0d375a7d25d12165c97ffb4930e379e5 2011-06-14 added check for readOnly in save methods
+868ce3dd21874511e80059d2ab221149c03c75cd 2011-06-14 added myself to AUTHORS
+1e6d645ce9735a2aac78e8d57b9f25bf547ea6d1 2011-06-14 fixed a comment
+65fb9733b9f0183a6c9d7be0093b2648351349f5 2011-06-14 added mod (+aliases) to defaultFileExtensions
+f75f5ac9bbacc78d91ec207b28c53f11214b8637 2011-06-14 added .mod file support
+812826fe3ae6278d6f207e5406f36f11d2ce9d24 2011-06-14 Mod::File -> Mod::FileBase
+319233400637a10b056b229bc7b0d7ed1ea9008a 2011-06-14 more indentation fixes
+9b2bb4af34f7ee6dac3d479a7d1b2e38c9992428 2011-06-14 code formatting fixes
+54e9656474c0bd594ce1c75f20901ff2112be343 2011-06-14 converted tabs to spaces
+f6dbd32ed395c4ed856e13ff6520fedf1da18fe1 2011-06-14 refactored for ABI compat and write support of some tags of s3m/it/xm files
+5332fb5cf80a71ee1e9e1c382ce1b7be562c69d2 2011-06-13 added read-only support for s3m, it and xm
+c3c88b4f550d11db241247b3b4bc3c8154e6d53f 2011-06-09 Merge remote branch 'lalinsky/abstract-io'
+8eb32577bdcdc6f565f3a3807b188d4cee11d5f7 2011-06-09 Merge branch 'abstract-io'
+0ed2477dfadc80ea64b9d760e74ba3c9f8bace89 2011-06-09 Add an empty default implementation of IOStream::clear()
+b3646a07348ffa276ea41a9dae03ddc63ea6c532 2011-06-09 Be more careful when parsing Vorbis Comments
+8ed9b0da2cdb2ac870052d4734b622e755430f71 2011-06-09 Support for reading ALAC audio properties
+93564a2daa1d05739ee8f062575271f8567aaab3 2011-06-09 ALAC file encoded by iTunes
+0a790f0017638ccc51fc02a36dbb282c1bd43de5 2011-06-08 Add a (failing) test for reading ALAC audio properties
+a224e7cd6dce0a3ee77a6765eaf2142074c901a9 2011-05-28 Install the new headers
+088dbfa8320dc7f87b120f93b88a8f24b716822c 2011-05-28 Merge remote branch 'taglib/master' into abstract-io
+a04da3f1592a8833fe2c55b6aa3177bbec0202b5 2011-05-28 Added read-only support to FileStream
+dc062a0844d9d5050724302478f2d1c0cf0c813e 2011-05-15 Make RefCounter compile on OS X with the 10.4 SDK
+efeccbf72614efaed1c7282f8c9ee02a0acf871f 2011-05-09 Don't lead the scanned blocks on save
+6b7ed4a5d5dd89c10ce7a5a9cc4aa639c455330c 2011-05-09 Merge pull request #2 from wplaschg/master
+adb0984c87dda936d94a07c32548e2aedf5129a7 2011-05-09 Adding ignore rules for MSVC 2008 build results
+a38d2b299589c87e866195959e13f289e2fadca9 2011-05-08 Simplify static builds
+b5b8387aee6ae51416d298805db3353c5a1542af 2011-05-08 Don't install pkg-config files when building a framework
+c33769416511af7b6ce3cc11e607c994767e60bb 2011-05-08 Make it possible to build an OS X framework
+b2e3a477e998f7fbf3b3e9567340e71ed25add89 2011-05-02 Always make a copy of the ID3v1 genre name strings
+81734919d261c2f8c64b64ae82f781b58a9b9637 2011-04-19 Add info about BUILD_EXAMPLES to the INSTALL file
+d03ef3c3122cec5d08f47be2edb5352460106ac9 2011-04-18 Use the PUBLIC_HEADER property to prepare for building an OS X framework
+e92ed0a8302451fd47ff8b3e9b4df485e197685e 2011-04-12 Remove unnecessary code from tfile.cpp
+65ca29b3e28e52a9c47158115418816b0e93cb00 2011-04-12 Add a ByteVector-backed stream class
+26c130c3879a1eb2c07c784a91464911c42e5bab 2011-04-11 Duplicate contructors of File subclasses to accept IOStream*
+8b59bb595779721f884fedf4e16965031b223413 2011-04-11 Make it possible to actually pass a IOStream instance to File
+b53a577e38c2fd33850d2f3f54c61d826b2d81bd 2011-04-11 Add FileStream as a copy of File's methods
+0b0cbc2e34b37a727f2c79c239b144222762b400 2011-04-11 Add an abstract IOStream class
+4cda0eeb7b4b58ac076b9b174f9a8dff7e717fc0 2011-04-11 Make it possible to run the test suite out of the source tree
+2fa8c93776f2677033399a193596a16b9b4a7e52 2011-04-09 The website has more up-to-date links
+266200d77ed71554b6295aba4a89c56da67db3a7 2011-04-09 Add myself to the AUTHORS file
+aa84b8b674f0a8c76674e3634f75a302ca50512f 2011-04-09 Obsolete comment now that we are not in kdesupport
+ee920a461c7d568de3ca842b64aa665b3aa7af00 2011-04-09 Clean up the library CMakeLists.txt file
+1596dc7c696c76ba471410437b15b6b0914c84e0 2011-04-09 Clean up the main CMakeLists.txt file
+f3d3af9355b490ad92ab6e257c1ba872500eb3c1 2011-04-09 Don't set unnecessary compiler options
+9653796640c6a9ebad9b1905dc74e282b452ce4e 2011-04-09 Merge branch 'master' of github.com:taglib/taglib
+a4a097d2f85a87b79d84664ee101ca0357de03c7 2011-04-09 Merge branch 'stable'
+d112a6819390bbe322d5c6e7bf19e7862de9f5f2 2011-04-09 Support building documentation out-of-source-dir
+5eda17aa961950565e8aa2bfa301a3c12b8fae9c 2011-04-06 NEWS entries
+8878c9158cc7061c95d0054ab7a024ad9287a1be 2011-04-05 Upgrade IPLS (2.3) to TIPL (2.4)
+3715b9647779b9956f649e6475af47e7bf2704fb 2011-04-05 Protect against incorrect ID3v2 version parameter
+aa57db3a391d6a00473e006431b6acb78bfd47b9 2011-04-05 Convert frames TIPL and TMCL (2.4) to IPLS (2.3)
+f9d38129b84bb3f9e3476238cba53d77f2fa26ca 2011-04-05 Merge branch 'master' into id3v23
+0c6e2a0aa993b0ed11966dc451f1c2aa1ea057f4 2011-03-30 NEWS entry
+e16829190a0ba0ad19e382e6184364874570179c 2011-03-30 Fix DRM detection in WMA files
+7a6647cb9959ea640e005adddb4044a3c8d0372f 2011-03-29 Untested version of DRM checking in WMA files
+97cd58bc65071891974e9e800eba174f7a9627d3 2011-03-29 Check for the presence of the drms atom in MP4 files
+8f42d5b594f8debbbab91d6911fb628d2c9da11f 2011-03-19 Make it possible to build a static version of the C bindings
+158152cb46014f5601022bc45e6826837cb40c22 2011-03-19 Use the same SO versioning as we had with automake/libtool
+f624d6e2af282c1b8696e4d7eb24394b338efc82 2011-03-19 Don't overwrite fields that already exist
+d3e79ddc389bf79ece829e5412cbbb8a5227ed6b 2011-03-13 Partial protection against broken WMA files
+71e224fed812a0ab4448c5b9c2ab801a3c3a9f27 2011-03-19 Don't overwrite fields that already exist
+80decd737d4a6c6254f9457d10be997c1d27ac91 2011-03-19 Define NOMINMAX so that windows.h doesn't define it's own versions
+d169a670e0646493844cf3ea5ad9c44362a86225 2011-03-17 Merge branch 'master' into id3v23
+a6cb74ad5d4e1d3237296543a17b1200c0d265db 2011-03-17 Ignore docs and OS X dylibs
+27aa8cc293bdd5fcd0e9534403b282d8e84e2e24 2011-03-17 These aren't needed anymore now that we're not in kdesupport
+d3df66f196fe3580de6d1a78f779d4a4309a65b0 2011-03-16 Convert TDRC to TYER+TDAT+TIME
+1453a7b157fc88bc6eb28742f67e0ecc70d6dd64 2011-03-16 Clean-up temporary files
+e8d0551c9a4188ea4f93c54fed2913fd5d6b18b9 2011-03-16 Simple ID3v2.4 => ID3v2.3 frame migration
+061b381ea835edd14c8a2e86cf26c97dba00f68f 2011-03-15 Make sure we don't write UTF8 or UTF16BE to ID3v2.3 tags
+1802237c75b7a188629bb5e24b75a8f1a0a0354f 2011-03-15 Support for writing structuraly correct ID3v2.3 tags
+4bdcc9662ebae82b36778202504cf62e0b5e77b3 2011-03-13 Partial protection against broken WMA files
+41f18287199d77623f096499e42c8a8389ad22c3 2011-03-12 Use the memory barrier variants on OS X
+223b85d345d4c0ca19f1c1e6e280c83b8543c167 2011-03-12 Use GCC automic builtins where possible
+ee49b781eb14610694761215408d65598411f1ed 2011-03-11 Add .gitignore
+065fcd5077218edef0ca6ca0b27af43deb0ae667 2011-03-11 Merge branch 'release-1.7'
+b3ae839a3852f39fb284342facd508178e990687 2011-03-11 Add release date
+cce88b7005323be611ec47681be992ff98e7ee58 2011-03-11 News for 1.7
+311be56432e83f8405255eae066f34d19efed37b 2011-03-11 Merge commit 'eee860f9c6' into release-1.7
+5685dd078f8f84ff7f2cafe59a0141966aab2f5c 2011-03-11 Fix memory leaks in the FLAC parsing code
+38219b88b371f90a8c76eea9ec8f4bad31067d36 2011-03-10 ups, revert my accidentally commited debug output
+0cdfa793e98cab96ab36004c4d59c9b251b4ef9a 2011-03-10 use atomic refcounting on mac and win32, todo for linux
+eee860f9c63f9b5a6162d32a89e9dc9c98c24398 2011-03-02 Fix build when the 'uint' typedef is already defined.
+10fff6d79760996c28a6b1ecd905cdcedb0e95f1 2011-02-25 Update the AIFF test
+7cc1ce1c362998ccb76a161e94c2cecd3d739a3a 2011-02-25 Fix the patch from r1222376
+272719e666651e789c049c0749d89fbce7491e7d 2011-02-23 a formal change: convert rifffile.cpp to use vector of structs instead of several vectors of simple types
+d21ff8be54c548fee530b468a2335625e875feaa 2011-02-23 divide by 1000 instead of 1024 when calculating riff bitrate to get standard 1411 kbps bitrate on AudioCD wavs
+f89c16cd6538363327104a820a218b17bb865116 2011-02-13 More news
+be8fff376892f67fbd1412820c36f6211e686e9d 2011-02-13 Automatically generate the version number in taglib-config
+263832cf6a74cf1dbab78b10c11da75bdcda9f79 2011-02-13 CMake-specific INSTALL file
+95c09d232d372170f135b0d930c5270e262e1cc4 2011-02-13 Add svn:ignore
+378fd15b549a3255c8b8e799d827ada1f26826fe 2011-02-13 Move docs building to CMake
+2f9838a440c6af2cc19e259912342a4b1da85b3e 2011-02-13 *poof*
+4b00ef4acb26a79f873342401b198aedd7bd070e 2011-02-13 Set the version number to 1.7
+c21fd955ff51ae0c01c66cf182406535e818df67 2011-02-13 Fix writing of new RIFF chunks at even positions
+ad0494bb7e958e80b079d3c392803ab41b9b8750 2011-01-31 formal change: combine if-conditions for identical bodies
+7c776935e4e1c7aa8e1f2f41db930648d1f72cd7 2011-01-30 Revert r1217775
+a4f53d9b4a38d62a8fb66878a6cb358eb16708e3 2011-01-28 disable creation of unknown objects for wma files, because we've seen the cases when it could be as large as whole file, and we are greedy for the ram CCMAIL:lalinsky@gmail.com
+c56c0a3d0ca52e38dcf5f33491de0ecbd6853b24 2011-01-28 fix crash on wma file parsing, add clarifications to API docs CCMAIL: wheeler@kde.org
+299e3f0ad6525b9456130d559362f29d09d85149 2011-01-24 Define a macro to properly construct std::bitset
+df86f45dad6f8547142c4d5cee2ff20a8b9b50e1 2011-01-24 Back to unsigned long, it breaks compilation on Solaris
+b051df00623ec9fa3be09032652728743f78f098 2011-01-22 Fix compilation on MSVC 2010 with the C++0x version of std::bitset
+008789520639b17b49883f3db19e45547a39e043 2011-01-16 News
+735e52392bd50b551e2bb093c2cf3c08f79d77c0 2011-01-16 Fixed copyright headers
+1352a4e0c3b4ef76fb52a10d93a893dcbb3cb723 2011-01-16 Consistency with the rest of TagLib
+fb3cca2c44af4974a2e7ac06a6632bbf7635d161 2011-01-16 Support for ASF embedded pictures
+393e9c5572900d0638838e39e6e5e2c1ab4ee555 2011-01-08 Fix FSF address
+6f68c30db32b799063cef38259d12d7ec1aa7a6a 2011-01-08 Fix memory leak in AttachedPictureFrameV22
+085a54b67d0096016a94afb468b8bb832ca7e0fa 2011-01-08 Fix FLAC tests
+b43c149138e099fc90c3c1954af8c8337502fdc3 2011-01-08 Documentation fix
+3741c3929506e9ac8a2ce96e0aa2b61f3b0a8210 2011-01-08 Full read/write support for FLAC pictures
+d16be3fa98b1b8a22ae9a4dfec3a26fd27281c24 2010-12-02 Generate docs for ASF / MP4 as well
+fad0724bff82e11ccc4f78383b2a68436f1b9687 2010-11-28 Install flacmetadatablock.h. Required to make Amarok compile.
+5c930a6a8c99a9eebeefb9fb34c856fe241c1f46 2010-11-28 Work-in-progress support for writing FLAC picture
+d21d8f9f3c24084c746a553777371492a244acec 2010-11-27 More tests for WavPack audio properties
+56343767ce35175d2f2e96d0ae9e284283859be4 2010-11-27 Fix reading of WavPack streams without a length information in the header
+15d139e271a1e6bc844817f3d68696972385c092 2010-11-27 Docs
+259a9a1a14fbd663f77fc186c010a5d6ade1dd0d 2010-11-27 Explicitly check for -1 in WavPack length
+874d495b29f1a238679a167fc0eaba466d9c80c9 2010-11-01 Accept both "ID3 " and "id3 " as valid ID3 chunk IDs in RIFF files
+306aee3e7d47f506c9f278d9aee4256428e5d500 2010-09-22 Different LGPL version than was referenced in headers
+32a10b53d58dd4e08e701b4d4674c1bd68fb0928 2010-08-24 Fix Automake build
+1c225ed37a96fd6539aac3766bc54037056cf211 2010-08-24 Added information about the number of bits per sample in WAVE and AIFF files
+f887f5eec36a80f969ef18cf018bc6c410601fda 2010-08-09 Make sure TAGLIB_EXPORT is empty when TAGLIB_STATIC is defined
+dcef0fbad200a6efc34989a25e58f96aaf49d223 2010-07-25 Read-only support for FLAC picture blocks
+0f979667be5c6cd0337ca609062a962ed478df37 2010-07-24 Don't unnecessarily include whole <iostream>
+5aed3681fbcd5450f8167328cbf3371a66929547 2010-07-11 Missing file
+3cca3f17c5603dedf172a93b2de586f28f3e0989 2010-07-11 I think you forgot a file :) CCMAIL: lalinsky@gmail.com
+7426a64d2b16ceec007f1483aabb2dcebf27ee15 2010-07-11 Added FLAC::Properties::signature()
+1d10bde500d01f00b94b2fd17703f641899d6bd6 2010-07-11 Added reading of WAV audio length
+49631a30130edf94bb313852d0bd4f9184a96041 2010-07-10 Implemented a specialized version of APE::Tag::isEmpty()
+ab7e997bc614851ccd01bc3968cd00efb998d928 2010-07-03 Don't try to save read-only MP4 files
+a33f1619994da2c742c111ea8d94f02478117426 2010-07-03 Unused private attributes
+ab1bc0617211586351e30bac10fd3e41e363b3ab 2010-07-03 Support for reading/writing tags from Monkey's Audio files
+8792f8df82b6cd7929853ea5c47ca28d2fd1e66b 2010-04-17 Final changes
+9dcdecc81058fb7e149d1b5b6ceb6172d5c27866 2010-04-15 Fix parsing of regular 32-bit integers in SynchData::toUInt()
+f6478a41721fe9a8795de1d6f310068ff4377630 2010-04-12 Add a BIC comment about merging String::toInt
+91f94f593b565e128614d2fa96f30adcf799f2af 2010-04-12 Info about the new toInt method
+10e43504100932ddadb8c76a0485e9a8aa2ca315 2010-04-12 Updated NEWS
+414a49cc1640947369c80fa94cd83fbfb2c88721 2010-04-12 Include taglib_config.h by default
+19b2341411fd8de27eb3513b6e9d45841637c276 2010-04-12 Fix upgrading of ID3v2.3 genre with number 0 (Blues)
+d5eb51e452cd3cc1e27a652ba34777e55ef879e1 2010-04-12 Update all version numbers to 1.6.3
+2811d24efad9f6fe11e7e96cbf73541337f93513 2010-04-09 Update to current automake
+f7f46b23207f8bdfd9b94a77fb7cb5a6382b3532 2010-04-09 Fix release date
+c823c21eb2a723eb5a6a7d53ebc702eee0b8b074 2010-04-04 Forward declarations don't need exports.
+aee204df5425d425ae5d58317f74e148c56c871f 2010-04-04 Ok, actually change the API version
+7f860790ecb0fc0b6430a833b02fe082b05bbf68 2010-04-04 There is actually one new function, so the API version needs to be different
+b1cac7175ff7729265c508436ed16a96e19f13f4 2010-04-04 Increment version number
+e76466097b281a31fc344f8cc6c62048eaf4845c 2010-04-03 Don't upgrade ID3v2.2 TDA frame when upgrading to TRCD
+6612abce723f00d001f631e83e8b0a56541dce31 2010-04-03 Changelog for 1.6.2
+394366860380d20cd1cbf60975d66d89c256d971 2010-04-02 Ignore trailing non-data atoms when parsing MP4 covr atoms
+2ef8fc511849bb76e7e6cd2c33e2bab90387d9a8 2010-04-02 Save ASF attributes larger than 64k to the metadata library object
+4202ce3ec9489dc2042eb94a130c23c44bad13a1 2010-03-07 Update .pro file
+0d16255d093a3292abaf0b07e21ddebc956e7ca3 2010-01-22 Fix compilation fo the test runner on Windows
+d3943177678edec3ef333274451bb0a51914921f 2010-01-22 MP4 int pair atoms should have flags set to 0
+9e9077d1e0c7b9ae02d5ba9ed70cf10cc216560f 2009-12-14 Be more paranoid about checking MP4 files
+b11d2e8b56787f43290788471322169c26e5911f 2009-12-13 optimizegraphics: Losslessly optimized PNG and SVGZ files with "optipng -o5" and "advdef -z -4". Reduced disk space: 10144KB (9MB)
+74c3c282c4271eee1095f53d1ce90b3a1ab105cb 2009-12-13 Handle WM/TrackNumber with DWORD content
+004551faec42f07ea2ff737bcc764f8b1f8ce2c1 2009-12-12 Fix tagreader_c.c to not try to access invalid pointers
+5df7692aa16f87ab90264644a07a18fe6f7e3d40 2009-12-01 pedantry++
+85df71ea2ed35c3896ff7b35b3186157d27a3940 2009-12-01 When decoding syncsafe integers, assume non-syncsafe integers are written by buggy software and treat them as normal integers. From Songbird bug 12964, original author Mike Smith (msmith@songbirdnest.com)
+1b6ab180803cfba41cd984ca8ca60dd4dbb83126 2009-11-25 this patch should make taglib build with the Sun Studio compiler (http://bugs.kde.org/show_bug.cgi?id=215225)
+0f0f2f72881b763e79c96955bf8cb2b644f3d5bd 2009-11-07 Explicitly say that we are using TagLib::File (CCBUG:213544)
+4c70372fe4c8285e44333de404d12a8bd3d5be55 2009-11-04 Fixed a memory leak in FileRef's OGA format detection
+d81af82ec4ee7b49b40c18bd58cefae9aa2fb8fd 2009-11-02 Add test_flac.cpp to Makefile.am
+44c08b8ca296fff241430b4ff7d0448962821735 2009-11-02 New utility class to make sure temporary files are always deleted
+c962d78a57436c4f377f1c52fd97cf70858f226c 2009-11-02 Always read tags from the first Vorbis Comment block in FLAC files
+2039c725f4efa83cb5e8afaf92eafe01d14e7312 2009-10-31 Missing "not" in docs.
+dcf4c7458b41046340f32deb7487e275101afc34 2009-10-31 A few more version numbers. We really need a way to automate this :(
+de162a9734c470acf46c925c99ac9a7a8b9dba44 2009-10-31 Update version in API docs
+d685cd6e47da51fdb274f47ea1b18b47a8cbd05d 2009-10-31 Bump version numbers
+f1abbf33f255fcc9b452eb773a2de49972d5c370 2009-10-31 A little more complex checking for broken files
+5a40a45cc54b87c85f61df64ea9518699723325a 2009-10-31 Make sure we are not trying to read a file where MP4 atom header != 8 bytes
+76b6d4fc9e028ec214d4dcd90e1e83a5eab01189 2009-10-29 Fixed ID3v1-style genre to string conversion in MP4 files
+e8281e1b9f6b28eb47ff92c3eb7f7ddb0186cc60 2009-10-24 Support for MP4 cover art
+bffd4da8b66bd8e72aae0302b7b70d5344a8578f 2009-10-24 Return NULL/false rather than crash when accessing file attributes in FileRef
+fa1a23fe5cf17c25eb4ece250e1d6d0a85c30aa2 2009-10-24 Changelog for 1.6.1
+4e9b41f540d79bc216ce8b258c62cfabf0e62bdd 2009-10-24 Proper .oga file handling in FileRef
+724a68c79ca7fecd1e3ce18f2546007c5c9d8da5 2009-10-24 Don't wrote the Vorbis framing bit to OggFLAC files
+03c63a11a53041ae4c450753a9c2d7bd8ca130b8 2009-10-24 Set visibility("default") for GCC on exported symbols
+ea9dbfd7ae74e1d885eaacb044626b41f9abd118 2009-10-20 Add missing exports for a few public ID3v1 functions
+af65fefef7052b9c9ec6b3a43e7b82ecc29e7b91 2009-10-20 Fix typo in taglib_c.pc
+752a21edc9c5a35dd0b09695112bb86cac6583d9 2009-10-14 Fix copy+paste typos
+18c621cdc2d845308c2b6f63d7706ebaa00ab1c7 2009-10-09 Always use #include "XXX" in TagLib's code
+be2f9ad6e5eba6f2ab1dae80c1bdf064f1385b95 2009-09-14 This value should be bool, not int
+f6083f327fc084bfab9b6b889cce45f18c5c4c92 2009-09-13 Remove extra commas from configure.in.in
+8b43367eb4b265e4d4f4bde3c00bc3e31972a307 2009-09-13 Update libtool version-info
+639b604a556820c87509891ca1435a6d0adc94fd 2009-09-13 Changelog
+482431286e311e8830345d8f51f65517de2beddd 2009-09-13 Remove a non-existing dir.
+cc7c66bf86edbb5b50866e9ecb9d2fbd68859948 2009-09-09 Upgrade obsolete gnre MP4 atoms to ©gen
+db3db34e21ce6bb5282c2ea6806b3f1aea5e16ec 2009-09-09 Fix building of examples with ENABLE_STATIC
+9b17ca219cb41262cb32fb651bee8a7e352ff541 2009-09-08 Add option for building a static version of taglib
+f644bafa441cc7e45b4a7d6f454137a8d18fa4ec 2009-09-08 Use the internal config names
+06f405f7192f98cd38c6204097e821a9d2329458 2009-09-04 Add support for a global, installable config header
+cf83551c93931d2dc199abb9119ba5d79b113dc6 2009-09-04 Define MAKE_TAGLIB_LIB from the automake build system
+0adea1072846e4124da36ddc9a089c77b0d0c69d 2009-09-04 Fix compilation warnings
+b26f8bf5a805f925001f3a3671042ddfd124dd66 2009-09-03 Autoconf options for enabling MP4 and ASF support
+92391e38e83820d65a8e5482e85fe7e502b12de9 2009-09-03 Fix version in configure.in.in
+41fd27a5d256df20c11d67c2ab221f4a20c1c474 2009-09-03 Update docs and version numbers
+67bdd5b8d12ad107d80fedddbe60db492d565f5b 2009-09-03 Split Ogg packets larger than 64kb into multiple pages
+ee7703d29b82f6c512b7c49090257423ab6d7c59 2009-08-18 svn is weird, I have deleted this external in 1010855 already
+624b8594caffb2517cee035de720d76872705e63 2009-08-13 another tool which is not necessary in this copy
+52fba4ec0963686f65abf1ef0906a73af0213b60 2009-08-13 replace external with a copy of the admin dir, as suggested by Jeff Mitchell
+3ffe65c5f4f8f59e1d083607aef491fadbeba76e 2009-08-13 replace external with a copy of the admin dir, as suggested by Jeff Mitchell
+9b7463225acdafc146491b16737f893121f9c9f1 2009-08-02 Add a check to not crash on corrupted files
+93272b41812eb8c7f50a9799f858e6cfd77a1c52 2009-07-28 Add missing tests to Makefile.am
+d10c9e9166221c5a71d16ef0a54b91e0368b1949 2009-07-28 Add a changelog
+8636eb749a1d61b268e5e223b1915be5926de0c1 2009-07-28 Handle RIFF chunk padding and ignore trailing garbage
+834d9d6b230dec1a0441ea391c4f872079b663ea 2009-07-24 Partial support for 64-bit atoms
+097ae0d78552658b15d6f0dd5ff55aac235b4c87 2009-07-12 Use flac padding.
+7f0f90b4eaee6dcae398dd2247aa00e04c2982fd 2009-07-12 Make docs consistant with behavior.
+f7fc585665da8f98c3797e4515940ad28df8df2a 2009-07-11 Don't save ID3v2.2 frames.
+0f11c5ab0cfdbf7725baba103322a19dea664a61 2009-07-11 Support for ID3v2.2 PIC frames
+39e6891c92b858aa6883038e2b1ce10fb10e618d 2009-07-11 Fix off-by-one error in ByteVectorList::split
+5e1eb18df931a85df69fc573e8fd389b2a773fdd 2009-07-11 Try to read track also from TRACKNUM and year from YEAR.
+59e35efc1b2de341d7e5fa17dfa2de56f5217fc5 2009-07-11 TCON parsing fixes
+c92a02b0d7db4a98e6a1931d8fba2936e09c66d8 2009-07-10 One more check for invalid frame in AttachedPictureFrame::parseFields
+b70e3b2304ec3735c3eab07e592c54a7a0b6c12b 2009-07-10 Use floting point length to calculate bitrate from the Xing header information
+bed793f703519ce66c94a2d18464748316f96f65 2009-07-04 Move external to anonsvn (http://svn.kde.org -> svn://anonsvn.kde.org) BUG:195492
+be640ed19fcee2d4eec3c143bafecd39c6c1681d 2009-07-02 Build on Haiku
+b19a4cf81cf493afb02e234e736ef982a205a4d0 2009-06-18 .oga files were not processed. Fix this. The problem was that even if the extension was defined in defaultFileExtensions(), it was not defined in create() so the file was never processed. As a nice side effect, it also fixes the Amarok bug that caused .oga files not to be picked up by the collection scanner.
+901a427d1f40ae942063fa21c43f43b340e5ce50 2009-06-15 Fix typo
+c6e7812d37446ebdf27b743d376f089c858892c4 2009-06-11 not generate it on win32
+98a9b850cfe907141568bbcaf253ebe528f3c310 2009-06-07 Compilation fix for Visual C++ .NET 2003 (msvc71)
+fd20da2ef82a49544c2af8da9346c095a964317f 2009-06-07 Fix a stupid crash inside mp4file.cpp (variable not initialized)
+0974882ecd58bc28cdd2bad45be3dff9802f954d 2009-04-29 Simplify extension checking in FileRef
+a9bce47f96898904cf44eb6a428236eff0ace575 2009-04-29 Add String:rfind
+321997c3998a55e31431f0033ba4320c9eabbb41 2009-04-29 Make FileRef handle the .mp4 extension, too
+94a402395bb2f4f9d5d38b551c9668160bf361ce 2009-04-29 Fix off-by-one error in MP4::Tag when looking for free padding to use
+f1a16bcf0f9d20154b2733a8736a30bdbcb0aace 2009-04-29 Style and safety fixes backported from taglib-extras
+40bdaedb71d5b494b8407362ea25cf87a729ef92 2009-04-11 This commit adds support for building taglib-extras against taglib during kdesupport build time.  If kdesupport is not what is being built, the normal system taglib is used.
+33b939c76f6cc1f8423a41a26ed9e8d27a013c7f 2009-03-27 Don't build ASF/MP4 FileRef tests if WITH_ASF/WITH_MP4 are undefined
+1eace991536b47f2281bac0ab6ba11611745dec5 2009-03-25 Detach before appending a character
+98d2808c17a3f7d9774dc803c24b41f925f2d83c 2009-03-22 this modified version has the advantage that it compiles
+fad967ae0bacb3d7208cbd26210284d553d4ca5e 2009-03-22 Less of The Big Ugly in the middle of the classes.
+56e876612609dc6ead7a8571158f3619e1e95540 2009-03-22 Added GCC pragma to suppress non-virtual dtor warning which is being preserved to maintain BIC.
+36a398a156b2b8fc967ea15b11f467038aa31155 2009-03-10 Finish making .asf readable, thanks Lukas
+f1fd227fce3760a7d4c5e6c3a1bc90a8a38b0cb6 2009-03-10 Several of us have seen .asf WMA files in the wild.
+c918150b726615c688414b222bca406cf82efffa 2009-03-10 Generate config.h in builddir again, and fix compilation when compiling taglib alone
+3ec42c7b84f6fe9a329c016ba70e3a678f4e624f 2009-03-09 Re-add building things depending on config.h by having it generate in the source tree instead of the build tree, so that when cmake uses a non-source build dir (as it's supposed to) it can actually find the file.  I think this is messy, as AFAIK cmake shouldn't be modifying the contents of the source tree...any cmake gurus out there, feel free to let me know if there's a better way.
+f024f9ab1b6b668d41e8397bbb86574165a892a7 2009-03-09 This is surely an oversight; fix documentation
+66b3a1a1842113346ae671a47aef100df0969e06 2009-01-16 Patch from Josef Radinger fixing typo in debug message.
+4fbd7c5d93ca603a9ef086922f7b24f196dc7878 2009-01-10 revert last
+3a390a11d00c66bc8bfad2c2d1a8ec1be924f941 2009-01-10 Also counts as being empty.
+16a7efcd1c2fc6a781bf51bc61c7abc0c55cd2d4 2009-01-07 remove debug line from mac os framework build file
+fc80167a4f1fc4460ea43b2b0adb37734e63e95b 2008-12-21 Fix build by copying strigis FindCppUnit.cmake to taglib. Build failed because CPPUNIT_LIBRARIES didn't contain cppunits dependencies reported by cppunit-config.
+df3eb220609ec4a45704ce49ce53d4e0109a892e 2008-12-21 Suppress warning about this check missing. if someone has a lower cmake version please check and decrease the required version if successfull.
+27e3643d19919690842cb0d16c6e7de1a915c07b 2008-12-05 Should fix the build.
+977ec6d41fd7231361ae2b5df9d5461be04f1d59 2008-12-05 warnings--
+e989d7ad1d266391ccb14c80f3d754a4f81c3476 2008-12-04 fix warnings
+e2c76396dd5601f0f991506140b2769a173a2d37 2008-12-02 -INSTALL_DIR_NAME doesn't have to be set in the toplevel CMakeLists.txt, since it is already set as target property -remove some unnecessary code -use BIN_INSTALL_DIR for the RUNTIME destination
+5c0eb1d6980163ba3686b09dcb67218357960635 2008-11-13 config.h doesn't exist, at least in my checkout, so explicitly defining HAVE_CONFIG_H was breaking build.  I'm guessing this was a mistake, and should either be taken out, or something needs to be fixed.
+1bcb9a6cc758cbb389b4a596fc5e179812be7ca7 2008-11-13 Add default case switch to fix compiler warnings when ASF or MP4 are not defined.
+5df6ef092bfbba0807fa1989476ec54fc2e15c1a 2008-11-12 Add my old WMA and MP4 code. It is disabled by default, must be explicitly enabled to be compiled.
+fa31fa29d738fbd24857f47a1ac75b11f3a4a986 2008-08-29 typo
+13fddc3974c43a88de9d26354d94b7ecd5429903 2008-08-26 Don't try to access the string list if the item type is a locator.
+d2a1cfa32deecb34d6f9b1973188f89317fb13e2 2008-08-21 detach when using non-const operator[]
+8434d19928efc112b9ef7ade5fa8b16cc95aa777 2008-06-26 remove exec bit
+9947f45b31809d4db027a4e6ab30c54abce4354d 2008-06-26 Add support for private frames.
+07a6c86a31046489bc213c6d799613b65a4dca15 2008-06-24 If the genre string is empty don't treat it as a number.
+bd90f1b9d419274000f7da59e0f862da22db3605 2008-06-19 SVN_SILENT: fix typo
+50fe14f4b7140175fe3aa9117cd25065b6c2d333 2008-06-19 add files here
+75579dc0ddd90868d752a530b11e338da7675d65 2008-06-19 Provisional .wav support.  Tag writing will probably be disabled by default...
+1d86a684b2c23ca14b192882c988bae7f4ccdf0a 2008-06-18 wrong copyright
+be99222f293ecccdd0cb62b8cc8e5e4c5190e2ad 2008-06-16 Add a warning here so that it's clear that this constructor is not to be used for setting the object's data.
+9ce4c72995b7caeff54826f779d87aeee3e4c280 2008-05-22 Fix reading of POPM rating -- it's unsigned char, not just char
+f6994ec26c42ac806d911e628b9af52e3b8166cc 2008-05-22 Support for POPM ID3 frame
+51ca869f659b50ff595f8f2ddb7fe655410bb6a1 2008-05-20 fix install_name RPATH stuff on OSX
+55c788b60817db2e6de37410660c7fa2e6067d2d 2008-05-20 Previous was me being stupid and too-quick on the commit button. Need unistd as well for read, write.
+3fe0895f62ea4bf1dae1f476e3a47646ec87d461 2008-05-20 Need plain <fcntl.h> for open and its flags, not necessarily sys/fcntl.h
+388d0f353da656ef35ff372a69ce31c4695f1370 2008-05-16 ldexp is a c99-ism, which is not available in strict C++; use math.h as well to pull it in and hope for the best.
+aec136f1191ed67db95ce2d8513a76379539f3e3 2008-05-16 SVN_SILENT this isn't needed anymore
+08b6514420392e82244c8c2fbd19fb4a20145c6c 2008-05-16 Get all of the basic AIFF properties working.
+c52f3a497415960612a0d3806458b5fb5e1ebd40 2008-05-16 Add a skeleton (unimplemented) AIFF properties class.
+918366adcf0cf17be17492e669ac6e1c7a7852e1 2008-05-16 Uff. Tabs-be-gone!
+5175ed952be037b25528618e426583a241ef740c 2008-05-16 Add AIFF here too.
+ea839c286a98ccb3c4bac93f6437689f3589222a 2008-05-16 update cmake files
+123aa8a775e769d92d023d001f7e774b1050c213 2008-05-16 And now make it work for non-existing RIFF chunks.
+1d1fab1122dd36083391976ddf31ebcabf0aa94e 2008-05-16 Now working for replacing an existing riff chunk.
+b2778ed71580c605f858e842f7bb8c3b2ec10d8a 2008-05-16 Untested chunk writing code.
+d302b299d13f960b57e3d9c23f8f84265ce3ac88 2008-05-16 Add some docs.
+a2aaf8a8e17372caef3388cb06a88d65f7be52ea 2008-05-16 Make reading an ID3v2 tag out of a RIFF chunk possible.
+0d10ae449c686b900da354d8973c44d715f96152 2008-05-16 Groovy.  Chunk parser worked on first try.
+d367a2f429f8eec0e096df66108706f8b6a2e0d7 2008-05-16 Add the skeleton of an AIFF implementation.
+efdcc7b01f27a7ccf1b249a8417060fef4f10e74 2008-05-16 Untested implementation of RIFF chunk parsing.
+40da9829360108931ef2a873353b3f7271a495a8 2008-05-16 Add outline for RIFF files.
+d4527a0141d01d905896c6ae206432569b6bf84b 2008-05-09 Do a dynamic_cast on these instead of a static since in the case of a non-supported frame flag the frame will still be added to the list, but using the UnknownFrame type rather than the canonical type.  At the moment, on systems with a build in zlib, this should only happen for the (very rare) encrypted frames.
+09dfbb7c3ad88e2ff7da24b6ed2f8d107ca4f2a6 2008-04-11 change external prop back to https://svn.kde.org CCMAIL: faure@kde.org CCMAIL: mueller@kde.org
+5fe5ee1074c74f8e3574d1cd4cebfaa70c0e7f32 2008-04-08 kdesupport is going to compile against stdcxx anyway, Cstd wont cut it, so document better and just put stdcxx in there.
+a724586b431daa747c4d3268dd6b9c70a0c6ec7b 2008-04-08 Don't overflow for really high bitrate files.
+bbfcc84dec1ff27159149e5c87a410e6b8ae2a84 2008-04-06 add missing include; fixes compilation with tests
+29995f8c2aff7fbd89abf2539b42a08dad5d1b64 2008-04-03 change externals property to use svn://anonsvn.kde.org
+cf9ccf19e39004a4a3eac52cb999fe38a93c4016 2008-02-19 SVN_SILENT Ouch
+705fa9d79bc1537c1b52cc053dabcaa5fb824ea9 2008-02-19 Fix compilation on MSVC/Windows
+8cfcb4823f0a871ed5a90ade76b8796e9937950e 2008-02-12 Fix the APE positioning code.  This obviously never worked properly...
+8ed12b31d34aaa83342606204638ef0d77c16cb1 2008-02-12 more API review
+4281aff7eadab73887f58f74706a69fac3f0dca3 2008-02-12 update for current doxygen
+7a9fcd20799734fae4233ce3b88a4913186e6b99 2008-02-12 Add the 2.2 and 2.3 standards for convenience.
+84b38b4b92cc29204f426ae85bb9befafea08a44 2008-02-12 Soname was changed now it's 1.5.0
+6b2f47ff911221bb861d485d4b0939f401e6b022 2008-02-12 WIN32 compile fix.
+a49c223c7356b4793018ee08d658fa44f9f750f1 2008-02-12 SVN_SILENT nitpick
+fe1a5cda8531bb377c6fa5b565caea27348e4cd6 2008-02-12 doc review
+83d3b1b9cc8d16433dae20102d8d41dd9805c691 2008-02-12 Move Speex into the Ogg namespace
+a78afdc660c2cd58c1fade9c1adea501e1e04f85 2008-02-12 fix the .pro too
+3b63e301cdfa8f1cf3533114534640caafef7116 2008-02-12 and build here too
+9df8927f4c6c4640ff4869900a0b47361d7c2fad 2008-02-12 build
+8153052e12a04f43872dc55caaad7aafa9f110fc 2008-02-12 update docs
+34393ceeb366ade0eb6eb4e016913ef2d7691cc6 2008-02-12 Move this into Ogg since it's an Ogg format.
+12a884e1228378de89913d3ffcf603f6d24a6eb7 2008-02-12 Messed with things until the algorithm is correct.  rfind now passes all unit tests.
+ee557e29d5d31dfdad94be444fa9f464a4a32854 2008-02-11 switch to the not-in-place variety of this function
+ddaf3cc47916c6d43397dfa2cf4dc5a3f2c806c0 2008-02-11 fix one of the checks, don't cast this to a value over 255
+e4f7a9ec1e607108d8d6afcd8dca2b4180be6a82 2008-02-06 Make sure that we don't preserve the unsynchronization flag since we don't write unsynchronized data.
+2644c529a57375072cdb0397d4dac6bc9eb7e2bc 2008-02-06 Use the new replace function.  (Doing in-place value modifications isn't done anywhere else in the TagLib API, so let's not do it here either...)
+5542dbb94b10adf813bcc721dcbcd166e7a0035f 2008-02-06 add a replace function to ByteVector
+88a9ae32f801f8bd106267e06521d2dcc6ea74f8 2008-02-04 Set the copyright to 2002-2008 for all files.
+ac3b8ddde2e30ec4c234d5431a1d9f5585604c6c 2008-02-04 SVN_SILENT whitespace
+edc9bc8788e6e9762071dab762fd1b30048a0d42 2008-02-04 This function shouldn't be (implicitly) exported.
+a79cb4deb98a642f01861a7ae1b209a037d6127a 2008-02-04 Less code, less ifdefs, should compile on Solaris.  I knocked out Win 9x support on the way since it simplified things, and, well, I don't care about supporting Windows releases that have been outdated for 7 years.
+c619ea1d587329328e88d0051254592bc3b42fe2 2008-02-02 Bleh, just remove this.  Back to UTF-8-based conversions...
+fa679873cd62ef61a6d9467e8f132bf89e631394 2008-02-02 Typo
+c7bf095371185233f0733000d26600c522d3d56b 2008-02-02 use QT_VERSION_CHECK correctly
+64bf7d9ce4bf4b96c9750809855f6dacb29d508a 2008-02-01 More bundle fixes
+908cd93fa9261a35765a982255877eedb3788dd6 2008-02-01 Yoohoo.  Build system number three.  Just using this to build a Mac OS Framework.
+aedbaeaf5a0e9a97ec160689d0ee36403882d04d 2008-02-01 show ape tags in the framelist
+4952d86c6c7110deee6f64fcf24fea8a90f60498 2008-02-01 Add missing exports
+958dfe2451f12ce25975aafbe1fc98105b49f673 2008-02-01 A couple of small bugs (the more significant ones were already fixed) from Oskar Liljeblad
+0769375072cf70bacbb35ea7bbe3c9dae9e662af 2008-01-31 SVN_SILENT wrong license header
+904efe758203a90fac7a3faf34e33b039b1fd0fd 2008-01-31 Add the USLT implementation from Urs Fleisch
+b87c8f042bcd38d2a3cca72aef8e352635a9a58a 2008-01-31 Meh, why not go ahead and expose this.  Add a method to get the samples per frame.
+72316ef1e774a3d516aea5177004fae7d7e773db 2008-01-31 SVN_SILENT ahem
+6ad03a6b396d9bb103ae47331c02e1d5f66da2c9 2008-01-31 SVN_SILENT fix spaces
+17b769a06e1402482b9b616e4f0dab4557f03998 2008-01-31 Check the macro for Qt 4, switch to32Bit() to toWString() since WString is not guaranteed to be a 32-bit string.
+b89272f571d43d52df5ae0b9e6a34db6f5b0fe77 2008-01-31 another version bump
+ab3c78ffebac535155846c81fb96a11c723cd833 2008-01-31 Add the docs from my old repository.
+7997d2cc4003fca9bcd3383f110a5237513ee98a 2008-01-31 SVN_SILENT docs
+a10600c603af14a7f359973ea993bd25899d54d9 2008-01-31 SVN_SILENT turn off doxygen on this file
+37e2d6293f6312fb1fa7383d42726dc10e733a27 2008-01-31 Ok, think I've got this all sorted out a bit.  Code is much simpler now, though much of this could be moved into the base class as there's a lot of copy-paste action going on.
+6f6ec8d7de8458279604db6265a93e0fff431e08 2008-01-31 Another one bites the dust.  Removing Yet Another TagUnion
+be5c25bbfa66d052abb6f4f0b2a7d97274ba432a 2008-01-31 Move over to the union tag class.  Yeah, this is crazy to be doing close to a release, but you know, momentum.
+f38f6588a28bb9de5e70af6fe7868f3cb608cc9f 2008-01-31 Add an (internal) TagUnion class.  I'll pull out the reimplementation of this in the next commits.
+250d411c31778c54c559c8b0a77af8ff080be47d 2008-01-30 SVN_SILENT a little prettier
+5aa1b606aa0bda35931bbd3f9a6c52b68b17a4bf 2008-01-30 Try to work around iTunes putting binary data in a comments field by preferring a comment without an empty description.
+54202bfd5c053a2e6d7316ea726639d26ec4eccd 2008-01-30 This causes TagLib to check to make sure that text values to-be-written as ISO-8859-1 are in fact ISO-8859-1 values (assuming they were passed into TagLib properly) and if not automatically switches those frames to UTF8.
+7f9526113aefa9cef560b20f5b52db799418b6c3 2008-01-30 docs
+d26e09926e2d0be97a5137971226a6986420db00 2008-01-30 Don't try to write non-Latin1 values to ID3v1 tags since they'll ugly things will happen when some of the characters are null.  This behavior can still be customized via the StringHandler.
+bdad22b3c693ffb94f91b443589917a34a19de62 2008-01-30 Add methods to check if this string is Latin1/ASCII compatible.
+3f19588bb19bfc76f5927e8cfe10c7e0d000a971 2008-01-30 don't leak
+9ae596a2e5495a54a9042a4fc1e978b6a3b8b596 2008-01-30 include APE tags in the unified tag, switch these over to some not-so-pretty but more concise macros.
+458b2b333540a43bf89bb2eef6e9c92d802371ea 2008-01-30 rename "remove()" to "strip()" to be consistent with MPEG::File
+adc7c9c84186a90a31e372c624c389758e5311ac 2008-01-30 s/vorbis/speex/ in speex docs
+e6fa8c4976c64975e342dba6a7eb29b20b1be104 2008-01-30 bump version
+d8e6b9f4eed5a03d184eb47a30218c43084baf1f 2008-01-26 Add a C accessor to isValid()
+fdbfa6d6f682fb067442384bc69bbd319ee305c1 2008-01-22 pedantry
+abb8173104e18207a846b816e33797cc338352fb 2008-01-22 Use XXX for an unknown language, per the spec.
+b8435c1ad50c9511f33dcd2fb2452763596b58cb 2008-01-21 Tweaks to preparing UTF-16 strings with BOM
+49bcce586a47bf58e1c0b90025c1e64f224792f7 2008-01-21 Add a test case for reading APIC frames with descriptions in UTF-16 including BOM
+aebb9a86903c252d6c180386c43f7c45f41f2aff 2007-12-13 Adapt API docs for FileRef class to match current function signatures.
+6efe9cfcf200eaba3debce62c238a65bcdaa519c 2007-12-01 Add an option to define NO_ITUNES_HACKS.
+6cc989eb5570d998ac3f3a8fb1b2375946146e8c 2007-12-01 Fix saving of ID3v1 tags to TrueAudio files with removed ID3v2 tags.
+c4a21adb8e0baa1ef8c8c7e448f5027384a559cc 2007-12-01 Add a hack to read ID2v2.4 frames with v2.3-like sizes, written by iTunes.
+fed2c020fe90d66c928e51231e0538d299b014c9 2007-11-23 Fix TTA audio properties reading.
+55066471531fb28ef63245e14c0c8199a8906f3c 2007-11-22 Fix build when building complete kdesupport at once
+46fbd11d8f521d15a54e8ddd7206e06732803000 2007-11-22 Use correct frame sizes when calculating length of MPEG 2 or 2.5 streams.
+e06495a7e3e26acc6f497000ad23020d8faadb02 2007-11-22 Support for URL link framesSupport for URL link frames, patch by Urs Fleisch.
+bb9e6fe65f9be7083f4a781690eacc840c871c9e 2007-11-22 Split BUILD_TESTS to BUILD_TESTS and BUILD_EXAMPLES.
+51a5ae46b1fb7b888a3db992bba898aa89bee370 2007-11-22 Revert r735160 and r735161, and set BUILD_TESTS to OFF if CppUnit is not found.
+363dbf569fcb8dc4268bbcf338f6e258a5ccfd45 2007-11-20 Do this the way the other BIC notes are listed.
+f8736f0fe93b7bd9338bf24d891d2b0ebca5b45b 2007-11-19 Ran my whitespace fixing script -- tabs -> spaces, removes trailing spaces.
+b2e2f0bdba24e19ffa4678b5858bd4dd9f33c428 2007-11-19 These were missing private copy constructors / assignment operators to make them non-copyable.
+438927762c75268ecf42491fac4c2a36b1f13881 2007-11-11 This also breaks compilation of kdesupport.  CppUnit won't be found since I commented out the configure check is fixed.  Once the configure check is fixed this can be commented back in.
+fd1ad5972d544b06bc5deeab08675828c93d7446 2007-11-11 Unbreak compilation for kdesupport users with CppUnit by commenting out the test suite.
+049f77f0d9c79f091b6d25e15f4771350297050e 2007-11-10 TrueAudio support.
+2462905fe0cdbb7a37ca66b42a7176b13bbbb09c 2007-11-10 Fix ID3v2::UniqueFileIdentifier frame parsing.
+41bc6f0686bef8ad81ffe663615cfbadd74e4c24 2007-11-10 Fix off-by-one error in ByteVector::find.
+b44cee48f4afd3ca938aece09654d70a2dc8f7f8 2007-11-10 Add methods RelativeVolumeFrame::identification and RelativeVolumeFrame::setIdentification.
+673b77c3ac81afb021f9f84f5a6e7db93f66e407 2007-11-10 - Fixed crash in AttachedPictureFrame and GeneralEncapsulatedObjectFrame   caused by using uninitialized pointer. (BUG:151078) - Make Frame::readStringField to actually read the string field. - Fixed parsing of APIC frames -- there is one-byte type between mime type   and description. The code worked only thanks to the previous bug.
+db0be6b8c6955d6daf3e2e48c7c0b8427fd1944e 2007-11-10 Add a CppUnit-based test suite (only very few things is covered for now, but it's a start).
+2302f65964de1de5795460971832a7eac216becd 2007-11-10 Speex support.
+bb438484da0e5c51e9148f6b7639f3a6fd7c826d 2007-11-10 Use Unicode filenames on Windows (this time the correct patch).
+7b0c053359bb678bb298bd7c49ca8b465da12587 2007-11-10 Revert r734944 -- this one wasn't meant to go in.
+7c4dfa9188a78d7c03e881b2c5615781c31365e3 2007-11-10 Ignore all autotools and cmake generated files.
+b98be427f98532d2716461f9b660d668ee44f2f3 2007-11-10 Use Unicode filenames on Windows.
+5a495c5c11281bc89d3c233c352bb554aa507f01 2007-11-06 WavPack support.
+b83bf359fc8d4b94ebf6bd3284bfc16e2c1f71e7 2007-11-06 Decode unsynch-encoded tag (ID3v2.3) and frame (ID3v2.4) data before parsing them.
+0d7ed811fed30a2eabb1cc8a446155936bc8c5fa 2007-11-05 Use separate DLL export macro for libtag_c and use the right DEFINE_SYMBOL.
+074d47460ec6ff0771a5658a062990aaa836224c 2007-11-05 Remove duplicate check for zlib and make zlib optional.
+0da49842dd8bad7b29507b281b05c0f9212c3e93 2007-10-21 SVN_SILENT didn't mean for that to go in
+1bdb67fafab13763c5d49f78ee43bd602cab3714 2007-10-21 More TAGLIB_EXPORTs from Lukas.
+5b03541038982eb76a3954e4383ad4a1f89dc279 2007-10-10 Got permission from all (non-trivial) contributors to dual license under the MPL.
+09f1e77112df99df3ccd35fbf935f4eafccba75a 2007-10-09 Install header.
+99b0c6e2f4431ee8414a4f35203a88fee5eb09fc 2007-09-27 Note OGA as the new extension for Ogg FLAC.
+14eda582eee4484b8a14a8eb8aedf2be548c94ab 2007-09-27 Add a few checks to make sure that we don't blow up when trying to read zero-byte values.
+2eda04f934851f7be4c00edde0248e2774f0b390 2007-09-15 more win32 fixes
+860b839551a91647210fdabacfee8224f738ca0b 2007-09-15 win32 install fixes
+0668b2686563a3afd571a78f1f9032e464cd3a4a 2007-09-15 we also need config.h on win32!
+ab1939b8fbdc0f84af5993d0058738e8e536f4d0 2007-08-29 Unfix compiler warning. Compiler warnings good, BIC changes bad. Make it a bit more obvious for the next poor fellow
+a4d6e9a615a2f6b92f54106c6ab879f0673c3c7e 2007-08-29 Fixing compiler warning about missing virtual destructor in class with virtual methods
+317de487ba05408e43299c3ce85ae4d6096372b2 2007-08-27 Still need the C++ runtime for the C bindings on Solaris; need stdlib.h for various prototypes.
+38e140962a49b007358393e6d44f1455196f094d 2007-08-27 Need ostream for std::ostream in some STLs
+7d2d0670b6e52d7bf3c9f626770b5204e0423bc9 2007-08-27 Actually, forcing a particular STL implementation on the C bindings is a bad idea.
+7b0f4f839c95ab098fec8c19f302a472acdf90dd 2007-08-27 Don't hardcode version
+4bf5396890b597ed3a97b80139105501b4054009 2007-08-27  Don't hardcode version number
+f63cff669e63b05ace51d8e6b3b13a3f4ac7e3dd 2007-08-21 Want div_t
+989be39e2cce9a31c4b0e6214edee38d16fc15c1 2007-08-20 Fix the automake build.
+239d3c9a583142fdbbc6f78fac05ae9aa6bd4bca 2007-08-19 more exports from Serhiy Kachaniuk
+ad4ab5f4bef6accc5c662e51863bc6e0e372a2f1 2007-08-16 The C bindings use the C++ library which uses the C++ runtime. On Solaris, this doesn't automatically mean that applications linking to the C bindings get the C++ runtime; add the C++ runtime explicitly to the bindings library so that the runtime gets pulled in by apps. aka. make-it-link.
+47e855e654e8b8142aa54d761205897d6a5eafa3 2007-08-16 Somewhat hackish; might be better off as a downstream patch.
+ecc430e6f5c90de5b6e8623abbf167e73952d6f0 2007-08-14 Not generate/install pkgconfig file on windows we can't use it
+52bc496d050dc90ccba4cdea744cb44d68863903 2007-08-11 exported the rest of the classes (hope I got all)
+30a2edc4a382ed760eaace2fcd0b042c226d10d4 2007-08-11 (initial) win32 export support
+bfa705669c24324794016d26ab1b32f35e7ef648 2007-07-29 Fix pc filesx
+cf1acebc9925c3e51de50c132ce1a171c9e24675 2007-07-19 Work around the fact that iTunes can't properly parse ID3v2.4 numerical genres.
+cd0f0b00867bbd2424fef9f86fd384c004c8e2d4 2007-07-19 Don't include empty strings in the text field list.  This is a slight deviation from the standard, but major editors (i.e. iTunes) mess up ID3v2 text frames with null termination (which technically indicates a field with content, plus an empty field).
+962756461cc7b2831dac004a52898e9c3a5ada36 2007-07-19 This didn't work in the case of an empty buffer read since subtracting 1 from a unsigned value, well, left a lot of room at the end.
+fb0d6c5b4e8465caf8066c4e0f0ea7c5a1926f84 2007-07-18 Update APE location after adding new tags.
+183060d729645587be8adb916bd79db945e95d1c 2007-07-18 Make sure that we only write the number of bytes that we read.
+838114d093af6c65c4717626b3e73b43c918dd02 2007-07-18 Fix SV4 MPC file length.  (Read the length at the correct offset.)
+db2bedd6427fbfdf8e3cba1ec7e41228a715a333 2007-07-18 Add a string reading function to the frame base class and then use that to read strings (thus making them unicode safe).
+61fcb74d49060187d38e8807a4fbc2302df7e39f 2007-07-18 Brian is right.  It makes more sense to compute the alignment based on the offset than the the beginning of the vector.
+951ef149d2da0279c0285a83499c9e7d09cd9364 2007-07-18 Promote the int to a float so that the calcualtion works properly.  Patch from Stephen Booth.
+1faa305dccc12caeb3579a87f614ac1e3d879593 2007-07-18 Spelling fixes (first part of a patch from Lucas Lalinsky)
+711132c89ff238ee5e2b894c891fa2d12678f187 2007-07-18 Fix RVA setting / parsing.  Patch from Stephen Booth.
+12dcb755824c8bbdd2a8d92a5931f0e237002119 2007-07-04 set correct install_name for os x
+b5a9b000030ae9e2a426a053f4456253174323c1 2007-06-08 Remove empty Xiph comments.  Patch from Stephan Booth.
+cc00badd70b31f97e10d82256053146475dce8a8 2007-06-06 Fix another MSVC 2007 STL bug (our bug, not theirs) by not resizing a buffer in writeBlock.  It was possible to resize it to 0 and although it would not be written to again, the address would be taken of the buffer and MSVC 2007's STL implementation is strict and will not allow the address of an empty buffer to be taken.
+26751ba95b7c0132b20905f5d034b3043b10bae5 2007-05-31 the usual daily unbreak compilation
+e08587db9aaf7f51090d47334f5cdc7b84be5dbe 2007-05-26 Don't allow address of zero-length array to be taken to prevent run-time errors with strict STL implementations.
+91046cf73fba5de2f6cebeaccb6455bc5bc82094 2007-05-04 the usual "daily unbreak compilation"
+6e5ab96a4d2b9a1834e23a22105b8f5a3efdb8fd 2007-04-28 win32 compile / warnings--
+1d52e6f67c762fdb60f4dc324ee9d69acc4884d1 2007-04-28 win32 compile / warnings--
+3ae55e08643e8dcda5b7b48d48021445d0490861 2007-04-11 don't dereference d twice (CID 3444)
+f37023791ffcd3183bbf57ee3050e562217990c1 2007-04-11 don't deref d twice (CID 3445)
+1fb31274e53a5ebceb58232a6cb90b5309285eaa 2007-04-01 Check for CBR Info headers also.
+39f8acfdf03e1173e4595b4f322449bea79a27e6 2007-04-01 SVN_SILENT too many emacs modes...
+fecad172f32844d792158a8eff5f98bcfe40056d 2007-04-01 Strip nulls from the end of ID3v2 text fields.
+88668d9fd0d98474e2529b4b012845715f9567b2 2007-04-01 Add a comment about valid encoding types for ID3v2 tags.
+76304a1356e27835f30409187bafe35937225b90 2007-04-01 Switch to using a list of genres and checking for membership in there to avoid repeated values.
+3e36746dbb1cf631f8fb6249ae80ab39eb81b733 2007-04-01 SVN_SILENT grr, accidentally inserted tabs
+784d7cd1e08547ed7db96d24ece386d5a92ae5be 2007-04-01 Strip whitespaces from the end of ID3v1 fields on the way into TagLib.
+cce96cfec951bf5f15a34faf33620b1f208641e1 2007-04-01 Delete APE tag.
+1d3518d1ad3a748f2881f73eb520834952597794 2007-03-22 Fix signature.
+9f1db4aac934d90334a3a4537876cb2b131aaa29 2007-02-26 SVN_SILENT tabs -> spaces
+7ab48e1ab77a56f0bdaea7fdae796e3ecf4f5db1 2007-02-16 SVN_SILENT whoops, those were tabs
+19680eb91fcab78cac97ffecb2dba0188607096b 2007-02-16 Delete d-pointer.
+776bb45f7fa6c1d5d2c564c475bdb9f6d7146f43 2007-02-13 SVN_SILENT whoops
+63ace4995c2b01dacfdd386add5f73983a14915d 2007-02-13 Read the frame data length as a synch-safe int.  (Mostly only relevant to compressed frames)
+89b1e54ae041c41ef7c65c40858f8e9b2c72b6b6 2007-02-13 Don't try to parse invalid frames.
+4382e84e9ef662c1929783db48047484b7c6cbb9 2007-02-13 Add another sanity check -- don't let invalid frames try to allocate anything larger than the tag size.
+3218095acacf5cf43c0ca3968a887721063bf308 2007-02-13 Fix the byte ordering for UTF16BE
+320b76d95a488ce39a4d4b683a5424a2c57389bc 2007-02-13 Rework the read-only check so that it gets along better with networked file systems.
+2e8c6ea0f40620b1db61280927a8b94eb22792dd 2007-02-13 Actually overwrite the value, as documented.
+2aa4195807ac9649b0f1d9f0d8e8e4287a69cbe6 2007-01-07 correct docs
+a3d8b6be8ba308dc249183ba99598a8798dad7e5 2007-01-07 Revert this as this change isn't BC
+b9c7c6ae5f2fd6c6657855f5b8a6a3feb2826bbe 2007-01-02 A few spelling fixes, identified using krazy.
+5760457f5fbce77e05e38cdf245dbb6ecffd2df5 2006-12-23 Remove check as condition will always be true (checked in the if condition, above).
+df614076d8a9f016b30d570582af98c213c9bc33 2006-12-07 Fix warning Fix create HAVE_ZLIB variable
+2697c96ff7ad86ca9d15d0bf54a5e089f62fc64f 2006-11-27 -pedantic
+dc41f3f7185ec071f5e420c87ccb2e594b3b426f 2006-11-27 copied gcc compile flags from FindKDE4Internal.cmake
+80e20afd7e302d97232106b1eecb44ebb736d085 2006-11-10 Fix compile under windows
+b0addb15e1f081403a80d8b253000a07463cd78b 2006-10-15 Uhh, no.  Once again, TagLib is not part of KDE and is still used by a lot more things than JuK, most of which still use Qt 3.  If you want to fix the defines to check for the version that's fine.  I'm not too worried about it since the code still works with Qt 4.
+de56f6850d76976a6c058c296a0d8d02eeb26a17 2006-10-15 replace uft8() with toUtf8() to silence warnings in Juk.
+7892e7c9df4428d0d3c734e73b3730468a2909a1 2006-10-12 Don't dereference the iterator before checking its validity.
+245a8af7784783b13eda88db3e9729ba661936c3 2006-10-12 fix make install - I guess examples shouldn't actually be installed (I see that Makefile.am required "make examples" explicitly)
+4d26775702178f2404f069e341e27e3aea574dfe 2006-10-09 SVN_SILENT spacing
+4edbc9349476e1c36b650f2b7cd8a7329e6bdf24 2006-10-08 Change the taglib build system to use relative include paths.
+5703a3619b09116b83a448ce97cf24e8fcdac027 2006-10-07 Don't try to erase a key that isn't there.
+22a2d44a805609744e47447e1b61e9377e56e49c 2006-10-07 Make the Xing header publically accessible.
+8898a909366ccd8e6d8e3291e33c84133cd7f6af 2006-10-07 Compile fix, correcting the include paths.
+6cc6f7f1cf10656c69b0a759af1ce6426c534d2a 2006-10-05 Fix install files
+9dd4bf063ec39de70e9dc94547bf0b0854745073 2006-10-04 Add support for examples
+619b1eaf54d722b7833b049eb13149112238b8ae 2006-10-04 Add tests directory into build
+0e45e5b3f9c091ac19756fdf375ca95a2f6abd63 2006-09-29 Make paths relative so that it works with running cmake on kdesupport/ or on kdesupport/taglib. Added toplevel cmake file so that kdesvn-build can build kdesupport using cmake.
+910517d7435b693c7abf87a9b830b71c77dc148a 2006-09-27 Fix compile
+5a478e196eea4c9722e4cbebe4d8be8c37f878e9 2006-09-24 Forgot something.  ;-)
+0652140f75007f2941e2eaab8d332fd67055a039 2006-09-24 This is how it's done elsewhere.
+f162c5f5f9f96ce81092d14a01b2f965fe67259a 2006-09-24 And now get everything building again...
+109a304eaec2ad0f42b47eb9ffb8d23f8bfd364d 2006-09-24 Add KDE 3.5 admin as external.
+60a3f993b5401356f147a34a44891ed17860876b 2006-09-24 This is starting to look more sane.
+f9dbcabc8cb7723421ea869fa7ff6f563878865b 2006-09-24 add this first, hopefully the next attempt at fixing the dirs will work
+2ae6a804e2c04427d9e6adeca8eee525064e2221 2006-09-24 One more step.  Wow, this was impressively broken.
+d0bfbf8ce40f7e7887a43aaf54828f7763a9f53e 2006-09-24 Ok, let's go back a few steps.  Apparently I really confused svn move by adding the directory and moving things to it in the same commit.
+142568de6d4d290b4e5443860f2ad0adbb0198a1 2006-09-24 Reorganizing
+ea87af7ab4449eee7196d05d0a55a1f450d3d79c 2006-09-24 Reorganizing
+f4743a6e52bd2d78a03993b0d4d540579d6702b8 2006-09-24 Reorganizing
+b222656c85bb7399399c815554bd108f40f98dbd 2006-09-24 Reorganizing
+feaf1c4b356cf75de3816b5c47ff4455a965e4de 2006-09-24 Reorganizing.
+8736e65235ca311c68a7b6e4d67cf61fce48b4ae 2006-09-24 Reorganizing.
+711821f2457f3fc3cb4a8c74d0760a2bada3c67d 2006-09-24 Reorganizing.  Hmm, it seems that svn is going to make me enter this message a helluva lot.
+334b4d4de11a1e2382fba269fe949b700fa05531 2006-09-24 Reorganizing.
+21b4d79f985a20ba3a7d46c97093fee58f1ecc80 2006-09-24 Reorganizing.
+9a2f90be896d8fb6c8bb053eba87cdc7c7e28060 2006-09-24 Re-add automake/autoconf stuff.  I'm tempted to delete the CMake stuff while I'm at it, but I'll leave it for now...
+0b428130f34c0b87af81a317f72286bab985c99e 2006-09-24 Now taglib compiles with cmake Remove old build system
+2281edf20f353955d7d2cc71c57ba3cca5e6841a 2006-09-24 Fix generate lib. it fixes juk compile
+690b12637733a4fde04a8243b538d46a21ac082c 2006-09-24 Fix install it as programs
+35dabd377064391ba273a43ed9bb0f0f21422617 2006-09-24 Fix install files
+3ffe198d09cb927e9eec46117ce09d77fad25057 2006-09-20 Fix soname
+5fa19b47c2aa04c408e0e330cfc53da7dc5f367c 2006-09-20 Fix generate file
+967b9c41b6f82fc4d09686546e198a3c8cb67d05 2006-09-20 Fix generate files
+0a3ae0b2f5582c7a3152126d2ccc18a5e7d10b75 2006-09-20 Fix it
+d3d4061adce4724571239c3b92d75a52919a1f74 2006-09-20 Fix CMakefiles
+e3cf99c87a6109186daabba3640d67a08f4fab02 2006-09-20 Add cmake support All compile need to test now
+dae3f838201a2be93f5bff2fdb3c9f9aabc3b747 2006-09-16 Invalid iterators are ungood.  Mmmkay?
+fdb603c88fbdb4e3b2665c65ff447feb1c5bb5b0 2006-09-16 It makes more sense to return iterators here.  (The return types weren't there in the last release, so this isn't API breakage.)
+52ec948d7e059090e6d2e2d49040a3bc41a553d8 2006-09-11 fix
+0586b68b7d13acb768950fa330de40c91517785a 2006-09-11 fix includes
+dbb4cb564b4451d58e1529e2e4b00c0989000d9f 2006-08-31 Add PC file for the C bindings.
+5f3ccc1b9545bd878c2cb41d1da27a4d6e9213ec 2006-08-31 SVN_SILENT another minor-typo
+1f7236d4261f244b27498387198bbc77cc970333 2006-08-31 SVN_SILENT extra space
+f01c8531d03fa3c8df60dc7f2db21bfb2cb0815d 2006-08-31 Patches from Aaron VonderHaar for a GEOB frame implementation.
+1db03808cede4eb35870f30c7a8250e6f663a154 2006-08-31 Starting in a bit on my TODO list from taglib-devel.
+7ad144536da00cdd6e6c31b700cd158731f3676b 2006-08-31 Hmm.  Actually assign the flag here.  Thanks to Dirk for catching this.
+ea12745d12d3e8ace6ce82fc32a2f903676840f0 2006-08-29 Make sure that these flags are set to the values that are actually used.
+f8d1b7bb4f204f7950773bf9c65e0c23fd0e2868 2006-08-29 Update the TCON (genre) frame as we create it so that we don't keep ID3v2.3 formatted data sitting around waiting to be written to 2.4 tags.
+784f71409b40a118de7909e0be7fc6e022eab5c2 2006-08-17 Add a warning note to File::save()
+8e528735137f12032e2a95a86c52eab9374bb076 2006-08-13 Make sure that there's always a description and content even if they're empty.
+2f1645947a4d9f4504d16dbd778d88763c4812cc 2006-08-13 This if doesn't need to be there.  The encoding byte should be there even if there is no string content.
+071c691a9a14d0263158b6141cf5ad26fd9736ae 2006-08-13 Make removeField() actually remove the map content, not just empty the list.  Also added an erase method to Map that works on keys rather than itterators.
+953b8a119a76c92473b3eb5f085ab58aff9e648c 2006-08-13 Add a simple function for checking for membership in the fieldListMap.
+71a392fe81a8078171b30217c82911974f1302cd 2006-08-13 The non-const functions here should call detach.
+545c9ebeb783b2177f1d2309a2b7771aa5821919 2006-08-05 ignoring
+23bd433cde06ccf432c25e07da63937ec84f480a 2006-06-25 Default to ID3v2.4 in the header (fixes the bug just reported on the list)
+3856f386554a776c9014a591e08507740abe47de 2006-06-20 Don't overrun the buffer if the first byte is 0xff
+a6aeaef64ebd26d41bdef5558ce9803e7faf84e5 2006-06-16 oops
+6a66c36a0ccb1d3ec8bdc29e07738be5ffa308d4 2006-06-16 Here's another easy one that helps out on ginormus strings.
+e83f93b2c0c65e1cd26ab5f608c7ccb1ba72df5a 2006-06-16 A couple more optimizations for splitting vectors.  One of them makes search faster in the simple case (no need for Boyer-Moore for a one-character search) and append a null vector rather than instantiating a new one when we find empty fields.
+eb1b7c8255928c3f7072786cafd76ecf8353ddbf 2006-06-16 This is much, much faster on large byte vectors and gets the current bug down to where it can read the tag in around 18 seconds unstead of 30 minutes.
+ebf56779f4cc6258d1af4f854bc680acbe4df8d2 2006-06-09 Allan's commit was in the wrong branch -- don't corrupt files on write...
+88aa8c125dacad717026be42ad19dda9923d360f 2006-06-08 This comes from strdup, so it should be freed rather than deleted. Patch from Jon Burgess.
+ef34e5040657fd2fb15293a83bf33a3a9ec5a498 2006-05-14 Initialize tag to avoid possible crashes
+f181d1d18ba8d2f9eb186602c6c2899abfc82d63 2006-05-08 SVN_SILENT accidentally inserted tabs
+3f3026b349daf79ea832860777459ae8e0522f1c 2006-05-08 Add a function to set the default ID3v2 encoding in the C API.
+02cf970e0da9aee5afad0c3568eb935960a13e07 2006-05-08 Patch from John Stirling to fix bitmasks for header fields.
+fca59f432eead6c0d918b964ad7feccee67f5472 2006-04-20 docs typo
+985630d59a87ba5a3efd43c6a0cd28573eafd0a7 2006-03-02 SVN_SILENT
+3a24d31b43d351c025a052c2fb6f362ed4c65366 2006-03-02 Two things:  - Fix the channel mode, copyright and original flags, as noticed by    Bjoern Petersen.  - Check in the "findByDescription()" function that I've had sitting    around for a while.
+c35d2491953b15f44776950a8a9973592e299114 2006-02-11 Add a wide string export fuction.
+361ce1635a6079bb1a1e8707ed3356021a2fda42 2006-01-29 Alright -- most of this code is just more cleanups, and the bugfix part of it is relatively small.  Basically it took a while for me to be convinced that the ID3v2 location was always going to be before the FLAC data stream pointer.  I've added a check to make sure that it stays that way, but I don't expect us to actually hit that code.
+142ddfadc9cfca2bd25728b7a7c2c5970cef4559 2006-01-29 A prelude to bugfixing.  A few more cleanups.
+286d474dae645411a8b240c772eb6b1a03070216 2006-01-29 Cleanups -- no functional changes.
+99fbe7ff259e2649bce2c50d3c566d9075b513b4 2006-01-28 Fix up the stuff here for appending values to an APE::Item and round out the API a bit. Based on Michael's patch...
+4841a5c39cebfa7fffc78ea4ea5c4133d231b923 2006-01-28 If a frame has both compression and encryption, since we currently don't support encrypted frames, don't try to decompress it.  Decryption is supposed to be applied before decompression, so currently the decompression isn't possible.
+59b98318687e4d686997e0815cecda27ea57e938 2006-01-28 Switch this to "rb" and "rb+" since Windows seems to barf on it without the "b" and it doesn't make a difference at all on UNIX.
+1aa0550c58924a8c2254557cd47ff380568fe3e6 2005-11-24 Another method that didn't actually have an implementation around.  Also picked some default values for some of the d-pointer members.
+18d80d1ea010dc1e4ddc8aa10e93c1f454307613 2005-11-23 Actually implement this constructor...
+2d06d23ec6928e10e432cbcf8c80db95ddf2276b 2005-11-23 Missing class name on the method declaration.  I'm sure this caused some fun symbol conflicts...
+f9c5ecaf53d64cadfdd6bd5fff086d83759cc09d 2005-10-18 SVN_SILENT a couple of missing docs
+5bb7dbe457ff1aaf37a67df65ac79faddd1bbbe7 2005-09-27 Silly second declaration of the variable here that triggers an infinite loop in some cases (I'm surprised that it doesn't happen in more...this code has been around for a while.).
+603068695c824fa0264227eab6d31383d7328740 2005-09-12 A couple of things pointed out by a colleage -- fix ByteVector::size() and make the return type semantics consistant for methods that modify the object (specifically, return a reference instead of void).
+5d64692084c2a5f4f6259580817d94d4268ed644 2005-09-06 Just a couple of docs updates.
+78c4c18e37cefb0793f04f4587e48c4a6ec06aea 2005-09-04 Fix the documentation for this method.
+fa61e63ac8f2693b31811f43b68998d45619f59f 2005-08-10 Leave the year field blank if it's set to zero (i.e. cleared).
+b16c8587abd4e7ef5efd2813d485298de45336a7 2005-07-27 Forgot that this doesn't work for those not using my hacked up build environment for TagLib.
+b84fdcfa043f58d6921493c8620f67f4fe969dcc 2005-07-27 Last docs updates and a small function signature change.  I'm pretty sure that's it for 1.4.
+585bf5afca088f02b5c9ff7afe3912a0c22544ae 2005-07-26 note other bindings
+3de9ba2e9f7c5ecb1a930df9d1a379a4ce638e6e 2005-07-25 Bug in UTF-8 rendering.  Small change, but well, without the "break;" it was doing the UTF-8 rendering and the UTF16-LE rendering to the same string, which was, well, ungood.
+f7467bd1f93ca679006d24694f12078ab02a5a06 2005-07-25 Don't actually install the tdebug.h header.
+eb592f093366c32a7cd40f21783fd8ea96d948d2 2005-07-25 Don't include tdebug.h in any installed header.  I'll remove it from installation shortly.
+052a1d2720452e96670ef510d2f10d5d45606274 2005-07-24 Add a list of the default file extensions that TagLib knows about, as requested by Stefan.  Also did a few additional updates on the API docs.
+54b442d58469132e86c33ba7fe670dcb9f587c6f 2005-07-24 SVN_SILENT another place to update the version
+111b0dc6eb5f3804f4f814cd3d9a5476b52d8367 2005-07-23 Make sure that buffer allocations for file reads aren't completely bogus. Specifically make sure that we don't actually allocate a buffer for a read that extends beyond the end of the file.
+59fd61099955aa44a3e1c5451e9b028f1d0ba2d6 2005-07-23 Finally took Tommi's suggestion here and introduced a version of the ByteVectorList::split() that takes a maximum number of values.  This should probably be used more widely in places where the max is known ahead of time for this to be a more useful fix than nailing just this special case.  Anyway, fixes the bug.
+073dee2e414b84903e8dc86fbd812beb11b27328 2005-07-23 This is a better way of doing this too...  Now I have to remember to update the configure.in.in in the root...
+ea2ac9fe645f6c8588199cc09d651548ead62dda 2005-07-23 Add pkg-config file.
+02f9b248a79e7be8797066c3c2b979c17003f282 2005-07-23 Bump to 1.4
+ddd8c2f4c9151719d25c11b3d30c31a8a184dfcb 2005-07-22 SVN_SILENT missing docs
+02925797d288ee2e158f483af89ad57990c162ad 2005-07-22 Go ahead and increment the libtool version in preparation for 1.4.
+016a2c7b03ceccbd3130c51d09c88d5fcb80db36 2005-07-21 Add UTF16LE support.  Patch mostly by Umesh Shankar.
+366a4bfe3f45311a4787369929afc3b4a9f37837 2005-07-21 Hmm, that last one wasn't really quite ready.  Now we actually check our list of FileTypeResolvers.
+ec86c487e8002b50dabcf2e27ac841a70e08e8a1 2005-07-21 Add a mechanism for extending the file type resolution in JuK using FileRefs.
+87824b173732a407076b8864e5e11a1d7caaadc1 2005-07-21 Continuing going through my pile-o-patches:
+ca839d884f7159d033de86328fce7b3ee0fbd6d8 2005-07-21 If there is no value set for DESCRIPTION, also check COMMENT.
+a2972c8ae0e1887fb57b34ddd61c1c9c0ce80e32 2005-07-21 Add accessors for the image description.
+c756813a2123a1c77fa22dc1f43ace650b02a325 2005-07-21 Fix up the RVA2 handling.  I'm still not thrilled with the API, but this should be functional enough to hold over to the next binary incompatible change and has a minimum of differences to the previous API.
+e321ae77747d56a7c6d28795073d97640579776d 2005-07-20 Fix from Felix Berger to get RVA2 frames a little closer to working.  The more complicated fix for #107025 will follow shortly.
+19a0504dfdfc7bc4bc8c640eda79a710852789f9 2005-07-16 Adding and updating svn:ignore
+35a8c9a38b96c7f6000f584dbd575b311422cebc 2005-07-13 Misspelling.
+1857e61a9d46354b4bb719266fa70cab4cc3059f 2005-05-17 Instead of returning 0 on finding a deprecated frame type, create an UnknownFrame and set the flag to discard it on write.
+6ceb7a8151c3320b6b3e8e01e884216cda64375c 2005-05-17 Patch from Umesh Shankar to make sure that the frameID is current.
+10d8a4deacc4a84ec04ec2d764355b49327f3e9d 2005-05-17 Check to make sure that there's content before trying to return it.
+fc8c7d357b9fd53940d6ced8aebea04cd4ac6aa5 2005-05-17 Do a bounds check before trying to find the mid.
+7e325a26aa16ccacc6f1ba258caf920ae0915f78 2005-04-03 Double-deleting won't make it much better
+c125032f0e29d4386adb72ee249e42fe38f6760f 2005-04-03 ...or this
+9b1eb2f5d646a7c93a02445f2e7283b4db5d86d0 2005-04-03 Didn't mean to check this in.
+60f73eb53707d42fbf870c62f043fa6471197863 2005-04-03 fix memory leaks
+abbf24ade78ff88f0fa3dfdbc7650c5c03e8e24a 2005-04-02 Decode samplerate correctly. BUG: 99829
+119bfc86dbabbbf318bfb5e9aabd9b7555c6c4cf 2005-03-18 Sorry, that was actually wrong.
+a89ce9ce0c8cea6e18933319d2076d0ca542e450 2005-03-18 Support the new OggFLAC 1.0 standard from FLAC 1.1.2
+1aff3947ef4e7d90d4a128a332c360ba4dba1190 2005-02-02 Nice catch from Gunnar Roth -- the iterator was invalid here.
+af8b4c7291f144fb23896925e9c2371a63edd55d 2005-01-14 Don't dereference the iterator before checking to make sure that we're not at the end of the list.  Thanks to Gunnar Roth for catching this one.
+3c9f7ec7d6e4a37c1f041a9e4dc2af4cc7198a5a 2004-12-19 startsWith() should be used to avoid bugs like: s.mid(0, 4) == "Foo".
+d1eb678b777e76d19ba9f321b5e772321facea20 2004-12-08 Make the private class a friend so that it can access the protected Header class. BUG:93869
+a2b316f3fa10715353ddd32c2d004dadf3ac0436 2004-11-22 convert "" comparison to use built in empty() function
+4175270a45c10dd90434f3f9d2bd38ecb88fb3ed 2004-11-07 1.3.1
+16a9b68154d4a0565a9fdaeda844372e9eb71145 2004-11-06 ...and now implement the missing contructor.
+baed5abcacd5d6dd82ad9ee022c2160a664f8e6f 2004-11-06 Clean up includes and actually install apeitem.h.  Prior to this the APE API wasn't usable.  Fortunately I'm planning on releasing a 1.3.1 tomorrow.
+e5e3adc58f112d9d567692c0738c825d124bd0c8 2004-11-06 Since these headers weren't even usable when installed, might as well go ahead and remove the deprecated crap...
+a3e62fb32edc914012bae43b5c25bd1406da3079 2004-10-31 Do bounds checking before assuming that just because we've been told that there are actually more items that there actually are.
+df700f96f6495756a47f004feba8afe46f8e9829 2004-10-31 Add some text explaining the APE format since it's non-obvious trying to find it online and it's poorly written once found.
+6ac3849f1361aa5e709ca839e3e90824ab39e9ab 2004-10-30 CVS_SILENT back in here again -- checking in formatting before content...
+4b47288bcaba9c1c42cabccd6198961eb77fe033 2004-10-29 Don't write a track number if the track is larger than 255.
+90772906dbcd1304d9cfe6be179bbd836854b5db 2004-10-28 Make sure that the type conversion happens so that this number ends up being the appropriate seek location.  I'm pretty sure that this is what was causing Ogg length information to not work on x86_64.  Can you confirm Hamish?
+200c608f4f99d3cbeaa9e5d50f8c3e9186c0ada8 2004-10-28 CVS_SILENT this comment belongs here now
+a18866a48b210062d360d1457101dbffd03b66ac 2004-10-28 Make sure that there's (a) data in a bytevector that we're trying to convert to an integer before trying to convert it and (b) make sure that there's data in an APE::Item before trying to parse it.
+790c1b16c6c43a659ad01135198c0f384615516d 2004-10-28 More cleanups and some API docs additions.
+a92f6b94ddd6d99f76301f85ba451c2d40f6b193 2004-10-28 Semantic and style cleanups.  render() should be const.  Use for() loops to loop through lists rather than while, fix bracket style.
+d58cde9eca9fefeba1d329c72bd8ee96aebe977a 2004-10-20 This line is redundant.
+9087eacd374c7f1f651af9e1d87e216c3159634a 2004-10-20 Add some more docs on how to use the ID3v1::StringHandler in the ID3v1::Tag documentation.
+3d5ab8fd106623d9c4826d574cb6f16ba921d6fa 2004-10-18 Move the sanity check before the unknown frame stuff.  As the code currently is if a bogus frame is hit it may try to parse it as an UnknownFrame rather than just discarding it.
+11f732d198f6eec12bddc3b536cfeec73759c3c2 2004-09-10 Forgot this.  Time to redo the tarballs.
+06fbb10a4aa8c1b3969ae8f7e2d20bb669afb092 2004-09-10 CVS_SILENT missing doc for the namespace
+d4561d33452b81a34eb6bef001c589593dcc63f4 2004-09-10 1.3 -- bump the libtool version
+68982059d00161c5ed15dc61625b861f946bdc80 2004-09-10 misplace conditional
+133f50e35611dc44c73b2c0cb7f4ca81594dd6a4 2004-09-10 Patch from Allan to add support for compressed frames.
+cd50355a4c90ed5b52cfd4365fa922f050921588 2004-09-09 Remove some annoying debuging code.
+a51d1cb1177634b1e0fbe036965d76ebf22ba417 2004-09-09 Scott's silly nitpicks...
+e10bc468c85184549320c082f66cb9ff9fd8bb82 2004-09-08 Some API overview updates.
+c142f9e47c0d5907611d725c75c979c1bee7e8fd 2004-09-05 Mention the return type.
+20fb2bd1ecc5d02bd3068d44dde7692e486013dd 2004-09-05 Don't try to do stuff to files that aren't valid.
+fa643093bd1b8804bac27a2143ed27f3d39c79f3 2004-09-02 Cleaning up. Better documentation and remove dead code.
+07f56ac5343d100b20f74b8d130c7723ee8e80c3 2004-09-02 Fix typo.
+f086fdaba5e71be7279098aada327ccec9a6996c 2004-08-25 Set APELocation to the beginning of the APE-tag
+c538ac3912c0962bc56474efae0fc0ea96e11305 2004-08-23 Some extra documentation.
+e5944a6f4686d3f85deedb1e286510847bd82715 2004-08-23 Find the starting position.
+3ab81ed05dfbfe085777f1d8efba1dc4be4a44e1 2004-08-23 Update interface. Just needs more documentation now.
+d0095d3cd7b616760bf703c4ee8b32f203f3f863 2004-08-23 Convert from ByteVectorList to StringList
+bdee6dcf73e0d902b3c1765880223b4aba8172c8 2004-08-15 APE-tags for mp3s. Currently they are for special purposes only, and thus not used as a part of the union tag.
+60959a1b5b9c82636da99feb1d3d5bcdf964abe3 2004-08-08 add api docs
+740f868333785354f0e40a8300cbd1b81e4e97dc 2004-08-07 Make sure that we're not setting the string size to -1.
+47ddbca63bb592fb29c8270ee22ea87c46e1874b 2004-08-07 CVS_SILENT forgot a short description
+2a48666f805366ca81a609925732a634a5ae45a7 2004-08-07 Adding support for the Unique File Identifier ID3v2 frame type (UFID).
+c3c54b570a309d5aae18faa5a2654c834cf29b0c 2004-08-06 Add support for custom ID3v2 text frames (TXXX).
+43a570f5b2b738bfe7db0ea6ef5b68928b7c340b 2004-08-06 Add overloads here so that the return type is in fact StringList.
+65bf71cd611f98d01acdb5dbd1c8d4e80d11ef9a 2004-08-06 Return a reference to the current list from append().
+4aaa73f6130a14b9de76dce3043ea90813641a78 2004-08-06 Here's an oops -- this *really* should have been virtual.  I'm not sure how I missed that.  I'll come up with something -- probably a functor or similar to work around this at some point.
+cc6bf884a35b7787813399b2a128694e24fbb39a 2004-08-02 Ignore compressed and encrypted ID3v2 frames rather than just blindly giving back the compressed/encrypted data as a string.
+ae2113e7166ac3db8ed3caa0ed1326a1835002dd 2004-08-02 Always explicitly check for divide by zero conditions.
+650b561edadfb59f555a337a87578f3fd243ff6b 2004-08-01 Create a correct footer
+15f864a7797b83525d07bc26dff043dff5b1a8cc 2004-08-01 A few changes to make the interface more flexible. It can now remove tags including ID3v2.
+06122de67ff6a3061a24c8b14f8bcbb55c6f4424 2004-07-27 Standard stuff -- make it fit with the coding style of the rest of TagLib and make it build.  There are still some missing API docs and I'm not sure how I feel about non-opaque types (Item in this case) since they're not used elsewhere in the API, but this will do for now.
+b7d9398052b960a7ce5a2be9dcf61aa36cdf66df 2004-07-27 This is wrong -- this would indicate a BIC library release.  Please see "info:/libtool/Updating version info" when changing the libtool version string.
+dbc0fe07c9d508598770c6933d5d3cdef2534467 2004-07-26 Make mpc use the new APETag-structure
+73c2311010932208f635b0318668e80ef6cbb969 2004-07-26 Refactoring. APE-tags are not native to musepack, so I am moving it out. Seperated footer-decoding the same way header-decoding is seperated in ID3v2. Fixed a bug with the version in the footer. Should be 2000 (read 2.000) not 2.
+1ad55823914d4a22dabcd70988f843608b69366c 2004-07-26 missing const
+2025c4e9e528c55e827b9648d1388476ce6ce322 2004-07-26 Large update: * Give access to APEv2 features like lists and read-only fields (not enforced by TagLib). * Support one common mistake: ID3v1 tags placed after an APE-tag. In this case both tags are now read and maintained. APE-tags after an ID3v1 tag is not supported.
+62ca49decb9169e84a1688b759842324c4c99c4b 2004-07-26 Mark HEAD as TagLib 1.3
+74b656091a042e92011748dd9b7c4b9f9586f3e5 2004-07-26 Provide a default (empty) value for the language.  The lack thereof was was causing the bytes to not get lined up properly in the newly written tag and then they weren't read back properly.
+9963e67865e77adaa5f8d824e753d14042b203b4 2004-07-26 Use setData() rather than parseFields() here to make sure that the frame header is initialized.
+cd32d1f8a377f96514bba0c0802c5b758b2a7402 2004-07-26 Make it possible to strip tags without deleting them (again).  This is used by MPEG::File::save() so that tags that aren't explicitly saves still exist in memory.
+3de6f40776e7b913116a1f4ee19f6b27ec57c8e1 2004-07-26 CVS_SILENT indentation oops from the last commit
+d257ddfd02962d0f1bf38bf958147682d30048ba 2004-07-26 Update the ID3v1 location when stripping the ID3v2 tag.
+3a81dfb88328e794046c4c6e0096a378b51749ae 2004-07-26 Fix a number of bugs to get things working with ID3v2.4 tags generated by libid3tag:
+d8fc67ac67e617494dabfa911df5f38e36c5eecb 2004-07-24 Return a bool indicating if the save was successful as in File::save()
+ab51136a547ee1368b11be1315fcf8758b4fdc93 2004-07-20 Off by one -- make tagreader work with mpc files.
+fd09b23aa029c651b125b0aa608fa056fd25c34e 2004-07-20 Add MPC to the C bindings.
+28738debc12e291dfd6fdc56b88cb4b22009186f 2004-07-20 A few more nitpicks.
+382f8194c1f694e07b3457d3c2bf94fa0997dbc3 2004-07-20 standard style nitpicks and make it build with gcc 2.95
+2fd6401354654ce0e54b550e0e045689c73d4138 2004-07-19 Improve behavoir: * use setValid(false) to indicate broken files * avoid reading over file-end in case of truncated files * subtract size of ID3v1 from streamSize * skip known ID3v2 tag when scanning for first FLAC-frame CCMAIL: 83924-done@bugs.kde.org CCMAIL: 85356@bugs.kde.org
+f650edc81d036860e1a580d017f3462488599336 2004-07-17 Correct includes so they work when included with path, like: #include <taglib/mpcfile.h>
+ba10ce016f5f59a1d60416d2edb5782f16587f61 2004-07-17 Also update taglib-config
+837872a113bdd329640e46bf001269318b14981a 2004-07-17 Fix a bit of bitrot
+cda53a3db4f0f44f253f695d7ba4bfc2692b2350 2004-07-17 Add support for reading musepack(mpc)-files and parsing APE-tags(v1 and v2). Bumb version to have something to check for in JuK and kfile_mpc
+425d7937529d9a5fe605f32b02ef0e74b9eecfc5 2004-07-14 Compile
+05221f8206c658155cd82d3630f4af07471f7def 2004-07-13 Add find and erase semantics like those in tlist.h
+6879050c54d6d293ecd759e53e96ce0a6ffd3366 2004-07-12 Valgrind says home-brew strdup() is broken Fixes saving of MP3 meta-info from properties dialog
+9a365f9e7e6c8ad91b8ef5003ea3b41302d56add 2004-06-26 Fix spelling.
+8de9b1f26a54d22526931526726fc5e886224fde 2004-06-24 Don't try to read the properties from the bytevector if it's smaller than the required size; in this case empty.  Also some minor nitpicks along the way.
+5b0c38eee9193bd0a4f9289396123a66d29b63c8 2004-06-23 CVS_SILENT add a note in the docs about strip() behavior
+430e20f191bd4bf878ff00780e6187df5963432b 2004-06-23 Another nice patch from Teemu Tervo.  This deletes the tags from memory when they're stripped from the file.
+737be443d69489f5ba299597d79fa9f9a4911baa 2004-06-23 Update the C bindings to reflect the earlier change in the return type for saving files.
+0d04000f74c506b50790464a067ffc9e7a694890 2004-06-23 oops -- forgot FLAC -- return bool for the FLAC::File::save() too to provide some information on if the save was successful.
+8bdecaf3208be0402eca8caf6a296a23bb488f77 2004-06-23 CVS_SILENT forgot to save this file before the last commit -- doc update
+420541441c7713493064e877bb4bfedcc92bbb8f 2004-06-23 Switch the return type of File::save() from void to bool to provide a little bit of feedback on whether or not the safe operation worked.
+5f2e59150c06cc9815d8753bb375dcc05cc7fca3 2004-06-17 Ah, this one's easy -- though an odd corer case; there's a Xing header here but no MPEG frames.  This was triggering a divide by zero.
+2817d4e5079d11b4278d7c9c0d1492420ad2c463 2004-06-15 initialize variable
+b9de676bc09bac4d824ab92e51cec0ed92e6925b 2004-06-09 Parse ID3v2.4 genres as a list of fields rather than a text string with the ID3v1 genre in parenthesis.
+b69dd382c670b2b71f26e732f69647f11de1f7bf 2004-06-09 Add iterators and operator[] to the string class.
+0c6be64f8af2ba9d2d9c68fc56bd0417e35c5845 2004-06-06 Two issues pointed out by Gary Peck: *) Note that adding and removing frames from the ID3v2::Tag will invalidate    iterators on the frame list *) Correct the number of genres -- it should be 148 instead of 147.  You    can all have your Synthpop genre back now.  :-)
+05e484830cacc8b996a73fb004fb9fbbf65c8a48 2004-05-29 Don't die on invalid input.
+9320aa0bbcecb7920eb5aaa181842901527950e9 2004-05-24 Oops.  Pretty significant type in the frame name for recording date.  This will automatically fix these files on the next write.  (At the moment other taggers will not be able to read the date written by TagLib in the ID3v2 tag. In most cases they'll fall back to the ID3v1 tag, which is fine, but still kind of nasty.)  Thanks to Teemu Tervo for catching this.
+3ca114a4eec5d237ca856f2fb4fddc592d675f43 2004-05-13 Add a short description
+b29a821ed45da92f8b42d1ebcb19ae084fc34638 2004-05-13 documentation fixes
+1770ffd35a75a1b4224056211ee73e143b295778 2004-05-13 Add a frameList() overload that accepts a frame ID as a shortcut to the frameListMap().
+b9c9fd6c8d1904be10a4cd68c67e90c4eeb206cd 2004-05-10 Added an example on how to read additional frames.
+efd221e9b4ff802e52cdd68a8577cf0f7e4cc0a9 2004-05-09 doxygen fix
+1be868b5b766f760a1f1d8b58be9312d2d3aa1d3 2004-05-09 CVS_SILENT docs fix
+f9ca8cd69bedcc4a033e43a87753830e19adaaf3 2004-05-06 Just a little hack to make the Vorbis classes appear in the Ogg namespace in the API docs and a tyepdef to make this work (since this is how things will be in the next BIC version).
+6a2cdbcc45183365356dbf1e37f511f3cd1ec653 2004-05-06 A small regression -- when assigning a ByteVector to a String make sure to not include the trailing null characters.  (This was introduced after the last release.)
+ceb989f170657cbf54c8270d9992b3be36db61f0 2004-05-04 Don't append a framing bit when writing Xiph comments to FLAC files since this renders them unplayable with some players.  Thanks to Jason Lee for tracking this down!
+5895810131402b73c848bee1093f767da2ad9508 2004-04-28 Add docs.
+9e15659dbfc28b6974027ab1dd9e2b31c349039c 2004-04-28 Oops, the implementation of this constructor was missing.
+5091aa0b0c3fb50cfd02030c49ac5543285342d9 2004-04-27 Add native support for the RVA2 (relative volume adjustment) frame.  The docs aren't there yet and this is completely untested, but that will follow as soon as I find a file actually tagged with one of these.  :-)
+de4bd42ef06fa7283a23b2c2db16e5a105d99295 2004-04-27 Add new type and templatize the "fromNumber" conversion.
+cf6506668dc9880f0a3fb2934f15bacd5143ef1e 2004-04-27 Oops.  Make the docs accurate.
+237ea76ef6e541c58527f35cdacbb6f3ce5fae39 2004-04-27 Make this check current with the bytevector code.
+33bc1a1533b231a74947e1058d3f44de1e56e777 2004-04-27 Changed my mind on the last one -- use explicit types rather than trying to figure things out.  This also allows the number conversion to be templatized.
+cfbc564bb6b9c7f2fd97040efb5d6865dbb7b6c7 2004-04-26 Add a check for the toInt() stuff.
+31b46c03ac33922d60cb541425ed25780d040470 2004-04-26 Add a toInt() method that correctly adjusts for the signedness bit even on different variable sized byte vectors.
+8c2b1138eaa22e61072f5e2f2f1818870444076d 2004-04-26 Add direct support APIC (attached picture) frames.  I'll probably add an example to the examples dir later today showing how to use this.
+940ac2cc3db6f55947fbbac0a52533af5751a86a 2004-04-26 Minor fix for getting the frame header size correct for unknown frames in ID3v2.2 tags.
+4879eb8e6e6bf46b89a4a67f62cada82478bade5 2004-04-10 CVS_SILENT make some stuff as deprecated
+6a1c3618ec88b95e2b5fd71a7d830bab89a1b34c 2004-04-10 Sadly reserve() just changes the capacity, not the actual size of the vector so this didn't update the internal size of the std::vector...
+771a5cd65e1bd857823bd82d273d25e2b121c28f 2004-04-10 Adding accessors for the various tag type for FLAC tags (similar to those in MPEG::File).
+09c4de9114afa0cdfc031a2c356cda8b49cab0d0 2004-04-10 CVS_SILENT API docs corrections
+8e0c661d382357beaa894908997e7fceab4fee29 2004-04-10 CVS_SILENT nitpicks
+2227d2004ba89408354c2601200bdfc84059a881 2004-04-10 Fix the same bug that I fixed in MPEG last week -- allow the lib user to specify the ID3v2FrameFactory in the FLAC::File construstor.
+92289b8df955dd39e8e2b93c0005b19434926e9c 2004-04-10 Return a XiphComment here -- that still satisfies the overload of TagLib::File::tag() since return types aren't mangled into the symbol names.
+6f3480a1b3ff34c6ec478f4ef42cb43dbb2f42a9 2004-04-07 Restore public API from last commit
+1bbbfc2c6b00f6bf714347a96097933c074340bd 2004-04-07 Oops.  Forgot to update this recently...
+5861cb8e0089f8b42a1ba89d08cbd9e7e0f617a9 2004-04-07 CVS_SILENT nitpicks
+15d3c3c71aa534dfd087273712f9e720a23f63ab 2004-04-07 Several optimizations that came from KCacheGrind / calltree fun. Basically they fall into the categories: - Don't convert things before you need to - When you do, use more effecient copy constructors / assignment operators   (i.e. when copying prefer memcpy to a for loop and when that's not possible   use an iterator instead of operator[])
+1bc8909bbaa4c3a8367d94f9ffdd5722c735fbc1 2004-04-06 Adding Ogg/FLAC support to TagLib
+4f1f6adf595a45998aff97caeef93680744e356f 2004-04-06 Changing the API to something more flexible (And needed for Ogg/FLAC)
+9fe8b9ea345a660a49ccca5d8789a7f17e832242 2004-04-04 version 1.1
+8c63238fb882c5e5fecf0408d10f2fc8cc2e1238 2004-04-04 Add the ability to override the default ID3v1 string handling in TagLib by adding a ID3v1::StringHandler class that has render and parse methods.
+907c0fddb0e7bf51c03755d18d1f0722786bf7c7 2004-04-03 After making a simple enough test-case for Scott I was able to find the bug myself.
+1b28af00a202c581a61c4452b6437f940687c234 2004-03-30 Add a constructor that takes an ID3v2::FrameFactory.
+067dc81f93dee764068544c279413f87a8e88b66 2004-03-30 CVS_SILENT another nitpick
+f78cee2f24eeafeb8b09435f1585a9d2f1a2660b 2004-03-30 I like it more like this...
+d0d82ec6ea97d29e39d5117d7e6830cb43ad15ba 2004-03-16 The explicit is silly here since it takes two arguments (it's leftover from when this used to have a default argument).
+2ac52bceeef94fd384b1cc67c81ab6fe14a7fa70 2004-03-10 - ByteVector::operator> seemed flawed to me
+d6aeb26c98103b021cd285b4b3acee8ff52f95c7 2004-03-05 Use memcmp() and memcpy() where appropriate rather than slower loop based methods.  Here this improves tag reading speed by about 50%.
+8cd5093faa0f2c95593bda3bcc8c7e459d95a6da 2004-02-29 Hmm, not good -- missing "ref" here so that the reference count wasn't being incremented on copy.
+9a63f34627d1c888b64b161eed8cd760260025dd 2004-02-22 Fix String::data() for UTF16 -- there was a missing break in the case statement, so both the UTF16 and the UTF16BE versions were being executed.
+b23b37eb73f287c31eb3937985dd03a723d451fd 2004-02-20 Oops, forgot a break...
+e86abce07c05eff00fb264a0a9b949fb44dd57df 2004-02-20 Added a translation table between ID3v2.2 frame names and ID3v2.4.  TagLib now supports ID3v2.2 through ID3v2.4.
+c22ee9d712aa33edb7e463f1c197e225560d5139 2004-02-20 CVS_SILENT oops -- didn't mean to check this in
+619ef906cd5af7a37684823532e0b3ae78f68f33 2004-02-20 Mostly get ID3v2.2 working.  Sure, it's a standard from 1998 that was replaced in 1999, but apparently iTunes still uses it.
+d21fa2226045ed7f176e28ddb414f41c73cfeb58 2004-02-17 Add a couple of testcases that point out UTF16 bugs.
+bfd0be4c7d96f0b2713a00b2b2fac4fcf3e3f709 2004-02-17 Fixed problem with TagLib reading 1 byte fields in ID3v2 tags.
+7fe6647435856631c8351a34d04d7e01acc79d1e 2004-02-17 This commit was manufactured by cvs2svn to accommodate a server-side copy/move.
