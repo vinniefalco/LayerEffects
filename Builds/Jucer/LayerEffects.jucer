@@ -3,42 +3,42 @@
 <JUCERPROJECT id="jYvoRk" name="LayerEffects" projectType="guiapp" version="1.0.0"
               jucerVersion="3.0.0" bundleIdentifier="com.yourcompany.LayerEffects">
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="../MacOSX" juceFolder="../../JUCE/modules">
+    <XCODE_MAC targetFolder="../MacOSX" juceFolder="../../Extern/JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LayerEffects"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       headerPath="../../JUCE;../../VFLib"/>
+                       headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="LayerEffects"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       headerPath="../../JUCE;../../VFLib"/>
+                       headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
       </CONFIGURATIONS>
     </XCODE_MAC>
-    <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="../../JUCE/modules">
+    <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="../../Extern/JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
+                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"
+                       isDebug="0" optimisation="3" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"
                        wholeProgramOptimisation="1"/>
       </CONFIGURATIONS>
     </VS2010>
-    <LINUX_MAKE targetFolder="../Linux" juceFolder="../../JUCE/modules">
+    <LINUX_MAKE targetFolder="../Linux" juceFolder="../../Extern/JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
+                       targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="LayerEffects" headerPath="../../JUCE;../../VFLib"/>
+                       targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
       </CONFIGURATIONS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
   <MAINGROUP id="DFaKOO" name="LayerEffects">
     <GROUP id="{CE0D3277-E39C-C7F7-4365-4853321CF60C}" name="_VFLib">
-      <FILE id="lyLvaO" name="vf_concurrent.cpp" compile="1" resource="0"
-            file="../../VFLib/modules/vf_concurrent/vf_concurrent.cpp"/>
-      <FILE id="WEyHcd" name="vf_core.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_core/vf_core.cpp"/>
-      <FILE id="UnlUdH" name="vf_gui.cpp" compile="1" resource="0" file="../../VFLib/modules/vf_gui/vf_gui.cpp"/>
-      <FILE id="w0Wxuc" name="vf_unfinished.cpp" compile="1" resource="0"
-            file="../../VFLib/modules/vf_unfinished/vf_unfinished.cpp"/>
+      <FILE id="mwO33s" name="vf_core.cpp" compile="1" resource="0" file="../../Extern/VFLib/modules/vf_core/vf_core.cpp"/>
+      <FILE id="x5Bxsj" name="vf_concurrent.cpp" compile="1" resource="0"
+            file="../../Extern/VFLib/modules/vf_concurrent/vf_concurrent.cpp"/>
+      <FILE id="gdjLqI" name="vf_gui.cpp" compile="1" resource="0" file="../../Extern/VFLib/modules/vf_gui/vf_gui.cpp"/>
+      <FILE id="KluiFF" name="vf_unfinished.cpp" compile="1" resource="0"
+            file="../../Extern/VFLib/modules/vf_unfinished/vf_unfinished.cpp"/>
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">

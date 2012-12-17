@@ -19,16 +19,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\VFLib\modules\vf_concurrent\vf_concurrent.cpp">
+    <ClCompile Include="..\..\Extern\VFLib\modules\vf_core\vf_core.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VFLib\modules\vf_core\vf_core.cpp">
+    <ClCompile Include="..\..\Extern\VFLib\modules\vf_concurrent\vf_concurrent.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VFLib\modules\vf_gui\vf_gui.cpp">
+    <ClCompile Include="..\..\Extern\VFLib\modules\vf_gui\vf_gui.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VFLib\modules\vf_unfinished\vf_unfinished.cpp">
+    <ClCompile Include="..\..\Extern\VFLib\modules\vf_unfinished\vf_unfinished.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
@@ -97,31 +97,31 @@
     <ClCompile Include="..\..\Source\source.cpp">
       <Filter>LayerEffects\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_core\juce_core.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_core\juce_core.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_data_structures\juce_data_structures.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_events\juce_events.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_events\juce_events.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_graphics\juce_graphics.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_graphics\juce_graphics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp">
+    <ClCompile Include="..\..\Extern\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
   </ItemGroup>
