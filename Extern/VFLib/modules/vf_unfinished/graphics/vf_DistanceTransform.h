@@ -903,6 +903,92 @@ struct DistanceTransform
           f (c, r, I (c, r));
     }
   };
+
+  //----------------------------------------------------------------------------
+
+  struct Chamfer
+  {
+    /** Clamp v to the half-open interval [vmin, vmax)
+    */
+    template <class T>
+    static inline T clamp (T v, T vmin, T vmax)
+    {
+      if (v < vmin)
+        return vmin;
+      else if (v >= vmax)
+        return vmax - 1;
+      else
+        return v;
+    }
+
+    template <class Functor, class BoolImage>
+    static void calculate (Functor f, BoolImage test, int const width, int const height)
+    {
+      static int const kd [][2] = {
+                  {-1, -2},          {1, -2}, 
+        {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                  {-1,  0}, {0,  0}, {1,  0},
+	{-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
+	          {-1,  2},          {1,  2}
+        };
+
+      static int const kv [] = {
+             567,      567,
+        567, 358, 254, 358, 567,
+             254,  0,  254,
+        567, 358, 254, 358, 567,
+             567, 567
+        };
+
+      static int const kn = sizeof (kv) / sizeof (kv [0]);
+
+      int const inf = (width + height) * 564;
+      Map2D <int> d (width, height);
+
+      for (int y = 0; y < height; ++y)
+      {
+        for (int x = 0; x < width; ++x)
+        {
+          if (test (x, y))
+            d (x, y) = 0;
+          else
+            d (x, y) = inf;
+        }
+      }
+
+      for (int y = 0; y < height; ++y)
+      {
+        for (int x = 0; x < width; ++x)
+        {
+          for (int i = 0; i < kn; ++i)
+          {
+            int cx = clamp (x + kd [i][0], 0, width);
+            int cy = clamp (y + kd [i][1], 0, height);
+            int v = d (cx, cy) + kv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+        }
+      }
+
+      for (int y = height - 1; y > 0; --y)
+      {
+        for (int x = width - 1; x > 0; --x)
+        {
+          for (int i = 0; i < kn; ++i)
+          {
+            int cx = clamp (x + kd [i][0], 0, width);
+            int cy = clamp (y + kd [i][1], 0, height);
+            int v = d (cx, cy) + kv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+
+          f (x, y, d (x, y));
+        }
+      }
+    }
+  };
 };
 
 #endif

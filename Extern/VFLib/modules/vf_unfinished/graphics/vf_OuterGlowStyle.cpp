@@ -299,7 +299,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
       maskPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
   #else
-    DistanceTransform::Meijster::calculate (
+    DistanceTransform::Chamfer::calculate (
       RenderPixel (
         destPixels,
         opacity,
@@ -308,8 +308,9 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
         table),
       DistanceTransform::BlackTest (maskPixels),
       maskPixels.getWidth (),
-      maskPixels.getHeight (),
-      DistanceTransform::Meijster::ChessMetric ());
+      maskPixels.getHeight ()
+      //,DistanceTransform::Meijster::ChessMetric ());
+      );
   #endif
   }
   else

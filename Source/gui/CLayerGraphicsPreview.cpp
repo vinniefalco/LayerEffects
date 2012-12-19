@@ -76,7 +76,7 @@ void CLayerGraphicsPreview::paint (Graphics& g)
 
 void CLayerGraphicsPreview::paintBackground (Graphics& g)
 {
-#if 1
+#if 0
   g.setGradientFill (ColourGradient (
     Colours::black, 0.f, 0.f,
     Colours::white, 0.f, float (getLocalBounds ().getHeight ()),
