@@ -31,6 +31,9 @@
     <ClCompile Include="..\..\Extern\VFLib\modules\vf_unfinished\vf_unfinished.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\BackgroundThread.cpp">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -126,6 +129,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\BackgroundThread.h">
+      <Filter>LayerEffects\Source\gui</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>

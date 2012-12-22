@@ -66,77 +66,77 @@ void CMainPanel::onOptionsGeneral (Options::General options)
 {
   m_options.general = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsFill (Options::Fill options)
 {
   m_options.fill = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsDropShadow (Options::DropShadow options)
 {
   m_options.dropShadow = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsInnerShadow (Options::InnerShadow options)
 {
   m_options.innerShadow = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsOuterGlow (Options::OuterGlow options)
 {
   m_options.outerGlow = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsInnerGlow (Options::InnerGlow options)
 {
   m_options.innerGlow = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsBevelEmboss (Options::BevelEmboss options)
 {
   m_options.bevelEmboss = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsColourOverlay (Options::ColourOverlay options)
 {
   m_options.colourOverlay = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsGradientOverlay (Options::GradientOverlay options)
 {
   m_options.gradientOverlay = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsPatternOverlay (Options::PatternOverlay options)
 {
   m_options.patternOverlay = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 void CMainPanel::onOptionsStroke (Options::Stroke options)
 {
   m_options.stroke = options;
 
-  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options, false);
+  vf::componentBroadcast (this, &CLayerGraphicsPreview::setOptions, &m_options);
 }
 
 StringArray CMainPanel::getMenuBarNames()

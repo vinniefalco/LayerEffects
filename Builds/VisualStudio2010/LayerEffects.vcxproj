@@ -129,6 +129,9 @@
     <ClCompile Include="..\..\Extern\VFLib\modules\vf_concurrent\vf_concurrent.cpp"/>
     <ClCompile Include="..\..\Extern\VFLib\modules\vf_gui\vf_gui.cpp"/>
     <ClCompile Include="..\..\Extern\VFLib\modules\vf_unfinished\vf_unfinished.cpp"/>
+    <ClCompile Include="..\..\Source\gui\BackgroundThread.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CBackgroundPanel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -204,6 +207,7 @@
     <ClCompile Include="..\..\Extern\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\gui\BackgroundThread.h"/>
     <ClInclude Include="..\..\Source\gui\CBackgroundPanel.h"/>
     <ClInclude Include="..\..\Source\gui\CBevelEmbossTab.h"/>
     <ClInclude Include="..\..\Source\gui\CColourOverlayTab.h"/>

@@ -30,45 +30,47 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
-#define LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
-
-/** Displays a preview of the layer graphics effects.
+/** Calculates the layer effects preview.
 */
-class CLayerGraphicsPreview
-  : public Component
-  , private FileDragAndDropTarget
-  , private BackgroundThread::Listener
+class BackgroundThread : private vf::ThreadWithCallQueue::EntryPoints
 {
 public:
-  CLayerGraphicsPreview ();
-  ~CLayerGraphicsPreview ();
+  struct Settings
+  {
+    vf::LayerGraphics::Options options;
+    Image backgroundImage;
+    Image foregroundImage;
+  };
 
-  void setOptions (Options* newOptions);
+  struct Listener
+  {
+    virtual void onImageReady (Image image) { }
+  };
 
-  void resized ();
+  BackgroundThread ();
+  ~BackgroundThread ();
 
-  void paint (Graphics& g);
+  void addListener (Listener* listener, vf::CallQueue& thread);
+  void removeListener (Listener* listener);
 
-private:
-  bool isInterestedInFileDrag (const StringArray& files);
-  void fileDragEnter (const StringArray& files, int x, int y);
-  void fileDragExit (const StringArray& files);
-  void filesDropped (const StringArray& files, int x, int y);
-
-private:
-  void recalculateSettings ();
-
-  void paintBackground (Graphics& g);
-  void paintForeground (Graphics& g);
-
-  void onImageReady (Image image);
+  void changeSettings (Settings settings);
 
 private:
-  BackgroundThread m_thread;
-  BackgroundThread::Settings m_settings;
-  Image m_foregroundImage;
-  Image m_displayImage;
+  void changeSettingsAsync (Settings settings);
+
+  bool threadIdle ();
+
+private:
+  struct State
+  {
+    Image image;
+  };
+
+  typedef vf::ConcurrentState <State> SharedState;
+
+  SharedState m_state;
+  vf::ThreadWithCallQueue m_thread;
+  vf::Listeners <Listener> m_listeners;
+
+  Settings m_settings;
 };
-
-#endif

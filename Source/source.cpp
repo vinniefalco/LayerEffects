@@ -48,13 +48,12 @@
 
 using namespace juce;
 
+#include "gui/BackgroundThread.h"
 #include "gui/CustomLookAndFeel.h"
 #include "gui/Options.h"
 #include "gui/CSolidColourPicker.h"
-
 #include "gui/CBackgroundPanel.h"
 #include "gui/CImageDropTarget.h"
-
 #include "gui/CLayerGraphicsPreview.h"
 
 #include "gui/COptionsTab.h"
@@ -80,6 +79,8 @@ using namespace juce;
 #include "gui/CustomLookAndFeel.cpp"
 #include "gui/MainApp.cpp"
 #include "gui/CSolidColourPicker.cpp"
+
+#include "gui/BackgroundThread.cpp"
 
 #include "gui/CBackgroundPanel.cpp"
 #include "gui/CBevelEmbossTab.cpp"

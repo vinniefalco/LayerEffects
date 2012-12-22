@@ -42,6 +42,10 @@
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
+        <FILE id="T8v3Sy" name="BackgroundThread.cpp" compile="0" resource="0"
+              file="../../Source/gui/BackgroundThread.cpp"/>
+        <FILE id="igKdms" name="BackgroundThread.h" compile="0" resource="0"
+              file="../../Source/gui/BackgroundThread.h"/>
         <FILE id="o6z9Ms" name="CBackgroundPanel.cpp" compile="0" resource="0"
               file="../../Source/gui/CBackgroundPanel.cpp"/>
         <FILE id="R6GlV4" name="CBackgroundPanel.h" compile="0" resource="0"
@@ -126,5 +130,5 @@
     <MODULE id="juce_data_structures" showAllCode="0" useLocalCopy="0"/>
     <MODULE id="juce_gui_extra" showAllCode="0" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_CHECK_MEMORY_LEAKS="disabled"/>
 </JUCERPROJECT>

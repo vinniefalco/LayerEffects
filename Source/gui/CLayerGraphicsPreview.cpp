@@ -32,46 +32,102 @@
 
 CLayerGraphicsPreview::CLayerGraphicsPreview ()
 {
+  m_thread.addListener (this, vf::MessageThread::getInstance ());
 }
 
 CLayerGraphicsPreview::~CLayerGraphicsPreview ()
 {
+  m_thread.removeListener (this);
 }
 
-void CLayerGraphicsPreview::setOptions (Options* newOptions, bool updateNow)
+void CLayerGraphicsPreview::setOptions (Options* newOptions)
 {
-  m_newOptions = *newOptions;
+  m_settings.options.general          = newOptions->general;
+  m_settings.options.fill             = newOptions->fill;
+  m_settings.options.dropShadow       = newOptions->dropShadow;
+  m_settings.options.innerShadow      = newOptions->innerShadow;
+  m_settings.options.outerGlow        = newOptions->outerGlow;
+  m_settings.options.innerGlow        = newOptions->innerGlow;
+  m_settings.options.bevelEmboss      = newOptions->bevelEmboss;
+  m_settings.options.colourOverlay    = newOptions->colourOverlay;
+  m_settings.options.gradientOverlay  = newOptions->gradientOverlay;
+  m_settings.options.patternOverlay   = newOptions->patternOverlay;
+  m_settings.options.stroke           = newOptions->stroke;
 
-  if (updateNow)
-  {
-    m_options = m_newOptions;
-    repaint ();
-  }
-  else
-  {
-    startTimer (250);
-  }
+  recalculateSettings ();
+
+  repaint ();
+}
+
+void CLayerGraphicsPreview::resized ()
+{
+  recalculateSettings ();
 }
 
 void CLayerGraphicsPreview::paint (Graphics& g)
 {
-  paintBackground (g);
+  g.drawImageAt (m_displayImage, 0, 0);
+}
 
-  vf::LayerGraphics lc (g, getLocalBounds ());
+//------------------------------------------------------------------------------
 
-  lc.getOptions ().general          = m_options.general;
-  lc.getOptions ().fill             = m_options.fill;
-  lc.getOptions ().dropShadow       = m_options.dropShadow;
-  lc.getOptions ().innerShadow      = m_options.innerShadow;
-  lc.getOptions ().outerGlow        = m_options.outerGlow;
-  lc.getOptions ().innerGlow        = m_options.innerGlow;
-  lc.getOptions ().bevelEmboss      = m_options.bevelEmboss;
-  lc.getOptions ().colourOverlay    = m_options.colourOverlay;
-  lc.getOptions ().gradientOverlay  = m_options.gradientOverlay;
-  lc.getOptions ().patternOverlay   = m_options.patternOverlay;
-  lc.getOptions ().stroke           = m_options.stroke;
+bool CLayerGraphicsPreview::isInterestedInFileDrag (const StringArray& files)
+{
+  bool isInterested = false;
 
-  paintForeground (lc);
+  if (files.size () == 1)
+  {
+    isInterested = true;
+  }
+
+  return isInterested;
+}
+
+void CLayerGraphicsPreview::fileDragEnter (const StringArray& files, int x, int y)
+{
+//  setFocused (true);
+}
+
+void CLayerGraphicsPreview::fileDragExit (const StringArray& files)
+{
+//  setFocused (false);
+}
+
+void CLayerGraphicsPreview::filesDropped (const StringArray& files, int x, int y)
+{
+  if (files.size () == 1)
+  {
+    Image image = ImageFileFormat::loadFrom (File (files [0]));
+
+    if (image.isValid ())
+    {
+      m_foregroundImage = image;
+      repaint ();
+    }
+  }
+
+//  setFocused (false);
+}
+
+//------------------------------------------------------------------------------
+
+void CLayerGraphicsPreview::recalculateSettings ()
+{
+  {
+    Image bk (Image::RGB, getWidth (), getHeight (), false);
+    Graphics g (bk);
+    paintBackground (g);
+    m_settings.backgroundImage = bk;
+  }
+
+  {
+    Image fg (Image::ARGB, getWidth (), getHeight (), true);
+    Graphics g (fg);
+    paintForeground (g);
+    m_settings.foregroundImage = fg;
+  }
+
+  m_thread.changeSettings (m_settings);
 }
 
 void CLayerGraphicsPreview::paintBackground (Graphics& g)
@@ -92,9 +148,9 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
 {
   Rectangle <int> const b (getLocalBounds ());
 
-  if (m_image.isValid ())
+  if (m_foregroundImage.isValid ())
   {
-    g.drawImageAt (m_image, 0, 0);
+    g.drawImageAt (m_foregroundImage, 0, 0);
   }
   else
   {
@@ -134,49 +190,9 @@ void CLayerGraphicsPreview::paintForeground (Graphics& g)
   }
 }
 
-void CLayerGraphicsPreview::timerCallback ()
+void CLayerGraphicsPreview::onImageReady (Image image)
 {
-  stopTimer ();
-
-  m_options = m_newOptions;
+  m_displayImage = image;
 
   repaint ();
-}
-
-bool CLayerGraphicsPreview::isInterestedInFileDrag (const StringArray& files)
-{
-  bool isInterested = false;
-
-  if (files.size () == 1)
-  {
-    isInterested = true;
-  }
-
-  return isInterested;
-}
-
-void CLayerGraphicsPreview::fileDragEnter (const StringArray& files, int x, int y)
-{
-//  setFocused (true);
-}
-
-void CLayerGraphicsPreview::fileDragExit (const StringArray& files)
-{
-//  setFocused (false);
-}
-
-void CLayerGraphicsPreview::filesDropped (const StringArray& files, int x, int y)
-{
-  if (files.size () == 1)
-  {
-    Image image = ImageFileFormat::loadFrom (File (files [0]));
-
-    if (image.isValid ())
-    {
-      m_image = image;
-      repaint ();
-    }
-  }
-
-//  setFocused (false);
 }

@@ -30,45 +30,69 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
-#define LAYEREFFECTS_CLAYERGRAPHICSPREVIEW_HEADER
-
-/** Displays a preview of the layer graphics effects.
-*/
-class CLayerGraphicsPreview
-  : public Component
-  , private FileDragAndDropTarget
-  , private BackgroundThread::Listener
+BackgroundThread::BackgroundThread ()
+  : m_thread ("BackgroundThread")
 {
-public:
-  CLayerGraphicsPreview ();
-  ~CLayerGraphicsPreview ();
+  m_thread.start (this);
+}
 
-  void setOptions (Options* newOptions);
+BackgroundThread::~BackgroundThread ()
+{
+  m_thread.stop (true);
+}
 
-  void resized ();
+void BackgroundThread::addListener (Listener* listener, vf::CallQueue& thread)
+{
+  SharedState::ReadAccess state (m_state);
 
-  void paint (Graphics& g);
+  m_listeners.add (listener, thread);
 
-private:
-  bool isInterestedInFileDrag (const StringArray& files);
-  void fileDragEnter (const StringArray& files, int x, int y);
-  void fileDragExit (const StringArray& files);
-  void filesDropped (const StringArray& files, int x, int y);
+  m_listeners.queue1 (listener, &Listener::onImageReady, state->image);
+}
 
-private:
-  void recalculateSettings ();
+void BackgroundThread::removeListener (Listener* listener)
+{
+  m_listeners.remove (listener);
+}
 
-  void paintBackground (Graphics& g);
-  void paintForeground (Graphics& g);
+void BackgroundThread::changeSettings (Settings settings)
+{
+  m_thread.call (&BackgroundThread::changeSettingsAsync, this, settings);
+}
 
-  void onImageReady (Image image);
+void BackgroundThread::changeSettingsAsync (Settings settings)
+{
+  m_settings = settings;
+}
 
-private:
-  BackgroundThread m_thread;
-  BackgroundThread::Settings m_settings;
-  Image m_foregroundImage;
-  Image m_displayImage;
-};
+bool BackgroundThread::threadIdle ()
+{
+  bool interrupted = false;
 
-#endif
+  if (! m_settings.backgroundImage.isNull ())
+  {
+    Rectangle <int> const bounds (
+      0,
+      0,
+      m_settings.backgroundImage.getWidth (), 
+      m_settings.backgroundImage.getHeight ());
+
+    Image result (Image::RGB, bounds.getWidth (), bounds.getHeight (), false);
+
+    {
+      Graphics g (result);
+
+      g.drawImageAt (m_settings.backgroundImage, 0, 0);
+
+      vf::LayerGraphics lc (g, bounds);
+
+      lc.getOptions () = m_settings.options;
+
+      lc.drawImageAt (m_settings.foregroundImage, 0, 0);
+    }
+
+    m_listeners.call (&Listener::onImageReady, result);
+  }
+
+  return interrupted;
+}

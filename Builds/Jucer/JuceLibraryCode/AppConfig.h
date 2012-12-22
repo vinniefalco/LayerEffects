@@ -98,7 +98,7 @@
 #endif
 
 #ifndef    JUCE_CHECK_MEMORY_LEAKS
- //#define JUCE_CHECK_MEMORY_LEAKS
+ #define   JUCE_CHECK_MEMORY_LEAKS 0
 #endif
 
 #ifndef    JUCE_DONT_AUTOLINK_TO_WIN32_LIBRARIES
