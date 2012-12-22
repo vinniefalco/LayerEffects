@@ -122,7 +122,7 @@ struct BoxBlur
   {
     Map2D <int> temp (h, w);
 
-    Pass () (Pixels::Map2D (in),   temp, w, h, radius);
+    Pass () (in,   temp, w, h, radius);
     Pass () (temp, out,  h, w, radius);
     Pass () (out,  temp, w, h, radius);
     Pass () (temp, out,  h, w, radius);

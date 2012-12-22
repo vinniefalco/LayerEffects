@@ -277,6 +277,29 @@ struct StackBlur
 };
 #endif
 
+struct OuterGlowStyle::RenderChamfer
+{
+  RenderChamfer (Map2D <int> dist, int size)
+    : m_dist (dist)
+    , m_size (size)
+  {
+  }
+
+  template <class T>
+  void operator () (int x, int y, T distanceSquared) const
+  {
+    int dist = sqrt (double(distanceSquared));
+
+    if (dist <= m_size)
+      m_dist (x, y) = 255;
+    else
+      m_dist (x, y) = 0;
+  }
+
+  Map2D <int> m_dist;
+  int m_size;
+};
+
 void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
   if (!active)
@@ -319,10 +342,27 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 
     Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
 
-    BoxBlur () (maskPixels, temp, temp.getCols (), temp.getRows (), size);
+#if 0
+    BoxBlur () (Pixels::Map2D (maskPixels), temp, temp.getCols (), temp.getRows (), size);
+#else
+    int const dilatePixels = int (size * spread);
+    int const blurPixels = size - dilatePixels;
+    
+    Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
+    DistanceTransform::Chamfer::calculate (
+      RenderChamfer (dist, dilatePixels),
+      DistanceTransform::BlackTest (maskPixels),
+      maskPixels.getWidth (),
+      maskPixels.getHeight ());
+    BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), blurPixels);
+    /*
+    for (int y = 0; y < temp.getRows (); ++y)
+      for (int x = 0; x < temp.getCols (); ++x)
+        temp (x, y) = dist (x, y);
+    */
+#endif
 
     PixelARGB c (0);
-
     for (int y = 0; y < temp.getRows (); ++y)
     {
       for (int x = 0; x < temp.getCols (); ++x)
