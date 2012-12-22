@@ -310,7 +310,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   if (precise)
   {
   #if 1
-    DistanceTransform::Meijster::calculateAntiAliasedLoop (
+    DistanceTransform::Meijster::calculateAntiAliased (
       RenderPixelAntiAliased (
         destPixels,
         opacity,
@@ -349,11 +349,18 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
     int const blurPixels = size - dilatePixels;
     
     Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
-    DistanceTransform::Chamfer::calculate (
+
+    DistanceTransform::Meijster::calculateAntiAliased (
       RenderChamfer (dist, dilatePixels),
-      DistanceTransform::BlackTest (maskPixels),
+      GetMask (maskPixels),
       maskPixels.getWidth (),
-      maskPixels.getHeight ());
+      maskPixels.getHeight (),
+      DistanceTransform::Meijster::EuclideanMetric ());
+    /*
+    for (int y = 0; y < temp.getRows (); ++y)
+      for (int x = 0; x < temp.getCols (); ++x)
+        dist (x, y) = (*maskPixels.getPixelPointer (x, y) > 0) ? 255 : 0;
+    */
     BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), blurPixels);
     /*
     for (int y = 0; y < temp.getRows (); ++y)
