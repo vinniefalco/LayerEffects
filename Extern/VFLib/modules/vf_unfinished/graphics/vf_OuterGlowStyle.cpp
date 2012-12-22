@@ -304,45 +304,6 @@ struct OuterGlowStyle::RenderChamfer
 
 //------------------------------------------------------------------------------
 
-/** Dilate 8-bit mask.
-*/
-struct OuterGlowStyle::ChamferDilation
-{
-  struct Output
-  {
-    Output (Map2D <int> dest, int size)
-      : m_dest (dest)
-      , m_size (size * 256)
-      , m_sizePlusOne (m_size + 256)
-    {
-    }
-
-    // distance is 8bit fixed point
-    void operator () (int x, int y, int distance)
-    {
-      if (distance <= m_size)
-        m_dest (x, y) = 255;
-      else if (distance < m_sizePlusOne)
-        m_dest (x, y) = 255 - (distance - m_size);
-      else
-        m_dest (x, y) = 0;
-    }
-
-  private:
-    Map2D <int> m_dest;
-    int m_size;
-    int m_sizePlusOne;
-  };
-
-  template <class In, class Out>
-  void operator () (In in, Out out, int width, int height, int size) const
-  {
-    DistanceTransform::Chamfer () (in, Output (out, size), width, height);
-  }
-};
-
-//------------------------------------------------------------------------------
-
 void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
   if (!active)
@@ -381,18 +342,18 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   {
     // "Softer"
 
-    Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
-
     LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
     
     Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
 
-    ChamferDilation () (
+    LayerStyles::GrayscaleDilation () (
       Pixels::Map2D (maskPixels),
       dist,
       maskPixels.getWidth (),
       maskPixels.getHeight (),
       bd.getDilatePixels ());
+
+    Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
 
     BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), bd.getBoxBlurRadius ());
 

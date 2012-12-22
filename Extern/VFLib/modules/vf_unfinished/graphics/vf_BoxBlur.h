@@ -122,11 +122,13 @@ struct BoxBlur
   template <class In, class Out>
   void operator () (In in, Out out, int w, int h, float radius) const
   {
+    float halfRadius = radius / 2.f;
+
     Map2D <int> temp (h, w);
 
-    Pass () (in,   temp, w, h, radius);
-    Pass () (temp, out,  h, w, radius);
-    Pass () (out,  temp, w, h, radius);
-    Pass () (temp, out,  h, w, radius);
+    Pass () (in,   temp, w, h, halfRadius);
+    Pass () (temp, out,  h, w, halfRadius);
+    Pass () (out,  temp, w, h, halfRadius);
+    Pass () (temp, out,  h, w, halfRadius);
   }
 };

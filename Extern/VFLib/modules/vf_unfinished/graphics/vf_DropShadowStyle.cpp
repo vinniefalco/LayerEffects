@@ -30,11 +30,25 @@
 */
 /*============================================================================*/
 
-void DropShadowStyle::operator() (Image destImage, Image maskImage)
+void DropShadowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 {
   if (!active)
     return;
 
+  Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
+  Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
+
+  LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
+
+  LayerStyles::GrayscaleDilation () (
+    Pixels::Map2D (maskPixels),
+    dist,
+    maskPixels.getWidth (),
+    maskPixels.getHeight (),
+    bd.getDilatePixels ());
+
+
+#if 0
   RadialImageConvolutionKernel k (size + 1);
   k.createGaussianBlur ();
   //k.createGaussianInverse ();
@@ -55,4 +69,5 @@ void DropShadowStyle::operator() (Image destImage, Image maskImage)
     mode,
     Pixels::Iterate2 (destImage, matteImage),
     BlendProc::RGB::MaskFill (colour, opacity));
+#endif
 }

@@ -976,9 +976,9 @@ struct DistanceTransform
         }
       }
 
-      for (int y = height - 1; y > 0; --y)
+      for (int y = height; --y >= 0;)
       {
-        for (int x = width - 1; x > 0; --x)
+        for (int x = width; --x >= 0;)
         {
           for (int i = 0; i < kn; ++i)
           {

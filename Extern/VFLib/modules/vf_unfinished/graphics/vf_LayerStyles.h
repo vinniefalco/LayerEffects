@@ -47,7 +47,7 @@ public:
 
       // Photoshop fudge factor by Brian Fiete
       float const fudge = 1.85f - 0.45f * std::min (1.0f, blurPixels / 10.f);
-      m_boxBlurRadius = std::max ((blurPixels - fudge) / 2.f, 0.f);
+      m_boxBlurRadius = std::max (blurPixels - fudge, 0.f);
     }
 
     int getDilatePixels () const
@@ -63,5 +63,43 @@ public:
   private:
     int m_dilatePixels;
     float m_boxBlurRadius;
+  };
+
+  /** Produce grayscale dilation.
+  */
+  struct GrayscaleDilation
+  {
+    template <class In, class Out>
+    void operator () (In in, Out out, int width, int height, int size) const
+    {
+      DistanceTransform::Chamfer () (in, Output (out, size), width, height);
+    }
+
+  private:
+    struct Output
+    {
+      Output (Map2D <int> dest, int size)
+        : m_dest (dest)
+        , m_size (size * 256)
+        , m_sizePlusOne (m_size + 256)
+      {
+      }
+
+      // distance is 8bit fixed point
+      void operator () (int x, int y, int distance)
+      {
+        if (distance <= m_size)
+          m_dest (x, y) = 255;
+        else if (distance < m_sizePlusOne)
+          m_dest (x, y) = 255 - (distance - m_size);
+        else
+          m_dest (x, y) = 0;
+      }
+
+    private:
+      Map2D <int> m_dest;
+      int m_size;
+      int m_sizePlusOne;
+    };
   };
 };
