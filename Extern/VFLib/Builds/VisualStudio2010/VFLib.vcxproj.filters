@@ -1001,6 +1001,9 @@
     <ClInclude Include="..\..\modules\vf_concurrent\threads\vf_SharedObject.h">
       <Filter>VF Modules\vf_concurrent\threads</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BoxBlur.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

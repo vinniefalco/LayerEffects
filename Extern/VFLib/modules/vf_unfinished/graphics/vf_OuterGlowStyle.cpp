@@ -317,6 +317,23 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
   {
     // "Softer"
 
-    // code here
+    Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
+
+    BoxBlur () (maskPixels, temp, temp.getCols (), temp.getRows (), size);
+
+    PixelARGB c (0);
+
+    for (int y = 0; y < temp.getRows (); ++y)
+    {
+      for (int x = 0; x < temp.getCols (); ++x)
+      {
+        int const v = (temp (x, y) + 0) / 1;
+
+        PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
+
+        c.setAlpha (v);
+        dest.blend (c);
+      }
+    }
   }
 }
