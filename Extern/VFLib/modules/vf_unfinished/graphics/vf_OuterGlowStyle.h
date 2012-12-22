@@ -56,6 +56,7 @@ struct OuterGlowStyle
 
   struct RenderChamfer;
   struct GrayscaleDilation;
+  struct ChamferDilation;
 
   struct RenderPixel
   {

@@ -874,6 +874,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerGlowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_InnerShadowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerGraphics.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerStyles.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LightingTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_OuterGlowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_PatternFill.h" />

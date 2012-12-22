@@ -65,6 +65,7 @@
 namespace vf
 {
 
+#include "graphics/vf_LayerStyles.h"
 #include "graphics/vf_BlendMode.h"
 #include "graphics/vf_BlendProc.h"
 #include "graphics/vf_BoxBlur.h"

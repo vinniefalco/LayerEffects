@@ -52,6 +52,8 @@ struct BoxBlur
   /** Single box blur pass.
 
       This transposes rows and columns.
+
+      Original version by Brian Fiete
   */
   struct Pass
   {

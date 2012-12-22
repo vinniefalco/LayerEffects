@@ -906,6 +906,10 @@ struct DistanceTransform
 
   //----------------------------------------------------------------------------
 
+  /** Calculate Chamfer-5-7-11 distance transform.
+
+      Original version by Brian Fiete.
+  */
   struct Chamfer
   {
     /** Clamp v to the half-open interval [vmin, vmax)
@@ -921,8 +925,8 @@ struct DistanceTransform
         return v;
     }
 
-    template <class Functor, class BoolImage>
-    static void calculate (Functor f, BoolImage test, int const width, int const height)
+    template <class In, class Out>
+    void operator () (In in, Out out, int const width, int const height)
     {
       static int const kd [][2] = {
                   {-1, -2},          {1, -2}, 
@@ -949,10 +953,11 @@ struct DistanceTransform
       {
         for (int x = 0; x < width; ++x)
         {
-          if (test (x, y))
-            d (x, y) = 0;
-          else
+          int const v = in (x, y);
+          if (v == 0)
             d (x, y) = inf;
+          else
+            d (x, y) = 255 - v;
         }
       }
 
@@ -984,7 +989,7 @@ struct DistanceTransform
               d (x, y) = v;
           }
 
-          f (x, y, d (x, y));
+          out (x, y, d (x, y));
         }
       }
     }

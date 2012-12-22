@@ -306,110 +306,38 @@ struct OuterGlowStyle::RenderChamfer
 
 /** Dilate 8-bit mask.
 */
-struct OuterGlowStyle::GrayscaleDilation
+struct OuterGlowStyle::ChamferDilation
 {
-  struct EuclideanMetric
+  struct Output
   {
-    template <class T>
-    static inline T f (T x_i, T gi) noexcept
+    Output (Map2D <int> dest, int size)
+      : m_dest (dest)
+      , m_size (size * 256)
+      , m_sizePlusOne (m_size + 256)
     {
-      return (x_i*x_i)+gi*gi;
     }
 
-    template <class T>
-    static inline T sep (T i, T u, T gi, T gu, T) noexcept
+    // distance is 8bit fixed point
+    void operator () (int x, int y, int distance)
     {
-      return (u*u - i*i + gu*gu - gi*gi) / (2*(u-i));
+      if (distance <= m_size)
+        m_dest (x, y) = 255;
+      else if (distance < m_sizePlusOne)
+        m_dest (x, y) = 255 - (distance - m_size);
+      else
+        m_dest (x, y) = 0;
     }
+
+  private:
+    Map2D <int> m_dest;
+    int m_size;
+    int m_sizePlusOne;
   };
 
-  template <class In, class Out, class Metric>
-  void operator () (In in, Out out, int width, int height, int size, Metric metric) const
+  template <class In, class Out>
+  void operator () (In in, Out out, int width, int height, int size) const
   {
-    int const sizeSquared = size * size;
-    int const sizePlusOneSquared = (size + 1) * (size + 1);
-
-    std::vector <int> g (width * height);
-
-    int const inf = width + height;
-
-    // phase 1
-    {
-      for (int x = 0; x < width; ++x)
-      {
-        g [x] = in (x, 0) > 128 ? 0 : inf;
-
-        // scan 1
-        for (int y = 1; y < height; ++y)
-        {
-          int const ym = y*width;
-          g [x+ym] = in (x, y) > 128 ? 0 : 1 + g [x+ym-width];
-        }
-
-        // scan 2
-        for (int y = height-2; y >=0; --y)
-        {
-          int const ym = y*width;
-
-          if (g [x+ym+width] < g [x+ym])
-            g [x+ym] = 1 + g[x+ym+width];
-        }
-      }
-    }
-
-    // phase 2
-    {
-      std::vector <int> s (jmax (width, height));
-      std::vector <int> t (jmax (width, height));
-
-      for (int y = 0; y < height; ++y)
-      {
-        int q = 0;
-        s [0] = 0;
-        t [0] = 0;
-
-        int const ym = y*width;
-
-        // scan 3
-        for (int u = 1; u < width; ++u)
-        {
-          while (q >= 0 && metric.f (t[q]-s[q], g[s[q]+ym]) > metric.f (t[q]-u, g[u+ym]))
-            q--;
-
-          if (q < 0)
-          {
-            q = 0;
-            s [0] = u;
-          }
-          else
-          {
-            int const w = 1 + metric.sep (s[q], u, g[s[q]+ym], g[u+ym], inf);
-
-            if (w < width)
-            {
-              ++q;
-              s[q] = u;
-              t[q] = w;
-            }
-          }
-        }
-
-        // scan 4
-        for (int u = width-1; u >= 0; --u)
-        {
-          int const d = metric.f (u-s[q], g[s[q]+ym]);
-          if (d <= sizeSquared)
-            out (u, y) = 255;
-          else if (d < sizePlusOneSquared)
-            out (u, y) = 255*((size+1)-sqrt(double(d)));
-          else
-            //out (u, y) = sqrt(double(d));
-            out (u, y) = 0;
-          if (u == t[q])
-            --q;
-        }
-      }
-    }
+    DistanceTransform::Chamfer () (in, Output (out, size), width, height);
   }
 };
 
@@ -437,7 +365,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
       maskPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
   #else
-    DistanceTransform::Chamfer::calculate (
+    DistanceTransform::Chamfer () (
       RenderPixel (
         destPixels,
         opacity,
@@ -446,9 +374,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
         table),
       DistanceTransform::BlackTest (maskPixels),
       maskPixels.getWidth (),
-      maskPixels.getHeight ()
-      //,DistanceTransform::Meijster::ChessMetric ());
-      );
+      maskPixels.getHeight ());
   #endif
   }
   else
@@ -457,41 +383,18 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
 
     Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
 
-#if 0
-    BoxBlur () (Pixels::Map2D (maskPixels), temp, temp.getCols (), temp.getRows (), size);
-#else
-    int const dilatePixels = int (size * spread);
-    int const blurPixels = size - dilatePixels;
+    LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
     
     Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
 
-    GrayscaleDilation () (
+    ChamferDilation () (
       Pixels::Map2D (maskPixels),
       dist,
       maskPixels.getWidth (),
       maskPixels.getHeight (),
-      dilatePixels,
-      GrayscaleDilation::EuclideanMetric ());
-    /*
-    DistanceTransform::Meijster::calculateAntiAliased (
-      RenderChamfer (dist, dilatePixels),
-      GetMask (maskPixels),
-      maskPixels.getWidth (),
-      maskPixels.getHeight (),
-      DistanceTransform::Meijster::EuclideanMetric ());
-    */
-    /*
-    for (int y = 0; y < temp.getRows (); ++y)
-      for (int x = 0; x < temp.getCols (); ++x)
-        dist (x, y) = (*maskPixels.getPixelPointer (x, y) > 0) ? 255 : 0;
-    */
-    BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), blurPixels);
-    /*
-    for (int y = 0; y < temp.getRows (); ++y)
-      for (int x = 0; x < temp.getCols (); ++x)
-        temp (x, y) = dist (x, y);
-    */
-#endif
+      bd.getDilatePixels ());
+
+    BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), bd.getBoxBlurRadius ());
 
     PixelARGB c (0);
     for (int y = 0; y < temp.getRows (); ++y)
