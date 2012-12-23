@@ -908,6 +908,8 @@ struct DistanceTransform
 
   /** Calculate Chamfer-5-7-11 distance transform.
 
+      The returned values have 8 bits of fixed-point precision.
+
       Original version by Brian Fiete.
   */
   struct Chamfer
@@ -928,6 +930,25 @@ struct DistanceTransform
     template <class In, class Out>
     void operator () (In in, Out out, int const width, int const height)
     {
+      // Kernel values from
+      //
+      // "Optimum Design of Chamfer Distance Transforms"
+      // - Muhammad Akmal Butt and Petros Maragos
+      //
+      // Optimal values for 5x5 neighborhood:
+      //  0.9866, sqrt(2), 2.2062
+      //
+      // The kernel is designed to also convert to fixed point.
+      //
+#if 1
+      static int const d1 = 253; // 252.6 = 256 * 0.9866
+      static int const d2 = 362; // 362.0 = 256 * 1.4142
+      static int const d3 = 566; // 565.8 = 256 * 2.2062
+#else
+      static int const d1 = 254;
+      static int const d2 = 358;
+      static int const d3 = 567;
+#endif
       // forward kernel
       static int const fk [][2] = {
                   {-1, -2},          {1, -2}, 
@@ -936,9 +957,9 @@ struct DistanceTransform
         };
 
       static int const fv  [] = {
-             567,      567,
-        567, 358, 254, 358, 567,
-             254,  0,
+            d3,     d3,
+        d3, d2, d1, d2, d3,
+            d1,  0
         };
 
       // backward kernel
@@ -949,10 +970,27 @@ struct DistanceTransform
         };
 
       static int const bv [] = {
-                   0,  254,
+                 0, d1,
+        d3, d2, d1, d2, d3,
+            d3,     d3
+        };
+/*
+      static int const kd [][2] = {
+                  {-1, -2},          {1, -2}, 
+        {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                  {-1,  0}, {0,  0}, {1,  0},
+	{-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
+	          {-1,  2},          {1,  2}
+        };
+
+      static int const kv [] = {
+             567,      567,
+        567, 358, 254, 358, 567,
+             254,  0,  254,
         567, 358, 254, 358, 567,
              567, 567
         };
+*/
 
       static int const n = sizeof (fv) / sizeof (fv [0]);
 
@@ -977,8 +1015,7 @@ struct DistanceTransform
       {
         for (int x = 0; x < width; ++x)
         {
-          d (x, y) = inf;
-          for (int i = 0; i < n; ++i)
+          for (int i = n; --i >= 0;)
           {
             int cx = clamp (x + fk [i][0], 0, width);
             int cy = clamp (y + fk [i][1], 0, height);
