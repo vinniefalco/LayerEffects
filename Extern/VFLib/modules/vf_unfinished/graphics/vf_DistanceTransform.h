@@ -928,27 +928,38 @@ struct DistanceTransform
     template <class In, class Out>
     void operator () (In in, Out out, int const width, int const height)
     {
-      static int const kd [][2] = {
+      // forward kernel
+      static int const fk [][2] = {
                   {-1, -2},          {1, -2}, 
         {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
-                  {-1,  0}, {0,  0}, {1,  0},
+                  {-1,  0}, {0,  0}
+        };
+
+      static int const fv  [] = {
+             567,      567,
+        567, 358, 254, 358, 567,
+             254,  0,
+        };
+
+      // backward kernel
+      static int const bk [][2] = {
+                            {0,  0}, {1,  0},
 	{-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
 	          {-1,  2},          {1,  2}
         };
 
-      static int const kv [] = {
-             567,      567,
-        567, 358, 254, 358, 567,
-             254,  0,  254,
+      static int const bv [] = {
+                   0,  254,
         567, 358, 254, 358, 567,
              567, 567
         };
 
-      static int const kn = sizeof (kv) / sizeof (kv [0]);
+      static int const n = sizeof (fv) / sizeof (fv [0]);
 
       int const inf = (width + height) * 564;
       Map2D <int> d (width, height);
 
+      // initialize
       for (int y = 0; y < height; ++y)
       {
         for (int x = 0; x < width; ++x)
@@ -961,30 +972,33 @@ struct DistanceTransform
         }
       }
 
+      // forward pass
       for (int y = 0; y < height; ++y)
       {
         for (int x = 0; x < width; ++x)
         {
-          for (int i = 0; i < kn; ++i)
+          d (x, y) = inf;
+          for (int i = 0; i < n; ++i)
           {
-            int cx = clamp (x + kd [i][0], 0, width);
-            int cy = clamp (y + kd [i][1], 0, height);
-            int v = d (cx, cy) + kv [i];
+            int cx = clamp (x + fk [i][0], 0, width);
+            int cy = clamp (y + fk [i][1], 0, height);
+            int v = d (cx, cy) + fv [i];
             if (v < d (x, y))
               d (x, y) = v;
           }
         }
       }
 
+      // backward pass
       for (int y = height; --y >= 0;)
       {
         for (int x = width; --x >= 0;)
         {
-          for (int i = 0; i < kn; ++i)
+          for (int i = n; --i >= 0;)
           {
-            int cx = clamp (x + kd [i][0], 0, width);
-            int cy = clamp (y + kd [i][1], 0, height);
-            int v = d (cx, cy) + kv [i];
+            int cx = clamp (x + bk [i][0], 0, width);
+            int cy = clamp (y + bk [i][1], 0, height);
+            int v = d (cx, cy) + bv [i];
             if (v < d (x, y))
               d (x, y) = v;
           }
