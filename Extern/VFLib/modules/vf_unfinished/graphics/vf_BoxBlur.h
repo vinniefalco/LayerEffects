@@ -62,15 +62,14 @@ struct BoxBlur
     template <class In, class Out>
     void operator () (In in, Out out, int w, int h, float radius) const
     {
-      int widthMinus1 = w-1;
-      int r = (int)radius;
-      //int tableSize = 2*r+1;
-      float frac = radius - r;
+      int const widthMinus1 = w - 1;
+      int const r = static_cast <int> (radius);
+      float const frac = radius - r;
 
-      int a = (int) (frac * 256);
-      int oma = 256 - a;
+      int const a = static_cast <int> (frac * 256);
+      int const oma = 256 - a;
 
-      int aDiv = (2*r+1)*256 + a*2;
+      int const aDiv = (2*r+1)*256 + a*2;
 
       for ( int y = 0; y < h; y++ ) 
       {
@@ -78,18 +77,16 @@ struct BoxBlur
 
         for ( int i = -r; i <= r; i++ ) 
         {
-          //int rgb = in[inIndex + clamp(i, 0, w)];
-          int rgb = in (clamp(i, 0, w), y);
-          ta += rgb * 256;
+          int const v = in (clamp(i, 0, w), y);
+          ta += v * 256;
         }
-        //ta += a * in[inIndex + clamp(-r-1, 0, w)];
+
         ta += a * in (clamp (-r-1, 0, w), y);
-        //ta += a * in[inIndex + clamp(r+1, 0, w)];
         ta += a * in (clamp (r+1, 0, w), y);
 
         for ( int x = 0; x < w; x++ ) 
         {
-          out (y, x) = ta / aDiv;
+          out (y, x) = (ta * 1) / aDiv;
 
           int r1 = x+r+1;
           int r2 = r1+1;
@@ -109,11 +106,11 @@ struct BoxBlur
               l2 = 0;
           }
 
-          int rgbL = (in (l1, y) * a) + (in (l2, y) * oma);
-          int rgbR = (in (r1, y) * oma) + (in (r2, y) * a);
+          int vold = (in (l1, y) * a) + (in (l2, y) * oma);
+          int vnew = (in (r1, y) * oma) + (in (r2, y) * a);
 
-          ta += rgbR;
-          ta -= rgbL;
+          ta += vnew;
+          ta -= vold;
         }
       }
     }

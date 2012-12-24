@@ -362,7 +362,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
     {
       for (int x = 0; x < temp.getCols (); ++x)
       {
-        int const v = (temp (x, y) + 0) / 1;
+        int const v = (temp (x, y) + 128) / 256;
 
         PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
 

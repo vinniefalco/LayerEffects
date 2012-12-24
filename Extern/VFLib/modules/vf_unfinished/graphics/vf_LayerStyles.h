@@ -85,13 +85,15 @@ public:
       {
       }
 
-      // distance is 8bit fixed point
-      void operator () (int x, int y, int distance)
+      // Distance has 8 bits fixed precision
+      //
+      template <class T>
+      void operator () (int x, int y, T distance)
       {
         if (distance <= m_size)
-          m_dest (x, y) = 255;
+          m_dest (x, y) = 255 * 256;
         else if (distance < m_sizePlusOne)
-          m_dest (x, y) = 255 - (distance - m_size);
+          m_dest (x, y) = (255 - (distance - m_size)) * 256;
         else
           m_dest (x, y) = 0;
       }
