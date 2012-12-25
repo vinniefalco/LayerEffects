@@ -30,9 +30,6 @@
 */
 /*============================================================================*/
 
-#ifndef VF_BLENDPROC_VFHEADER
-#define VF_BLENDPROC_VFHEADER
-
 /** Pixel compositing functors.
 
     @ingroup vf_gui
@@ -302,4 +299,114 @@ extern void copyImage (Image dest,
                        BlendMode::Type mode,
                        double opacity);
 
-#endif
+//------------------------------------------------------------------------------
+
+struct PixelProcs
+{
+  template <class Functor>
+  void copyGray (
+    int rows,
+    int cols,
+    unsigned char const* src,
+    int srcRowBytes,
+    int srcColBytes,
+    unsigned char* dest,
+    int destRowBytes,
+    int destColBytes,
+    Functor blendFunc)
+  {
+    srcRowBytes -= cols * srcColBytes;
+    destRowBytes -= cols * destColBytes;
+
+    for (int y = rows; --y >= 0;)
+    {
+      for (int x = cols; --x >= 0;)
+      {
+        *dest = blendFunc (*src, *dest);
+
+        src += srcColBytes;
+        dest += destColBytes;
+      }
+
+      src += srcRowBytes;
+      dest += destRowBytes;
+    }
+  }
+
+  template <class Functor>
+  void fillGray (
+    int rows,
+    int cols,
+    unsigned char gray,
+    double opacity,
+    unsigned char const* mask,
+    int maskRowBytes,
+    int maskColBytes,
+    unsigned char* dest,
+    int destRowBytes,
+    int destColBytes,
+    Functor blendFunc)
+  {
+    int alpha = static_cast <int> (256 * opacity + 0.5);
+
+    maskRowBytes -= cols * maskColBytes;
+    destRowBytes -= cols * destColBytes;
+
+    for (int y = rows; --y >= 0;)
+    {
+      for (int x = cols; --x >= 0;)
+      {
+        *dest = *dest + (alpha * (blendFunc (gray, *dest) - *dest) + 128) / 256;
+
+        mask += maskColBytes;
+        dest += destColBytes;
+      }
+
+      mask += maskRowBytes;
+      dest += destRowBytes;
+    }
+  }
+
+  template <class Functor>
+  void fillRGB (
+    int rows,
+    int cols,
+    unsigned char const* const rgb,
+    double opacity,
+    unsigned char const* mask,
+    int maskRowBytes,
+    int maskColBytes,
+    unsigned char* dest,
+    int destRowBytes,
+    int destColBytes,
+    Functor blendFunc)
+  {
+    int alpha = static_cast <int> (256 * opacity + 0.5);
+
+    maskRowBytes -= cols * maskColBytes;
+    destRowBytes -= cols * destColBytes;
+    destColBytes -= 2;
+
+    for (int y = rows; --y >= 0;)
+    {
+      for (int x = cols; --x >= 0;)
+      {
+        int t = alpha * *mask;
+
+        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
+
+        dest++;
+        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
+
+        dest++;
+        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
+
+        mask += maskColBytes;
+        dest += destColBytes;
+      }
+
+      mask += maskRowBytes;
+      dest += destRowBytes;
+    }
+  }
+};

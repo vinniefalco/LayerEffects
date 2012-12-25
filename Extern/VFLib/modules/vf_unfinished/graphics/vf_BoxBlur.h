@@ -67,13 +67,13 @@ struct BoxBlur
       float const frac = radius - r;
 
       int const a = static_cast <int> (frac * 256);
-      int const oma = 256 - a;
+      //int const oma = 256 - a;
 
       int const aDiv = (2*r+1)*256 + a*2;
 
-      for ( int y = 0; y < h; y++ ) 
+      for ( int y = 0; y < h; y++ )
       {
-        int ta = 0;
+        unsigned int ta = 0;
 
         for ( int i = -r; i <= r; i++ ) 
         {
@@ -86,7 +86,7 @@ struct BoxBlur
 
         for ( int x = 0; x < w; x++ ) 
         {
-          out (y, x) = (ta * 1) / aDiv;
+          out (y, x) = (ta * 1 + 0) / aDiv;
 
           int r1 = x+r+1;
           int r2 = r1+1;
@@ -105,9 +105,15 @@ struct BoxBlur
             if (l2 < 0)
               l2 = 0;
           }
-
+#if 0
           int vold = (in (l1, y) * a) + (in (l2, y) * oma);
           int vnew = (in (r1, y) * oma) + (in (r2, y) * a);
+#else
+          // v = v0*t + v1*(1-t)
+          // v = v1 + t*(v0-v1)
+          int const vold = (in (l2, y) << 8) + a * (in (l1, y) - in (l2, y));
+          int const vnew = (in (r1, y) << 8) + a * (in (r2, y) - in (r1, y));
+#endif
 
           ta += vnew;
           ta -= vold;

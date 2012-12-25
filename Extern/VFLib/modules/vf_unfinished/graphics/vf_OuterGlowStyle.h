@@ -54,10 +54,6 @@ struct OuterGlowStyle
 
   void operator() (Pixels destPixels, Pixels maskPixels);
 
-  struct RenderChamfer;
-  struct GrayscaleDilation;
-  struct ChamferDilation;
-
   struct RenderPixel
   {
     RenderPixel (Pixels dest,

@@ -43,7 +43,7 @@ struct DropShadowStyle
   BlendMode::Type mode;
   Colour          colour;
   double          opacity;    // [0, 1]
-  double          angle;
+  double          angle;      // in radians
   int             distance;
   double          spread;     // [0, 1]
   int             size;       // [0, 250]
@@ -53,7 +53,7 @@ struct DropShadowStyle
   {
   }
 
-  void operator() (Pixels destPixels, Pixels maskPixels);
+  void operator() (Pixels destPixels, Pixels stencilPixels);
 };
 
 #endif
