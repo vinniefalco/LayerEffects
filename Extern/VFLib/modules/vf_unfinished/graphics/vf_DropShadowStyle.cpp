@@ -37,6 +37,52 @@ Dilate
 Blur
 
 */
+static inline double cos_73s (double x) 
+{ 
+  const double c1= 0.999999953464; 
+  const double c2=-0.4999999053455; 
+  const double c3= 0.0416635846769; 
+  const double c4=-0.0013853704264; 
+  const double c5= 0.000023233 ;  // Note: this is a better coefficient than Hart's 
+  //   submitted by Steven Perkins 2/22/07 
+  double x2; 
+  // The input argument squared 
+  x2=x * x; 
+  return (c1 + x2*(c2 + x2*(c3 + x2*(c4 + c5*x2)))); 
+} 
+double const pie=3.1415926535897932384626433;// pi 
+double const twopi=2.0*pie; 
+double const halfpi=pie/2.0;  // pi times 2 
+
+// pi divided by 2 
+// 
+//  This is the main cosine approximation "driver" 
+// It reduces the input argument's range to [0, pi/2], 
+// and then calls the approximator.  
+// 
+float cos_32(float x){ 
+
+  int quad; 
+  // what quadrant are we in? 
+  x=fmod (x, float (twopi)); 
+  // Get rid of values > 2* pi 
+  if(x<0)x=-x; 
+  // cos(-x) = cos(x) 
+  quad=int(x/halfpi); 
+  // Get quadrant # (0 to 3) 
+  switch (quad){ 
+  case 0: return  cos_73s(x); 
+  case 1: return -cos_73s(pie-x); 
+  case 2: return -cos_73s(x-pie); 
+  case 3: return  cos_73s(twopi-x); 
+  } 
+} 
+
+// input range [0, 65536]
+static inline unsigned char contour (int input)
+{
+  return std::abs (cos_32 (float(input)/8192) * 255);
+}
 
 void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 {
@@ -97,7 +143,7 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 
         jassert (alpha < 65536);
 
-        *maskPixels.getPixelPointer (x, y) = static_cast <uint8> ((alpha + 128) / 256);
+        *maskPixels.getPixelPointer (x, y) = contour (alpha);
       }
     }
   }
@@ -137,9 +183,11 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 
   // Colorize destination using mask
   {
-    unsigned char c [] = { 0, 0, 0 };
+    unsigned char c [3];
+    c [PixelRGB::indexR] = colour.getRed ();
+    c [PixelRGB::indexG] = colour.getGreen ();
+    c [PixelRGB::indexB] = colour.getBlue ();
 
-#if 1
     procs.fillRGB (
       srcRect.getHeight (),
       srcRect.getWidth (),
@@ -152,37 +200,5 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
       destPixels.getRowBytes (),
       destPixels.getColBytes (),
       BlendMode::normal ());
-
-#else
-    unsigned char* dest = destPixels.getPixelPointer (destRect.getX (), destRect.getY ());
-
-    int const colBytes = destPixels.getColBytes () - 3;
-    int const rowBytes = destPixels.getRowBytes () - destRect.getWidth () * destPixels.getColBytes ();
-
-    for (int y = 0; y < srcRect.getHeight (); ++y)
-    {
-      for (int x = 0; x < srcRect.getWidth (); ++x)
-      {
-        int alpha = *maskPixels.getPixelPointer (x + srcRect.getX (), y + srcRect.getY ());
-
-        // v = v0 + t * (v1 - v0)
-        *dest = *dest + (alpha * (c [0] - *dest) + 128) / 255;
-        ++dest;
-        *dest = *dest + (alpha * (c [1] - *dest) + 128) / 255;
-        ++dest;
-        *dest = *dest + (alpha * (c [2] - *dest) + 128) / 255;
-        ++dest;
-        dest+=colBytes;
-      }
-      dest+=rowBytes;
-    }
-#endif
   }
-
-  /*
-  BlendMode::apply (
-    mode,
-    Pixels::Iterate2 (destImage, matteImage),
-    BlendProc::RGB::MaskFill (colour, opacity));
-  */
 }
