@@ -79,10 +79,17 @@ float cos_32(float x){
 } 
 
 // input range [0, 65536]
+#if 0
 static inline unsigned char contour (int input)
 {
   return std::abs (cos_32 (float(input)/8192) * 255);
 }
+#else
+static inline unsigned char contour (int input)
+{
+  return static_cast <unsigned char> (input / 257);
+}
+#endif
 
 void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 {
