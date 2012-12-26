@@ -39,6 +39,7 @@ class CMainPanel
   , public vf::ResizableLayout
   , public vf::TopLevelConstrainer
   , public Options::Listener
+  , public DragAndDropContainer
 {
 public:
   CMainPanel ();

@@ -74,6 +74,7 @@ float cos_32(float x){
   case 0: return  cos_73s(x); 
   case 1: return -cos_73s(pie-x); 
   case 2: return -cos_73s(x-pie); 
+  default:
   case 3: return  cos_73s(twopi-x); 
   } 
 } 

@@ -409,4 +409,19 @@ struct PixelProcs
       dest += destRowBytes;
     }
   }
+
+  void fillRGB (
+    int rows,
+    int cols,
+    unsigned char const* const rgb,
+    double opacity,
+    unsigned char const* mask,
+    int maskRowBytes,
+    int maskColBytes,
+    unsigned char* dest,
+    int destRowBytes,
+    int destColBytes,
+    BlendMode::Type blendMode)
+  {
+  }
 };

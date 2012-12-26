@@ -940,15 +940,10 @@ struct DistanceTransform
       //
       // The kernel is designed to also convert to fixed point.
       //
-#if 1
       static int const d1 = 253; // 252.6 = 256 * 0.9866
       static int const d2 = 362; // 362.0 = 256 * 1.4142
       static int const d3 = 566; // 565.8 = 256 * 2.2062
-#else
-      static int const d1 = 254;
-      static int const d2 = 358;
-      static int const d3 = 567;
-#endif
+
       // forward kernel
       static int const fk [][2] = {
                   {-1, -2},          {1, -2}, 
@@ -974,27 +969,10 @@ struct DistanceTransform
         d3, d2, d1, d2, d3,
             d3,     d3
         };
-/*
-      static int const kd [][2] = {
-                  {-1, -2},          {1, -2}, 
-        {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
-                  {-1,  0}, {0,  0}, {1,  0},
-	{-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
-	          {-1,  2},          {1,  2}
-        };
-
-      static int const kv [] = {
-             567,      567,
-        567, 358, 254, 358, 567,
-             254,  0,  254,
-        567, 358, 254, 358, 567,
-             567, 567
-        };
-*/
 
       static int const n = sizeof (fv) / sizeof (fv [0]);
 
-      int const inf = (width + height) * 564;
+      int const inf = (width + height) * d3;
       Map2D <int> d (width, height);
 
       // initialize
@@ -1015,7 +993,7 @@ struct DistanceTransform
       {
         for (int x = 0; x < width; ++x)
         {
-          for (int i = n; --i >= 0;)
+          for (int i = n-1; --i >= 0;)
           {
             int cx = clamp (x + fk [i][0], 0, width);
             int cy = clamp (y + fk [i][1], 0, height);
@@ -1031,7 +1009,260 @@ struct DistanceTransform
       {
         for (int x = width; --x >= 0;)
         {
-          for (int i = n; --i >= 0;)
+          for (int i = n; --i >= 1;)
+          {
+            int cx = clamp (x + bk [i][0], 0, width);
+            int cy = clamp (y + bk [i][1], 0, height);
+            int v = d (cx, cy) + bv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+
+          out (x, y, d (x, y));
+        }
+      }
+    }
+  };
+
+  //---------------------------------
+
+  struct FastChamfer
+  {
+    /** Clamp v to the half-open interval [vmin, vmax)
+    */
+    template <class T>
+    static inline T clamp (T v, T vmin, T vmax)
+    {
+      if (v < vmin)
+        return vmin;
+      else if (v >= vmax)
+        return vmax - 1;
+      else
+        return v;
+    }
+
+    template <class In, class Out>
+    void operator () (In in, Out out, int const width, int const height)
+    {
+      // Kernel values from
+      //
+      // "Optimum Design of Chamfer Distance Transforms"
+      // - Muhammad Akmal Butt and Petros Maragos
+      //
+      // Optimal values for 5x5 neighborhood:
+      //  0.9866, sqrt(2), 2.2062
+      //
+      // The kernel is designed to also convert to fixed point.
+      //
+      static int const d1 = 253; // 252.6 = 256 * 0.9866
+      static int const d2 = 362; // 362.0 = 256 * 1.4142
+      static int const d3 = 566; // 565.8 = 256 * 2.2062
+
+      // forward kernel
+      static int const fk [][2] = {
+                  {-1, -2},          {1, -2}, 
+        {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                  {-1,  0}, {0,  0}
+        };
+
+      static int const fv  [] = {
+            d3,     d3,
+        d3, d2, d1, d2, d3,
+            d1,  0
+        };
+
+      // backward kernel
+      static int const bk [][2] = {
+                            {0,  0}, {1,  0},
+	{-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
+	          {-1,  2},          {1,  2}
+        };
+
+      static int const bv [] = {
+                 0, d1,
+        d3, d2, d1, d2, d3,
+            d3,     d3
+        };
+
+      static int const n = sizeof (fv) / sizeof (fv [0]);
+
+      int const inf = (width + height) * d3;
+      Map2D <int> d (width, height);
+
+      int y;
+
+      // initialize
+      for (y = 0; y < height; ++y)
+      {
+        for (int x = 0; x < width; ++x)
+        {
+          int const v = in (x, y);
+          if (v == 0)
+            d (x, y) = inf;
+          else
+            d (x, y) = 255 - v;
+        }
+      }
+
+      int const y0 = std::min (2, height);
+      int const y1 = height - 2;
+      int const x0 = std::min (2, width);
+      int const x1 = width - 2;
+
+      //
+      // forward pass
+      //
+
+      y = 0;
+
+      for (;y < y0; ++y)
+      {
+        for (int x = 0; x < width; ++x)
+        {
+          for (int i = n-1; --i >= 0;)
+          {
+            int cx = clamp (x + fk [i][0], 0, width);
+            int cy = clamp (y + fk [i][1], 0, height);
+            int v = d (cx, cy) + fv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+        }
+      }
+
+      for (;y < y1; ++y)
+      {
+        int x = 0;
+
+        for (;x < x0; ++x)
+        {
+          for (int i = n-1; --i >= 0;)
+          {
+            int cx = clamp (x + fk [i][0], 0, width);
+            int cy = clamp (y + fk [i][1], 0, height);
+            int v = d (cx, cy) + fv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+        }
+
+        for (;x < x1; ++x)
+        {
+          int v;
+          v = d (x-1, y-2) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+1, y-2) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-2, y-1) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-1, y-1) + d2; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+0, y-1) + d1; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+1, y-1) + d2; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+2, y-1) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-1, y-0) + d1; if (v < d(x,y)) d(x,y) = v;
+        }
+
+        for (;x < width; ++x)
+        {
+          for (int i = n-1; --i >= 0;)
+          {
+            int cx = clamp (x + fk [i][0], 0, width);
+            int cy = clamp (y + fk [i][1], 0, height);
+            int v = d (cx, cy) + fv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+        }
+      }
+
+      for (;y < y0; ++y)
+      {
+        for (int x = 0; x < width; ++x)
+        {
+          for (int i = n-1; --i >= 0;)
+          {
+            int cx = clamp (x + fk [i][0], 0, width);
+            int cy = clamp (y + fk [i][1], 0, height);
+            int v = d (cx, cy) + fv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+        }
+      }
+
+      //
+      // backward pass
+      //
+
+      y = height;
+
+      for (;--y >= y1;)
+      {
+        for (int x = width; --x >= 0;)
+        {
+          for (int i = n; --i >= 1;)
+          {
+            int cx = clamp (x + bk [i][0], 0, width);
+            int cy = clamp (y + bk [i][1], 0, height);
+            int v = d (cx, cy) + bv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+
+          out (x, y, d (x, y));
+        }
+      }
+
+      for (;--y >= y0;)
+      {
+        int x = width;
+
+        for (;--x >= x1;)
+        {
+          for (int i = n; --i >= 1;)
+          {
+            int cx = clamp (x + bk [i][0], 0, width);
+            int cy = clamp (y + bk [i][1], 0, height);
+            int v = d (cx, cy) + bv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+
+          out (x, y, d (x, y));
+        }
+
+        for (;--x >= x0;)
+        {
+          int v;
+          v = d (x+1, y+0) + d1; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-2, y+1) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-1, y+1) + d2; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+0, y+1) + d1; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+1, y+1) + d2; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+2, y+1) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x-1, y+2) + d3; if (v < d(x,y)) d(x,y) = v;
+          v = d (x+1, y+2) + d3; if (v < d(x,y)) d(x,y) = v;
+
+          out (x, y, d (x, y));
+        }
+
+        for (;--x >= 0;)
+        {
+          for (int i = n; --i >= 1;)
+          {
+            int cx = clamp (x + bk [i][0], 0, width);
+            int cy = clamp (y + bk [i][1], 0, height);
+            int v = d (cx, cy) + bv [i];
+            if (v < d (x, y))
+              d (x, y) = v;
+          }
+
+          out (x, y, d (x, y));
+        }
+      }
+
+      for (;--y >= 0;)
+      {
+        for (int x = width; --x >= 0;)
+        {
+          for (int i = n; --i >= 1;)
           {
             int cx = clamp (x + bk [i][0], 0, width);
             int cy = clamp (y + bk [i][1], 0, height);

@@ -37,8 +37,8 @@
 */
 class CLayerGraphicsPreview
   : public Component
-  , private FileDragAndDropTarget
-  , private BackgroundThread::Listener
+  , public FileDragAndDropTarget
+  , public BackgroundThread::Listener
 {
 public:
   CLayerGraphicsPreview ();

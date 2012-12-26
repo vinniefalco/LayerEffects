@@ -77,16 +77,29 @@ Softer      250
 
 //------------------------------------------------------------------------------
 
-void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
+void OuterGlowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 {
   if (!active)
     return;
 
+  int const width = stencilPixels.getWidth ();
+  int const height = stencilPixels.getHeight ();
+
   SharedTable <Colour> table = colours.createLookupTable ();
+
+  Map2D <int> dist (stencilPixels.getWidth (), stencilPixels.getHeight ());
+  Map2D <int> temp (stencilPixels.getWidth (), stencilPixels.getHeight ());
 
   if (precise)
   {
-  #if 1
+    LayerStyles::DistanceMap () (
+      Pixels::Map2D (stencilPixels),
+      temp,
+      stencilPixels.getWidth (),
+      stencilPixels.getHeight (),
+      size);
+
+  #if 0
     DistanceTransform::Meijster::calculateAntiAliased (
       RenderPixelAntiAliased (
         destPixels,
@@ -94,54 +107,50 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels maskPixels)
         spread,
         size,
         table),
-      GetMask (maskPixels),
-      maskPixels.getWidth (),
-      maskPixels.getHeight (),
+      GetMask (stencilPixels),
+      stencilPixels.getWidth (),
+      stencilPixels.getHeight (),
       DistanceTransform::Meijster::EuclideanMetric ());
-  #else
-    DistanceTransform::Chamfer () (
-      RenderPixel (
-        destPixels,
-        opacity,
-        spread,
-        size,
-        table),
-      DistanceTransform::BlackTest (maskPixels),
-      maskPixels.getWidth (),
-      maskPixels.getHeight ());
   #endif
+    for (int y = 0; y < temp.getRows (); ++y)
+    {
+      for (int x = 0; x < temp.getCols (); ++x)
+      {
+        int const v = temp (x, y);
+        if (v > 0)
+          temp (x, y) = (255 - v) * 256;
+      }
+    }
   }
   else
   {
     // "Softer"
 
     LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
-    
-    Map2D <int> dist (maskPixels.getWidth (), maskPixels.getHeight ());
 
     LayerStyles::GrayscaleDilation () (
-      Pixels::Map2D (maskPixels),
+      Pixels::Map2D (stencilPixels),
       dist,
-      maskPixels.getWidth (),
-      maskPixels.getHeight (),
+      stencilPixels.getWidth (),
+      stencilPixels.getHeight (),
       bd.getDilatePixels ());
 
-    Map2D <int> temp (maskPixels.getWidth (), maskPixels.getHeight ());
-
     BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), bd.getBoxBlurRadius ());
+  }
 
-    PixelARGB c (0);
-    for (int y = 0; y < temp.getRows (); ++y)
+  // Fill
+  //
+  PixelARGB c (0);
+  for (int y = 0; y < temp.getRows (); ++y)
+  {
+    for (int x = 0; x < temp.getCols (); ++x)
     {
-      for (int x = 0; x < temp.getCols (); ++x)
-      {
-        int const v = (temp (x, y) + 128) / 256;
+      int const v = (temp (x, y) + 128) / 256;
 
-        PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
+      PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
 
-        c.setAlpha (v);
-        dest.blend (c);
-      }
+      c.setAlpha (v);
+      dest.blend (c);
     }
   }
 }
