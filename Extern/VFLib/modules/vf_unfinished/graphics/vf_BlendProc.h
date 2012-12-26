@@ -322,7 +322,7 @@ struct PixelProcs
     {
       for (int x = cols; --x >= 0;)
       {
-        *dest = blendFunc (*src, *dest);
+        *dest = static_cast <unsigned char> (blendFunc (*src, *dest));
 
         src += srcColBytes;
         dest += destColBytes;

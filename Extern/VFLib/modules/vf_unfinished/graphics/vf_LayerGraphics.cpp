@@ -128,26 +128,27 @@ LayerGraphics::~LayerGraphics ()
   Pixels maskPixels (maskImage);
   Pixels workPixels (m_work);
 
-  m_options.innerShadow (fillPixels, maskPixels);
-
   m_options.dropShadow (m_work, maskImage);
 
   if (m_options.general.groupInteriorEffects)
   {
-    // satin
-    m_options.colourOverlay (fillPixels);
-    m_options.gradientOverlay (fillPixels);
     m_options.patternOverlay (fillPixels);
+    m_options.gradientOverlay (fillPixels);
+    m_options.colourOverlay (fillPixels);
+    // satin
     m_options.innerGlow (fillPixels, maskPixels);
+    m_options.innerShadow (fillPixels, maskPixels);
     m_options.fill (m_work, m_fill);
   }
   else
   {
-    m_options.fill (m_work, m_fill);
-    m_options.colourOverlay (workPixels);
-    m_options.gradientOverlay (workPixels);
     m_options.patternOverlay (workPixels);
+    m_options.gradientOverlay (workPixels);
+    m_options.colourOverlay (workPixels);
+    // satin
     m_options.innerGlow (workPixels, maskPixels);
+    m_options.innerShadow (workPixels, maskPixels);
+    m_options.fill (m_work, m_fill);
   }
 
   m_options.outerGlow (workPixels, maskPixels);

@@ -66,6 +66,7 @@ void CLayerGraphicsPreview::resized ()
 
 void CLayerGraphicsPreview::paint (Graphics& g)
 {
+  g.fillAll (Colours::red);
   g.drawImageAt (m_displayImage, 0, 0);
 }
 

@@ -60,11 +60,12 @@ double const halfpi=pie/2.0;  // pi times 2
 // It reduces the input argument's range to [0, pi/2], 
 // and then calls the approximator.  
 // 
-float cos_32(float x){ 
+template <class T>
+T cos_32(T x){ 
 
   int quad; 
   // what quadrant are we in? 
-  x=fmod (x, float (twopi)); 
+  x=fmod (x, T (twopi)); 
   // Get rid of values > 2* pi 
   if(x<0)x=-x; 
   // cos(-x) = cos(x) 
