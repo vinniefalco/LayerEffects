@@ -30,10 +30,108 @@
 */
 /*============================================================================*/
 
-void InnerShadowStyle::operator() (Pixels destPixels, Pixels maskPixels)
+void InnerShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 {
   if (!active)
     return;
 
+  int const width = stencilPixels.getWidth ();
+  int const height = stencilPixels.getHeight ();
+
+  int const xOffset = - static_cast <int> (cos (angle) * distance + 0.5);
+  int const yOffset = static_cast <int> (sin (angle) * distance + 0.5);
+
+  // Calculate blur radius and dilate size from settings
+  //
+  LayerStyles::BoxBlurAndDilateSettings bd (size, choke);
+
+  // Create enlarged mask
+  //
+  /*
+  Map2D <int> temp1 (width + size * 2, height + size * 2);
+  for (int y = 0; y < temp1.getRows (); ++y)
+  {
+    for (int x = 0; x < temp1.getCols (); ++x)
+    {
+    }
+  }
+  */
+
+
+  // Dilate 8-bit unsigned mask.
+  //
+  Map2D <int> dist (stencilPixels.getWidth (), stencilPixels.getHeight ());
+
+  LayerStyles::GrayscaleErosion () (
+    Pixels::Map2D (stencilPixels),
+    dist,
+    stencilPixels.getWidth (),
+    stencilPixels.getHeight (),
+    bd.getDilatePixels ());
+
+  // Blur 32-bit signed mask
+  // Output is 32-bit signed with 8-bit fixed point.
+  //
+  Map2D <int> blur (stencilPixels.getWidth (), stencilPixels.getHeight ());
+
+  BoxBlur () (dist, blur, blur.getCols (), blur.getRows (), bd.getBoxBlurRadius ());
+
+  // Transform fixed point mask to 8-bit unsigned mask using contour curve
+  //
+  Image mask (Image::SingleChannel, width, height, false);
+  Pixels maskPixels (mask);
+  {
+    for (int y = 0; y < height; ++y)
+    {
+      for (int x = 0; x < width; ++x)
+      {
+        int const alpha = blur (x, y);
+
+        jassert (alpha < 65536);
+
+        *maskPixels.getPixelPointer (x, y) = contour (alpha);
+      }
+    }
+  }
+
+  // Calculate compositing rectangles
+  //
+  Rectangle <int> srcRect;
+  Rectangle <int> destRect;
+  {
+    srcRect = mask.getBounds ();
+    destRect = destPixels.getBounds ();
+    destRect.translate (xOffset, yOffset);
+    destRect = destPixels.getBounds ().getIntersection (destRect);
+
+    srcRect = destRect.translated (-xOffset, -yOffset);
+  }
+  jassert (srcRect.getWidth () == destRect.getWidth ());
+  jassert (srcRect.getHeight () == destRect.getHeight ());
+  jassert (mask.getBounds ().contains (srcRect));
+  jassert (destPixels.getBounds ().contains (destRect));
+
+  PixelProcs procs;
+
+  // Colorize destination using mask
+  {
+    unsigned char c [3];
+    c [PixelRGB::indexR] = colour.getRed ();
+    c [PixelRGB::indexG] = colour.getGreen ();
+    c [PixelRGB::indexB] = colour.getBlue ();
+
+    procs.fillRGB (
+      srcRect.getHeight (),
+      srcRect.getWidth (),
+      c,
+      opacity,
+      maskPixels.getPixelPointer (srcRect.getX (), srcRect.getY ()),
+      maskPixels.getRowBytes (),
+      maskPixels.getColBytes (),
+      destPixels.getPixelPointer (destRect.getX (), destRect.getY ()),
+      destPixels.getRowBytes (),
+      destPixels.getColBytes (),
+      BlendMode::normal ());
+  }
 
 }

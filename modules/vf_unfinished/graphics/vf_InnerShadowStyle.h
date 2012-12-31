@@ -52,7 +52,7 @@ struct InnerShadowStyle
   {
   }
 
-  void operator() (Pixels destPixels, Pixels maskPixels);
+  void operator() (Pixels destPixels, Pixels stencilPixels);
 };
 
 #endif

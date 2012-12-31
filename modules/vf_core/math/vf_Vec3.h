@@ -38,6 +38,12 @@
 template <class T>
 struct Vec3
 {
+  T x;
+  T y;
+  T z;
+
+  // ---
+
   Vec3 ()
   {
   }
@@ -48,12 +54,12 @@ struct Vec3
 
   T getNormal () const
   {
-    return sqrt (x*x + y*y + z*z);
+    return std::sqrt (double (x*x + y*y + z*z));
   }
 
   void normalize ()
   {
-    T n = getNormal ();
+    T const n = getNormal ();
 
     if (n != 0)
     {
@@ -64,8 +70,31 @@ struct Vec3
     }
   }
 
+  //--
+
   template <class U>
-  Vec3& operator+ (Vec3 <U> const& rhs)
+  inline Vec3 operator+ (U const rhs)
+  {
+    return Vec3 <T> (x + rhs, y + rhs, z + rhs);
+  }
+
+  template <class U>
+  inline Vec3 operator+ (Vec3 <U> rhs)
+  {
+    return Vec3 <T> (x + rhs.x, y + rhs.y, z + rhs.z);
+  }
+
+  template <class U>
+  inline Vec3& operator+= (U const rhs)
+  {
+    x += rhs;
+    y += rhs;
+    z += rhs;
+    return *this;
+  }
+
+  template <class U>
+  inline Vec3& operator+= (Vec3 <U> rhs)
   {
     x += rhs.x;
     y += rhs.y;
@@ -73,8 +102,31 @@ struct Vec3
     return *this;
   }
 
+  //--
+
   template <class U>
-  Vec3& operator- (Vec3 <U> const& rhs)
+  inline Vec3 operator- (U const rhs)
+  {
+    return Vec3 <T> (x - rhs, y - rhs, z - rhs);
+  }
+
+  template <class U>
+  inline Vec3 operator- (Vec3 <U> rhs)
+  {
+    return Vec3 <T> (x - rhs.x, y - rhs.y, z - rhs.z);
+  }
+
+  template <class U>
+  inline Vec3& operator-= (U const rhs)
+  {
+    x -= rhs;
+    y -= rhs;
+    z -= rhs;
+    return *this;
+  }
+
+  template <class U>
+  inline Vec3& operator-= (Vec3 <U> rhs)
   {
     x -= rhs.x;
     y -= rhs.y;
@@ -82,14 +134,47 @@ struct Vec3
     return *this;
   }
 
+  //--
+
   template <class U>
-  T getDotProduct (Vec3 <U> const& t) const
+  inline Vec3 operator* (U const rhs)
+  {
+    return Vec3 <T> (x * rhs, y * rhs, z * rhs);
+  }
+
+  template <class U>
+  inline Vec3& operator*= (U const rhs)
+  {
+    x *= rhs;
+    y *= rhs;
+    z *= rhs;
+    return *this;
+  }
+
+  //--
+
+  template <class U>
+  inline Vec3 operator/ (U const rhs)
+  {
+    return this->operator* (1 / rhs);
+  }
+
+  template <class U>
+  inline Vec3& operator/= (U const rhs)
+  {
+    return this->operator*= (1 / rhs);
+  }
+
+  //--
+
+  template <class U>
+  inline T getDotProduct (Vec3 <U> const& t) const
   {
     return x * t.x + y * t.y + z * t.z;
   }
 
   template <class U>
-  Vec3 <T> getCrossProduct (Vec3 <U> const& t) const
+  inline Vec3 <T> getCrossProduct (Vec3 <U> const& t) const
   {
     return Vec3 <T> (
        y * t.z - z * t.y,
@@ -98,14 +183,10 @@ struct Vec3
   }
 
   template <class U>
-  T getCosAngle (Vec3 <U> const& t) const
+  inline T getCosAngle (Vec3 <U> const& t) const
   {
     return getDotProduct (t) / (getNormal () * t.getNormal ());
   }
-
-  T x;
-  T y;
-  T z;
 };
 
 #endif
