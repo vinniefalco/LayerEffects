@@ -191,6 +191,25 @@ public:
     return false;
   }
 
+  float getHeightToPointsFactor() const
+  {
+    float factor;
+
+    float scale = 1.f;
+    // convert from font units to Juce normalized
+    scale *= 1.f/m_face->units_per_EM;
+    // fudge since Juce produces smaller paths than FreeType
+    // when it uses the Win32 API to extract the curves (?)
+    float boxHeight = float(m_face->bbox.yMax - m_face->bbox.yMin);
+    float fudge = m_face->units_per_EM / boxHeight;
+    // this small adjustment produces output identical to Juce under win32
+    fudge *= 1.0059625f;
+
+    factor = 1.f / fudge;
+
+    return factor;
+  }
+
 #ifdef TYPEFACE_BITMAP_RENDERING
   PositionedGlyph* createPositionedGlyph (float x, float y, float w, const Font& font, juce_wchar character, int glyph)
   {
