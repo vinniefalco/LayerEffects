@@ -223,8 +223,8 @@ public:
 
       // Distance has 8 bits fixed precision
       //
-      template <class T>
-      void operator () (int x, int y, T distance)
+      template <class U>
+      void operator () (int x, int y, U distance)
       {
         if (distance <= m_size)
           m_dest (x, y) = distance * 256 / m_size;

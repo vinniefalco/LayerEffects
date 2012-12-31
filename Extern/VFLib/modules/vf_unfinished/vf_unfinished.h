@@ -65,12 +65,13 @@
 namespace vf
 {
 
-#include "graphics/vf_LayerStyles.h"
 #include "graphics/vf_BlendMode.h"
 #include "graphics/vf_BlendProc.h"
-#include "graphics/vf_BoxBlur.h"
 #include "graphics/vf_Pixels.h"
 #include "graphics/vf_DistanceTransform.h"
+#include "graphics/vf_LayerStyles.h"
+
+#include "graphics/vf_BoxBlur.h"
 #include "graphics/vf_LightingTransform.h"
 #include "graphics/vf_GradientColours.h"
 #include "graphics/vf_GradientFill.h"
