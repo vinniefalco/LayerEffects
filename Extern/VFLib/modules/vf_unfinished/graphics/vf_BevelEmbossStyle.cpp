@@ -139,7 +139,7 @@ void BevelEmbossStyle::operator() (Pixels destPixels, Pixels maskPixels)
   LightingTransform::calculate <T> (
     LightingTransform::PixelShader (hiPixels, loPixels),
     distMap,
-    10 - depth,
+    depth,
     lightAngle,
     lightElevation);
 

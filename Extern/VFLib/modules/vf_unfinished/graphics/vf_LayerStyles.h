@@ -196,7 +196,7 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (in, Output (out, size), width, height);
+        DistanceTransform::Chamfer () (in, Output <Out> (out, size), width, height);
       }
       else
       {
@@ -211,9 +211,10 @@ public:
     }
 
   private:
+    template <class T>
     struct Output
     {
-      Output (Map2D <int> dest, int size)
+      Output (T dest, int size)
         : m_dest (dest)
         , m_size (size * 256)
         , m_sizePlusOne (m_size + 256)
@@ -232,7 +233,7 @@ public:
       }
 
     private:
-      Map2D <int> m_dest;
+      T m_dest;
       int m_size;
       int m_sizePlusOne;
     };

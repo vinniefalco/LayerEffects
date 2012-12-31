@@ -58,43 +58,35 @@ struct LightingTransform
     R2 angle,
     R3 elevation)
   {
-#if 1
-    Vec3 <T> lightNormal (
-       cos (angle) * cos (elevation),
-       sin (angle) * cos (elevation),
-       sin (elevation));
-#else
-    Vec3 <T> lightNormal (
-       cos (elevation) * cos (angle),
-      -cos (elevation) * sin (angle),
-       sin (elevation));
-#endif
+    T const zeroPoint = sin (elevation);
+
+    Vec3 <T> const lightNormal (
+       cos (elevation) * -cos (angle),
+       cos (elevation) *  sin (angle),
+       zeroPoint);
+
+    T const dz = 1.0 / depth;
 
     for (int y = 1; y < map.getRows () - 1; ++y)
     {
       for (int x = 1; x < map.getCols () - 1; ++x)
       {
-        // Calculate normal from height map.
-#if 1
-        Vec3 <T> n (
-          T(map(x-1,y-1)-map(x+1,y-1) + map(x-1,y-0)-map(x+1,y-0) + map(x-1,y+1)-map(x+1,y+1)),
-          T(map(x-1,y-1)-map(x-1,y+1) + map(x-0,y-1)-map(x-0,y+1) + map(x+1,y-1)-map(x+1,y+1)),
-          T(depth));
-#elif 0
-        Vec3 <T> n (
-          T(map(x,y)) - .25*(2 * T(map(x+1,y)) + T(map(x+1,y-1)) + T(map(x+1,y+1))),
-          T(map(x,y)) - .25*(2 * T(map(x,y+1)) + T(map(x-1,y+1)) + T(map(x+1,y+1))),
-          T(depth));
-#else
-        Vec3 <T> n (T (map (x+1,y) - map (x-1,y)),
-                    T (map (x,y+1) - map (x,y-1)),
-                    T (depth));
-#endif
+        // Sobel operator
+        T const dx = (map(x+1,y-1) + 2.0*map(x+1,y) + map(x+1,y+1)) -
+                     (map(x-1,y-1) + 2.0*map(x-1,y) + map(x-1,y+1));
+        
+        T const dy = (map(x-1,y+1) + 2.0*map(x,y+1) + map(x+1,y+1)) -
+                     (map(x-1,y-1) + 2.0*map(x,y-1) + map(x+1,y-1));
+
+        Vec3 <T> const surfaceNormal (dx, dy, dz);
 
         // Calculate incident light amount, range [-1, 1]
-        T incidentLight = n.getDotProduct (lightNormal) / n.getNormal ();
+        T incidentLight = ((surfaceNormal.getDotProduct (lightNormal) / surfaceNormal.getNormal ()) - zeroPoint) / (1 - zeroPoint);
 
-        shader (x, y, incidentLight);
+        if (incidentLight > 0)
+          shader (x, y, incidentLight);
+        else
+          shader (x, y, 0);
       }
     }
   }

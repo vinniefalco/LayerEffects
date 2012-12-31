@@ -133,7 +133,7 @@ void CLayerGraphicsPreview::recalculateSettings ()
 
 void CLayerGraphicsPreview::paintBackground (Graphics& g)
 {
-#if 0
+#if 1
   g.setGradientFill (ColourGradient (
     Colours::black, 0.f, 0.f,
     Colours::white, 0.f, float (getLocalBounds ().getHeight ()),

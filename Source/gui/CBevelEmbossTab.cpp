@@ -34,7 +34,7 @@ CBevelEmbossTab::CBevelEmbossTab ()
   : COptionsTab ("Bevel and Emboss")
 {
   m_options.active = false;
-  m_options.kind = vf::BevelEmbossStyle::kindInnerBevel;
+  m_options.kind = vf::BevelEmbossStyle::kindOuterBevel;
   m_options.technique = vf::BevelEmbossStyle::techniqueSmooth;
   m_options.depth = 1.;
   m_options.reverse = false;
@@ -66,6 +66,7 @@ CBevelEmbossTab::CBevelEmbossTab ()
   m_techniqueComboBox->setSelectedId (m_options.technique);
 
   m_depthSlider = createPercentSlider ("Depth", m_options.depth, 1000);
+  m_depthSlider->setRange (1, 1000, 1);
   m_reverseSlider = createToggleButton ("Reverse", m_options.reverse);
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
   m_softenSlider = createIntegerSlider ("Soften", 0, 16, m_options.soften);
