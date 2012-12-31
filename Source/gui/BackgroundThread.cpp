@@ -80,8 +80,11 @@ bool BackgroundThread::threadIdle ()
     Image result (Image::RGB, bounds.getWidth (), bounds.getHeight (), false);
 
     {
-      Graphics g (result);
-
+      Point <int> origin (0, 0);
+      RectangleList initialClip (bounds);
+  
+      LowLevelGraphicsSoftwareRenderer s (result, origin, initialClip);
+      Graphics g (&s);
       g.drawImageAt (m_settings.backgroundImage, 0, 0);
 
       vf::LayerGraphics lc (g, bounds);
