@@ -40,7 +40,6 @@ class COptionsTab
   , public Button::Listener
   , public ComboBox::Listener
   , public Slider::Listener
-  , public CSolidColourPicker::Listener
 {
 public:
   explicit COptionsTab (String componentName);
@@ -50,7 +49,6 @@ public:
   void buttonClicked (Button* button);
   void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
-  void onSolidColourChanged (CSolidColourPicker* picker);
 
 protected:
   ComboBox* createEmptyComboBox (String label);
@@ -58,7 +56,7 @@ protected:
   Slider* createPercentSlider (String label, double fraction, int maxPercent = 100);
   Slider* createIntegerSlider (String label, int startValue, int endValue, int initialValue);
   ToggleButton* createToggleButton (String label, bool initialValue);
-  CSolidColourPicker* createColourPicker (String label, Colour colour);
+  CColourPicker* createColourPicker (String label, Colour colour);
 
   static void addBlendModesToComboBox (ComboBox* comboBox);
 

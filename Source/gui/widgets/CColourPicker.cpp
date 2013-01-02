@@ -30,37 +30,68 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-#define LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-
-/** Drop Shadow options.
-*/
-class CDropShadowTab
-  : public COptionsTab
-  , public CColourPicker::Listener
+CColourPicker::CColourPicker ()
+  : m_colour (Colours::black)
 {
-public:
-  CDropShadowTab ();
-  ~CDropShadowTab ();
+}
+  
+CColourPicker::~CColourPicker ()
+{
+}
 
-  void buttonClicked (Button* button);
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
-  void sliderValueChanged (Slider* slider);
+void CColourPicker::addListener (Listener* listener)
+{
+  m_listeners.add (listener);
+}
 
-  void onColourPickerChanged (CColourPicker* picker, Colour colour);
+void CColourPicker::removeListener (Listener* listener)
+{
+  m_listeners.remove (listener);
+}
 
-private:
-  vf::DropShadowStyle m_options;
+void CColourPicker::setValue (Colour const& colour, bool sendChangeNotification)
+{
+  if (m_colour != colour)
+  {
+    m_colour = colour;
+    repaint ();
 
-  ToggleButton* m_activeButton;
-  ComboBox* m_modeComboBox;
-  CColourPicker* m_colourPicker;
-  Slider* m_opacitySlider;
-  Slider* m_angleSlider;
-  Slider* m_distanceSlider;
-  Slider* m_spreadSlider;
-  Slider* m_sizeSlider;
-  ToggleButton* m_knockoutButton;
-};
+    if (sendChangeNotification)
+    {
+      m_listeners.call (&Listener::onColourPickerChanged, this, colour);
+    }
+  }
+}
 
-#endif
+Colour CColourPicker::getValue () const
+{
+  return m_colour;
+}
+
+void CColourPicker::paint (Graphics& g)
+{
+  Rectangle <int> b (getLocalBounds ());
+
+  g.setColour (Colours::black);
+  g.drawRect (b);
+
+  g.setColour (Colours::white);
+  g.drawRect (b.reduced (1));
+
+  g.setColour (m_colour);
+  g.fillRect (b.reduced (2));
+}
+
+void CColourPicker::mouseDown (const MouseEvent& e)
+{
+  CColourPickerDialog* w = new CColourPickerDialog;
+
+  w->addListener (this);
+
+  w->enterModalState (true, nullptr, true);
+}
+
+void CColourPicker::onColourPickerDialogChanged (CColourPickerDialog* dialog, Colour colour)
+{
+  setValue (colour, true);
+}

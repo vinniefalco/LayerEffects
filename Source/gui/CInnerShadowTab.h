@@ -50,7 +50,7 @@ private:
 
   ToggleButton* m_activeButton;
   ComboBox* m_modeComboBox;
-  CSolidColourPicker* m_colourPicker;
+  CColourPicker* m_colourPicker;
   Slider* m_opacitySlider;
   Slider* m_angleSlider;
   Slider* m_distanceSlider;

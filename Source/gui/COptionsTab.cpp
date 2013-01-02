@@ -53,10 +53,6 @@ void COptionsTab::sliderValueChanged (Slider* slider)
 {
 }
 
-void COptionsTab::onSolidColourChanged (CSolidColourPicker* picker)
-{
-}
-
 //------------------------------------------------------------------------------
 
 ComboBox* COptionsTab::createEmptyComboBox (String label)
@@ -234,9 +230,9 @@ ToggleButton* COptionsTab::createToggleButton (String label, bool initialValue)
   return result;
 }
 
-CSolidColourPicker* COptionsTab::createColourPicker (String label, Colour colour)
+CColourPicker* COptionsTab::createColourPicker (String label, Colour colour)
 {
-  CSolidColourPicker* result;
+  CColourPicker* result;
 
   {
     Label* c = new Label;
@@ -251,10 +247,9 @@ CSolidColourPicker* COptionsTab::createColourPicker (String label, Colour colour
   }
   
   {
-    CSolidColourPicker* c = new CSolidColourPicker;
+    CColourPicker* c = new CColourPicker;
 
     c->setBounds (64, m_pos.getY (), getWidth () - 60, 20);
-    c->addListener (this);
     addAndMakeVisible (c);
 
     m_pos.setY (m_pos.getY () + c->getHeight () + getYGap ());

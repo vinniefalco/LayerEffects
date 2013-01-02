@@ -30,40 +30,44 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CSOLIDCOLOURPICKER_HEADER
-#define LAYEREFFECTS_CSOLIDCOLOURPICKER_HEADER
-
-/** A control for selecting a solid colour.
-*/
-class CSolidColourPicker : public Component
+CColourPickerDialog::CColourPickerDialog () : DocumentWindow (
+  "Select Colour",
+  Colours::grey,
+  DocumentWindow::closeButton,
+  true)
 {
-public:
-  struct Listener
+  m_colourSelector = new ColourSelector (
+    ColourSelector::showColourAtTop | ColourSelector::showSliders | ColourSelector::showColourspace);
+
+  m_colourSelector->setSize (400, 300);
+  m_colourSelector->addChangeListener (this);
+
+  setContentOwned (m_colourSelector, true);
+
+  centreWithSize (getWidth(), getHeight());
+  setVisible (true);
+}
+
+void CColourPickerDialog::addListener (Listener* listener)
+{
+  m_listeners.add (listener);
+}
+
+void CColourPickerDialog::removeListener (Listener* listener)
+{
+  m_listeners.remove (listener);
+}
+
+void CColourPickerDialog::closeButtonPressed ()
+{
+  exitModalState (0);
+}
+
+void CColourPickerDialog::changeListenerCallback (ChangeBroadcaster* source)
+{
+  if (source == m_colourSelector)
   {
-    virtual ~Listener () { }
-    virtual void onSolidColourChanged (CSolidColourPicker* picker) { }
-  };
+    m_listeners.call (&Listener::onColourPickerDialogChanged, this, m_colourSelector->getCurrentColour ());
+  }
+}
 
-  CSolidColourPicker ();
-  
-  ~CSolidColourPicker ();
-
-  void addListener (Listener* listener);
-
-  void removeListener (Listener* listener);
-
-  void setValue (Colour const& colour, bool sendChangeNotification = false);
-
-  Colour getValue () const;
-
-  void paint (Graphics& g);
-
-  void mouseDown (const MouseEvent& e);
-
-private:
-  ListenerList <Listener> m_listeners;
-
-  Colour m_colour;
-};
-
-#endif

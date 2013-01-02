@@ -42,6 +42,15 @@
     </GROUP>
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
+        <GROUP id="{278D856B-A4DC-3F5C-5956-84F709B931C4}" name="widgets">
+          <FILE id="hqJwqn" name="CColourPicker.h" compile="0" resource="0" file="../../source/gui/widgets/CColourPicker.h"/>
+          <FILE id="zBibkI" name="CColourPicker.cpp" compile="0" resource="0"
+                file="../../source/gui/widgets/CColourPicker.cpp"/>
+          <FILE id="L47S6B" name="CColourPickerDialog.cpp" compile="0" resource="0"
+                file="../../source/gui/widgets/CColourPickerDialog.cpp"/>
+          <FILE id="JOqS5u" name="CColourPickerDialog.h" compile="0" resource="0"
+                file="../../source/gui/widgets/CColourPickerDialog.h"/>
+        </GROUP>
         <FILE id="T8v3Sy" name="BackgroundThread.cpp" compile="0" resource="0"
               file="../../Source/gui/BackgroundThread.cpp"/>
         <FILE id="igKdms" name="BackgroundThread.h" compile="0" resource="0"
@@ -101,10 +110,6 @@
               file="../../Source/gui/CPatternOverlayTab.cpp"/>
         <FILE id="Dmt3ls" name="CPatternOverlayTab.h" compile="0" resource="0"
               file="../../Source/gui/CPatternOverlayTab.h"/>
-        <FILE id="xyMavP" name="CSolidColourPicker.cpp" compile="0" resource="0"
-              file="../../Source/gui/CSolidColourPicker.cpp"/>
-        <FILE id="APthKO" name="CSolidColourPicker.h" compile="0" resource="0"
-              file="../../Source/gui/CSolidColourPicker.h"/>
         <FILE id="dQoURT" name="CStrokeTab.cpp" compile="0" resource="0" file="../../Source/gui/CStrokeTab.cpp"/>
         <FILE id="SUY8za" name="CStrokeTab.h" compile="0" resource="0" file="../../Source/gui/CStrokeTab.h"/>
         <FILE id="WWSyE0" name="CustomLookAndFeel.cpp" compile="0" resource="0"

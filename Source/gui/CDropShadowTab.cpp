@@ -35,6 +35,7 @@ CDropShadowTab::CDropShadowTab ()
 {
   m_options.active = false;
   m_options.mode = vf::BlendMode::modeNormal;
+  m_options.colour = Colours::black;
   m_options.opacity = 1;
   m_options.angle = vf::degreesToRadians <double> (135);
   m_options.distance = 4;
@@ -51,6 +52,8 @@ CDropShadowTab::CDropShadowTab ()
   m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
   m_knockoutButton = createToggleButton ("Knockout", m_options.knockout);
+
+  m_colourPicker->addListener (this);
 }
 
 CDropShadowTab::~CDropShadowTab ()
@@ -95,4 +98,14 @@ void CDropShadowTab::sliderValueChanged (Slider* slider)
     m_options.size = int (slider->getValue ());
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
+}
+
+void CDropShadowTab::onColourPickerChanged (CColourPicker* picker, Colour colour)
+{
+  if (picker = m_colourPicker)
+  {
+    m_options.colour = colour;
+
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
+  }
 }

@@ -30,86 +30,27 @@
 */
 //------------------------------------------------------------------------------
 
-CSolidColourPicker::CSolidColourPicker ()
-  : m_colour (Colours::black)
-{
-}
-  
-CSolidColourPicker::~CSolidColourPicker ()
-{
-}
-
-void CSolidColourPicker::addListener (Listener* listener)
-{
-  m_listeners.add (listener);
-}
-
-void CSolidColourPicker::removeListener (Listener* listener)
-{
-  m_listeners.remove (listener);
-}
-
-void CSolidColourPicker::setValue (Colour const& colour, bool sendChangeNotification)
-{
-  if (m_colour != colour)
-  {
-    m_colour = colour;
-
-    if (sendChangeNotification)
-    {
-      m_listeners.call (&Listener::onSolidColourChanged, this);
-    }
-  }
-}
-
-Colour CSolidColourPicker::getValue () const
-{
-  return m_colour;
-}
-
-void CSolidColourPicker::paint (Graphics& g)
-{
-  Rectangle <int> b (getLocalBounds ());
-
-  g.setColour (Colours::black);
-  g.drawRect (b);
-
-  g.setColour (Colours::white);
-  g.drawRect (b.reduced (1));
-
-  g.setColour (m_colour);
-  g.fillRect (b.reduced (2));
-}
-
-class ColourSelectorWindow
+class CColourPickerDialog
   : public DocumentWindow
+  , public ChangeListener
 {
 public:
-  ColourSelectorWindow ()
-    : DocumentWindow ("Select Colour", Colours::grey, DocumentWindow::closeButton, true)
+  struct Listener
   {
-    ColourSelector* c = new ColourSelector (
-      ColourSelector::showColourAtTop | ColourSelector::showSliders | ColourSelector::showColourspace);
+    virtual ~Listener () { }
+    virtual void onColourPickerDialogChanged (CColourPickerDialog* dialog, Colour newColour) { }
+  };
 
-    c->setSize (400, 300);
+  CColourPickerDialog ();
 
-    setContentOwned (c, true);
+  void addListener (Listener* listener);
+  void removeListener (Listener* listener);
 
-    centreWithSize (getWidth(), getHeight());
-    setVisible (true);
-  }
+  void closeButtonPressed ();
 
-  void closeButtonPressed ()
-  {
-    exitModalState (0);
-  }
+  void changeListenerCallback (ChangeBroadcaster* source);
+
+private:
+  ListenerList <Listener> m_listeners;
+  ColourSelector* m_colourSelector;
 };
-
-void CSolidColourPicker::mouseDown (const MouseEvent& e)
-{
-  ColourSelectorWindow* w = new ColourSelectorWindow;
-
-  w->enterModalState (true, nullptr, true);
-}
-
-

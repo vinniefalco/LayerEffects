@@ -14,6 +14,9 @@
     <Filter Include="LayerEffects\Source\gui">
       <UniqueIdentifier>{6A528101-CB43-5817-99C8-E6A0447D1CBB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LayerEffects\Source\gui\widgets">
+      <UniqueIdentifier>{050F6E35-667D-7E27-1DB1-2D5A184C01BD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
@@ -30,6 +33,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Extern\VFLib\modules\vf_unfinished\vf_unfinished.cpp">
       <Filter>LayerEffects\_VFLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\widgets\CColourPicker.cpp">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\widgets\CColourPickerDialog.cpp">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\gui\BackgroundThread.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
@@ -85,9 +94,6 @@
     <ClCompile Include="..\..\Source\gui\CPatternOverlayTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\gui\CSolidColourPicker.cpp">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\gui\CStrokeTab.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -129,6 +135,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\gui\widgets\CColourPicker.h">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\widgets\CColourPickerDialog.h">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\gui\BackgroundThread.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
@@ -181,9 +193,6 @@
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CPatternOverlayTab.h">
-      <Filter>LayerEffects\Source\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\gui\CSolidColourPicker.h">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\CStrokeTab.h">

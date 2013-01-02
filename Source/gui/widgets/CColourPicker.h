@@ -30,37 +30,39 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-#define LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-
-/** Drop Shadow options.
+/** A control for selecting a solid colour.
 */
-class CDropShadowTab
-  : public COptionsTab
-  , public CColourPicker::Listener
+class CColourPicker
+  : public Component
+  , public CColourPickerDialog::Listener
 {
 public:
-  CDropShadowTab ();
-  ~CDropShadowTab ();
+  struct Listener
+  {
+    virtual ~Listener () { }
+    virtual void onColourPickerChanged (CColourPicker* picker, Colour colour) { }
+  };
 
-  void buttonClicked (Button* button);
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
-  void sliderValueChanged (Slider* slider);
+  CColourPicker ();
+  
+  ~CColourPicker ();
 
-  void onColourPickerChanged (CColourPicker* picker, Colour colour);
+  void addListener (Listener* listener);
+
+  void removeListener (Listener* listener);
+
+  void setValue (Colour const& colour, bool sendChangeNotification = false);
+
+  Colour getValue () const;
+
+  void paint (Graphics& g);
+
+  void mouseDown (const MouseEvent& e);
+  
+  void onColourPickerDialogChanged (CColourPickerDialog* dialog, Colour colour);
 
 private:
-  vf::DropShadowStyle m_options;
+  ListenerList <Listener> m_listeners;
 
-  ToggleButton* m_activeButton;
-  ComboBox* m_modeComboBox;
-  CColourPicker* m_colourPicker;
-  Slider* m_opacitySlider;
-  Slider* m_angleSlider;
-  Slider* m_distanceSlider;
-  Slider* m_spreadSlider;
-  Slider* m_sizeSlider;
-  ToggleButton* m_knockoutButton;
+  Colour m_colour;
 };
-
-#endif
