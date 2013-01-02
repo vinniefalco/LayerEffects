@@ -396,10 +396,10 @@ struct PixelProcs
         *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
 
         dest++;
-        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
+        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [1], *dest) - *dest) + 32768) / 65536);
 
         dest++;
-        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [0], *dest) - *dest) + 32768) / 65536);
+        *dest = static_cast <unsigned char> (*dest + (t * (blendFunc (rgb [2], *dest) - *dest) + 32768) / 65536);
 
         mask += maskColBytes;
         dest += destColBytes;
