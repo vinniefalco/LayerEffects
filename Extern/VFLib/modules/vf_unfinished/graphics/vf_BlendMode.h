@@ -304,6 +304,15 @@ namespace BlendMode
       return std::min (f, b) - std::max (f, b) + 255;
     }
   };
+
+  struct dissolve
+  {
+    inline int operator () (int f, int) const
+    {
+      return f;
+    }
+  };
+
   /** @} */
 
   //----------------------------------------------------------------------------

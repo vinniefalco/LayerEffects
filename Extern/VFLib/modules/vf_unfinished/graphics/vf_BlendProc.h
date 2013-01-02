@@ -423,5 +423,36 @@ struct PixelProcs
     int destColBytes,
     BlendMode::Type blendMode)
   {
+    switch (blendMode)
+    {
+    case BlendMode::modeNormal:      fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::normal ());
+    case BlendMode::modeLighten:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::lighten ()); break;
+    case BlendMode::modeDarken:      fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::darken ()); break;
+    case BlendMode::modeMultiply:    fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::multiply ()); break;
+    case BlendMode::modeAverage:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::average ()); break;
+    case BlendMode::modeAdd:         fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::add ()); break;
+    case BlendMode::modeSubtract:    fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::subtract ()); break;
+    case BlendMode::modeDifference:  fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::difference ()); break;
+    case BlendMode::modeNegation:    fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::negation ()); break;
+    case BlendMode::modeScreen:      fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::screen ()); break;
+    case BlendMode::modeExclusion:   fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::exclusion ()); break;
+    case BlendMode::modeOverlay:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::overlay ()); break;
+    case BlendMode::modeSoftLight:   fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::softLight ()); break;
+    case BlendMode::modeHardLight:   fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::hardLight ()); break;
+    case BlendMode::modeColorDodge:  fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::colorDodge ()); break;
+    case BlendMode::modeColorBurn:   fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::colorBurn ()); break;
+    case BlendMode::modeLinearDodge: fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::linearDodge ()); break;
+    case BlendMode::modeLinearBurn:  fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::linearBurn ()); break;
+    case BlendMode::modeLinearLight: fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::linearLight ()); break;
+    case BlendMode::modeVividLight:  fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::vividLight ()); break;
+    case BlendMode::modePinLight:    fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::pinLight ()); break;
+    case BlendMode::modeHardMix:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::hardMix ()); break;
+    case BlendMode::modeReflect:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::reflect ()); break;
+    case BlendMode::modeGlow:        fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::glow ()); break;
+    case BlendMode::modePhoenix:     fillRGB (rows, cols, rgb, opacity, mask, maskRowBytes, maskColBytes, dest, destRowBytes, destColBytes, BlendMode::phoenix ()); break;
+    default:
+      jassertfalse;
+      break;
+    }
   }
 };

@@ -208,6 +208,6 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
       destPixels.getPixelPointer (destRect.getX (), destRect.getY ()),
       destPixels.getRowBytes (),
       destPixels.getColBytes (),
-      BlendMode::normal ());
+      mode);
   }
 }

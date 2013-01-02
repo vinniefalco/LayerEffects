@@ -37,7 +37,7 @@ CDropShadowTab::CDropShadowTab ()
   m_options.mode = vf::BlendMode::modeNormal;
   m_options.colour = Colours::black;
   m_options.opacity = 1;
-  m_options.angle = vf::degreesToRadians <double> (135);
+  m_options.angle = vf::degreesToRadians <float> (135);
   m_options.distance = 4;
   m_options.spread = 0;
   m_options.size = 9;
@@ -83,16 +83,16 @@ void CDropShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 void CDropShadowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-    m_options.opacity = slider->getValue () / 100;
+    m_options.opacity = static_cast <float> (slider->getValue () / 100.f);
 
   else if (slider == m_angleSlider)
-    m_options.angle = vf::degreesToRadians <double> (slider->getValue ());
+    m_options.angle = vf::degreesToRadians <float> (slider->getValue ());
 
   else if (slider == m_distanceSlider)
     m_options.distance = int (slider->getValue ());
 
   else if (slider == m_spreadSlider)
-    m_options.spread = slider->getValue () / 100;
+    m_options.spread = static_cast <float> (slider->getValue () / 100.f);
 
   else if (slider == m_sizeSlider)
     m_options.size = int (slider->getValue ());
@@ -102,7 +102,7 @@ void CDropShadowTab::sliderValueChanged (Slider* slider)
 
 void CDropShadowTab::onColourPickerChanged (CColourPicker* picker, Colour colour)
 {
-  if (picker = m_colourPicker)
+  if (picker == m_colourPicker)
   {
     m_options.colour = colour;
 
