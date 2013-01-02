@@ -41,6 +41,11 @@ class CLayerGraphicsPreview
   , public BackgroundThread::Listener
 {
 public:
+  struct Listener
+  {
+    virtual void onPreviewOffset (Point <int> offset) { }
+  };
+
   CLayerGraphicsPreview ();
   ~CLayerGraphicsPreview ();
 
@@ -49,6 +54,10 @@ public:
   void resized ();
 
   void paint (Graphics& g);
+
+  void mouseDown (MouseEvent const& e);
+  void mouseDrag (MouseEvent const& e);
+  void mouseUp (MouseEvent const& e);
 
 private:
   bool isInterestedInFileDrag (const StringArray& files);
@@ -69,6 +78,11 @@ private:
   BackgroundThread::Settings m_settings;
   Image m_foregroundImage;
   Image m_displayImage;
+
+  Point <int> m_offset;
+  bool m_isDragging;
+  Point <int> m_startOffset;
+  Point <int> m_dragStart;
 };
 
 #endif

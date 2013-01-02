@@ -92,3 +92,15 @@ void CInnerShadowTab::sliderValueChanged (Slider* slider)
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerShadow, m_options);
 }
+
+void CInnerShadowTab::onPreviewOffset (Point <int> offset)
+{
+  if (isVisible ())
+  {
+    m_options.angle = float (std::atan2 (double (offset.getY ()), double (-offset.getX ())));
+    m_options.distance = static_cast <int> (
+      sqrt (double (offset.getX () * offset.getX () + offset.getY () * offset.getY ()) + 0.5));
+ 
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsInnerShadow, m_options);
+  }
+}

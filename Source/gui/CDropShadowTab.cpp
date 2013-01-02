@@ -109,3 +109,15 @@ void CDropShadowTab::onColourPickerChanged (CColourPicker* picker, Colour colour
     vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
 }
+
+void CDropShadowTab::onPreviewOffset (Point <int> offset)
+{
+  if (isVisible ())
+  {
+    m_options.angle = float (std::atan2 (double (offset.getY ()), double (-offset.getX ())));
+    m_options.distance = static_cast <int> (
+      sqrt (double (offset.getX () * offset.getX () + offset.getY () * offset.getY ()) + 0.5));
+    vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
+  }
+}
+

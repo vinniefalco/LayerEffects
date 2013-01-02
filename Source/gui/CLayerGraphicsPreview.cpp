@@ -31,6 +31,7 @@
 //------------------------------------------------------------------------------
 
 CLayerGraphicsPreview::CLayerGraphicsPreview ()
+  : m_offset (0, 0)
 {
   m_thread.addListener (this, vf::MessageThread::getInstance ());
 }
@@ -72,6 +73,25 @@ void CLayerGraphicsPreview::paint (Graphics& g)
 
 //------------------------------------------------------------------------------
 
+void CLayerGraphicsPreview::mouseDown (MouseEvent const& e)
+{
+  m_startOffset = m_offset;
+}
+
+void CLayerGraphicsPreview::mouseDrag (MouseEvent const& e)
+{
+  m_offset.x = m_startOffset.x + e.getDistanceFromDragStartX ();
+  m_offset.y = m_startOffset.y + e.getDistanceFromDragStartY ();
+
+  vf::componentBroadcast (getTopLevelComponent (), &Listener::onPreviewOffset, m_offset);
+}
+
+void CLayerGraphicsPreview::mouseUp (MouseEvent const& e)
+{
+}
+
+//------------------------------------------------------------------------------
+
 bool CLayerGraphicsPreview::isInterestedInFileDrag (const StringArray& files)
 {
   bool isInterested = false;
@@ -103,7 +123,7 @@ void CLayerGraphicsPreview::filesDropped (const StringArray& files, int x, int y
     if (image.isValid ())
     {
       m_foregroundImage = image;
-      repaint ();
+      recalculateSettings ();
     }
   }
 

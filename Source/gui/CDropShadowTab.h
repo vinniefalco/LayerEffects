@@ -49,6 +49,8 @@ public:
 
   void onColourPickerChanged (CColourPicker* picker, Colour colour);
 
+  void onPreviewOffset (Point <int> offset);
+
 private:
   vf::DropShadowStyle m_options;
 

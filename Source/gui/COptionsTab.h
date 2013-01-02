@@ -40,6 +40,7 @@ class COptionsTab
   , public Button::Listener
   , public ComboBox::Listener
   , public Slider::Listener
+  , public CLayerGraphicsPreview::Listener
 {
 public:
   explicit COptionsTab (String componentName);

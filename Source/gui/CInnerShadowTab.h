@@ -44,6 +44,7 @@ public:
   void buttonClicked (Button* button);
   void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
   void sliderValueChanged (Slider* slider);
+  void onPreviewOffset (Point <int> offset);
 
 private:
   vf::InnerShadowStyle m_options;
