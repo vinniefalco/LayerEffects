@@ -56,8 +56,6 @@ void CLayerGraphicsPreview::setOptions (Options* newOptions)
   m_settings.options.stroke           = newOptions->stroke;
 
   recalculateSettings ();
-
-  repaint ();
 }
 
 void CLayerGraphicsPreview::resized ()
@@ -216,4 +214,6 @@ void CLayerGraphicsPreview::onImageReady (Image image)
   m_displayImage = image;
 
   repaint ();
+
+  this->getPeer()->performAnyPendingRepaintsNow();
 }

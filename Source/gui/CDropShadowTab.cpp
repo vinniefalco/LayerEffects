@@ -117,6 +117,10 @@ void CDropShadowTab::onPreviewOffset (Point <int> offset)
     m_options.angle = float (std::atan2 (double (offset.getY ()), double (-offset.getX ())));
     m_options.distance = static_cast <int> (
       sqrt (double (offset.getX () * offset.getX () + offset.getY () * offset.getY ()) + 0.5));
+    
+    m_angleSlider->setValue (vf::radiansToDegrees <int> (m_options.angle));
+    m_distanceSlider->setValue (m_options.distance);
+
     vf::componentNotifyParent (this, &Options::Listener::onOptionsDropShadow, m_options);
   }
 }
