@@ -39,15 +39,15 @@ public:
   */
   struct BoxBlurAndDilateSettings
   {
-    BoxBlurAndDilateSettings (int sizeInPixels, double spread)
+    BoxBlurAndDilateSettings (int sizeInPixels, float spread)
     {
       m_dilatePixels = int (sizeInPixels * spread + 0.5);
 
       int blurPixels = sizeInPixels - m_dilatePixels;
 
       // Photoshop fudge factor by Brian Fiete
-      double const fudge = 1.85f - 0.45f * std::min (1.0f, blurPixels / 10.f);
-      m_boxBlurRadius = std::max (blurPixels - fudge, double (0));
+      float const fudge = 1.85f - 0.45f * std::min (1.0f, blurPixels / 10.f);
+      m_boxBlurRadius = std::max (blurPixels - fudge, 0.f);
     }
 
     int getDilatePixels () const
@@ -223,8 +223,8 @@ public:
 
       // Distance has 8 bits fixed precision
       //
-      template <class T>
-      void operator () (int x, int y, T distance)
+      template <class U>
+      void operator () (int x, int y, U distance)
       {
         if (distance <= m_size)
           m_dest (x, y) = distance * 256 / m_size;

@@ -42,10 +42,10 @@ struct DropShadowStyle
   bool            active;
   BlendMode::Type mode;
   Colour          colour;
-  double          opacity;    // [0, 1]
-  double          angle;      // in radians
+  float           opacity;    // [0, 1]
+  float           angle;      // in radians
   int             distance;
-  double          spread;     // [0, 1]
+  float           spread;     // [0, 1]
   int             size;       // [0, 250]
   bool            knockout;
 
