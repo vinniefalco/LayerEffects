@@ -128,6 +128,11 @@ LayerGraphics::~LayerGraphics ()
   Pixels maskPixels (maskImage);
   Pixels workPixels (m_work);
 
+  m_options.dropShadow (workPixels, maskPixels);
+  m_options.outerGlow (workPixels, maskPixels);
+  m_options.stroke (workPixels, maskPixels);
+  m_options.bevelEmboss (workPixels, maskPixels);
+
   if (m_options.general.groupInteriorEffects)
   {
     m_options.patternOverlay (fillPixels);
@@ -148,11 +153,6 @@ LayerGraphics::~LayerGraphics ()
     m_options.innerShadow (workPixels, maskPixels);
     m_options.fill (m_work, m_fill);
   }
-
-  m_options.dropShadow (workPixels, maskPixels);
-  m_options.outerGlow (workPixels, maskPixels);
-  m_options.stroke (workPixels, maskPixels);
-  m_options.bevelEmboss (workPixels, maskPixels);
 
   // Copy the work image onto the background layer
   // using normal mode and the general opacity.
