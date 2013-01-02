@@ -64,6 +64,7 @@
 
 namespace vf
 {
+using juce::Rectangle;
 
 #include "graphics/vf_BlendMode.h"
 #include "graphics/vf_BlendProc.h"

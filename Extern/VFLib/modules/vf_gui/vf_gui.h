@@ -62,6 +62,8 @@
 namespace vf
 {
 
+using juce::Rectangle;
+
 #include "components/vf_ComponentBroadcast.h"
 #include "components/vf_ComponentNotifyParent.h"
 #include "components/vf_TransparentBorder.h"
