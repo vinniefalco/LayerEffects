@@ -81,12 +81,12 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (
+        ChamferDistance () (
           in,
           Output (out, size),
           width,
           height,
-          DistanceTransform::Chamfer::MaskInit ());
+          ChamferDistance::MaskInit ());
       }
       else
       {
@@ -139,12 +139,12 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (
+        ChamferDistance () (
           in,
           Output (out, size),
           width,
           height,
-          DistanceTransform::Chamfer::InverseMaskInit ());
+          ChamferDistance::InverseMaskInit ());
         //DistanceTransform::FastChamfer () (Input <In> (in), Output (out, size), width, height);
       }
       else
@@ -214,12 +214,12 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (
+        ChamferDistance () (
           in,
           Output <Out> (out, size),
           width,
           height,
-          DistanceTransform::Chamfer::MaskInit ());
+          ChamferDistance::MaskInit ());
       }
       else
       {

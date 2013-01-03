@@ -1007,6 +1007,9 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_LayerStyles.h">
       <Filter>VF Modules\vf_unfinished\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ChamferDistance.h">
+      <Filter>VF Modules\vf_unfinished\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

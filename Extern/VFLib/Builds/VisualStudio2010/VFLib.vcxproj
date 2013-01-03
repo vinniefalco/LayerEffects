@@ -864,6 +864,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendMode.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BlendProc.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BoxBlur.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ChamferDistance.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />

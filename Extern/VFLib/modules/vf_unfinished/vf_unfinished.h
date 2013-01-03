@@ -68,6 +68,7 @@ using juce::Rectangle;
 
 #include "graphics/vf_BlendMode.h"
 #include "graphics/vf_BlendProc.h"
+#include "graphics/vf_ChamferDistance.h"
 #include "graphics/vf_Pixels.h"
 #include "graphics/vf_DistanceTransform.h"
 #include "graphics/vf_LayerStyles.h"
