@@ -98,96 +98,89 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   if (!active)
     return;
 
-  int const width = stencilPixels.getWidth ();
-  int const height = stencilPixels.getHeight ();
-
-  int const xOffset = - static_cast <int> (cos (angle) * distance + 0.5);
-  int const yOffset = static_cast <int> (sin (angle) * distance + 0.5);
-
   // Calculate blur radius and dilate size from settings
   //
   LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
 
-  // Create enlarged mask
-  //
-  /*
-  Map2D <int> temp1 (width + size * 2, height + size * 2);
-  for (int y = 0; y < temp1.getRows (); ++y)
-  {
-    for (int x = 0; x < temp1.getCols (); ++x)
-    {
-    }
-  }
-  */
+  int const xAdjust = bd.getEnlargePixels ();
+  int const yAdjust = bd.getEnlargePixels ();
+  int const xOffset = - static_cast <int> (cos (angle) * distance + 0.5);
+  int const yOffset = static_cast <int> (sin (angle) * distance + 0.5);
+  int const width = stencilPixels.getWidth () + 2 * xAdjust;
+  int const height = stencilPixels.getHeight () + 2 * yAdjust;
 
-  // Dilate 8-bit unsigned mask.
+  // Intermediate storage
   //
-  Map2D <int> dist (stencilPixels.getWidth (), stencilPixels.getHeight ());
+  Map2D <int> distanceMap (width, height);
+  Map2D <int> blurMap (width, height);
+  Image mask (Image::SingleChannel, width, height, false);
+  Pixels maskPixels (mask);
 
+  // Calculate compositing rectangles
+  //
+  Rectangle <int> maskRect (maskPixels.getBounds ());
+  Rectangle <int> destRect (destPixels.getBounds ());
+
+  maskRect = mask.getBounds ();
+  maskRect.translate (+(xOffset-xAdjust), +(yOffset-yAdjust));
+  destRect = destPixels.getBounds ().getIntersection (maskRect);
+  maskRect = destRect.translated (-(xOffset-xAdjust), -(yOffset-yAdjust));
+
+  jassert (maskRect.getWidth () == destRect.getWidth ());
+  jassert (maskRect.getHeight () == destRect.getHeight ());
+  jassert (mask.getBounds ().contains (maskRect));
+  jassert (destPixels.getBounds ().contains (destRect));
+
+  // Dilate stencil mask
+  //
   LayerStyles::GrayscaleDilation () (
     Pixels::Map2D (stencilPixels),
-    dist,
-    stencilPixels.getWidth (),
-    stencilPixels.getHeight (),
+    stencilPixels.getRows (),
+    stencilPixels.getCols (),
+    distanceMap,
+    height,
+    width,
+    xAdjust,
+    yAdjust,
     bd.getDilatePixels ());
 
   // Blur 32-bit signed mask
   // Output is 32-bit signed with 8-bit fixed point.
   //
-  Map2D <int> blur (stencilPixels.getWidth (), stencilPixels.getHeight ());
 
-  BoxBlur () (dist, blur, blur.getCols (), blur.getRows (), bd.getBoxBlurRadius ());
+  BoxBlur () (distanceMap, blurMap, width, height, bd.getBoxBlurRadius ());
 
   // Transform fixed point mask to 8-bit unsigned mask using contour curve
   //
-  Image mask (Image::SingleChannel, width, height, false);
-  Pixels maskPixels (mask);
+  for (int y = 0; y < height; ++y)
   {
-    for (int y = 0; y < height; ++y)
+    for (int x = 0; x < width; ++x)
     {
-      for (int x = 0; x < width; ++x)
-      {
-        int const alpha = blur (x, y);
+      int const alpha = blurMap (x, y);
 
-        jassert (alpha < 65536);
+      jassert (alpha < 65536);
 
-        *maskPixels.getPixelPointer (x, y) = contour (alpha);
-      }
+      *maskPixels.getPixelPointer (x, y) = contour (alpha);
     }
   }
 
-  // Calculate compositing rectangles
-  //
-  Rectangle <int> srcRect;
-  Rectangle <int> destRect;
-  {
-    srcRect = mask.getBounds ();
-    destRect = destPixels.getBounds ();
-    destRect.translate (xOffset, yOffset);
-    destRect = destPixels.getBounds ().getIntersection (destRect);
-
-    srcRect = destRect.translated (-xOffset, -yOffset);
-  }
-  jassert (srcRect.getWidth () == destRect.getWidth ());
-  jassert (srcRect.getHeight () == destRect.getHeight ());
-  jassert (mask.getBounds ().contains (srcRect));
-  jassert (destPixels.getBounds ().contains (destRect));
-
   PixelProcs procs;
 
+#if 0
   if (knockout)
   {
     procs.copyGray (
-      srcRect.getHeight (),
-      srcRect.getWidth (),
+      maskRect.getHeight (),
+      maskRect.getWidth (),
       stencilPixels.getPixelPointer (destRect.getX (), destRect.getY ()),
       stencilPixels.getRowBytes (),
       stencilPixels.getColBytes (),
-      maskPixels.getPixelPointer (srcRect.getX (), srcRect.getY ()),
+      maskPixels.getPixelPointer (maskRect.getX (), maskRect.getY ()),
       maskPixels.getRowBytes (),
       maskPixels.getColBytes (),
       BlendMode::subtract ());
   }
+#endif
 
   // Colorize destination using mask
   {
@@ -197,11 +190,11 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
     c [PixelRGB::indexB] = colour.getBlue ();
 
     procs.fillRGB (
-      srcRect.getHeight (),
-      srcRect.getWidth (),
+      maskRect.getHeight (),
+      maskRect.getWidth (),
       c,
       opacity,
-      maskPixels.getPixelPointer (srcRect.getX (), srcRect.getY ()),
+      maskPixels.getPixelPointer (maskRect.getX (), maskRect.getY ()),
       maskPixels.getRowBytes (),
       maskPixels.getColBytes (),
       destPixels.getPixelPointer (destRect.getX (), destRect.getY ()),

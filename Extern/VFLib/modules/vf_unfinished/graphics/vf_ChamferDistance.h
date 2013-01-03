@@ -83,11 +83,17 @@ struct ChamferDistance
   template <class In, class Out, class Init>
   void operator () (
     In in,
+    int const inRows,
+    int const inCols,
     Out out,
-    int const width,
-    int const height,
+    int const outRows,
+    int const outCols,
+    int const outX,
+    int const outY,
     Init init = MaskInit ())
   {
+    assert (outRows >= inRows && outCols >= inCols);
+
     // Kernel values from
     //
     // "Optimum Design of Chamfer Distance Transforms"
@@ -123,34 +129,57 @@ struct ChamferDistance
       };
 
     static int const bv [] = {
-                0, d1,
+               0, d1,
       d3, d2, d1, d2, d3,
           d3,     d3
       };
 
     static int const n = sizeof (fv) / sizeof (fv [0]);
 
-    int const inf = (width + height) * d3;
-    Map2D <int> d (width, height);
+    int const inf = (outCols + outRows) * d3;
 
-    // initialize
-    for (int y = 0; y < height; ++y)
+    Map2D <int> d (outCols, outRows);
+
+    //
+    // Initialize distance map
+    //
+
+    for (int y = 0; y < outY; ++y)
     {
-      for (int x = 0; x < width; ++x)
-      {
-        d (x, y) = init (in (x, y), inf);
-      }
+      for (int x = 0; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = outY + inRows; --y >= outY;)
+    {
+      for (int x = 0; x < inCols; ++x)
+        d (x, y) = inf;
+
+      for (int x = outX + inCols; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = outY + inRows; y < outRows; ++y)
+    {
+      for (int x = 0; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = 0; y < inRows; ++y)
+    {
+      for (int x = 0; x < inCols; ++x)
+        d (x + outX, y + outY) = init (in (x, y), inf);
     }
 
     // forward pass
-    for (int y = 0; y < height; ++y)
+    for (int y = 0; y < outRows; ++y)
     {
-      for (int x = 0; x < width; ++x)
+      for (int x = 0; x < outCols; ++x)
       {
         for (int i = n-1; --i >= 0;)
         {
-          int cx = clamp (x + fk [i][0], 0, width);
-          int cy = clamp (y + fk [i][1], 0, height);
+          int cx = clamp (x + fk [i][0], 0, outCols);
+          int cy = clamp (y + fk [i][1], 0, outRows);
           int v = d (cx, cy) + fv [i];
           if (v < d (x, y))
             d (x, y) = v;
@@ -159,14 +188,14 @@ struct ChamferDistance
     }
 
     // backward pass
-    for (int y = height; --y >= 0;)
+    for (int y = outRows; --y >= 0;)
     {
-      for (int x = width; --x >= 0;)
+      for (int x = outCols; --x >= 0;)
       {
         for (int i = n; --i >= 1;)
         {
-          int cx = clamp (x + bk [i][0], 0, width);
-          int cy = clamp (y + bk [i][1], 0, height);
+          int cx = clamp (x + bk [i][0], 0, outCols);
+          int cy = clamp (y + bk [i][1], 0, outRows);
           int v = d (cx, cy) + bv [i];
           if (v < d (x, y))
             d (x, y) = v;

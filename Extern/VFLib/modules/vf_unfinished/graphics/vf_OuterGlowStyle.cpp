@@ -130,9 +130,13 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 
     LayerStyles::GrayscaleDilation () (
       Pixels::Map2D (stencilPixels),
+      stencilPixels.getWidth (),
+      stencilPixels.getHeight (),
       dist,
       stencilPixels.getWidth (),
       stencilPixels.getHeight (),
+      0,
+      0,
       bd.getDilatePixels ());
 
     BoxBlur () (dist, temp, temp.getCols (), temp.getRows (), bd.getBoxBlurRadius ());

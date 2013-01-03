@@ -41,7 +41,7 @@ public:
   {
     BoxBlurAndDilateSettings (int sizeInPixels, float spread)
     {
-      m_enlargePixels = sizeInPixels;
+      m_enlargePixels = sizeInPixels + 2;
       m_dilatePixels = int (sizeInPixels * spread + 0.5);
 
       int blurPixels = sizeInPixels - m_dilatePixels;
@@ -77,27 +77,43 @@ public:
   struct GrayscaleDilation
   {
     template <class In, class Out>
-    void operator () (In in, Out out, int width, int height, int size) const
+    void operator () (
+      In in,
+      int inRows,
+      int inCols,
+      Out out,
+      int outRows,
+      int outCols,
+      int outX,
+      int outY,
+      int size) const
     {
-      if (size > 0)
+      //if (size > 0)
       {
         ChamferDistance () (
           in,
+          inRows,
+          inCols,
           Output (out, size),
-          width,
-          height,
+          outRows,
+          outCols,
+          outX,
+          outY,
           ChamferDistance::MaskInit ());
       }
+#if 0
       else
       {
-        for (int y = 0; y < height; ++y)
+        assert (0);
+        for (int y = 0; y < outRows; ++y)
         {
-          for (int x = 0; x < width; ++x)
+          for (int x = 0; x < outCols; ++x)
           {
             out (x, y) = in (x, y) * 256;
           }
         }
       }
+#endif
     }
 
   private:
@@ -141,11 +157,14 @@ public:
       {
         ChamferDistance () (
           in,
-          Output (out, size),
-          width,
           height,
+          width,
+          Output (out, size),
+          height,
+          width,
+          0,
+          0,
           ChamferDistance::InverseMaskInit ());
-        //DistanceTransform::FastChamfer () (Input <In> (in), Output (out, size), width, height);
       }
       else
       {
@@ -216,9 +235,13 @@ public:
       {
         ChamferDistance () (
           in,
-          Output <Out> (out, size),
-          width,
           height,
+          width,
+          Output <Out> (out, size),
+          height,
+          width,
+          0,
+          0,
           ChamferDistance::MaskInit ());
       }
       else
