@@ -80,16 +80,16 @@ void COuterGlowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 void COuterGlowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-    m_options.opacity = slider->getValue () / 100;
+    m_options.opacity = float (slider->getValue () / 100.f);
 
   else if (slider == m_spreadSlider)
-    m_options.spread = slider->getValue ()/ 100;
+    m_options.spread = float (slider->getValue () / 100.f);
 
   else if (slider == m_sizeSlider)
     m_options.size = int (slider->getValue ());
 
   else if (slider == m_rangeSlider)
-    m_options.range = slider->getValue () / 100;
+    m_options.range = float (slider->getValue () / 100.f);
 
   vf::componentNotifyParent (this, &Options::Listener::onOptionsOuterGlow, m_options);
 }

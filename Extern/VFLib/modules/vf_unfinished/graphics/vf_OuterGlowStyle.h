@@ -41,12 +41,12 @@ struct OuterGlowStyle
 {
   bool            active;
   BlendMode::Type mode;
-  double          opacity;  // [0, 1]
+  float           opacity;  // [0, 1]
   GradientColours colours;
   bool            precise;
-  double          spread;   // [0, 1]
+  float           spread;   // [0, 1]
   int             size;     // [0, 250]
-  double          range;    // [0, 1]
+  float           range;    // [0, 1]
 
   OuterGlowStyle () : active (false)
   {

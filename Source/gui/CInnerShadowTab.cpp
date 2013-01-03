@@ -37,7 +37,7 @@ CInnerShadowTab::CInnerShadowTab ()
   m_options.mode = vf::BlendMode::modeMultiply;
   m_options.colour = Colours::black;
   m_options.opacity = 0.75;
-  m_options.angle = vf::degreesToRadians <double> (135);
+  m_options.angle = vf::degreesToRadians <float> (135);
   m_options.distance = 5;
   m_options.choke = 0;
   m_options.size = 5;
@@ -76,16 +76,16 @@ void CInnerShadowTab::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 void CInnerShadowTab::sliderValueChanged (Slider* slider)
 {
   if (slider == m_opacitySlider)
-    m_options.opacity = slider->getValue () / 100;
+    m_options.opacity = float (slider->getValue () / 100.f);
 
   else if (slider == m_angleSlider)
-    m_options.angle = vf::degreesToRadians <double> (slider->getValue ());
+    m_options.angle = vf::degreesToRadians <float> (slider->getValue ());
 
   else if (slider == m_distanceSlider)
     m_options.distance = int (slider->getValue ());
 
   else if (slider == m_chokeSlider)
-    m_options.choke = slider->getValue () / 100;
+    m_options.choke = float (slider->getValue () / 100.f);
 
   else if (slider == m_sizeSlider)
     m_options.size = int (slider->getValue ());

@@ -42,10 +42,10 @@ struct InnerShadowStyle
   bool            active;
   BlendMode::Type mode;
   Colour          colour;
-  double          opacity;    // [0, 1]
-  double          angle;
+  float           opacity;    // [0, 1]
+  float           angle;
   int             distance;
-  double          choke;      // [0, 1]
+  float           choke;      // [0, 1]
   int             size;       // [0, 250]
 
   InnerShadowStyle () : active (false)

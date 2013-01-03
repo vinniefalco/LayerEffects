@@ -120,7 +120,6 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   }
   */
 
-
   // Dilate 8-bit unsigned mask.
   //
   Map2D <int> dist (stencilPixels.getWidth (), stencilPixels.getHeight ());

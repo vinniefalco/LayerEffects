@@ -82,8 +82,8 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   if (!active)
     return;
 
-  int const width = stencilPixels.getWidth ();
-  int const height = stencilPixels.getHeight ();
+  //int const width = stencilPixels.getWidth ();
+  //int const height = stencilPixels.getHeight ();
 
   SharedTable <Colour> table = colours.createLookupTable ();
 
@@ -149,7 +149,7 @@ void OuterGlowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 
       PixelRGB& dest (*((PixelRGB*)destPixels.getPixelPointer (x, y)));
 
-      c.setAlpha (v);
+      c.setAlpha (uint8(v));
       dest.blend (c);
     }
   }

@@ -927,8 +927,32 @@ struct DistanceTransform
         return v;
     }
 
-    template <class In, class Out>
-    void operator () (In in, Out out, int const width, int const height)
+    struct MaskInit
+    {
+      template <class T, class U>
+      inline U operator() (T v, U inf)
+      {
+        if (v == 0)
+          return inf;
+        else
+          return 255 - v;
+      }
+    };
+
+    struct InverseMaskInit
+    {
+      template <class T, class U>
+      inline U operator() (T v, U inf)
+      {
+        if (v == 255)
+          return inf;
+        else
+          return v;
+      }
+    };
+
+    template <class In, class Out, class Init>
+    void operator () (In in, Out out, int const width, int const height, Init init = MaskInit ())
     {
       // Kernel values from
       //
@@ -980,11 +1004,15 @@ struct DistanceTransform
       {
         for (int x = 0; x < width; ++x)
         {
+#if 1
+          d (x, y) = init (in (x, y), inf);
+#else
           int const v = in (x, y);
           if (v == 0)
             d (x, y) = inf;
           else
             d (x, y) = 255 - v;
+#endif
         }
       }
 

@@ -86,7 +86,7 @@ inline T degreesToRadians (U degrees)
 template <class T, class U>
 inline T radiansToDegrees (U radians)
 {
-  T deg = (radians * 57.29577951308238);
+  T deg = T (radians * U (57.29577951308238));
 
   if (deg < 0)
     deg += 360;

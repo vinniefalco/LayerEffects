@@ -41,6 +41,7 @@ public:
   {
     BoxBlurAndDilateSettings (int sizeInPixels, float spread)
     {
+      m_enlargePixels = sizeInPixels;
       m_dilatePixels = int (sizeInPixels * spread + 0.5);
 
       int blurPixels = sizeInPixels - m_dilatePixels;
@@ -48,6 +49,11 @@ public:
       // Photoshop fudge factor by Brian Fiete
       float const fudge = 1.85f - 0.45f * std::min (1.0f, blurPixels / 10.f);
       m_boxBlurRadius = std::max (blurPixels - fudge, 0.f);
+    }
+
+    int getEnlargePixels () const
+    {
+      return m_enlargePixels;
     }
 
     int getDilatePixels () const
@@ -61,6 +67,7 @@ public:
     }
 
   private:
+    int m_enlargePixels;
     int m_dilatePixels;
     float m_boxBlurRadius;
   };
@@ -74,7 +81,12 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (in, Output (out, size), width, height);
+        DistanceTransform::Chamfer () (
+          in,
+          Output (out, size),
+          width,
+          height,
+          DistanceTransform::Chamfer::MaskInit ());
       }
       else
       {
@@ -127,7 +139,13 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (Input <In> (in), Output (out, size), width, height);
+        DistanceTransform::Chamfer () (
+          in,
+          Output (out, size),
+          width,
+          height,
+          DistanceTransform::Chamfer::InverseMaskInit ());
+        //DistanceTransform::FastChamfer () (Input <In> (in), Output (out, size), width, height);
       }
       else
       {
@@ -196,7 +214,12 @@ public:
     {
       if (size > 0)
       {
-        DistanceTransform::Chamfer () (in, Output <Out> (out, size), width, height);
+        DistanceTransform::Chamfer () (
+          in,
+          Output <Out> (out, size),
+          width,
+          height,
+          DistanceTransform::Chamfer::MaskInit ());
       }
       else
       {
