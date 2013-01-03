@@ -102,12 +102,12 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   //
   LayerStyles::BoxBlurAndDilateSettings bd (size, spread);
 
-  int const xAdjust = bd.getEnlargePixels ();
-  int const yAdjust = bd.getEnlargePixels ();
+  int const xExpand = bd.getEnlargePixels ();
+  int const yExpand = bd.getEnlargePixels ();
   int const xOffset = - static_cast <int> (cos (angle) * distance + 0.5);
   int const yOffset = static_cast <int> (sin (angle) * distance + 0.5);
-  int const width = stencilPixels.getWidth () + 2 * xAdjust;
-  int const height = stencilPixels.getHeight () + 2 * yAdjust;
+  int const width = stencilPixels.getWidth () + 2 * xExpand;
+  int const height = stencilPixels.getHeight () + 2 * yExpand;
 
   // Intermediate storage
   //
@@ -122,9 +122,9 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   Rectangle <int> destRect (destPixels.getBounds ());
 
   maskRect = mask.getBounds ();
-  maskRect.translate (+(xOffset-xAdjust), +(yOffset-yAdjust));
+  maskRect.translate (+(xOffset-xExpand), +(yOffset-yExpand));
   destRect = destPixels.getBounds ().getIntersection (maskRect);
-  maskRect = destRect.translated (-(xOffset-xAdjust), -(yOffset-yAdjust));
+  maskRect = destRect.translated (-(xOffset-xExpand), -(yOffset-yExpand));
 
   jassert (maskRect.getWidth () == destRect.getWidth ());
   jassert (maskRect.getHeight () == destRect.getHeight ());
@@ -140,8 +140,8 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
     distanceMap,
     height,
     width,
-    xAdjust,
-    yAdjust,
+    xExpand,
+    yExpand,
     bd.getDilatePixels ());
 
   // Blur 32-bit signed mask
