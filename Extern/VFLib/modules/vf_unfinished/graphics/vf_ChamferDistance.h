@@ -209,6 +209,178 @@ struct ChamferDistance
 
 //------------------------------------------------------------------------------
 
+struct ChamferDistance2
+{
+  /** Clamp v to the half-open interval [vmin, vmax)
+  */
+  template <class T>
+  static inline T clamp (T v, T vmin, T vmax)
+  {
+    if (v < vmin)
+      return vmin;
+    else if (v >= vmax)
+      return vmax - 1;
+    else
+      return v;
+  }
+
+  struct In
+  {
+    In (int rows, int cols, unsigned char* baseAddr, int colBytes, int rowBytes)
+      : m_rows (rows)
+      , m_cols (cols)
+      , m_baseAddr (baseAddr)
+      , m_colBytes (colBytes)
+      , m_rowBytes (rowBytes)
+    {
+    }
+
+    inline int operator() (int x, int y)
+    {
+      return *(m_baseAddr + y * m_rowBytes + x * m_colBytes);
+    }
+
+  private:
+    int m_rows;
+    int m_cols;
+    unsigned char* m_baseAddr;
+    int m_colBytes;
+    int m_rowBytes;
+  };
+
+  template <class Out, class Init>
+  void operator () (
+    int const inRows,
+    int const inCols,
+    unsigned char* inBaseAddr,
+    int const inRowBytes,
+    int const inColBytes,
+    int const inX,
+    int const inY,
+    Out out,
+    int const outRows,
+    int const outCols,
+    Init init = MaskInit ())
+  {
+    In in (inRows, inCols, inBaseAddr, inColBytes, inRowBytes);
+
+    assert (outRows >= inRows && outCols >= inCols);
+
+    // Kernel values from
+    //
+    // "Optimum Design of Chamfer Distance Transforms"
+    // - Muhammad Akmal Butt and Petros Maragos
+    //
+    // Optimal values for 5x5 neighborhood:
+    //  0.9866, sqrt(2), 2.2062
+    //
+    // The kernel is designed to also convert to fixed point.
+    //
+    static int const d1 = 253; // 252.6 = 256 * 0.9866
+    static int const d2 = 362; // 362.0 = 256 * 1.4142
+    static int const d3 = 566; // 565.8 = 256 * 2.2062
+
+    // forward kernel
+    static int const fk [][2] = {
+                {-1, -2},          {1, -2}, 
+      {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                {-1,  0}, {0,  0}
+      };
+
+    static int const fv  [] = {
+          d3,     d3,
+      d3, d2, d1, d2, d3,
+          d1,  0
+      };
+
+    // backward kernel
+    static int const bk [][2] = {
+                          {0,  0}, {1,  0},
+      {-2,  1}, {-1,  1}, {0,  1}, {1,  1}, {2,  1},
+	        {-1,  2},          {1,  2}
+      };
+
+    static int const bv [] = {
+               0, d1,
+      d3, d2, d1, d2, d3,
+          d3,     d3
+      };
+
+    static int const n = sizeof (fv) / sizeof (fv [0]);
+
+    int const inf = (outCols + outRows) * d3;
+
+    Map2D <int> d (outCols, outRows);
+
+    //
+    // Initialize distance map
+    //
+
+    for (int y = 0; y < inY; ++y)
+    {
+      for (int x = 0; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = inY + inRows; --y >= inY;)
+    {
+      for (int x = 0; x < inCols; ++x)
+        d (x, y) = inf;
+
+      for (int x = inX + inCols; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = inY + inRows; y < outRows; ++y)
+    {
+      for (int x = 0; x < outCols; ++x)
+        d (x, y) = inf;
+    }
+
+    for (int y = 0; y < inRows; ++y)
+    {
+      for (int x = 0; x < inCols; ++x)
+        d (x + inX, y + inY) = init (in (x, y), inf);
+    }
+
+    // forward pass
+    for (int y = 0; y < outRows; ++y)
+    {
+      for (int x = 0; x < outCols; ++x)
+      {
+        for (int i = n-1; --i >= 0;)
+        {
+          int cx = clamp (x + fk [i][0], 0, outCols);
+          int cy = clamp (y + fk [i][1], 0, outRows);
+          int v = d (cx, cy) + fv [i];
+          if (v < d (x, y))
+            d (x, y) = v;
+        }
+      }
+    }
+
+    // backward pass
+    for (int y = outRows; --y >= 0;)
+    {
+      for (int x = outCols; --x >= 0;)
+      {
+        for (int i = n; --i >= 1;)
+        {
+          int cx = clamp (x + bk [i][0], 0, outCols);
+          int cy = clamp (y + bk [i][1], 0, outRows);
+          int v = d (cx, cy) + bv [i];
+          if (v < d (x, y))
+            d (x, y) = v;
+        }
+
+        out (x, y, d (x, y));
+      }
+    }
+  }
+};
+
+//------------------------------------------------------------------------------
+
 /** Optimized Chamfer distance transform.
 */
 struct FastChamferDistance

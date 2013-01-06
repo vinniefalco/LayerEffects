@@ -146,6 +146,84 @@ public:
     };
   };
 
+  /** Produce grayscale dilation.
+  */
+  struct GrayscaleDilation2
+  {
+    template <class Out>
+    void operator () (
+      int const inRows,
+      int const inCols,
+      unsigned char* inBaseAddr,
+      int const inRowBytes,
+      int const inColBytes,
+      int inX,
+      int inY,
+      Out out,
+      int outRows,
+      int outCols,
+      int size) const
+    {
+      //if (size > 0)
+      {
+        ChamferDistance2 () (
+          inRows,
+          inCols,
+          inBaseAddr,
+          inRowBytes,
+          inColBytes,
+          inX,
+          inY,
+          Output (out, size),
+          outRows,
+          outCols,
+          ChamferDistance::MaskInit ());
+      }
+#if 0
+      else
+      {
+        assert (0);
+        for (int y = 0; y < outRows; ++y)
+        {
+          for (int x = 0; x < outCols; ++x)
+          {
+            out (x, y) = in (x, y) * 256;
+          }
+        }
+      }
+#endif
+    }
+
+  private:
+    struct Output
+    {
+      Output (Map2D <int> dest, int size)
+        : m_dest (dest)
+        , m_size (size * 256)
+        , m_sizePlusOne (m_size + 256)
+      {
+      }
+
+      // Distance has 8 bits fixed precision
+      //
+      template <class T>
+      void operator () (int x, int y, T distance)
+      {
+        if (distance <= m_size)
+          m_dest (x, y) = 255 * 256;
+        else if (distance < m_sizePlusOne)
+          m_dest (x, y) = (255 - (distance - m_size)) * 256;
+        else
+          m_dest (x, y) = 0;
+      }
+
+    private:
+      Map2D <int> m_dest;
+      int m_size;
+      int m_sizePlusOne;
+    };
+  };
+
   /** Produce grayscale erosion.
   */
   struct GrayscaleErosion
