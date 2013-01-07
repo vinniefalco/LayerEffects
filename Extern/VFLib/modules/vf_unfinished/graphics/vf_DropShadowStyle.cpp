@@ -93,6 +93,19 @@ static inline unsigned char contour (int input)
 }
 #endif
 
+/*
+String toString (Rectangle <int> const& r)
+{
+  String s;
+  s << "("
+    << r.getY () << ", "
+    << r.getX () << ", "
+    << r.getBottom () << ", "
+    << r.getRight () << ")";
+  return s;
+}
+*/
+
 void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 {
   if (!active)
@@ -115,8 +128,8 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
   Rectangle <int> srcRect;
   Point <int> srcOrigin;
 
-  maskRect = stencilRect.getIntersection (destPixels.getBounds ());
-  maskRect.expand (xExpand, yExpand);
+  maskRect = stencilRect.expanded (xExpand, yExpand);
+  maskRect = maskRect.getIntersection (destPixels.getBounds ().expanded (xExpand, yExpand));
 
   srcRect = maskRect.getIntersection (stencilRect);
 
@@ -127,6 +140,18 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
 
   maskRect.translate (-xOffset, -yOffset);
   srcRect.translate (-xOffset, -yOffset);
+
+  /*
+  String s;
+  s << "offset = ("<< xOffset << ", " << yOffset << ")" << "\n";
+  s << "expand = ("<< xExpand << ", " << yExpand << ")" << "\n";
+  s << "srcOrigin = ("<< srcOrigin.getX () << ", " << srcOrigin.getY () << ")" << "\n";
+  s << "maskRect = " << toString (maskRect) << "\n";
+  s << "srcRect = " << toString (srcRect) << "\n";
+  s << "destRect = " << toString (destRect) << "\n";
+  Logger::outputDebugString (s);
+  Logger::outputDebugString ("");
+  */
 
   if (! destRect.isEmpty ())
   {
@@ -232,5 +257,9 @@ void DropShadowStyle::operator() (Pixels destPixels, Pixels stencilPixels)
         destPixels.getColBytes (),
         mode);
     }
+  }
+  else
+  {
+    Logger::outputDebugString ("destRect.isEmpty ()");
   }
 }
