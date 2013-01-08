@@ -30,40 +30,28 @@
 */
 //------------------------------------------------------------------------------
 
-#ifndef LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-#define LAYEREFFECTS_CDROPSHADOWTAB_HEADER
-
-/** Drop Shadow options.
+/** A control for selecting a contour curve.
 */
-class CDropShadowTab
-  : public COptionsTab
-  , public CColourPicker::Listener
+class CContourPicker : public Component
 {
 public:
-  CDropShadowTab ();
-  ~CDropShadowTab ();
+  struct Listener
+  {
+    virtual ~Listener () { }
+  };
 
-  void buttonClicked (Button* button);
-  void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
-  void sliderValueChanged (Slider* slider);
+  CContourPicker ();
+  
+  ~CContourPicker ();
 
-  void onColourPickerChanged (CColourPicker* picker, Colour colour);
+  void addListener (Listener* listener);
 
-  void onPreviewOffset (Point <int> offset);
+  void removeListener (Listener* listener);
+
+  void paint (Graphics& g);
+
+  void mouseDown (MouseEvent const& e);
 
 private:
-  vf::DropShadowStyle m_options;
-
-  ToggleButton* m_activeButton;
-  ComboBox* m_modeComboBox;
-  CColourPicker* m_colourPicker;
-  CContourPicker* m_contourPicker;
-  Slider* m_opacitySlider;
-  Slider* m_angleSlider;
-  Slider* m_distanceSlider;
-  Slider* m_spreadSlider;
-  Slider* m_sizeSlider;
-  ToggleButton* m_knockoutButton;
+  ListenerList <Listener> m_listeners;
 };
-
-#endif

@@ -74,7 +74,8 @@ ComboBox* COptionsTab::createEmptyComboBox (String label)
   {
     ComboBox* c = new ComboBox ("");
 
-    c->setBounds (64, m_pos.getY (), getWidth () - 60, 20);
+    //c->setBounds (64, m_pos.getY (), getWidth () - 60, 20);
+    c->setBounds (0, m_pos.getY (), getWidth (), 20);
     c->addListener (this);
     addAndMakeVisible (c);
 
@@ -270,3 +271,34 @@ void COptionsTab::addBlendModesToComboBox (ComboBox* c)
     c->addItem (vf::BlendMode::getName (mode), mode);
   }
 }
+
+CContourPicker* COptionsTab::createContourPicker (String label)
+{
+  CContourPicker* result;
+
+  {
+    Label* c = new Label;
+    c->setText (label, false);
+    c->setJustificationType (Justification::left);
+    c->setBorderSize (0, 0);
+    c->setBounds (
+      getXStart (),
+      m_pos.getY (),
+      60, 20);
+    addAndMakeVisible (c);
+  }
+
+  {
+    CContourPicker* c = new CContourPicker;
+
+    c->setBounds (64, m_pos.getY (), getWidth () - 60, 20);
+    addAndMakeVisible (c);
+
+    m_pos.setY (m_pos.getY () + c->getHeight () + getYGap ());
+
+    result = c;
+  }
+
+  return result;
+}
+

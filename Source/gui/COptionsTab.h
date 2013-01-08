@@ -58,6 +58,7 @@ protected:
   Slider* createIntegerSlider (String label, int startValue, int endValue, int initialValue);
   ToggleButton* createToggleButton (String label, bool initialValue);
   CColourPicker* createColourPicker (String label, Colour colour);
+  CContourPicker* createContourPicker (String label);
 
   static void addBlendModesToComboBox (ComboBox* comboBox);
 

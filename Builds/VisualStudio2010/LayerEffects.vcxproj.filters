@@ -40,6 +40,9 @@
     <ClCompile Include="..\..\source\gui\widgets\CColourPickerDialog.cpp">
       <Filter>LayerEffects\Source\gui\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\gui\widgets\CContourPicker.cpp">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\gui\BackgroundThread.cpp">
       <Filter>LayerEffects\Source\gui</Filter>
     </ClCompile>
@@ -139,6 +142,9 @@
       <Filter>LayerEffects\Source\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\gui\widgets\CColourPickerDialog.h">
+      <Filter>LayerEffects\Source\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gui\widgets\CContourPicker.h">
       <Filter>LayerEffects\Source\gui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\gui\BackgroundThread.h">

@@ -50,6 +50,7 @@ using namespace juce;
 
 #include "gui/widgets/CColourPickerDialog.h"
 #include "gui/widgets/CColourPicker.h"
+#include "gui/widgets/CContourPicker.h"
 
 #include "gui/BackgroundThread.h"
 #include "gui/CustomLookAndFeel.h"
@@ -80,6 +81,7 @@ using namespace juce;
 
 #include "gui/widgets/CColourPickerDialog.cpp"
 #include "gui/widgets/CColourPicker.cpp"
+#include "gui/widgets/CContourPicker.cpp"
 
 #include "gui/CustomLookAndFeel.cpp"
 #include "gui/MainApp.cpp"

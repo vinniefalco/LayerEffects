@@ -51,6 +51,7 @@ CDropShadowTab::CDropShadowTab ()
   m_distanceSlider = createIntegerSlider ("Distance", 0, 1000, m_options.distance);
   m_spreadSlider = createPercentSlider ("Spread", m_options.spread);
   m_sizeSlider = createIntegerSlider ("Size", 0, 250, m_options.size);
+  m_contourPicker = createContourPicker ("Contour");
   m_knockoutButton = createToggleButton ("Knockout", m_options.knockout);
 
   m_colourPicker->addListener (this);

@@ -16,9 +16,10 @@
     <VS2010 targetFolder="../VisualStudio2010" libraryType="1" juceFolder="../../Extern/JUCE/modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"/>
+                       isDebug="1" optimisation="1" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"
+                       wholeProgramOptimisation="1"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="3" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"
+                       isDebug="0" optimisation="3" targetName="LayerEffects" headerPath="../../Extern/JUCE&#10;../../Extern/VFLib"
                        wholeProgramOptimisation="1"/>
       </CONFIGURATIONS>
     </VS2010>
@@ -43,13 +44,17 @@
     <GROUP id="{77B6F52B-0869-9351-EA80-671C34F6ECBD}" name="Source">
       <GROUP id="{C0D11A3C-5B18-BFC8-4E22-1553F1DC2668}" name="gui">
         <GROUP id="{278D856B-A4DC-3F5C-5956-84F709B931C4}" name="widgets">
-          <FILE id="hqJwqn" name="CColourPicker.h" compile="0" resource="0" file="../../source/gui/widgets/CColourPicker.h"/>
           <FILE id="zBibkI" name="CColourPicker.cpp" compile="0" resource="0"
                 file="../../source/gui/widgets/CColourPicker.cpp"/>
+          <FILE id="hqJwqn" name="CColourPicker.h" compile="0" resource="0" file="../../source/gui/widgets/CColourPicker.h"/>
           <FILE id="L47S6B" name="CColourPickerDialog.cpp" compile="0" resource="0"
                 file="../../source/gui/widgets/CColourPickerDialog.cpp"/>
           <FILE id="JOqS5u" name="CColourPickerDialog.h" compile="0" resource="0"
                 file="../../source/gui/widgets/CColourPickerDialog.h"/>
+          <FILE id="CPXPw2" name="CContourPicker.cpp" compile="0" resource="0"
+                file="../../Source/gui/widgets/CContourPicker.cpp"/>
+          <FILE id="mQkmB5" name="CContourPicker.h" compile="0" resource="0"
+                file="../../Source/gui/widgets/CContourPicker.h"/>
         </GROUP>
         <FILE id="T8v3Sy" name="BackgroundThread.cpp" compile="0" resource="0"
               file="../../Source/gui/BackgroundThread.cpp"/>
