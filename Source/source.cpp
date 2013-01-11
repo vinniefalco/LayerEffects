@@ -47,6 +47,7 @@
 #include "modules/vf_unfinished/vf_unfinished.h"
 
 using namespace juce;
+using namespace vf;
 
 #include "gui/widgets/CColourPickerDialog.h"
 #include "gui/widgets/CColourPicker.h"

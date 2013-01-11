@@ -633,6 +633,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_ContourCurve.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -866,6 +870,7 @@
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_BoxBlur.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ChamferDistance.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ColourOverlayStyle.h" />
+    <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_ContourCurve.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DistanceTransform.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_DropShadowStyle.h" />
     <ClInclude Include="..\..\modules\vf_unfinished\graphics\vf_FillStyle.h" />

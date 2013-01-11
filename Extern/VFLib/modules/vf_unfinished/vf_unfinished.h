@@ -66,6 +66,8 @@ namespace vf
 {
 using juce::Rectangle;
 
+#include "graphics/vf_ContourCurve.h"
+
 #include "graphics/vf_BlendMode.h"
 #include "graphics/vf_BlendProc.h"
 #include "graphics/vf_ChamferDistance.h"

@@ -45,13 +45,15 @@ private:
     float out;
   };
 
+  ContourCurve m_contour;
   int m_npt;
   ControlPoint m_pt [10];
   ControlPoint* m_edit;
 
 public:
-  CContourEditor ()
-    : m_npt (2)
+  explicit CContourEditor (ContourCurve contour = ContourCurve ())
+    : m_contour (contour)
+    , m_npt (2)
     , m_edit (nullptr)
   {
     m_pt [0].corner = true;

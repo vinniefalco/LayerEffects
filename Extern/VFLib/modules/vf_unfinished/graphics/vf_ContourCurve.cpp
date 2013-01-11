@@ -30,48 +30,26 @@
 */
 /*============================================================================*/
 
-/** Add this to get the @ref vf_unfinished module.
-
-    @file vf_unfinished.cpp
-    @ingroup vf_unfinished
-*/
-
-#include "AppConfig.h"
-
-#include "vf_unfinished.h"
-
-#if JUCE_MSVC
-#pragma warning (push)
-//#pragma warning (disable: 4100) // unreferenced formal parmaeter
-//#pragma warning (disable: 4355) // 'this' used in base member
-#endif
-
-namespace vf
+ContourCurve::ContourCurve ()
 {
+  m_count = 2;
 
-#include "graphics/vf_BevelEmbossStyle.cpp"
-#include "graphics/vf_BlendMode.cpp"
-#include "graphics/vf_BlendProc.cpp"
-#include "graphics/vf_DistanceTransform.cpp"
-#include "graphics/vf_ColourOverlayStyle.cpp"
-#include "graphics/vf_ContourCurve.cpp"
-#include "graphics/vf_DropShadowStyle.cpp"
-#include "graphics/vf_FillStyle.cpp"
-#include "graphics/vf_GradientColours.cpp"
-#include "graphics/vf_GradientOverlayStyle.cpp"
-#include "graphics/vf_InnerGlowStyle.cpp"
-#include "graphics/vf_InnerShadowStyle.cpp"
-#include "graphics/vf_OuterGlowStyle.cpp"
-#include "graphics/vf_PatternOverlayStyle.cpp"
-#include "graphics/vf_StrokeStyle.cpp"
-#include "graphics/vf_LayerGraphics.cpp"
-#include "graphics/vf_Pixels.cpp"
-
-#include "midi/vf_MidiDevices.cpp"
-#include "midi/vf_MidiInput.cpp"
-
+  // linear mapping default
+  m_pt [0].in = 0.f;
+  m_pt [0].out = 0.f;
+  m_pt [0].corner = true;
+  m_pt [1].in = 1.f;
+  m_pt [1].out = 1.f;
+  m_pt [1].corner = true;
 }
 
-#if JUCE_MSVC
-#pragma warning (pop)
-#endif
+float ContourCurve::operator() (float) const
+{
+  return 0.f;
+}
+
+ContourCurve::ControlPoint ContourCurve::operator[] (int index)
+{
+  assert (index < m_count);
+  return m_pt [index];
+}
