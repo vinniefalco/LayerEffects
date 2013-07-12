@@ -260,7 +260,7 @@ struct ChamferDistance2
     Out out,
     int const outRows,
     int const outCols,
-    Init init = MaskInit ())
+    Init init = ChamferDistance::MaskInit ())
   {
     In in (inRows, inCols, inBaseAddr, inColBytes, inRowBytes);
 
